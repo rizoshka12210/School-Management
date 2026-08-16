@@ -1,0 +1,80 @@
+@model SchoolManagementSystem.Web.Models.Entities.Subject
+
+@{
+    ViewData["Title"] = "Subject Details";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="fw-bold">
+                        @Model.Name
+                    </h2>
+
+                    <hr />
+
+                    <h5>
+                        Teachers
+                    </h5>
+
+                    @if (Model.Teachers.Any())
+                    {
+                        <ul>
+
+                            @foreach (var teacher in Model.Teachers)
+                            {
+                                <li>
+                                    @teacher.ApplicationUser.FullName
+                                    -
+                                    @teacher.ApplicationUser.Email
+                                </li>
+                            }
+
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">
+                            No teachers assigned.
+                        </p>
+                    }
+
+                    <hr />
+
+                    <p>
+                        <strong>Lessons:</strong>
+                        @Model.Lessons.Count
+                    </p>
+
+                    <p>
+                        <strong>Schedule entries:</strong>
+                        @Model.Schedules.Count
+                    </p>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-primary">
+                        Edit
+                    </a>
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Back
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
