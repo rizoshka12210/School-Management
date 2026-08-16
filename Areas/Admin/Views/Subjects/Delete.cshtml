@@ -1,0 +1,64 @@
+@model SchoolManagementSystem.Web.Models.Entities.Subject
+
+@{
+    ViewData["Title"] = "Delete Subject";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="text-danger fw-bold">
+                        Delete Subject
+                    </h2>
+
+                    <p class="mt-3">
+                        Are you sure you want to delete
+                        <strong>@Model.Name</strong>?
+                    </p>
+
+                    <p>
+                        Teachers:
+                        <strong>
+                            @Model.Teachers.Count
+                        </strong>
+                    </p>
+
+                    <p>
+                        Lessons:
+                        <strong>
+                            @Model.Lessons.Count
+                        </strong>
+                    </p>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@Model.Id"
+                          method="post">
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
