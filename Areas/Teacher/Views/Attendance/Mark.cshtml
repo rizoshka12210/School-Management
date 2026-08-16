@@ -1,0 +1,100 @@
+@model SchoolManagementSystem.Web.ViewModels.Teacher.AttendanceMarkViewModel
+@using SchoolManagementSystem.Web.Models.Enums
+
+@{
+    ViewData["Title"] = "Mark Attendance";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Attendance</h1>
+            <p class="text-muted mb-0">
+                @Model.SubjectName &middot; @Model.GroupName &middot; @Model.LessonDate.ToString("dd.MM.yyyy")
+            </p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <form asp-action="Mark" method="post">
+
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="LessonId" />
+        <input type="hidden" asp-for="GroupName" />
+        <input type="hidden" asp-for="SubjectName" />
+        <input type="hidden" asp-for="LessonDate" />
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+
+                @if (!Model.Students.Any())
+                {
+                    <p class="text-muted mb-0">This group has no students yet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Present</th>
+                                    <th>Absent</th>
+                                    <th>Late</th>
+                                    <th>Excused</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < Model.Students.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Model.Students[i].StudentName
+                                            <input type="hidden" asp-for="Students[i].StudentId" />
+                                            <input type="hidden" asp-for="Students[i].StudentName" />
+                                        </td>
+                                        <td>
+                                            <input type="radio"
+                                                   name="Students[@i].Status"
+                                                   value="@AttendanceStatus.Present"
+                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Present)" />
+                                        </td>
+                                        <td>
+                                            <input type="radio"
+                                                   name="Students[@i].Status"
+                                                   value="@AttendanceStatus.Absent"
+                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Absent)" />
+                                        </td>
+                                        <td>
+                                            <input type="radio"
+                                                   name="Students[@i].Status"
+                                                   value="@AttendanceStatus.Late"
+                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Late)" />
+                                        </td>
+                                        <td>
+                                            <input type="radio"
+                                                   name="Students[@i].Status"
+                                                   value="@AttendanceStatus.Excused"
+                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Excused)" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-2">Save Attendance</button>
+                }
+
+            </div>
+        </div>
+
+    </form>
+
+</div>

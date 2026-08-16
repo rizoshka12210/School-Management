@@ -1,0 +1,55 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Schedule>
+
+@{
+    ViewData["Title"] = "My Schedule";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">My Schedule</h1>
+        <p class="text-muted mb-0">Your weekly teaching schedule</p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5>No schedule entries yet</h5>
+                </div>
+            }
+            else
+            {
+                @foreach (var dayGroup in Model.GroupBy(s => s.DayOfWeek))
+                {
+                    <h6 class="text-muted mt-3">@dayGroup.Key</h6>
+                    <div class="table-responsive mb-3">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Group</th>
+                                    <th>Subject</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var s in dayGroup.OrderBy(s => s.StartTime))
+                                {
+                                    <tr>
+                                        <td>@s.StartTime.ToString("HH:mm") - @s.EndTime.ToString("HH:mm")</td>
+                                        <td>@s.Group.Name</td>
+                                        <td>@s.Subject.Name</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            }
+
+        </div>
+    </div>
+
+</div>

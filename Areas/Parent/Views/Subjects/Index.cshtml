@@ -1,0 +1,47 @@
+@model List<SchoolManagementSystem.Web.ViewModels.Parent.SubjectWithTeachers>
+
+@{
+    ViewData["Title"] = "Subjects";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Subjects</h1>
+        <p class="text-muted mb-0">@ViewBag.StudentName's subjects and teachers</p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <p class="text-muted mb-0">No subjects scheduled yet.</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Teacher(s)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var subject in Model)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@subject.SubjectName</td>
+                                    <td>@string.Join(", ", subject.TeacherNames)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

@@ -153,33 +153,104 @@
                                 </a>
 
                             </li>
+
+                            <li class="nav-item">
+
+                                <a class="nav-link"
+                                   asp-area="Admin"
+                                   asp-controller="Salary"
+                                   asp-action="Index">
+                                    Salary
+                                </a>
+
+                            </li>
                         }
 
                         @if (User.IsInRole("Teacher"))
                         {
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Teacher"
-                                   asp-controller="Dashboard"
-                                   asp-action="Index">
-                                    Teacher Dashboard
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Dashboard" asp-action="Index">
+                                    Dashboard
                                 </a>
-
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Groups" asp-action="Index">
+                                    My Groups
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Students" asp-action="Index">
+                                    Students
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Lessons" asp-action="Index">
+                                    Lessons
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Schedule" asp-action="Index">
+                                    Schedule
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Attendance" asp-action="Index">
+                                    Attendance
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Grades" asp-action="Index">
+                                    Grades
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Topics" asp-action="Index">
+                                    Topics
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Salary" asp-action="Index">
+                                    My Salary
+                                </a>
                             </li>
                         }
 
                         @if (User.IsInRole("Parent"))
                         {
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Parent"
-                                   asp-controller="Dashboard"
-                                   asp-action="Index">
-                                    Parent Dashboard
+                                <a class="nav-link" asp-area="Parent" asp-controller="Dashboard" asp-action="Index">
+                                    Dashboard
                                 </a>
-
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Parent" asp-controller="Child" asp-action="Details">
+                                    My Child
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Parent" asp-controller="Schedule" asp-action="Index">
+                                    Schedule
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Parent" asp-controller="Grades" asp-action="Index">
+                                    Grades
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Parent" asp-controller="Attendance" asp-action="Index">
+                                    Attendance
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Parent" asp-controller="Subjects" asp-action="Index">
+                                    Subjects
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Parent" asp-controller="Topics" asp-action="Index">
+                                    Topics
+                                </a>
                             </li>
                         }
 

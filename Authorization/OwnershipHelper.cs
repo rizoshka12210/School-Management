@@ -64,4 +64,49 @@ public class OwnershipHelper
                 t.Groups.Any(g =>
                     g.Students.Any(s => s.Id == studentId)));
     }
+
+    public async Task<bool> TeacherOwnsLessonAsync(
+        ClaimsPrincipal user,
+        int lessonId)
+    {
+        var userId = _userManager.GetUserId(user);
+
+        if (userId == null)
+            return false;
+
+        return await _context.Lessons
+            .AnyAsync(l =>
+                l.Id == lessonId &&
+                l.Teacher.ApplicationUserId == userId);
+    }
+
+    public async Task<int?> GetCurrentTeacherIdAsync(
+        ClaimsPrincipal user)
+    {
+        var userId = _userManager.GetUserId(user);
+
+        if (userId == null)
+            return null;
+
+        var teacher = await _context.Teachers
+            .FirstOrDefaultAsync(t =>
+                t.ApplicationUserId == userId);
+
+        return teacher?.Id;
+    }
+
+    public async Task<int?> GetCurrentParentIdAsync(
+        ClaimsPrincipal user)
+    {
+        var userId = _userManager.GetUserId(user);
+
+        if (userId == null)
+            return null;
+
+        var parent = await _context.Parents
+            .FirstOrDefaultAsync(p =>
+                p.ApplicationUserId == userId);
+
+        return parent?.Id;
+    }
 }

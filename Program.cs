@@ -4,6 +4,7 @@ using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Data.Seed;
 using SchoolManagementSystem.Web.Models.Identity;
+using SchoolManagementSystem.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddScoped<OwnershipHelper>();
+builder.Services.AddScoped<SalaryService>();
 
 var app = builder.Build();
 

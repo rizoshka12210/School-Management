@@ -1,0 +1,94 @@
+@model List<SchoolManagementSystem.Web.Services.TeacherSalarySummary>
+
+@{
+    ViewData["Title"] = "Salary";
+
+    int year = ViewBag.Year;
+    int month = ViewBag.Month;
+
+    string[] monthNames =
+    {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Salary</h1>
+        <p class="text-muted mb-0">Teacher salaries for the selected month</p>
+    </div>
+
+    <form method="get" class="row g-2 align-items-end mb-4">
+        <div class="col-auto">
+            <label class="form-label">Month</label>
+            <select name="month" class="form-select">
+                @for (var i = 1; i <= 12; i++)
+                {
+                    <option value="@i" selected="@(i == month)">@monthNames[i - 1]</option>
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <label class="form-label">Year</label>
+            <select name="year" class="form-select">
+                @for (var y = DateTime.UtcNow.Year - 1; y <= DateTime.UtcNow.Year + 1; y++)
+                {
+                    <option value="@y" selected="@(y == year)">@y</option>
+                }
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">View</button>
+        </div>
+    </form>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            <h5 class="mb-3">@monthNames[month - 1] @year</h5>
+
+            @if (!Model.Any())
+            {
+                <p class="text-muted mb-0">No teachers yet.</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Teacher</th>
+                                <th>Lessons</th>
+                                <th>Worked Hours</th>
+                                <th>Hourly Rate</th>
+                                <th>Total Salary</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in Model)
+                            {
+                                <tr>
+                                    <td>@row.TeacherName</td>
+                                    <td>@row.LessonsCount</td>
+                                    <td>@row.WorkedHours.ToString("N1")</td>
+                                    <td>@row.HourlyRate.ToString("N0")</td>
+                                    <td class="fw-semibold">@row.TotalSalary.ToString("N0")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-light">
+                                <th colspan="4" class="text-end">Total</th>
+                                <th>@Model.Sum(r => r.TotalSalary).ToString("N0")</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

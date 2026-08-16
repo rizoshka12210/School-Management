@@ -1,0 +1,43 @@
+@model SchoolManagementSystem.Web.ViewModels.Teacher.TopicEditViewModel
+
+@{
+    ViewData["Title"] = "Edit Topic";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Edit Topic</h1>
+            <p class="text-muted mb-0">
+                @Model.SubjectName &middot; @Model.GroupName &middot; @Model.LessonDate.ToString("dd.MM.yyyy")
+            </p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <form asp-action="Edit" method="post">
+
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="LessonId" />
+
+                <div class="mb-3">
+                    <label asp-for="Topic" class="form-label">Topic</label>
+                    <textarea asp-for="Topic" class="form-control" rows="3"
+                              placeholder="Example: Newton's Laws"></textarea>
+                    <span asp-validation-for="Topic" class="text-danger"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

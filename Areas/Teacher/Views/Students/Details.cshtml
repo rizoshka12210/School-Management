@@ -1,0 +1,79 @@
+@model SchoolManagementSystem.Web.Models.Entities.Student
+@using SchoolManagementSystem.Web.Models.Entities
+
+@{
+    ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
+    var grades = ViewBag.Grades as List<Grade> ?? new List<Grade>();
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">@Model.FirstName @Model.LastName</h1>
+            <p class="text-muted mb-0">Group: @(Model.Group?.Name ?? "-")</p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to Students</a>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Attendance</h6>
+                    <h3 class="fw-bold">@ViewBag.AttendanceRate%</h3>
+                    <p class="text-muted small mb-0">
+                        @ViewBag.PresentCount / @ViewBag.TotalLessons lessons present
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Average Grade</h6>
+                    <h3 class="fw-bold">@ViewBag.AverageGrade</h3>
+                    <p class="text-muted small mb-0">In your subjects</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <h5 class="mb-3">Grade History</h5>
+
+            @if (!grades.Any())
+            {
+                <p class="text-muted mb-0">No grades recorded yet.</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Subject</th>
+                                <th>Grade</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var grade in grades)
+                            {
+                                <tr>
+                                    <td>@grade.Date.ToString("dd.MM.yyyy")</td>
+                                    <td>@grade.Subject.Name</td>
+                                    <td><span class="badge bg-primary">@grade.Value</span></td>
+                                    <td>@grade.Comment</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>

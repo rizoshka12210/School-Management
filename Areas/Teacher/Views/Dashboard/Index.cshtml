@@ -1,13 +1,149 @@
+@model SchoolManagementSystem.Web.ViewModels.Teacher.TeacherDashboardViewModel
+
 @{
     ViewData["Title"] = "Teacher Dashboard";
 }
 
 <div class="container mt-4">
 
-    <h1>Teacher Dashboard</h1>
+    <div class="mb-4">
+        <h1 class="fw-bold">Teacher Dashboard</h1>
+        <p class="text-muted">
+            Welcome, @Model.TeacherName
+        </p>
+    </div>
 
-    <p>
-        Welcome, Teacher.
-    </p>
+    <div class="row g-4">
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">My Groups</h6>
+                    <h2 class="fw-bold">@Model.GroupsCount</h2>
+                    <a asp-area="Teacher" asp-controller="Groups" asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-2">
+                        View Groups
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">My Students</h6>
+                    <h2 class="fw-bold">@Model.StudentsCount</h2>
+                    <a asp-area="Teacher" asp-controller="Students" asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-2">
+                        View Students
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Today's Lessons</h6>
+                    <h2 class="fw-bold">@Model.TodayLessons.Count</h2>
+                    <a asp-area="Teacher" asp-controller="Lessons" asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-2">
+                        View Lessons
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Salary (this month)</h6>
+                    <h2 class="fw-bold">@Model.CurrentMonthSalary.ToString("N0")</h2>
+                    <p class="text-muted small mb-2">
+                        @Model.CurrentMonthWorkedHours.ToString("N1") h worked
+                    </p>
+                    <a asp-area="Teacher" asp-controller="Salary" asp-action="Index"
+                       class="btn btn-sm btn-outline-primary">
+                        View Salary
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+
+            <h5 class="mb-3">Today's Schedule</h5>
+
+            @if (!Model.TodayLessons.Any())
+            {
+                <p class="text-muted mb-0">No lessons scheduled for today.</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Group</th>
+                                <th>Subject</th>
+                                <th>Topic</th>
+                                <th>Attendance</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var lesson in Model.TodayLessons)
+                            {
+                                <tr>
+                                    <td>
+                                        @lesson.StartTime.ToString("HH:mm") - @lesson.EndTime.ToString("HH:mm")
+                                    </td>
+                                    <td>@lesson.GroupName</td>
+                                    <td>@lesson.SubjectName</td>
+                                    <td>
+                                        @if (!string.IsNullOrWhiteSpace(lesson.Topic))
+                                        {
+                                            @lesson.Topic
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No topic yet</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (lesson.AttendanceMarked)
+                                        {
+                                            <span class="badge bg-success">Marked</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">Not marked</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark"
+                                           asp-route-lessonId="@lesson.LessonId"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Attendance
+                                        </a>
+                                        <a asp-area="Teacher" asp-controller="Grades" asp-action="Add"
+                                           asp-route-lessonId="@lesson.LessonId"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Grades
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
 
 </div>

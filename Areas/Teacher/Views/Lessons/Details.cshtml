@@ -1,0 +1,96 @@
+@model SchoolManagementSystem.Web.Models.Entities.Lesson
+
+@{
+    ViewData["Title"] = "Lesson Details";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">@Model.Subject.Name - @Model.Group.Name</h1>
+            <p class="text-muted mb-0">
+                @Model.StartTime.ToString("dd.MM.yyyy") &middot;
+                @Model.StartTime.ToString("HH:mm") - @Model.EndTime.ToString("HH:mm")
+            </p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back to Lessons</a>
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <h6 class="text-muted mb-1">Topic</h6>
+            <p class="mb-2">
+                @(string.IsNullOrWhiteSpace(Model.Topic) ? "No topic recorded yet" : Model.Topic)
+            </p>
+            <a asp-area="Teacher" asp-controller="Topics" asp-action="Edit" asp-route-id="@Model.Id"
+               class="btn btn-sm btn-outline-primary">Edit Topic</a>
+            <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark" asp-route-lessonId="@Model.Id"
+               class="btn btn-sm btn-outline-primary">Attendance</a>
+            <a asp-area="Teacher" asp-controller="Grades" asp-action="Add" asp-route-lessonId="@Model.Id"
+               class="btn btn-sm btn-outline-primary">Grades</a>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="mb-3">Attendance</h5>
+                    @if (!Model.Attendances.Any())
+                    {
+                        <p class="text-muted mb-0">Not marked yet.</p>
+                    }
+                    else
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var a in Model.Attendances.OrderBy(a => a.Student.FirstName))
+                            {
+                                <li class="list-group-item d-flex justify-content-between px-0">
+                                    <span>@a.Student.FirstName @a.Student.LastName</span>
+                                    @if (a.Status == SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Present)
+                                    {
+                                        <span class="badge bg-success">Present</span>
+                                    }
+                                    else if (a.Status == SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Absent)
+                                    {
+                                        <span class="badge bg-danger">Absent</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-dark">@a.Status</span>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h5 class="mb-3">Grades</h5>
+                    @if (!Model.Grades.Any())
+                    {
+                        <p class="text-muted mb-0">No grades yet.</p>
+                    }
+                    else
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var g in Model.Grades.OrderBy(g => g.Student.FirstName))
+                            {
+                                <li class="list-group-item d-flex justify-content-between px-0">
+                                    <span>@g.Student.FirstName @g.Student.LastName</span>
+                                    <span class="badge bg-primary">@g.Value</span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

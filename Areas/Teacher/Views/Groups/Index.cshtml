@@ -1,0 +1,59 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Group>
+
+@{
+    ViewData["Title"] = "My Groups";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">My Groups</h1>
+        <p class="text-muted mb-0">Groups assigned to you</p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5>No groups assigned yet</h5>
+                    <p class="text-muted mb-0">
+                        Ask an administrator to assign you to a group.
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Group</th>
+                                <th>Students</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var group in Model)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@group.Name</td>
+                                    <td>@group.Students.Count</td>
+                                    <td class="text-end">
+                                        <a asp-action="Details" asp-route-id="@group.Id"
+                                           class="btn btn-sm btn-outline-info">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

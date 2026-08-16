@@ -1,0 +1,82 @@
+@model SchoolManagementSystem.Web.ViewModels.Teacher.GradeEntryViewModel
+
+@{
+    ViewData["Title"] = "Enter Grades";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="fw-bold mb-1">Grades</h1>
+            <p class="text-muted mb-0">
+                @Model.SubjectName &middot; @Model.GroupName &middot; @Model.LessonDate.ToString("dd.MM.yyyy")
+            </p>
+        </div>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+    <form asp-action="Add" method="post">
+
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="LessonId" />
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+
+                @if (!Model.Students.Any())
+                {
+                    <p class="text-muted mb-0">This group has no students yet.</p>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%">Student</th>
+                                    <th style="width: 15%">Grade (1-5)</th>
+                                    <th>Comment</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < Model.Students.Count; i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Model.Students[i].StudentName
+                                            <input type="hidden" asp-for="Students[i].StudentId" />
+                                            <input type="hidden" asp-for="Students[i].StudentName" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="Students[i].Value"
+                                                   type="number" min="1" max="5"
+                                                   class="form-control form-control-sm" />
+                                        </td>
+                                        <td>
+                                            <input asp-for="Students[i].Comment"
+                                                   class="form-control form-control-sm"
+                                                   placeholder="Optional" />
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-2">Save Grades</button>
+                }
+
+            </div>
+        </div>
+
+    </form>
+
+</div>

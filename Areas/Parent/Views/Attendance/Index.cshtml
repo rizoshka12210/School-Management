@@ -1,0 +1,76 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Attendance>
+
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Attendance</h1>
+        <p class="text-muted mb-0">@ViewBag.StudentName's attendance record</p>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">Attendance Rate</h6>
+                    <h2 class="fw-bold">@ViewBag.AttendanceRate%</h2>
+                    <p class="text-muted small mb-0">
+                        Total lessons: @ViewBag.TotalLessons &middot; Present: @ViewBag.PresentCount
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <p class="text-muted mb-0">No attendance records yet.</p>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var a in Model)
+                            {
+                                <tr>
+                                    <td>@a.Lesson.StartTime.ToString("dd.MM.yyyy")</td>
+                                    <td>@a.Lesson.Subject.Name</td>
+                                    <td>
+                                        @if (a.Status == SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Present)
+                                        {
+                                            <span class="badge bg-success">Present</span>
+                                        }
+                                        else if (a.Status == SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Absent)
+                                        {
+                                            <span class="badge bg-danger">Absent</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-warning text-dark">@a.Status</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

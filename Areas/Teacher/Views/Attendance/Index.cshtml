@@ -1,0 +1,77 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Lesson>
+
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">Attendance</h1>
+        <p class="text-muted mb-0">Mark student attendance for your lessons</p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5>No lessons yet</h5>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Group</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var lesson in Model)
+                            {
+                                <tr>
+                                    <td>@lesson.StartTime.ToString("dd.MM.yyyy HH:mm")</td>
+                                    <td>@lesson.Group.Name</td>
+                                    <td>@lesson.Subject.Name</td>
+                                    <td>
+                                        @{
+                                            var marked = lesson.Attendances.Count;
+                                            var total = lesson.Group.Students.Count;
+                                        }
+                                        @if (marked == 0)
+                                        {
+                                            <span class="badge bg-secondary">Not marked</span>
+                                        }
+                                        else if (marked < total)
+                                        {
+                                            <span class="badge bg-warning text-dark">@marked / @total</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">@marked / @total</span>
+                                        }
+                                    </td>
+                                    <td class="text-end">
+                                        <a asp-action="Mark" asp-route-lessonId="@lesson.Id"
+                                           class="btn btn-sm btn-outline-primary">
+                                            Mark Attendance
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

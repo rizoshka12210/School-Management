@@ -1,0 +1,59 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Student>
+
+@{
+    ViewData["Title"] = "My Students";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">My Students</h1>
+        <p class="text-muted mb-0">Students in your groups</p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+                    <h5>No students yet</h5>
+                    <p class="text-muted mb-0">
+                        Students will appear here once you are assigned to a group.
+                    </p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Full name</th>
+                                <th>Group</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in Model)
+                            {
+                                <tr>
+                                    <td>@student.FirstName @student.LastName</td>
+                                    <td>@(student.Group?.Name ?? "-")</td>
+                                    <td class="text-end">
+                                        <a asp-action="Details" asp-route-id="@student.Id"
+                                           class="btn btn-sm btn-outline-info">
+                                            Details
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>
