@@ -1,13 +1,129 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.AdminDashboardViewModel
+
 @{
     ViewData["Title"] = "Admin Dashboard";
 }
 
 <div class="container mt-4">
 
-    <h1>Admin Dashboard</h1>
+    <div class="mb-4">
+        <h1 class="fw-bold">Admin Dashboard</h1>
+        <p class="text-muted">
+            School Management System overview
+        </p>
+    </div>
 
-    <p>
-        Welcome, Admin.
-    </p>
+    <div class="row g-4">
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">
+                        Students
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        @Model.StudentsCount
+                    </h2>
+
+                    <a asp-area="Admin"
+                       asp-controller="Students"
+                       asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-2">
+                        Manage Students
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">
+                        Teachers
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        @Model.TeachersCount
+                    </h2>
+
+                    <a asp-area="Admin"
+                       asp-controller="Teachers"
+                       asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-2">
+                        Manage Teachers
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">
+                        Groups
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        @Model.GroupsCount
+                    </h2>
+
+                    <a asp-area="Admin"
+                       asp-controller="Groups"
+                       asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-2">
+                        Manage Groups
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card shadow-sm border-0 h-100">
+                <div class="card-body">
+                    <h6 class="text-muted">
+                        Subjects
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        @Model.SubjectsCount
+                    </h2>
+
+                    <a asp-area="Admin"
+                       asp-controller="Subjects"
+                       asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-2">
+                        Manage Subjects
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+                    <h5 class="mb-1">
+                        Today's Lessons
+                    </h5>
+
+                    <p class="text-muted mb-0">
+                        Number of lessons scheduled for today
+                    </p>
+                </div>
+
+                <div class="display-5 fw-bold">
+                    @Model.TodayLessonsCount
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
 </div>

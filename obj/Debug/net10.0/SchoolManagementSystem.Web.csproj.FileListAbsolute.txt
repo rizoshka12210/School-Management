@@ -187,3 +187,4 @@
 /Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/obj/Debug/net10.0/SchoolManagementSystem.Web.pdb
 /Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/obj/Debug/net10.0/SchoolManagementSystem.Web.genruntimeconfig.cache
 /Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/obj/Debug/net10.0/ref/SchoolManagementSystem.Web.dll
+/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/obj/Debug/net10.0/SchoolManagementSystem.Web.sourcelink.json

@@ -1,0 +1,56 @@
+@model SchoolManagementSystem.Web.Models.Entities.Student
+
+@{
+    ViewData["Title"] = "Delete Student";
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="text-danger fw-bold">
+                        Delete Student
+                    </h2>
+
+                    <p class="mt-3">
+                        Are you sure you want to delete
+                        <strong>
+                            @Model.FirstName @Model.LastName
+                        </strong>?
+                    </p>
+
+                    <p class="text-muted">
+                        This action cannot be undone.
+                    </p>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@Model.Id"
+                          method="post">
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            Yes, Delete
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
