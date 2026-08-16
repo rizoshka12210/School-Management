@@ -1,0 +1,87 @@
+@model SchoolManagementSystem.Web.Models.Entities.Lesson
+
+@{
+    ViewData["Title"] = "Lesson Details";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="fw-bold">
+                        Lesson Details
+                    </h2>
+
+                    <hr />
+
+                    <p>
+                        <strong>Date:</strong>
+                        @Model.StartTime.ToString("dd.MM.yyyy")
+                    </p>
+
+                    <p>
+                        <strong>Time:</strong>
+
+                        @Model.StartTime.ToString("HH:mm")
+                        -
+                        @Model.EndTime.ToString("HH:mm")
+                    </p>
+
+                    <p>
+                        <strong>Group:</strong>
+                        @Model.Group.Name
+                    </p>
+
+                    <p>
+                        <strong>Subject:</strong>
+                        @Model.Subject.Name
+                    </p>
+
+                    <p>
+                        <strong>Teacher:</strong>
+                        @Model.Teacher.ApplicationUser.FullName
+                    </p>
+
+                    <p>
+                        <strong>Topic:</strong>
+                        @(Model.Topic ?? "No topic")
+                    </p>
+
+                    <hr />
+
+                    <p>
+                        <strong>Attendance records:</strong>
+                        @Model.Attendances.Count
+                    </p>
+
+                    <p>
+                        <strong>Grades:</strong>
+                        @Model.Grades.Count
+                    </p>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-primary">
+                        Edit
+                    </a>
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Back
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
