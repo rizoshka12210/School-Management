@@ -1,0 +1,79 @@
+@model SchoolManagementSystem.Web.Models.Entities.Student
+
+@{
+    ViewData["Title"] = "Student Details";
+}
+
+<div class="container mt-4">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-7">
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="fw-bold">
+                        @Model.FirstName @Model.LastName
+                    </h2>
+
+                    <hr />
+
+                    <p>
+                        <strong>Date of Birth:</strong>
+                        @Model.DateOfBirth.ToString("dd.MM.yyyy")
+                    </p>
+
+                    <p>
+                        <strong>Group:</strong>
+
+                        @(Model.Group?.Name ?? "No Group")
+                    </p>
+
+                    <div class="mb-4">
+
+                        <strong>Parents:</strong>
+
+                        @if (Model.Parents.Any())
+                        {
+                            <ul class="mt-2">
+
+                                @foreach (var parent in Model.Parents)
+                                {
+                                    <li>
+                                        @parent.ApplicationUser.FullName
+                                        -
+                                        @parent.ApplicationUser.Email
+                                    </li>
+                                }
+
+                            </ul>
+                        }
+                        else
+                        {
+                            <span>No parents assigned.</span>
+                        }
+
+                    </div>
+
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-primary">
+                        Edit
+                    </a>
+
+                    <a asp-action="Index"
+                       class="btn btn-outline-secondary">
+                        Back
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
