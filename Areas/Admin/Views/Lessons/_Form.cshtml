@@ -1,0 +1,131 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.LessonFormViewModel
+
+<div asp-validation-summary="ModelOnly"
+     class="text-danger mb-3">
+</div>
+
+<div class="row">
+
+    <div class="col-md-6 mb-3">
+
+        <label asp-for="StartTime"
+               class="form-label">
+            Start Time
+        </label>
+
+        <input asp-for="StartTime"
+               type="datetime-local"
+               class="form-control" />
+
+        <span asp-validation-for="StartTime"
+              class="text-danger">
+        </span>
+
+    </div>
+
+    <div class="col-md-6 mb-3">
+
+        <label asp-for="EndTime"
+               class="form-label">
+            End Time
+        </label>
+
+        <input asp-for="EndTime"
+               type="datetime-local"
+               class="form-control" />
+
+        <span asp-validation-for="EndTime"
+              class="text-danger">
+        </span>
+
+    </div>
+
+</div>
+
+<div class="mb-3">
+
+    <label asp-for="GroupId"
+           class="form-label">
+        Group
+    </label>
+
+    <select asp-for="GroupId"
+            asp-items="ViewBag.Groups"
+            class="form-select">
+
+        <option value="0">
+            -- Select Group --
+        </option>
+
+    </select>
+
+    <span asp-validation-for="GroupId"
+          class="text-danger">
+    </span>
+
+</div>
+
+<div class="mb-3">
+
+    <label asp-for="TeacherId"
+           class="form-label">
+        Teacher
+    </label>
+
+    <select asp-for="TeacherId"
+            asp-items="ViewBag.Teachers"
+            class="form-select">
+
+        <option value="0">
+            -- Select Teacher --
+        </option>
+
+    </select>
+
+    <span asp-validation-for="TeacherId"
+          class="text-danger">
+    </span>
+
+</div>
+
+<div class="mb-3">
+
+    <label asp-for="SubjectId"
+           class="form-label">
+        Subject
+    </label>
+
+    <select asp-for="SubjectId"
+            asp-items="ViewBag.Subjects"
+            class="form-select">
+
+        <option value="0">
+            -- Select Subject --
+        </option>
+
+    </select>
+
+    <span asp-validation-for="SubjectId"
+          class="text-danger">
+    </span>
+
+</div>
+
+<div class="mb-4">
+
+    <label asp-for="Topic"
+           class="form-label">
+        Topic
+    </label>
+
+    <textarea asp-for="Topic"
+              class="form-control"
+              rows="3"
+              placeholder="Example: Introduction to algebra">
+    </textarea>
+
+    <span asp-validation-for="Topic"
+          class="text-danger">
+    </span>
+
+</div>

@@ -54,6 +54,74 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvR3JvdXBzL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Lessons/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvTGVzc29ucy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Lessons/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvTGVzc29ucy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Lessons/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvTGVzc29ucy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Lessons/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvTGVzc29ucy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Lessons/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvTGVzc29ucy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Lessons/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvTGVzc29ucy9fRm9ybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Parents/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGFyZW50cy9DcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Parents/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGFyZW50cy9EZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Parents/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGFyZW50cy9EZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Parents/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGFyZW50cy9FZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Parents/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvUGFyZW50cy9JbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Schedule/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2NoZWR1bGUvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Schedule/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2NoZWR1bGUvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Schedule/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2NoZWR1bGUvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Schedule/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2NoZWR1bGUvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Schedule/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2NoZWR1bGUvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Schedule/_Form.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU2NoZWR1bGUvX0Zvcm0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Students/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU3R1ZGVudHMvQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -92,6 +160,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Subjects/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvU3ViamVjdHMvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Teachers/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvVGVhY2hlcnMvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Teachers/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvVGVhY2hlcnMvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Teachers/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvVGVhY2hlcnMvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Teachers/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvVGVhY2hlcnMvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Admin/Views/Teachers/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvQWRtaW4vVmlld3MvVGVhY2hlcnMvSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/rizoakramov/Downloads/SchoolManagementSystem/SchoolManagementSystem.Web/Areas/Parent/Views/Dashboard/Index.cshtml]
