@@ -9,16 +9,11 @@
 
     <script type="importmap"></script>
 
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-    <link rel="stylesheet"
-          href="~/css/site.css"
-          asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 
-    <link rel="stylesheet"
-          href="~/SchoolManagementSystem.Web.styles.css"
-          asp-append-version="true" />
+    <link rel="stylesheet" href="~/SchoolManagementSystem.Web.styles.css" asp-append-version="true" />
 </head>
 
 <body>
@@ -29,188 +24,98 @@
 
             <div class="container-fluid">
 
-                <a class="navbar-brand fw-bold"
-                   asp-area=""
-                   asp-controller="Home"
-                   asp-action="Index">
+                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
                     School Management
                 </a>
 
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar"
-                        aria-controls="mainNavbar"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
+                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
 
                     <span class="navbar-toggler-icon"></span>
 
                 </button>
 
-                <div class="collapse navbar-collapse"
-                     id="mainNavbar">
+                <div class="collapse navbar-collapse" id="mainNavbar">
 
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                         <li class="nav-item">
-
-                            <a class="nav-link"
-                               asp-area=""
-                               asp-controller="Home"
-                               asp-action="Index">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
                                 Home
                             </a>
-
                         </li>
 
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Dashboard"
-                                   asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
                                     Dashboard
                                 </a>
-
                             </li>
 
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Students"
-                                   asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Students" asp-action="Index">
                                     Students
                                 </a>
-
                             </li>
 
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Parents"
-                                   asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Parents" asp-action="Index">
                                     Parents
                                 </a>
-
                             </li>
 
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Teachers"
-                                   asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Teachers" asp-action="Index">
                                     Teachers
                                 </a>
-
                             </li>
 
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Groups"
-                                   asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Groups" asp-action="Index">
                                     Groups
                                 </a>
-
                             </li>
 
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Subjects"
-                                   asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Subjects" asp-action="Index">
                                     Subjects
                                 </a>
-
                             </li>
 
                             <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Lessons"
-                                   asp-action="Index">
-                                    Lessons
-                                </a>
-
-                            </li>
-
-                            <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Schedule"
-                                   asp-action="Index">
-                                    Schedule
-                                </a>
-
-                            </li>
-
-                            <li class="nav-item">
-
-                                <a class="nav-link"
-                                   asp-area="Admin"
-                                   asp-controller="Salary"
-                                   asp-action="Index">
-                                    Salary
-                                </a>
-
-                            </li>
-                        }
-
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Dashboard" asp-action="Index">
-                                    Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Groups" asp-action="Index">
-                                    My Groups
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Students" asp-action="Index">
-                                    Students
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Lessons" asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Lessons" asp-action="Index">
                                     Lessons
                                 </a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Schedule" asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Schedule" asp-action="Index">
                                     Schedule
                                 </a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Attendance" asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Attendance" asp-action="Index">
                                     Attendance
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Grades" asp-action="Index">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Grades" asp-action="Index">
                                     Grades
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Topics" asp-action="Index">
-                                    Topics
+                                <a class="nav-link" asp-area="Admin" asp-controller="Salary" asp-action="Index">
+                                    Salary
                                 </a>
                             </li>
+                        }
+                        @if (User.IsInRole("Teacher"))
+                        {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Salary" asp-action="Index">
-                                    My Salary
+                                <a class="nav-link" asp-area="Teacher" asp-controller="Dashboard" asp-action="Index">
+                                    Teacher Dashboard
                                 </a>
                             </li>
                         }
@@ -219,37 +124,12 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="Parent" asp-controller="Dashboard" asp-action="Index">
-                                    Dashboard
+                                    Parent Dashboard
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Child" asp-action="Details">
-                                    My Child
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Schedule" asp-action="Index">
-                                    Schedule
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Grades" asp-action="Index">
-                                    Grades
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Attendance" asp-action="Index">
-                                    Attendance
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Subjects" asp-action="Index">
-                                    Subjects
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Topics" asp-action="Index">
-                                    Topics
+                                <a class="nav-link" asp-area="Parent" asp-controller="Progress" asp-action="Index">
+                                    Progress
                                 </a>
                             </li>
                         }
@@ -264,14 +144,9 @@
                                 @User.Identity.Name
                             </span>
 
-                            <form asp-area=""
-                                  asp-controller="Auth"
-                                  asp-action="Logout"
-                                  method="post"
-                                  class="d-inline">
+                            <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
 
-                                <button type="submit"
-                                        class="btn btn-outline-danger">
+                                <button type="submit" class="btn btn-outline-danger">
                                     Logout
                                 </button>
 
@@ -279,10 +154,7 @@
                         }
                         else
                         {
-                            <a asp-area=""
-                               asp-controller="Auth"
-                               asp-action="Login"
-                               class="btn btn-outline-primary">
+                            <a asp-area="" asp-controller="Auth" asp-action="Login" class="btn btn-outline-primary">
                                 Login
                             </a>
                         }
@@ -299,8 +171,7 @@
 
     <div class="container">
 
-        <main role="main"
-              class="pb-5">
+        <main role="main" class="pb-5">
 
             @RenderBody()
 
@@ -322,8 +193,7 @@
 
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="~/js/site.js"
-            asp-append-version="true">
+    <script src="~/js/site.js" asp-append-version="true">
     </script>
 
     @await RenderSectionAsync(

@@ -42,9 +42,12 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddControllersWithViews();
 
-
 builder.Services.AddScoped<OwnershipHelper>();
+
+builder.Services.AddScoped<AttendanceService>();
+builder.Services.AddScoped<GradeService>();
 builder.Services.AddScoped<SalaryService>();
+builder.Services.AddScoped<TopicCalendarService>();
 
 var app = builder.Build();
 

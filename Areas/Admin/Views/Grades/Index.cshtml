@@ -1,0 +1,108 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Grade>
+
+@{
+    ViewData["Title"] = "Grades";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">
+            Grades
+        </h1>
+
+        <p class="text-muted mb-0">
+            Read-only student grades
+        </p>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            @if (!Model.Any())
+            {
+                <div class="text-center py-5">
+
+                    <h5>No grades found</h5>
+
+                    <p class="text-muted">
+                        Grades added by teachers will appear here.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Student</th>
+                                <th>Subject</th>
+                                <th>Teacher</th>
+                                <th>Grade</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var grade in Model)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @grade.Date.ToString("dd.MM.yyyy")
+                                    </td>
+
+                                    <td class="fw-semibold">
+                                        @grade.Student.FirstName
+                                        @grade.Student.LastName
+                                    </td>
+
+                                    <td>
+                                        @grade.Subject.Name
+                                    </td>
+
+                                    <td>
+                                        @grade.Teacher.ApplicationUser.FullName
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-primary fs-6">
+                                            @grade.Value
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        @if (!string.IsNullOrWhiteSpace(grade.Comment))
+                                        {
+                                            @grade.Comment
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">
+                                                —
+                                            </span>
+                                        }
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
