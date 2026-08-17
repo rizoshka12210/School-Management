@@ -2,6 +2,14 @@
 
 @{
     ViewData["Title"] = "My Students";
+
+    var students = Model.ToList();
+
+    var groupsCount = students
+        .Where(s => s.Group != null)
+        .Select(s => s.GroupId)
+        .Distinct()
+        .Count();
 }
 
 <div class="page-header">
@@ -19,12 +27,12 @@
     </div>
 
     <div class="teacher-count-label">
-        @Model.Count() student(s)
+        @students.Count student(s)
     </div>
 
 </div>
 
-@if (!Model.Any())
+@if (!students.Any())
 {
     <div class="card border-0 shadow-sm">
 
@@ -61,7 +69,7 @@ else
                     </span>
 
                     <strong>
-                        @Model.Count()
+                        @students.Count
                     </strong>
 
                 </div>
@@ -73,11 +81,7 @@ else
                     </span>
 
                     <strong>
-                        @Model
-                            .Where(s => s.Group != null)
-                            .Select(s => s.GroupId)
-                            .Distinct()
-                            .Count()
+                        @groupsCount
                     </strong>
 
                 </div>
@@ -103,7 +107,7 @@ else
 
                     <tbody>
 
-                        @foreach (var student in Model)
+                        @foreach (var student in students)
                         {
                             <tr>
 
@@ -113,20 +117,16 @@ else
 
                                         <div class="person-avatar">
 
-                                            @(string.IsNullOrWhiteSpace(
-                                                student.FirstName)
+                                            @(string.IsNullOrWhiteSpace(student.FirstName)
                                                 ? "S"
-                                                : student.FirstName
-                                                    .Substring(0, 1)
-                                                    .ToUpper())
+                                                : student.FirstName.Substring(0, 1).ToUpper())
 
                                         </div>
 
                                         <div>
 
                                             <div class="person-name">
-                                                @student.FirstName
-                                                @student.LastName
+                                                @student.FirstName @student.LastName
                                             </div>
 
                                             <div class="person-id">
