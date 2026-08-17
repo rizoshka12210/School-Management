@@ -1,83 +1,583 @@
 @model SchoolManagementSystem.Web.ViewModels.Auth.LoginViewModel
 
 @{
+    Layout = null;
     ViewData["Title"] = "Login";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5 col-lg-4">
+<!DOCTYPE html>
 
-            <div class="card shadow">
-                <div class="card-body p-4">
+<html lang="en">
 
-                    <h2 class="text-center mb-4">
-                        School Login
-                    </h2>
+<head>
 
-                    <form asp-controller="Auth"
-                          asp-action="Login"
-                          method="post">
+    <meta charset="utf-8" />
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="text-danger mb-3">
-                        </div>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
 
-                        <div class="mb-3">
-                            <label asp-for="Email"
-                                   class="form-label">
-                            </label>
+    <title>
+        Login - School Management
+    </title>
 
-                            <input asp-for="Email"
-                                   class="form-control"
-                                   placeholder="Enter email" />
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-                            <span asp-validation-for="Email"
-                                  class="text-danger">
-                            </span>
-                        </div>
+    <style>
 
-                        <div class="mb-3">
-                            <label asp-for="Password"
-                                   class="form-label">
-                            </label>
+        * {
+            box-sizing: border-box;
+        }
 
-                            <input asp-for="Password"
-                                   class="form-control"
-                                   placeholder="Enter password" />
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+        }
 
-                            <span asp-validation-for="Password"
-                                  class="text-danger">
-                            </span>
-                        </div>
+        body {
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Helvetica,
+                Arial,
+                sans-serif;
 
-                        <div class="form-check mb-3">
+            background: #f5f7fb;
+        }
 
-                            <input asp-for="RememberMe"
-                                   class="form-check-input" />
+        .login-page {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
 
-                            <label asp-for="RememberMe"
-                                   class="form-check-label">
-                                Remember me
-                            </label>
+        .login-brand {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 70px;
+            overflow: hidden;
+            background:
+                linear-gradient(
+                    145deg,
+                    #111827 0%,
+                    #1e1b4b 55%,
+                    #312e81 100%
+                );
+            color: white;
+        }
 
-                        </div>
+        .login-brand::before {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            top: -100px;
+            right: -100px;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, .18);
+            content: "";
+        }
 
-                        <button type="submit"
-                                class="btn btn-primary w-100">
-                            Login
-                        </button>
+        .login-brand::after {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            left: -100px;
+            bottom: -120px;
+            border-radius: 50%;
+            background: rgba(139, 92, 246, .13);
+            content: "";
+        }
 
-                    </form>
+        .login-brand-content {
+            position: relative;
+            z-index: 2;
+            max-width: 520px;
+        }
 
+        .login-logo {
+            width: 58px;
+            height: 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 28px;
+
+            border-radius: 16px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 27px;
+            font-weight: 800;
+
+            box-shadow:
+                0 15px 35px
+                rgba(79, 70, 229, .35);
+        }
+
+        .login-brand-label {
+            margin-bottom: 10px;
+
+            color: #a5b4fc;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+            letter-spacing: .12em;
+        }
+
+        .login-brand h1 {
+            max-width: 450px;
+
+            margin: 0;
+
+            color: white;
+
+            font-size: 44px;
+            line-height: 1.12;
+            font-weight: 750;
+        }
+
+        .login-brand-description {
+            max-width: 470px;
+
+            margin-top: 20px;
+
+            color: #cbd5e1;
+
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .login-role-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+
+            margin-top: 35px;
+        }
+
+        .login-role {
+            padding: 9px 14px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.12);
+
+            border-radius: 9px;
+
+            background:
+                rgba(255,255,255,.06);
+
+            color: #e2e8f0;
+
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .login-form-side {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 50px;
+
+            background: #f8fafc;
+        }
+
+        .login-form-container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .login-mobile-logo {
+            display: none;
+        }
+
+        .login-title {
+            margin: 0 0 8px;
+
+            color: #111827;
+
+            font-size: 31px;
+            font-weight: 750;
+        }
+
+        .login-subtitle {
+            margin: 0 0 32px;
+
+            color: #94a3b8;
+
+            font-size: 13px;
+        }
+
+        .login-card {
+            padding: 30px;
+
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+
+            background: white;
+
+            box-shadow:
+                0 15px 45px
+                rgba(15, 23, 42, .07);
+        }
+
+        .login-label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #374151;
+
+            font-size: 12px;
+            font-weight: 650;
+        }
+
+        .login-input {
+            width: 100%;
+            height: 48px;
+
+            padding: 0 14px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+
+            background: #fff;
+
+            color: #111827;
+
+            font-size: 13px;
+
+            outline: none;
+
+            transition: .15s;
+        }
+
+        .login-input:focus {
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(99, 102, 241, .10);
+        }
+
+        .login-input::placeholder {
+            color: #9ca3af;
+        }
+
+        .login-field {
+            margin-bottom: 20px;
+        }
+
+        .login-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin: 4px 0 23px;
+        }
+
+        .login-remember {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin: 0;
+
+            color: #4b5563;
+
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .login-remember input {
+            width: 16px;
+            height: 16px;
+
+            margin: 0;
+
+            cursor: pointer;
+
+            accent-color: #4f46e5;
+        }
+
+        .login-button {
+            width: 100%;
+            min-height: 48px;
+
+            border: 0;
+            border-radius: 10px;
+
+            background: #4f46e5;
+
+            color: white;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition:
+                transform .15s,
+                background .15s,
+                box-shadow .15s;
+        }
+
+        .login-button:hover {
+            background: #4338ca;
+
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 10px 22px
+                rgba(79, 70, 229, .20);
+        }
+
+        .login-validation {
+            margin-bottom: 18px;
+
+            color: #dc2626;
+
+            font-size: 12px;
+        }
+
+        .login-validation ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .field-validation-error {
+            display: block;
+
+            margin-top: 5px;
+
+            color: #dc2626;
+
+            font-size: 10px;
+        }
+
+        .login-footer {
+            margin-top: 22px;
+
+            color: #94a3b8;
+
+            font-size: 10px;
+            text-align: center;
+        }
+
+        @@media (max-width: 900px) {
+
+            .login-page {
+                grid-template-columns: 1fr;
+            }
+
+            .login-brand {
+                display: none;
+            }
+
+            .login-form-side {
+                min-height: 100vh;
+                padding: 30px 20px;
+            }
+
+            .login-mobile-logo {
+                width: 50px;
+                height: 50px;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                margin-bottom: 22px;
+
+                border-radius: 14px;
+
+                background: #4f46e5;
+
+                color: white;
+
+                font-size: 23px;
+                font-weight: 800;
+            }
+
+        }
+
+        @@media (max-width: 500px) {
+
+            .login-form-side {
+                align-items: flex-start;
+                padding-top: 55px;
+            }
+
+            .login-card {
+                padding: 22px;
+            }
+
+            .login-title {
+                font-size: 27px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="login-page">
+
+    <section class="login-brand">
+
+        <div class="login-brand-content">
+
+            <div class="login-logo">
+                S
+            </div>
+
+            <div class="login-brand-label">
+                School Management
+            </div>
+
+            <h1>
+                Manage your school in one place.
+            </h1>
+
+            <p class="login-brand-description">
+                A simple and secure system for administrators,
+                teachers and parents to manage school information,
+                lessons, attendance and academic progress.
+            </p>
+
+            <div class="login-role-list">
+
+                <div class="login-role">
+                    Administrator
                 </div>
+
+                <div class="login-role">
+                    Teacher
+                </div>
+
+                <div class="login-role">
+                    Parent
+                </div>
+
             </div>
 
         </div>
-    </div>
+
+    </section>
+
+    <section class="login-form-side">
+
+        <div class="login-form-container">
+
+            <div class="login-mobile-logo">
+                S
+            </div>
+
+            <h2 class="login-title">
+                Welcome back
+            </h2>
+
+            <p class="login-subtitle">
+                Sign in to your School Management account
+            </p>
+
+            <div class="login-card">
+
+                <form asp-controller="Auth"
+                      asp-action="Login"
+                      method="post">
+
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly"
+                         class="login-validation">
+                    </div>
+
+                    <div class="login-field">
+
+                        <label asp-for="Email"
+                               class="login-label">
+                            Email
+                        </label>
+
+                        <input asp-for="Email"
+                               class="login-input"
+                               placeholder="Enter your email"
+                               autocomplete="email" />
+
+                        <span asp-validation-for="Email">
+                        </span>
+
+                    </div>
+
+                    <div class="login-field">
+
+                        <label asp-for="Password"
+                               class="login-label">
+                            Password
+                        </label>
+
+                        <input asp-for="Password"
+                               class="login-input"
+                               placeholder="Enter your password"
+                               autocomplete="current-password" />
+
+                        <span asp-validation-for="Password">
+                        </span>
+
+                    </div>
+
+                    <div class="login-options">
+
+                        <label class="login-remember">
+
+                            <input asp-for="RememberMe" />
+
+                            <span>
+                                Remember me
+                            </span>
+
+                        </label>
+
+                    </div>
+
+                    <button type="submit"
+                            class="login-button">
+                        Sign In
+                    </button>
+
+                </form>
+
+            </div>
+
+            <div class="login-footer">
+                School Management System
+            </div>
+
+        </div>
+
+    </section>
+
 </div>
 
-@section Scripts
-{
-    <partial name="_ValidationScriptsPartial" />
-}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+</body>
+
+</html>
