@@ -1,0 +1,217 @@
+@model SchoolManagementSystem.Web.ViewModels.Parent.ProgressViewModel
+
+@{
+    ViewData["Title"] = "Progress";
+}
+
+<div class="container mt-4">
+
+    <div class="mb-4">
+        <h1 class="fw-bold mb-1">
+            Student Progress
+        </h1>
+
+        <p class="text-muted mb-0">
+            @Model.StudentName
+            @if (!string.IsNullOrWhiteSpace(Model.GroupName))
+            {
+                <span>• @Model.GroupName</span>
+            }
+        </p>
+    </div>
+
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Average Grade
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        @Model.AverageGrade
+                    </h2>
+
+                    <small class="text-muted">
+                        @Model.GradesCount grades
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Attendance
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        @Model.AttendanceRate%
+                    </h2>
+
+                    <small class="text-muted">
+                        @Model.TotalLessons attendance records
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Absences
+                    </h6>
+
+                    <h2 class="fw-bold">
+                        @Model.AbsentCount
+                    </h2>
+
+                    <small class="text-muted">
+                        Excused: @Model.ExcusedCount
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card border-0 shadow-sm mb-4">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Attendance Details
+            </h5>
+
+            <div class="row text-center">
+
+                <div class="col">
+                    <div class="fw-bold text-success fs-4">
+                        @Model.PresentCount
+                    </div>
+
+                    <div class="text-muted">
+                        Present
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="fw-bold text-warning fs-4">
+                        @Model.LateCount
+                    </div>
+
+                    <div class="text-muted">
+                        Late
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="fw-bold text-danger fs-4">
+                        @Model.AbsentCount
+                    </div>
+
+                    <div class="text-muted">
+                        Absent
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div class="fw-bold text-info fs-4">
+                        @Model.ExcusedCount
+                    </div>
+
+                    <div class="text-muted">
+                        Excused
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <h5 class="mb-3">
+                Progress by Subject
+            </h5>
+
+            @if (!Model.Subjects.Any())
+            {
+                <p class="text-muted mb-0">
+                    No grades available yet.
+                </p>
+            }
+            else
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Subject</th>
+                                <th>Grades</th>
+                                <th>Average Grade</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var subject in Model.Subjects)
+                            {
+                                <tr>
+
+                                    <td class="fw-semibold">
+                                        @subject.SubjectName
+                                    </td>
+
+                                    <td>
+                                        @subject.GradesCount
+                                    </td>
+
+                                    <td>
+                                        <span class="badge bg-primary fs-6">
+                                            @subject.AverageGrade
+                                        </span>
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>
