@@ -4,56 +4,98 @@
     ViewData["Title"] = "My Groups";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">My Groups</h1>
-        <p class="text-muted mb-0">Groups assigned to you</p>
+    <div>
+        <h1 class="page-title">
+            My Groups
+        </h1>
+
+        <p class="page-subtitle">
+            Groups assigned to you
+        </p>
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
-                    <h5>No groups assigned yet</h5>
-                    <p class="text-muted mb-0">
-                        Ask an administrator to assign you to a group.
-                    </p>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Group</th>
-                                <th>Students</th>
-                                <th class="text-end">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var group in Model)
-                            {
-                                <tr>
-                                    <td class="fw-semibold">@group.Name</td>
-                                    <td>@group.Students.Count</td>
-                                    <td class="text-end">
-                                        <a asp-action="Details" asp-route-id="@group.Id"
-                                           class="btn btn-sm btn-outline-info">
-                                            Details
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-
-        </div>
+    <div class="teacher-count-label">
+        @Model.Count() group(s)
     </div>
 
 </div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+
+        <div class="teacher-empty">
+
+            <div class="teacher-empty-icon">
+                GR
+            </div>
+
+            <h5>
+                No groups assigned
+            </h5>
+
+            <p>
+                Your assigned groups will appear here.
+            </p>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="teacher-groups-grid">
+
+        @foreach (var group in Model)
+        {
+            <a asp-action="Details"
+               asp-route-id="@group.Id"
+               class="teacher-group-card">
+
+                <div class="teacher-group-top">
+
+                    <div class="teacher-group-icon">
+                        GR
+                    </div>
+
+                    <div class="teacher-group-arrow">
+                        →
+                    </div>
+
+                </div>
+
+                <div class="teacher-group-name">
+                    @group.Name
+                </div>
+
+                <div class="teacher-group-subtitle">
+                    School Group
+                </div>
+
+                <div class="teacher-group-bottom">
+
+                    <div>
+
+                        <strong>
+                            @group.Students.Count
+                        </strong>
+
+                        <span>
+                            Students
+                        </span>
+
+                    </div>
+
+                    <span class="teacher-open-label">
+                        Open group
+                    </span>
+
+                </div>
+
+            </a>
+        }
+
+    </div>
+}

@@ -4,146 +4,399 @@
     ViewData["Title"] = "Teacher Dashboard";
 }
 
-<div class="container mt-4">
+<div class="teacher-dashboard-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold">Teacher Dashboard</h1>
-        <p class="text-muted">
-            Welcome, @Model.TeacherName
+    <div>
+        <div class="teacher-welcome-label">
+            Welcome back
+        </div>
+
+        <h1 class="page-title">
+            @Model.TeacherName
+        </h1>
+
+        <p class="page-subtitle">
+            Here's your teaching overview for today.
         </p>
     </div>
 
-    <div class="row g-4">
+    <div class="dashboard-date">
+        @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+    </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">My Groups</h6>
-                    <h2 class="fw-bold">@Model.GroupsCount</h2>
-                    <a asp-area="Teacher" asp-controller="Groups" asp-action="Index"
-                       class="btn btn-sm btn-outline-primary mt-2">
-                        View Groups
-                    </a>
-                </div>
-            </div>
+</div>
+
+<div class="teacher-stat-grid">
+
+    <a asp-area="Teacher"
+       asp-controller="Groups"
+       asp-action="Index"
+       class="teacher-stat-card">
+
+        <div class="teacher-stat-icon teacher-stat-groups">
+            GR
         </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">My Students</h6>
-                    <h2 class="fw-bold">@Model.StudentsCount</h2>
-                    <a asp-area="Teacher" asp-controller="Students" asp-action="Index"
-                       class="btn btn-sm btn-outline-primary mt-2">
-                        View Students
-                    </a>
-                </div>
-            </div>
+        <div class="teacher-stat-content">
+
+            <span class="teacher-stat-label">
+                My Groups
+            </span>
+
+            <strong class="teacher-stat-number">
+                @Model.GroupsCount
+            </strong>
+
+            <span class="teacher-stat-link">
+                View groups →
+            </span>
+
         </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Today's Lessons</h6>
-                    <h2 class="fw-bold">@Model.TodayLessons.Count</h2>
-                    <a asp-area="Teacher" asp-controller="Lessons" asp-action="Index"
-                       class="btn btn-sm btn-outline-primary mt-2">
-                        View Lessons
-                    </a>
-                </div>
-            </div>
+    </a>
+
+    <a asp-area="Teacher"
+       asp-controller="Students"
+       asp-action="Index"
+       class="teacher-stat-card">
+
+        <div class="teacher-stat-icon teacher-stat-students">
+            ST
         </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Salary (this month)</h6>
-                    <h2 class="fw-bold">@Model.CurrentMonthSalary.ToString("N0")</h2>
-                    <p class="text-muted small mb-2">
-                        @Model.CurrentMonthWorkedHours.ToString("N1") h worked
-                    </p>
-                    <a asp-area="Teacher" asp-controller="Salary" asp-action="Index"
-                       class="btn btn-sm btn-outline-primary">
-                        View Salary
-                    </a>
-                </div>
-            </div>
+        <div class="teacher-stat-content">
+
+            <span class="teacher-stat-label">
+                My Students
+            </span>
+
+            <strong class="teacher-stat-number">
+                @Model.StudentsCount
+            </strong>
+
+            <span class="teacher-stat-link">
+                View students →
+            </span>
+
+        </div>
+
+    </a>
+
+    <a asp-area="Teacher"
+       asp-controller="Lessons"
+       asp-action="Index"
+       class="teacher-stat-card">
+
+        <div class="teacher-stat-icon teacher-stat-lessons">
+            LS
+        </div>
+
+        <div class="teacher-stat-content">
+
+            <span class="teacher-stat-label">
+                Today's Lessons
+            </span>
+
+            <strong class="teacher-stat-number">
+                @Model.TodayLessons.Count
+            </strong>
+
+            <span class="teacher-stat-link">
+                View lessons →
+            </span>
+
+        </div>
+
+    </a>
+
+    <a asp-area="Teacher"
+       asp-controller="Salary"
+       asp-action="Index"
+       class="teacher-stat-card">
+
+        <div class="teacher-stat-icon teacher-stat-salary">
+            SA
+        </div>
+
+        <div class="teacher-stat-content">
+
+            <span class="teacher-stat-label">
+                Monthly Salary
+            </span>
+
+            <strong class="teacher-stat-number teacher-salary-number">
+                @Model.CurrentMonthSalary.ToString("0.##")
+            </strong>
+
+            <span class="teacher-stat-link">
+                @Model.CurrentMonthWorkedHours.ToString("0.#") hours worked
+            </span>
+
+        </div>
+
+    </a>
+
+</div>
+
+<div class="teacher-quick-card">
+
+    <div class="section-header">
+
+        <div>
+            <h5 class="section-title">
+                Quick Actions
+            </h5>
+
+            <p class="section-subtitle">
+                Access your most common teaching tools
+            </p>
         </div>
 
     </div>
 
-    <div class="card shadow-sm border-0 mt-4">
-        <div class="card-body">
+    <div class="teacher-quick-grid">
 
-            <h5 class="mb-3">Today's Schedule</h5>
+        <a asp-area="Teacher"
+           asp-controller="Attendance"
+           asp-action="Index"
+           class="teacher-quick-action">
 
-            @if (!Model.TodayLessons.Any())
-            {
-                <p class="text-muted mb-0">No lessons scheduled for today.</p>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Group</th>
-                                <th>Subject</th>
-                                <th>Topic</th>
-                                <th>Attendance</th>
-                                <th class="text-end">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var lesson in Model.TodayLessons)
-                            {
-                                <tr>
-                                    <td>
-                                        @lesson.StartTime.ToString("HH:mm") - @lesson.EndTime.ToString("HH:mm")
-                                    </td>
-                                    <td>@lesson.GroupName</td>
-                                    <td>@lesson.SubjectName</td>
-                                    <td>
-                                        @if (!string.IsNullOrWhiteSpace(lesson.Topic))
-                                        {
-                                            @lesson.Topic
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">No topic yet</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (lesson.AttendanceMarked)
-                                        {
-                                            <span class="badge bg-success">Marked</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Not marked</span>
-                                        }
-                                    </td>
-                                    <td class="text-end">
-                                        <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark"
-                                           asp-route-lessonId="@lesson.LessonId"
-                                           class="btn btn-sm btn-outline-primary">
-                                            Attendance
-                                        </a>
-                                        <a asp-area="Teacher" asp-controller="Grades" asp-action="Add"
-                                           asp-route-lessonId="@lesson.LessonId"
-                                           class="btn btn-sm btn-outline-primary">
-                                            Grades
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+            <div class="teacher-quick-icon">
+                AT
+            </div>
+
+            <div>
+                <strong>Attendance</strong>
+                <span>Mark student attendance</span>
+            </div>
+
+            <div class="teacher-quick-arrow">
+                →
+            </div>
+
+        </a>
+
+        <a asp-area="Teacher"
+           asp-controller="Grades"
+           asp-action="Index"
+           class="teacher-quick-action">
+
+            <div class="teacher-quick-icon teacher-quick-grade">
+                GD
+            </div>
+
+            <div>
+                <strong>Grades</strong>
+                <span>Manage student grades</span>
+            </div>
+
+            <div class="teacher-quick-arrow">
+                →
+            </div>
+
+        </a>
+
+        <a asp-area="Teacher"
+           asp-controller="Topics"
+           asp-action="Index"
+           class="teacher-quick-action">
+
+            <div class="teacher-quick-icon teacher-quick-topic">
+                TP
+            </div>
+
+            <div>
+                <strong>Topics</strong>
+                <span>Manage lesson topics</span>
+            </div>
+
+            <div class="teacher-quick-arrow">
+                →
+            </div>
+
+        </a>
+
+        <a asp-area="Teacher"
+           asp-controller="Schedule"
+           asp-action="Index"
+           class="teacher-quick-action">
+
+            <div class="teacher-quick-icon teacher-quick-schedule">
+                SC
+            </div>
+
+            <div>
+                <strong>Schedule</strong>
+                <span>View weekly schedule</span>
+            </div>
+
+            <div class="teacher-quick-arrow">
+                →
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Today's Schedule
+                </h5>
+
+                <p class="section-subtitle">
+
+                    @if (Model.TodayLessons.Count == 1)
+                    {
+                        <text>1 lesson scheduled today</text>
+                    }
+                    else
+                    {
+                        <text>@Model.TodayLessons.Count lessons scheduled today</text>
+                    }
+
+                </p>
+
+            </div>
+
+            <a asp-area="Teacher"
+               asp-controller="Lessons"
+               asp-action="Index"
+               class="btn btn-sm btn-outline-primary">
+                View All
+            </a>
 
         </div>
+
+        @if (!Model.TodayLessons.Any())
+        {
+            <div class="teacher-empty">
+
+                <div class="teacher-empty-icon">
+                    ✓
+                </div>
+
+                <h5>
+                    No lessons today
+                </h5>
+
+                <p>
+                    You don't have any lessons scheduled for today.
+                </p>
+
+                <a asp-area="Teacher"
+                   asp-controller="Schedule"
+                   asp-action="Index"
+                   class="btn btn-outline-primary btn-sm">
+                    View Weekly Schedule
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="teacher-lessons">
+
+                @foreach (var lesson in Model.TodayLessons)
+                {
+                    <div class="teacher-lesson-row">
+
+                        <div class="teacher-lesson-time">
+
+                            <strong>
+                                @lesson.StartTime.ToString("HH:mm")
+                            </strong>
+
+                            <span>
+                                @lesson.EndTime.ToString("HH:mm")
+                            </span>
+
+                        </div>
+
+                        <div class="teacher-lesson-main">
+
+                            <div class="teacher-lesson-title">
+                                @lesson.SubjectName
+                            </div>
+
+                            <div class="teacher-lesson-group">
+                                @lesson.GroupName
+                            </div>
+
+                        </div>
+
+                        <div class="teacher-lesson-topic">
+
+                            <span class="teacher-lesson-small-label">
+                                Topic
+                            </span>
+
+                            @if (!string.IsNullOrWhiteSpace(lesson.Topic))
+                            {
+                                <strong>
+                                    @lesson.Topic
+                                </strong>
+                            }
+                            else
+                            {
+                                <span class="text-muted">
+                                    No topic yet
+                                </span>
+                            }
+
+                        </div>
+
+                        <div class="teacher-lesson-attendance">
+
+                            @if (lesson.AttendanceMarked)
+                            {
+                                <span class="status-badge status-present">
+                                    Attendance marked
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="status-badge teacher-status-pending">
+                                    Not marked
+                                </span>
+                            }
+
+                        </div>
+
+                        <div class="teacher-lesson-actions">
+
+                            <a asp-area="Teacher"
+                               asp-controller="Attendance"
+                               asp-action="Mark"
+                               asp-route-lessonId="@lesson.LessonId"
+                               class="action-btn action-edit">
+                                Attendance
+                            </a>
+
+                            <a asp-area="Teacher"
+                               asp-controller="Grades"
+                               asp-action="Add"
+                               asp-route-lessonId="@lesson.LessonId"
+                               class="action-btn teacher-grade-button">
+                                Grades
+                            </a>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
+
     </div>
 
 </div>

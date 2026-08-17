@@ -4,40 +4,166 @@
     ViewData["Title"] = "Edit Topic";
 }
 
-<div class="container mt-4">
+<div class="form-page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <a asp-action="Index"
+       class="back-link">
+        ← Topics
+    </a>
+
+    <div class="teacher-lesson-form-header mt-3">
+
+        <div class="teacher-lesson-form-icon topic-form-icon">
+            TP
+        </div>
+
         <div>
-            <h1 class="fw-bold mb-1">Edit Topic</h1>
-            <p class="text-muted mb-0">
-                @Model.SubjectName &middot; @Model.GroupName &middot; @Model.LessonDate.ToString("dd.MM.yyyy")
-            </p>
-        </div>
-        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
-    </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
+            <h1 class="page-title mb-1">
+                Edit Topic
+            </h1>
 
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <div class="teacher-lesson-meta">
 
-            <form asp-action="Edit" method="post">
+                <span class="subject-badge">
+                    @Model.SubjectName
+                </span>
 
-                @Html.AntiForgeryToken()
-                <input type="hidden" asp-for="LessonId" />
+                <span class="group-badge">
+                    @Model.GroupName
+                </span>
 
-                <div class="mb-3">
-                    <label asp-for="Topic" class="form-label">Topic</label>
-                    <textarea asp-for="Topic" class="form-control" rows="3"
-                              placeholder="Example: Newton's Laws"></textarea>
-                    <span asp-validation-for="Topic" class="text-danger"></span>
-                </div>
+                <span>
+                    @Model.LessonDate.ToString("dd MMM yyyy")
+                </span>
 
-                <button type="submit" class="btn btn-primary">Save</button>
+                <span>
+                    @Model.LessonDate.ToString("HH:mm")
+                </span>
 
-            </form>
+            </div>
 
         </div>
+
     </div>
 
 </div>
+
+<form asp-action="Edit"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="LessonId"
+           type="hidden" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="alert alert-danger">
+    </div>
+
+    <div class="topic-edit-layout">
+
+        <div class="form-card">
+
+            <div class="form-card-header">
+
+                <h5>
+                    Lesson Topic
+                </h5>
+
+                <p>
+                    Describe what was covered during this lesson
+                </p>
+
+            </div>
+
+            <div class="form-card-body">
+
+                <label asp-for="Topic"
+                       class="form-label">
+                    Topic
+                </label>
+
+                <textarea asp-for="Topic"
+                          class="form-control teacher-topic-textarea"
+                          rows="6"
+                          placeholder="Example: Introduction to Newton's Laws"></textarea>
+
+                <span asp-validation-for="Topic"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="teacher-topic-info-card">
+
+            <div class="teacher-topic-info-title">
+                Lesson Information
+            </div>
+
+            <div class="teacher-topic-info-row">
+
+                <span>Subject</span>
+
+                <strong>
+                    @Model.SubjectName
+                </strong>
+
+            </div>
+
+            <div class="teacher-topic-info-row">
+
+                <span>Group</span>
+
+                <strong>
+                    @Model.GroupName
+                </strong>
+
+            </div>
+
+            <div class="teacher-topic-info-row">
+
+                <span>Date</span>
+
+                <strong>
+                    @Model.LessonDate.ToString("dd MMM yyyy")
+                </strong>
+
+            </div>
+
+            <div class="teacher-topic-info-row">
+
+                <span>Time</span>
+
+                <strong>
+                    @Model.LessonDate.ToString("HH:mm")
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-actions">
+
+        <a asp-action="Index"
+           class="btn btn-light">
+            Cancel
+        </a>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Save Topic
+        </button>
+
+    </div>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

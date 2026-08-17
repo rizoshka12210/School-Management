@@ -5,96 +5,225 @@
     ViewData["Title"] = "Mark Attendance";
 }
 
-<div class="container mt-4">
+<div class="form-page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="fw-bold mb-1">Attendance</h1>
-            <p class="text-muted mb-0">
-                @Model.SubjectName &middot; @Model.GroupName &middot; @Model.LessonDate.ToString("dd.MM.yyyy")
-            </p>
+    <a asp-action="Index"
+       class="back-link">
+        ← Attendance
+    </a>
+
+    <div class="teacher-lesson-form-header mt-3">
+
+        <div class="teacher-lesson-form-icon">
+            AT
         </div>
-        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
-    </div>
 
-    @if (TempData["Success"] != null)
-    {
-        <div class="alert alert-success">@TempData["Success"]</div>
-    }
+        <div>
 
-    <form asp-action="Mark" method="post">
+            <h1 class="page-title mb-1">
+                Mark Attendance
+            </h1>
 
-        @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="LessonId" />
-        <input type="hidden" asp-for="GroupName" />
-        <input type="hidden" asp-for="SubjectName" />
-        <input type="hidden" asp-for="LessonDate" />
+            <div class="teacher-lesson-meta">
 
-        <div class="card border-0 shadow-sm">
-            <div class="card-body">
+                <span class="subject-badge">
+                    @Model.SubjectName
+                </span>
 
-                @if (!Model.Students.Any())
-                {
-                    <p class="text-muted mb-0">This group has no students yet.</p>
-                }
-                else
-                {
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Student</th>
-                                    <th>Present</th>
-                                    <th>Absent</th>
-                                    <th>Late</th>
-                                    <th>Excused</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (var i = 0; i < Model.Students.Count; i++)
-                                {
-                                    <tr>
-                                        <td>
-                                            @Model.Students[i].StudentName
-                                            <input type="hidden" asp-for="Students[i].StudentId" />
-                                            <input type="hidden" asp-for="Students[i].StudentName" />
-                                        </td>
-                                        <td>
-                                            <input type="radio"
-                                                   name="Students[@i].Status"
-                                                   value="@AttendanceStatus.Present"
-                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Present)" />
-                                        </td>
-                                        <td>
-                                            <input type="radio"
-                                                   name="Students[@i].Status"
-                                                   value="@AttendanceStatus.Absent"
-                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Absent)" />
-                                        </td>
-                                        <td>
-                                            <input type="radio"
-                                                   name="Students[@i].Status"
-                                                   value="@AttendanceStatus.Late"
-                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Late)" />
-                                        </td>
-                                        <td>
-                                            <input type="radio"
-                                                   name="Students[@i].Status"
-                                                   value="@AttendanceStatus.Excused"
-                                                   checked="@(Model.Students[i].Status == AttendanceStatus.Excused)" />
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                <span class="group-badge">
+                    @Model.GroupName
+                </span>
 
-                    <button type="submit" class="btn btn-primary mt-2">Save Attendance</button>
-                }
+                <span>
+                    @Model.LessonDate.ToString("dd MMM yyyy")
+                </span>
+
+                <span>
+                    @Model.LessonDate.ToString("HH:mm")
+                </span>
 
             </div>
+
         </div>
 
-    </form>
+    </div>
 
 </div>
+
+<form asp-action="Mark"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden"
+           asp-for="LessonId" />
+
+    <input type="hidden"
+           asp-for="GroupName" />
+
+    <input type="hidden"
+           asp-for="SubjectName" />
+
+    <input type="hidden"
+           asp-for="LessonDate" />
+
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h5 class="section-title">
+                        Students
+                    </h5>
+
+                    <p class="section-subtitle">
+                        Select attendance status for each student
+                    </p>
+
+                </div>
+
+                <div class="teacher-count-label">
+                    @Model.Students.Count student(s)
+                </div>
+
+            </div>
+
+            @if (!Model.Students.Any())
+            {
+                <div class="teacher-empty">
+
+                    <div class="teacher-empty-icon">
+                        ST
+                    </div>
+
+                    <h5>
+                        No students
+                    </h5>
+
+                    <p>
+                        This group does not have any students.
+                    </p>
+
+                </div>
+            }
+            else
+            {
+                <div class="teacher-attendance-list">
+
+                    @for (var i = 0; i < Model.Students.Count; i++)
+                    {
+                        <input type="hidden"
+                               asp-for="Students[i].StudentId" />
+
+                        <input type="hidden"
+                               asp-for="Students[i].StudentName" />
+
+                        <div class="teacher-attendance-row">
+
+                            <div class="teacher-attendance-student">
+
+                                <div class="person-avatar">
+
+                                    @(string.IsNullOrWhiteSpace(Model.Students[i].StudentName)
+                                        ? "S"
+                                        : Model.Students[i].StudentName.Substring(0, 1).ToUpper())
+
+                                </div>
+
+                                <div>
+
+                                    <strong>
+                                        @Model.Students[i].StudentName
+                                    </strong>
+
+                                    <span>
+                                        Student
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="teacher-status-selector">
+
+                                <label class="teacher-status-option status-option-present">
+
+                                    <input asp-for="Students[i].Status"
+                                           type="radio"
+                                           value="@AttendanceStatus.Present" />
+
+                                    <span>
+                                        Present
+                                    </span>
+
+                                </label>
+
+                                <label class="teacher-status-option status-option-absent">
+
+                                    <input asp-for="Students[i].Status"
+                                           type="radio"
+                                           value="@AttendanceStatus.Absent" />
+
+                                    <span>
+                                        Absent
+                                    </span>
+
+                                </label>
+
+                                <label class="teacher-status-option status-option-late">
+
+                                    <input asp-for="Students[i].Status"
+                                           type="radio"
+                                           value="@AttendanceStatus.Late" />
+
+                                    <span>
+                                        Late
+                                    </span>
+
+                                </label>
+
+                                <label class="teacher-status-option status-option-excused">
+
+                                    <input asp-for="Students[i].Status"
+                                           type="radio"
+                                           value="@AttendanceStatus.Excused" />
+
+                                    <span>
+                                        Excused
+                                    </span>
+
+                                </label>
+
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+    @if (Model.Students.Any())
+    {
+        <div class="form-actions">
+
+            <a asp-action="Index"
+               class="btn btn-light">
+                Cancel
+            </a>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Save Attendance
+            </button>
+
+        </div>
+    }
+
+</form>

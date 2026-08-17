@@ -2,54 +2,222 @@
 
 @{
     ViewData["Title"] = "My Schedule";
+
+    var totalLessons = Model.Count();
+
+    var groupsCount = Model
+        .Select(s => s.GroupId)
+        .Distinct()
+        .Count();
+
+    var subjectsCount = Model
+        .Select(s => s.SubjectId)
+        .Distinct()
+        .Count();
+
+    var daysCount = Model
+        .Select(s => s.DayOfWeek)
+        .Distinct()
+        .Count();
+
+    var orderedDays = new[]
+    {
+        DayOfWeek.Monday,
+        DayOfWeek.Tuesday,
+        DayOfWeek.Wednesday,
+        DayOfWeek.Thursday,
+        DayOfWeek.Friday,
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday
+    };
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">My Schedule</h1>
-        <p class="text-muted mb-0">Your weekly teaching schedule</p>
+    <div>
+
+        <h1 class="page-title">
+            My Schedule
+        </h1>
+
+        <p class="page-subtitle">
+            Your weekly teaching timetable
+        </p>
+
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
-                    <h5>No schedule entries yet</h5>
-                </div>
-            }
-            else
-            {
-                @foreach (var dayGroup in Model.GroupBy(s => s.DayOfWeek))
-                {
-                    <h6 class="text-muted mt-3">@dayGroup.Key</h6>
-                    <div class="table-responsive mb-3">
-                        <table class="table table-hover align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Group</th>
-                                    <th>Subject</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var s in dayGroup.OrderBy(s => s.StartTime))
-                                {
-                                    <tr>
-                                        <td>@s.StartTime.ToString("HH:mm") - @s.EndTime.ToString("HH:mm")</td>
-                                        <td>@s.Group.Name</td>
-                                        <td>@s.Subject.Name</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-            }
-
-        </div>
+    <div class="teacher-count-label">
+        @totalLessons lesson(s)
     </div>
 
 </div>
+
+<div class="teacher-schedule-stats">
+
+    <div class="teacher-schedule-stat">
+
+        <div class="teacher-schedule-stat-icon schedule-lessons">
+            LS
+        </div>
+
+        <div>
+            <span>Weekly Lessons</span>
+            <strong>@totalLessons</strong>
+        </div>
+
+    </div>
+
+    <div class="teacher-schedule-stat">
+
+        <div class="teacher-schedule-stat-icon schedule-groups">
+            GR
+        </div>
+
+        <div>
+            <span>Groups</span>
+            <strong>@groupsCount</strong>
+        </div>
+
+    </div>
+
+    <div class="teacher-schedule-stat">
+
+        <div class="teacher-schedule-stat-icon schedule-subjects">
+            SB
+        </div>
+
+        <div>
+            <span>Subjects</span>
+            <strong>@subjectsCount</strong>
+        </div>
+
+    </div>
+
+    <div class="teacher-schedule-stat">
+
+        <div class="teacher-schedule-stat-icon schedule-days">
+            DY
+        </div>
+
+        <div>
+            <span>Teaching Days</span>
+            <strong>@daysCount</strong>
+        </div>
+
+    </div>
+
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+
+        <div class="teacher-empty">
+
+            <div class="teacher-empty-icon">
+                SC
+            </div>
+
+            <h5>
+                No schedule entries
+            </h5>
+
+            <p>
+                Your weekly schedule will appear here.
+            </p>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="teacher-week">
+
+        @foreach (var day in orderedDays)
+        {
+            var lessons = Model
+                .Where(s => s.DayOfWeek == day)
+                .OrderBy(s => s.StartTime)
+                .ToList();
+
+            if (lessons.Any())
+            {
+                <div class="teacher-schedule-day">
+
+                    <div class="teacher-schedule-day-header">
+
+                        <div>
+
+                            <div class="teacher-schedule-day-name">
+                                @day
+                            </div>
+
+                            <div class="teacher-schedule-day-count">
+                                @lessons.Count lesson(s)
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="teacher-schedule-day-body">
+
+                        @foreach (var item in lessons)
+                        {
+                            <div class="teacher-schedule-item">
+
+                                <div class="teacher-schedule-time">
+
+                                    <strong>
+                                        @item.StartTime.ToString("HH:mm")
+                                    </strong>
+
+                                    <span>
+                                        @item.EndTime.ToString("HH:mm")
+                                    </span>
+
+                                </div>
+
+                                <div class="teacher-schedule-line">
+                                </div>
+
+                                <div class="teacher-schedule-main">
+
+                                    <div class="teacher-schedule-subject">
+                                        @item.Subject.Name
+                                    </div>
+
+                                    <div class="teacher-schedule-group">
+                                        @item.Group.Name
+                                    </div>
+
+                                </div>
+
+                                <div>
+
+                                    <span class="subject-badge">
+                                        @item.Subject.Name
+                                    </span>
+
+                                </div>
+
+                                <div>
+
+                                    <span class="group-badge">
+                                        @item.Group.Name
+                                    </span>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+}

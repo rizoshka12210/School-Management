@@ -22,12 +22,7 @@
 
 </div>
 
-
-<!-- STATISTICS -->
-
 <div class="row g-4 mb-4">
-
-    <!-- STUDENTS -->
 
     <div class="col-sm-6 col-xl-3">
 
@@ -64,9 +59,6 @@
 
     </div>
 
-
-    <!-- TEACHERS -->
-
     <div class="col-sm-6 col-xl-3">
 
         <a asp-area="Admin"
@@ -102,9 +94,6 @@
 
     </div>
 
-
-    <!-- GROUPS -->
-
     <div class="col-sm-6 col-xl-3">
 
         <a asp-area="Admin"
@@ -139,9 +128,6 @@
         </a>
 
     </div>
-
-
-    <!-- SUBJECTS -->
 
     <div class="col-sm-6 col-xl-3">
 
@@ -180,9 +166,6 @@
 
 </div>
 
-
-<!-- QUICK ACTIONS -->
-
 <div class="card border-0 shadow-sm mb-4">
 
     <div class="card-body">
@@ -219,7 +202,6 @@
 
             </a>
 
-
             <a asp-area="Admin"
                asp-controller="Teachers"
                asp-action="Create"
@@ -236,7 +218,6 @@
 
             </a>
 
-
             <a asp-area="Admin"
                asp-controller="Lessons"
                asp-action="Create"
@@ -252,7 +233,6 @@
                 </div>
 
             </a>
-
 
             <a asp-area="Admin"
                asp-controller="Schedule"
@@ -276,10 +256,7 @@
 
 </div>
 
-
 <div class="row g-4">
-
-    <!-- TODAY LESSONS -->
 
     <div class="col-xl-8">
 
@@ -406,9 +383,6 @@
 
     </div>
 
-
-    <!-- RECENT STUDENTS -->
-
     <div class="col-xl-4">
 
         <div class="card border-0 shadow-sm h-100">
@@ -454,18 +428,13 @@
                                class="recent-item">
 
                                 <div class="recent-avatar">
-
-                                    @student.FirstName
-                                        .Substring(0, 1)
-                                        .ToUpper()
-
+                                    @(student.FirstName.Substring(0, 1).ToUpper())
                                 </div>
 
                                 <div class="recent-info">
 
                                     <strong>
-                                        @student.FirstName
-                                        @student.LastName
+                                        @student.FirstName @student.LastName
                                     </strong>
 
                                     <span>

@@ -2,95 +2,322 @@
 
 @{
     ViewData["Title"] = "My Lessons";
+
+    var totalLessons = Model.Count();
+
+    var attendanceMarked = Model.Count(l =>
+        l.Attendances.Any());
+
+    var lessonsWithGrades = Model.Count(l =>
+        l.Grades.Any());
+
+    var topicsAdded = Model.Count(l =>
+        !string.IsNullOrWhiteSpace(l.Topic));
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">My Lessons</h1>
-        <p class="text-muted mb-0">Lessons assigned to you by the administration</p>
+    <div>
+
+        <h1 class="page-title">
+            My Lessons
+        </h1>
+
+        <p class="page-subtitle">
+            View your lessons and manage attendance, grades and topics
+        </p>
+
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
+    <div class="teacher-count-label">
+        @totalLessons lesson(s)
+    </div>
 
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
-                    <h5>No lessons yet</h5>
-                    <p class="text-muted mb-0">
-                        Lessons are created by an administrator.
-                    </p>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Group</th>
-                                <th>Subject</th>
-                                <th>Topic</th>
-                                <th>Attendance</th>
-                                <th>Grades</th>
-                                <th class="text-end">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var lesson in Model)
-                            {
-                                <tr>
-                                    <td>@lesson.StartTime.ToString("dd.MM.yyyy")</td>
-                                    <td>@lesson.StartTime.ToString("HH:mm") - @lesson.EndTime.ToString("HH:mm")</td>
-                                    <td>@lesson.Group.Name</td>
-                                    <td>@lesson.Subject.Name</td>
-                                    <td>
-                                        @if (!string.IsNullOrWhiteSpace(lesson.Topic))
-                                        {
-                                            @lesson.Topic
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">No topic</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (lesson.Attendances.Any())
-                                        {
-                                            <span class="badge bg-success">Marked</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-secondary">Not marked</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-light text-dark">@lesson.Grades.Count</span>
-                                    </td>
-                                    <td class="text-end">
-                                        <a asp-action="Details" asp-route-id="@lesson.Id"
-                                           class="btn btn-sm btn-outline-info">Details</a>
-                                        <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark"
-                                           asp-route-lessonId="@lesson.Id"
-                                           class="btn btn-sm btn-outline-primary">Attendance</a>
-                                        <a asp-area="Teacher" asp-controller="Grades" asp-action="Add"
-                                           asp-route-lessonId="@lesson.Id"
-                                           class="btn btn-sm btn-outline-primary">Grades</a>
-                                        <a asp-area="Teacher" asp-controller="Topics" asp-action="Edit"
-                                           asp-route-id="@lesson.Id"
-                                           class="btn btn-sm btn-outline-secondary">Topic</a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+</div>
+
+<div class="teacher-attendance-stats">
+
+    <div class="teacher-attendance-stat">
+
+        <div class="teacher-attendance-stat-icon attendance-all">
+            LS
+        </div>
+
+        <div>
+
+            <span>
+                Total Lessons
+            </span>
+
+            <strong>
+                @totalLessons
+            </strong>
 
         </div>
+
+    </div>
+
+    <div class="teacher-attendance-stat">
+
+        <div class="teacher-attendance-stat-icon attendance-complete">
+            AT
+        </div>
+
+        <div>
+
+            <span>
+                Attendance Marked
+            </span>
+
+            <strong>
+                @attendanceMarked
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="teacher-attendance-stat">
+
+        <div class="teacher-attendance-stat-icon grade-stat-records">
+            GD
+        </div>
+
+        <div>
+
+            <span>
+                Lessons With Grades
+            </span>
+
+            <strong>
+                @lessonsWithGrades
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="teacher-attendance-stat">
+
+        <div class="teacher-attendance-stat-icon topic-subjects">
+            TP
+        </div>
+
+        <div>
+
+            <span>
+                Topics Added
+            </span>
+
+            <strong>
+                @topicsAdded
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Lesson History
+                </h5>
+
+                <p class="section-subtitle">
+                    Lessons assigned to you by the administration
+                </p>
+
+            </div>
+
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="teacher-empty">
+
+                <div class="teacher-empty-icon">
+                    LS
+                </div>
+
+                <h5>
+                    No lessons yet
+                </h5>
+
+                <p>
+                    Lessons assigned to you will appear here.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Group</th>
+                            <th>Subject</th>
+                            <th>Topic</th>
+                            <th>Attendance</th>
+                            <th>Grades</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var lesson in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <div class="record-date">
+                                        @lesson.StartTime.ToString("dd MMM yyyy")
+                                    </div>
+
+                                    <div class="record-time">
+                                        @lesson.StartTime.ToString("HH:mm")
+                                        -
+                                        @lesson.EndTime.ToString("HH:mm")
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="group-badge">
+                                        @lesson.Group.Name
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="subject-badge">
+                                        @lesson.Subject.Name
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(lesson.Topic))
+                                    {
+                                        <span>
+                                            @lesson.Topic
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            No topic
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @if (lesson.Attendances.Any())
+                                    {
+                                        <span class="status-badge status-present">
+                                            Marked
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="status-badge teacher-status-pending">
+                                            Not marked
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @if (lesson.Grades.Any())
+                                    {
+                                        <span class="count-badge">
+                                            @lesson.Grades.Count
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            0
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <div class="action-buttons">
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@lesson.Id"
+                                           class="action-btn action-details">
+                                            View
+                                        </a>
+
+                                        <a asp-area="Teacher"
+                                           asp-controller="Attendance"
+                                           asp-action="Mark"
+                                           asp-route-lessonId="@lesson.Id"
+                                           class="action-btn action-edit">
+                                            Attendance
+                                        </a>
+
+                                        <a asp-area="Teacher"
+                                           asp-controller="Grades"
+                                           asp-action="Add"
+                                           asp-route-lessonId="@lesson.Id"
+                                           class="action-btn teacher-grade-button">
+                                            Grades
+                                        </a>
+
+                                        <a asp-area="Teacher"
+                                           asp-controller="Topics"
+                                           asp-action="Edit"
+                                           asp-route-id="@lesson.Id"
+                                           class="action-btn action-details">
+                                            Topic
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="table-footer">
+                Showing @Model.Count() lesson(s)
+            </div>
+        }
+
     </div>
 
 </div>

@@ -4,91 +4,298 @@
     ViewData["Title"] = "Parent Dashboard";
 }
 
-<div class="container mt-4">
+<div class="parent-dashboard-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold">Parent Dashboard</h1>
-        <p class="text-muted">Overview of your children</p>
+    <div>
+        <div class="parent-welcome-label">
+            Family Portal
+        </div>
+
+        <h1 class="page-title">
+            Parent Dashboard
+        </h1>
+
+        <p class="page-subtitle">
+            Follow your children's academic progress and attendance
+        </p>
     </div>
 
-    @if (!Model.Children.Any())
-    {
-        <div class="card border-0 shadow-sm">
-            <div class="card-body text-center py-5">
-                <h5>No children linked to your account yet</h5>
-                <p class="text-muted mb-0">
-                    Contact the school administration if this looks wrong.
-                </p>
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="row g-4">
-            @foreach (var child in Model.Children)
-            {
-                <div class="col-md-6">
-                    <div class="card border-0 shadow-sm h-100">
-                        <div class="card-body">
-
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <h4 class="fw-bold mb-0">@child.FullName</h4>
-                                    <span class="text-muted">Group: @child.GroupName</span>
-                                </div>
-                            </div>
-
-                            <div class="row g-3 mb-3">
-                                <div class="col-6">
-                                    <h6 class="text-muted mb-0">Attendance</h6>
-                                    <h3 class="fw-bold">@child.AttendanceRate%</h3>
-                                </div>
-                                <div class="col-6">
-                                    <h6 class="text-muted mb-0">Average Grade</h6>
-                                    <h3 class="fw-bold">@child.AverageGrade</h3>
-                                </div>
-                            </div>
-
-                            @if (child.RecentGrades.Any())
-                            {
-                                <h6 class="text-muted">Recent Grades</h6>
-                                <ul class="list-group list-group-flush mb-3">
-                                    @foreach (var grade in child.RecentGrades)
-                                    {
-                                        <li class="list-group-item d-flex justify-content-between px-0">
-                                            <span>@grade.SubjectName &middot; @grade.Date.ToString("dd.MM.yyyy")</span>
-                                            <span class="badge bg-primary">@grade.Value</span>
-                                        </li>
-                                    }
-                                </ul>
-                            }
-
-                            <div class="d-flex flex-wrap gap-2">
-                                <a asp-area="Parent" asp-controller="Child" asp-action="Details"
-                                   asp-route-studentId="@child.StudentId"
-                                   class="btn btn-sm btn-outline-primary">Profile</a>
-                                <a asp-area="Parent" asp-controller="Schedule" asp-action="Index"
-                                   asp-route-studentId="@child.StudentId"
-                                   class="btn btn-sm btn-outline-secondary">Schedule</a>
-                                <a asp-area="Parent" asp-controller="Grades" asp-action="Index"
-                                   asp-route-studentId="@child.StudentId"
-                                   class="btn btn-sm btn-outline-secondary">Grades</a>
-                                <a asp-area="Parent" asp-controller="Attendance" asp-action="Index"
-                                   asp-route-studentId="@child.StudentId"
-                                   class="btn btn-sm btn-outline-secondary">Attendance</a>
-                                <a asp-area="Parent" asp-controller="Subjects" asp-action="Index"
-                                   asp-route-studentId="@child.StudentId"
-                                   class="btn btn-sm btn-outline-secondary">Subjects</a>
-                                <a asp-area="Parent" asp-controller="Topics" asp-action="Index"
-                                   asp-route-studentId="@child.StudentId"
-                                   class="btn btn-sm btn-outline-secondary">Topics</a>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
-    }
+    <div class="dashboard-date">
+        @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+    </div>
 
 </div>
+
+@if (!Model.Children.Any())
+{
+    <div class="card border-0 shadow-sm">
+
+        <div class="parent-empty">
+
+            <div class="parent-empty-icon">
+                CH
+            </div>
+
+            <h5>
+                No children linked
+            </h5>
+
+            <p>
+                No students are currently connected to your parent account.
+            </p>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="parent-summary-bar">
+
+        <div>
+
+            <span>
+                Children
+            </span>
+
+            <strong>
+                @Model.Children.Count
+            </strong>
+
+        </div>
+
+        <div>
+
+            <span>
+                Average Attendance
+            </span>
+
+            <strong>
+                @Model.Children.Average(c => c.AttendanceRate).ToString("0.#")%
+            </strong>
+
+        </div>
+
+        <div>
+
+            <span>
+                Average Grade
+            </span>
+
+            <strong>
+                @Model.Children.Average(c => c.AverageGrade).ToString("0.##")
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="parent-children-grid">
+
+        @foreach (var child in Model.Children)
+        {
+            <div class="parent-child-card">
+
+                <div class="parent-child-header">
+
+                    <div class="parent-child-profile">
+
+                        <div class="parent-child-avatar">
+
+                            @(string.IsNullOrWhiteSpace(child.FullName)
+                                ? "S"
+                                : child.FullName.Substring(0, 1).ToUpper())
+
+                        </div>
+
+                        <div>
+
+                            <h4>
+                                @child.FullName
+                            </h4>
+
+                            <span>
+                                @child.GroupName
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <a asp-area="Parent"
+                       asp-controller="Child"
+                       asp-action="Details"
+                       asp-route-studentId="@child.StudentId"
+                       class="parent-profile-link">
+                        View Profile →
+                    </a>
+
+                </div>
+
+                <div class="parent-child-stats">
+
+                    <div class="parent-child-stat">
+
+                        <div class="parent-child-stat-icon parent-attendance-icon">
+                            AT
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Attendance
+                            </span>
+
+                            <strong>
+                                @child.AttendanceRate.ToString("0.#")%
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                    <div class="parent-child-stat">
+
+                        <div class="parent-child-stat-icon parent-grade-icon">
+                            GD
+                        </div>
+
+                        <div>
+
+                            <span>
+                                Average Grade
+                            </span>
+
+                            <strong>
+                                @child.AverageGrade.ToString("0.##")
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="parent-card-section">
+
+                    <div class="parent-card-section-header">
+
+                        <span>
+                            Recent Grades
+                        </span>
+
+                        <a asp-area="Parent"
+                           asp-controller="Grades"
+                           asp-action="Index"
+                           asp-route-studentId="@child.StudentId">
+                            View all
+                        </a>
+
+                    </div>
+
+                    @if (!child.RecentGrades.Any())
+                    {
+                        <div class="parent-no-grades">
+                            No grades recorded yet.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="parent-recent-grades">
+
+                            @foreach (var grade in child.RecentGrades)
+                            {
+                                <div class="parent-recent-grade">
+
+                                    <div>
+
+                                        <strong>
+                                            @grade.SubjectName
+                                        </strong>
+
+                                        <span>
+                                            @grade.Date.ToString("dd MMM yyyy")
+                                        </span>
+
+                                    </div>
+
+                                    @if (grade.Value >= 5)
+                                    {
+                                        <span class="grade-badge grade-high">
+                                            @grade.Value
+                                        </span>
+                                    }
+                                    else if (grade.Value >= 4)
+                                    {
+                                        <span class="grade-badge grade-good">
+                                            @grade.Value
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="grade-badge grade-low">
+                                            @grade.Value
+                                        </span>
+                                    }
+
+                                </div>
+                            }
+
+                        </div>
+                    }
+
+                </div>
+
+                <div class="parent-child-actions">
+
+                    <a asp-area="Parent"
+                       asp-controller="Schedule"
+                       asp-action="Index"
+                       asp-route-studentId="@child.StudentId"
+                       class="parent-child-action">
+                        <span class="parent-action-icon parent-action-schedule">
+                            SC
+                        </span>
+                        Schedule
+                    </a>
+
+                    <a asp-area="Parent"
+                       asp-controller="Grades"
+                       asp-action="Index"
+                       asp-route-studentId="@child.StudentId"
+                       class="parent-child-action">
+                        <span class="parent-action-icon parent-action-grades">
+                            GD
+                        </span>
+                        Grades
+                    </a>
+
+                    <a asp-area="Parent"
+                       asp-controller="Attendance"
+                       asp-action="Index"
+                       asp-route-studentId="@child.StudentId"
+                       class="parent-child-action">
+                        <span class="parent-action-icon parent-action-attendance">
+                            AT
+                        </span>
+                        Attendance
+                    </a>
+
+                    <a asp-area="Parent"
+                       asp-controller="Progress"
+                       asp-action="Index"
+                       asp-route-studentId="@child.StudentId"
+                       class="parent-child-action">
+                        <span class="parent-action-icon parent-action-progress">
+                            PR
+                        </span>
+                        Progress
+                    </a>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+}

@@ -4,56 +4,182 @@
     ViewData["Title"] = "My Students";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">My Students</h1>
-        <p class="text-muted mb-0">Students in your groups</p>
+    <div>
+
+        <h1 class="page-title">
+            My Students
+        </h1>
+
+        <p class="page-subtitle">
+            Students from your assigned groups
+        </p>
+
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
-                    <h5>No students yet</h5>
-                    <p class="text-muted mb-0">
-                        Students will appear here once you are assigned to a group.
-                    </p>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Full name</th>
-                                <th>Group</th>
-                                <th class="text-end">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var student in Model)
-                            {
-                                <tr>
-                                    <td>@student.FirstName @student.LastName</td>
-                                    <td>@(student.Group?.Name ?? "-")</td>
-                                    <td class="text-end">
-                                        <a asp-action="Details" asp-route-id="@student.Id"
-                                           class="btn btn-sm btn-outline-info">
-                                            Details
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-
-        </div>
+    <div class="teacher-count-label">
+        @Model.Count() student(s)
     </div>
 
 </div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+
+        <div class="teacher-empty">
+
+            <div class="teacher-empty-icon">
+                ST
+            </div>
+
+            <h5>
+                No students
+            </h5>
+
+            <p>
+                Students will appear here when you are assigned to a group.
+            </p>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="teacher-student-summary">
+
+                <div>
+
+                    <span>
+                        Total Students
+                    </span>
+
+                    <strong>
+                        @Model.Count()
+                    </strong>
+
+                </div>
+
+                <div>
+
+                    <span>
+                        Groups
+                    </span>
+
+                    <strong>
+                        @Model
+                            .Where(s => s.Group != null)
+                            .Select(s => s.GroupId)
+                            .Distinct()
+                            .Count()
+                    </strong>
+
+                </div>
+
+            </div>
+
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Student</th>
+                            <th>Group</th>
+                            <th>Date of Birth</th>
+                            <th class="text-end">
+                                Action
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var student in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar">
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                student.FirstName)
+                                                ? "S"
+                                                : student.FirstName
+                                                    .Substring(0, 1)
+                                                    .ToUpper())
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @student.FirstName
+                                                @student.LastName
+                                            </div>
+
+                                            <div class="person-id">
+                                                Student #@student.Id
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    @if (student.Group != null)
+                                    {
+                                        <span class="group-badge">
+                                            @student.Group.Name
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            No group
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    @student.DateOfBirth.ToString("dd MMM yyyy")
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a asp-action="Details"
+                                       asp-route-id="@student.Id"
+                                       class="action-btn action-details">
+                                        View Profile
+                                    </a>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+}

@@ -1,88 +1,265 @@
 @model SchoolManagementSystem.Web.Models.Entities.Group
 
 @{
-    ViewData["Title"] = $"Group - {Model.Name}";
-    var subjects = ViewBag.Subjects as List<string> ?? new List<string>();
+    ViewData["Title"] = Model.Name;
+
+    var subjects =
+        ViewBag.Subjects as List<string>
+        ?? new List<string>();
 }
 
-<div class="container mt-4">
+<div class="teacher-details-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+
+        <a asp-action="Index"
+           class="back-link">
+            ← My Groups
+        </a>
+
+        <div class="d-flex align-items-center gap-3 mt-3">
+
+            <div class="teacher-big-group-icon">
+                GR
+            </div>
+
+            <div>
+
+                <h1 class="page-title mb-1">
+                    @Model.Name
+                </h1>
+
+                <p class="page-subtitle">
+                    Group overview and students
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="teacher-group-stats">
+
+    <div class="teacher-info-stat">
+
+        <div class="teacher-info-stat-icon">
+            ST
+        </div>
+
         <div>
-            <h1 class="fw-bold mb-1">@Model.Name</h1>
-            <p class="text-muted mb-0">Group overview</p>
+
+            <span>
+                Students
+            </span>
+
+            <strong>
+                @Model.Students.Count
+            </strong>
+
         </div>
-        <a asp-action="Index" class="btn btn-outline-secondary">Back to Groups</a>
+
     </div>
 
-    <div class="row g-4 mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Students</h6>
-                    <h3 class="fw-bold">@Model.Students.Count</h3>
-                </div>
-            </div>
+    <div class="teacher-info-stat">
+
+        <div class="teacher-info-stat-icon subject-color">
+            SB
         </div>
-        <div class="col-md-8">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted mb-2">Subjects</h6>
-                    @if (!subjects.Any())
-                    {
-                        <span class="text-muted">No subjects scheduled yet</span>
-                    }
-                    else
-                    {
-                        foreach (var subject in subjects)
+
+        <div>
+
+            <span>
+                Subjects
+            </span>
+
+            <strong>
+                @subjects.Count
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Subjects
+                </h5>
+
+                <p class="section-subtitle">
+                    Subjects scheduled for this group
+                </p>
+
+            </div>
+
+        </div>
+
+        @if (!subjects.Any())
+        {
+            <div class="teacher-simple-empty">
+                No subjects scheduled yet.
+            </div>
+        }
+        else
+        {
+            <div class="teacher-subject-list">
+
+                @foreach (var subject in subjects)
+                {
+                    <div class="teacher-subject-chip">
+
+                        <div class="teacher-subject-chip-icon">
+                            SB
+                        </div>
+
+                        <span>
+                            @subject
+                        </span>
+
+                    </div>
+                }
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Students
+                </h5>
+
+                <p class="section-subtitle">
+                    Students enrolled in @Model.Name
+                </p>
+
+            </div>
+
+        </div>
+
+        @if (!Model.Students.Any())
+        {
+            <div class="teacher-empty">
+
+                <div class="teacher-empty-icon">
+                    ST
+                </div>
+
+                <h5>
+                    No students
+                </h5>
+
+                <p>
+                    There are no students in this group yet.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Student</th>
+                            <th>Date of Birth</th>
+                            <th class="text-end">
+                                Action
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var student in
+                            Model.Students
+                                .OrderBy(s => s.FirstName)
+                                .ThenBy(s => s.LastName))
                         {
-                            <span class="badge bg-primary-subtle text-primary-emphasis me-1">@subject</span>
-                        }
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-            <h5 class="mb-3">Students</h5>
-
-            @if (!Model.Students.Any())
-            {
-                <p class="text-muted mb-0">No students in this group yet.</p>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
                             <tr>
-                                <th>Full name</th>
-                                <th>Date of birth</th>
-                                <th class="text-end">Actions</th>
+
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar">
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                student.FirstName)
+                                                ? "S"
+                                                : student.FirstName
+                                                    .Substring(0, 1)
+                                                    .ToUpper())
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @student.FirstName
+                                                @student.LastName
+                                            </div>
+
+                                            <div class="person-id">
+                                                Student #@student.Id
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    @student.DateOfBirth.ToString("dd MMM yyyy")
+                                </td>
+
+                                <td class="text-end">
+
+                                    <a asp-area="Teacher"
+                                       asp-controller="Students"
+                                       asp-action="Details"
+                                       asp-route-id="@student.Id"
+                                       class="action-btn action-details">
+                                        View
+                                    </a>
+
+                                </td>
+
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var student in Model.Students.OrderBy(s => s.FirstName).ThenBy(s => s.LastName))
-                            {
-                                <tr>
-                                    <td>@student.FirstName @student.LastName</td>
-                                    <td>@student.DateOfBirth.ToString("dd.MM.yyyy")</td>
-                                    <td class="text-end">
-                                        <a asp-area="Teacher" asp-controller="Students" asp-action="Details"
-                                           asp-route-id="@student.Id"
-                                           class="btn btn-sm btn-outline-info">
-                                            Details
-                                        </a>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-        </div>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
     </div>
 
 </div>
