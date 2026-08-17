@@ -1,3 +1,5 @@
+using SchoolManagementSystem.Web.Models.Entities;
+
 namespace SchoolManagementSystem.Web.ViewModels.Admin;
 
 public class AdminDashboardViewModel
@@ -11,4 +13,8 @@ public class AdminDashboardViewModel
     public int SubjectsCount { get; set; }
 
     public int TodayLessonsCount { get; set; }
+
+    public List<Lesson> TodayLessons { get; set; } = new();
+
+    public List<Student> RecentStudents { get; set; } = new();
 }

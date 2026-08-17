@@ -1,135 +1,304 @@
+@using SchoolManagementSystem.Web.Models.Enums
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Attendance>
 
 @{
     ViewData["Title"] = "Attendance";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">
+    <div>
+        <h1 class="page-title">
             Attendance
         </h1>
 
-        <p class="text-muted mb-0">
-            Read-only attendance records
+        <p class="page-subtitle">
+            View student attendance records across the school
         </p>
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <div class="readonly-badge">
+        Read only
+    </div>
 
-        <div class="card-body">
+</div>
 
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
+<div class="attendance-stats">
 
-                    <h5>No attendance records</h5>
+    <div class="attendance-stat">
 
-                    <p class="text-muted">
-                        Attendance recorded by teachers will appear here.
-                    </p>
-
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
-
-                    <table class="table table-hover align-middle">
-
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Student</th>
-                                <th>Group</th>
-                                <th>Subject</th>
-                                <th>Teacher</th>
-                                <th>Status</th>
-                                <th>Note</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (var attendance in Model)
-                            {
-                                <tr>
-
-                                    <td>
-                                        @(attendance.Lesson.StartTime.ToString("dd.MM.yyyy"))
-                                    </td>
-
-                                    <td class="fw-semibold">
-                                        @attendance.Student.FirstName
-                                        @attendance.Student.LastName
-                                    </td>
-
-                                    <td>
-                                        @attendance.Lesson.Group.Name
-                                    </td>
-
-                                    <td>
-                                        @attendance.Lesson.Subject.Name
-                                    </td>
-
-                                    <td>
-                                        @attendance.Lesson.Teacher.ApplicationUser.FullName
-                                    </td>
-
-                                    <td>
-                                        @switch (attendance.Status)
-                                        {
-                                            case SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Present:
-                                                <span class="badge bg-success">
-                                                    Present
-                                                </span>
-                                                break;
-
-                                            case SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Absent:
-                                                <span class="badge bg-danger">
-                                                    Absent
-                                                </span>
-                                                break;
-
-                                            case SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Late:
-                                                <span class="badge bg-warning text-dark">
-                                                    Late
-                                                </span>
-                                                break;
-
-                                            case SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Excused:
-                                                <span class="badge bg-info text-dark">
-                                                    Excused
-                                                </span>
-                                                break;
-                                        }
-                                    </td>
-
-                                    <td>
-                                        @if (!string.IsNullOrWhiteSpace(attendance.Note))
-                                        {
-                                            @attendance.Note
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">
-                                                —
-                                            </span>
-                                        }
-                                    </td>
-
-                                </tr>
-                            }
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-            }
-
+        <div class="attendance-stat-value">
+            @Model.Count()
         </div>
+
+        <div class="attendance-stat-label">
+            Total Records
+        </div>
+
+    </div>
+
+    <div class="attendance-stat attendance-present">
+
+        <div class="attendance-stat-value">
+            @Model.Count(a => a.Status == AttendanceStatus.Present)
+        </div>
+
+        <div class="attendance-stat-label">
+            Present
+        </div>
+
+    </div>
+
+    <div class="attendance-stat attendance-late">
+
+        <div class="attendance-stat-value">
+            @Model.Count(a => a.Status == AttendanceStatus.Late)
+        </div>
+
+        <div class="attendance-stat-label">
+            Late
+        </div>
+
+    </div>
+
+    <div class="attendance-stat attendance-absent">
+
+        <div class="attendance-stat-value">
+            @Model.Count(a => a.Status == AttendanceStatus.Absent)
+        </div>
+
+        <div class="attendance-stat-label">
+            Absent
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="record-filters">
+
+            <div class="record-search">
+
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="Search student, group, subject or teacher..." />
+
+            </div>
+
+            <div>
+
+                <select name="status"
+                        class="form-select">
+
+                    <option value="">
+                        All statuses
+                    </option>
+
+                    @foreach (var item in Enum.GetValues<AttendanceStatus>())
+                    {
+                        if ((ViewBag.Status as string) == item.ToString())
+                        {
+                            <option value="@item" selected>
+                                @item
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@item">
+                                @item
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+
+            <div>
+
+                <input type="date"
+                       name="date"
+                       value="@ViewBag.Date"
+                       class="form-control" />
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Filter
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-light">
+                Clear
+            </a>
+
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    AT
+                </div>
+
+                <h5>
+                    No attendance records
+                </h5>
+
+                <p>
+                    There are no attendance records matching the selected filters.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Group</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Status</th>
+                            <th>Note</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var attendance in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <div class="record-date">
+                                        @attendance.Lesson.StartTime.ToString("dd MMM yyyy")
+                                    </div>
+
+                                    <div class="record-time">
+                                        @attendance.Lesson.StartTime.ToString("HH:mm")
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="mini-avatar">
+                                            @attendance.Student.FirstName.Substring(0, 1).ToUpper()
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @attendance.Student.FirstName
+                                                @attendance.Student.LastName
+                                            </div>
+
+                                            <div class="person-id">
+                                                Student #@attendance.Student.Id
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    <span class="group-badge">
+                                        @attendance.Lesson.Group.Name
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="subject-badge">
+                                        @attendance.Lesson.Subject.Name
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @attendance.Lesson.Teacher.ApplicationUser.FullName
+                                </td>
+
+                                <td>
+
+                                    @switch (attendance.Status)
+                                    {
+                                        case AttendanceStatus.Present:
+                                            <span class="status-badge status-present">
+                                                Present
+                                            </span>
+                                            break;
+
+                                        case AttendanceStatus.Absent:
+                                            <span class="status-badge status-absent">
+                                                Absent
+                                            </span>
+                                            break;
+
+                                        case AttendanceStatus.Late:
+                                            <span class="status-badge status-late">
+                                                Late
+                                            </span>
+                                            break;
+
+                                        case AttendanceStatus.Excused:
+                                            <span class="status-badge status-excused">
+                                                Excused
+                                            </span>
+                                            break;
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(attendance.Note))
+                                    {
+                                        <span>
+                                            @attendance.Note
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            —
+                                        </span>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="table-footer">
+                Showing @Model.Count() attendance record(s)
+            </div>
+        }
 
     </div>
 

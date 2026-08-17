@@ -1,0 +1,184 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.StudentFormViewModel
+
+<div asp-validation-summary="ModelOnly"
+     class="alert alert-danger">
+</div>
+
+<div class="student-form-grid">
+
+    <!-- LEFT -->
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <div>
+                <h5>Student Information</h5>
+                <p>Basic personal information about the student</p>
+            </div>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label asp-for="FirstName"
+                           class="form-label">
+                        First Name
+                    </label>
+
+                    <input asp-for="FirstName"
+                           class="form-control"
+                           placeholder="Enter first name" />
+
+                    <span asp-validation-for="FirstName"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="LastName"
+                           class="form-label">
+                        Last Name
+                    </label>
+
+                    <input asp-for="LastName"
+                           class="form-control"
+                           placeholder="Enter last name" />
+
+                    <span asp-validation-for="LastName"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="DateOfBirth"
+                           class="form-label">
+                        Date of Birth
+                    </label>
+
+                    <input asp-for="DateOfBirth"
+                           type="date"
+                           class="form-control" />
+
+                    <span asp-validation-for="DateOfBirth"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="GroupId"
+                           class="form-label">
+                        Group
+                    </label>
+
+                    <select asp-for="GroupId"
+                            class="form-select">
+
+                        <option value="">
+                            — No group —
+                        </option>
+
+                        @foreach (var group in ViewBag.Groups)
+                        {
+                            <option value="@group.Id">
+                                @group.Name
+                            </option>
+                        }
+
+                    </select>
+
+                    <span asp-validation-for="GroupId"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- RIGHT -->
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <div>
+                <h5>Parents</h5>
+
+                <p>
+                    Select parents connected to this student
+                </p>
+            </div>
+
+        </div>
+
+        <div class="form-card-body">
+
+            @if (ViewBag.Parents != null)
+            {
+                <div class="parent-selector">
+
+                    @foreach (var parent in ViewBag.Parents)
+                    {
+                        var selected =
+                            Model.ParentIds != null &&
+                            Model.ParentIds.Contains(parent.Id);
+
+                        <label class="parent-option">
+
+                            <input type="checkbox"
+                                   name="ParentIds"
+                                   value="@parent.Id"
+                                   checked="@selected" />
+
+                            <div class="parent-option-avatar">
+
+                                @(string.IsNullOrWhiteSpace(
+                                    parent.ApplicationUser.FullName)
+                                    ? "P"
+                                    : parent.ApplicationUser.FullName
+                                        .Substring(0, 1)
+                                        .ToUpper())
+
+                            </div>
+
+                            <div class="parent-option-info">
+
+                                <strong>
+                                    @parent.ApplicationUser.FullName
+                                </strong>
+
+                                <span>
+                                    @parent.ApplicationUser.Email
+                                </span>
+
+                            </div>
+
+                        </label>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

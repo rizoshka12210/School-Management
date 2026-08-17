@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
@@ -21,12 +20,31 @@ public class StudentsController : Controller
     }
 
 
-    public async Task<IActionResult> Index()
+
+    public async Task<IActionResult> Index(string? search)
     {
-        var students = await _context.Students
+        var query = _context.Students
             .Include(s => s.Group)
             .Include(s => s.Parents)
                 .ThenInclude(p => p.ApplicationUser)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var value = search.Trim().ToLower();
+
+            query = query.Where(s =>
+                s.FirstName.ToLower().Contains(value) ||
+                s.LastName.ToLower().Contains(value) ||
+                (
+                    s.Group != null &&
+                    s.Group.Name.ToLower().Contains(value)
+                ));
+        }
+
+        ViewBag.Search = search;
+
+        var students = await query
             .OrderBy(s => s.FirstName)
             .ThenBy(s => s.LastName)
             .ToListAsync();
@@ -51,44 +69,58 @@ public class StudentsController : Controller
         return View(student);
     }
 
+
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        await LoadLookupsAsync();
+        await LoadFormDataAsync();
 
-        return View(new StudentFormViewModel
+        var model = new StudentFormViewModel
         {
-            DateOfBirth = DateOnly.FromDateTime(DateTime.Today)
-        });
+            DateOfBirth = DateOnly.FromDateTime(
+                DateTime.UtcNow.AddYears(-10))
+        };
+
+        return View(model);
     }
+
 
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(StudentFormViewModel model)
+    public async Task<IActionResult> Create(
+        StudentFormViewModel model)
     {
         if (!ModelState.IsValid)
         {
-            await LoadLookupsAsync();
+            await LoadFormDataAsync();
+
             return View(model);
         }
 
         var student = new Student
         {
-            FirstName = model.FirstName,
-            LastName = model.LastName,
+            FirstName = model.FirstName.Trim(),
+
+            LastName = model.LastName.Trim(),
 
             DateOfBirth = DateTime.SpecifyKind(
-                model.DateOfBirth.ToDateTime(TimeOnly.MinValue),
+                model.DateOfBirth.ToDateTime(
+                    TimeOnly.MinValue),
                 DateTimeKind.Utc),
 
             GroupId = model.GroupId
         };
 
-        if (model.ParentIds.Count > 0)
+
+  
+
+        if (model.ParentIds != null &&
+            model.ParentIds.Count > 0)
         {
             var parents = await _context.Parents
-                .Where(p => model.ParentIds.Contains(p.Id))
+                .Where(p =>
+                    model.ParentIds.Contains(p.Id))
                 .ToListAsync();
 
             foreach (var parent in parents)
@@ -97,12 +129,19 @@ public class StudentsController : Controller
             }
         }
 
+
         _context.Students.Add(student);
 
         await _context.SaveChangesAsync();
 
+
+        TempData["Success"] =
+            "Student created successfully.";
+
         return RedirectToAction(nameof(Index));
     }
+
+
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -116,65 +155,87 @@ public class StudentsController : Controller
             return NotFound();
         }
 
+
         var model = new StudentFormViewModel
         {
             Id = student.Id,
+
             FirstName = student.FirstName,
+
             LastName = student.LastName,
-            DateOfBirth = DateOnly.FromDateTime(student.DateOfBirth),
+
+            DateOfBirth =
+                DateOnly.FromDateTime(
+                    student.DateOfBirth),
+
             GroupId = student.GroupId,
+
             ParentIds = student.Parents
                 .Select(p => p.Id)
                 .ToList()
         };
 
-        await LoadLookupsAsync();
+
+        await LoadFormDataAsync();
 
         return View(model);
     }
 
 
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-        int id,
         StudentFormViewModel model)
     {
-        if (id != model.Id)
-        {
-            return BadRequest();
-        }
-
         if (!ModelState.IsValid)
         {
-            await LoadLookupsAsync();
+            await LoadFormDataAsync();
+
             return View(model);
         }
 
+
         var student = await _context.Students
             .Include(s => s.Parents)
-            .FirstOrDefaultAsync(s => s.Id == id);
+            .FirstOrDefaultAsync(
+                s => s.Id == model.Id);
 
         if (student == null)
         {
             return NotFound();
         }
 
-        student.FirstName = model.FirstName;
-        student.LastName = model.LastName;
 
-        student.DateOfBirth = DateTime.SpecifyKind(
-            model.DateOfBirth.ToDateTime(TimeOnly.MinValue),
-            DateTimeKind.Utc);
+        student.FirstName =
+            model.FirstName.Trim();
 
-        student.GroupId = model.GroupId;
+        student.LastName =
+            model.LastName.Trim();
+
+        student.DateOfBirth =
+            DateTime.SpecifyKind(
+                model.DateOfBirth.ToDateTime(
+                    TimeOnly.MinValue),
+                DateTimeKind.Utc);
+
+        student.GroupId =
+            model.GroupId;
+
+
+     
 
         student.Parents.Clear();
 
-        if (model.ParentIds.Count > 0)
+
+  
+
+        if (model.ParentIds != null &&
+            model.ParentIds.Count > 0)
         {
             var parents = await _context.Parents
-                .Where(p => model.ParentIds.Contains(p.Id))
+                .Where(p =>
+                    model.ParentIds.Contains(p.Id))
                 .ToListAsync();
 
             foreach (var parent in parents)
@@ -183,10 +244,16 @@ public class StudentsController : Controller
             }
         }
 
+
         await _context.SaveChangesAsync();
+
+
+        TempData["Success"] =
+            "Student updated successfully.";
 
         return RedirectToAction(nameof(Index));
     }
+
 
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
@@ -195,7 +262,8 @@ public class StudentsController : Controller
             .Include(s => s.Group)
             .Include(s => s.Parents)
                 .ThenInclude(p => p.ApplicationUser)
-            .FirstOrDefaultAsync(s => s.Id == id);
+            .FirstOrDefaultAsync(
+                s => s.Id == id);
 
         if (student == null)
         {
@@ -207,44 +275,44 @@ public class StudentsController : Controller
 
 
     [HttpPost]
-    [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(
+        int id)
     {
         var student = await _context.Students
-            .FirstOrDefaultAsync(s => s.Id == id);
+            .FirstOrDefaultAsync(
+                s => s.Id == id);
 
         if (student == null)
         {
             return NotFound();
         }
 
+
         _context.Students.Remove(student);
 
         await _context.SaveChangesAsync();
 
+
+        TempData["Success"] =
+            "Student deleted successfully.";
+
         return RedirectToAction(nameof(Index));
     }
 
-    private async Task LoadLookupsAsync()
+
+
+    private async Task LoadFormDataAsync()
     {
         ViewBag.Groups = await _context.Groups
             .OrderBy(g => g.Name)
-            .Select(g => new SelectListItem
-            {
-                Value = g.Id.ToString(),
-                Text = g.Name
-            })
             .ToListAsync();
+
 
         ViewBag.Parents = await _context.Parents
             .Include(p => p.ApplicationUser)
-            .OrderBy(p => p.ApplicationUser.FullName)
-            .Select(p => new SelectListItem
-            {
-                Value = p.Id.ToString(),
-                Text = p.ApplicationUser.FullName
-            })
+            .OrderBy(p =>
+                p.ApplicationUser.FullName)
             .ToListAsync();
     }
 }

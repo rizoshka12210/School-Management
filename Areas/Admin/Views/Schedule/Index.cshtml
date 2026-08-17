@@ -4,124 +4,228 @@
     ViewData["Title"] = "Schedule";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">
+            Schedule
+        </h1>
 
-        <div>
-            <h1 class="fw-bold mb-1">
-                Schedule
-            </h1>
-
-            <p class="text-muted mb-0">
-                Manage weekly school schedule
-            </p>
-        </div>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Schedule
-        </a>
-
+        <p class="page-subtitle">
+            Manage the weekly school timetable
+        </p>
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <a asp-action="Create"
+       class="btn btn-primary">
+        + Add Schedule
+    </a>
 
-        <div class="card-body">
+</div>
 
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
+<div class="card border-0 shadow-sm">
 
-                    <h5>No schedule entries</h5>
+    <div class="card-body">
 
-                    <a asp-action="Create"
-                       class="btn btn-primary mt-2">
-                        Add Schedule
-                    </a>
+        <form method="get"
+              asp-action="Index"
+              class="schedule-filters">
 
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
+            <div>
 
-                    <table class="table table-hover align-middle">
+                <select name="day"
+                        class="form-select">
 
-                        <thead>
-                            <tr>
-                                <th>Day</th>
-                                <th>Time</th>
-                                <th>Group</th>
-                                <th>Subject</th>
-                                <th>Teacher</th>
-                                <th class="text-end">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
+                    <option value="">
+                        All days
+                    </option>
 
-                        <tbody>
-
-                        @foreach (var item in Model)
+                    @foreach (var day in Enum.GetValues<DayOfWeek>())
+                    {
+                        if ((ViewBag.Day as string) == day.ToString())
                         {
-                            <tr>
+                            <option value="@day" selected>
+                                @day
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@day">
+                                @day
+                            </option>
+                        }
+                    }
 
-                                <td class="fw-semibold">
-                                    @item.DayOfWeek
-                                </td>
+                </select>
 
-                                <td>
-                                    @item.StartTime.ToString("HH:mm")
-                                    -
-                                    @item.EndTime.ToString("HH:mm")
-                                </td>
+            </div>
 
-                                <td>
-                                    @item.Group.Name
-                                </td>
+            <div>
 
-                                <td>
-                                    @item.Subject.Name
-                                </td>
+                <select name="groupId"
+                        class="form-select">
 
-                                <td>
-                                    @item.Teacher.ApplicationUser.FullName
-                                </td>
+                    <option value="">
+                        All groups
+                    </option>
 
-                                <td class="text-end">
+                    @foreach (var group in ViewBag.Groups)
+                    {
+                        if (ViewBag.GroupId != null &&
+                            (int)ViewBag.GroupId == group.Id)
+                        {
+                            <option value="@group.Id" selected>
+                                @group.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@group.Id">
+                                @group.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Filter
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-light">
+                Clear
+            </a>
+
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    SC
+                </div>
+
+                <h5>
+                    No schedule entries found
+                </h5>
+
+                <p>
+                    Create a schedule entry or change the filters.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    + Add Schedule
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="schedule-list">
+
+                @foreach (var dayGroup in
+                    Model.GroupBy(s => s.DayOfWeek))
+                {
+                    <div class="schedule-day">
+
+                        <div class="schedule-day-header">
+
+                            <div>
+                                <span class="schedule-day-name">
+                                    @dayGroup.Key
+                                </span>
+
+                                <span class="schedule-day-count">
+                                    @dayGroup.Count() lesson(s)
+                                </span>
+                            </div>
+
+                        </div>
+
+                        @foreach (var item in
+                            dayGroup.OrderBy(s => s.StartTime))
+                        {
+                            <div class="schedule-row">
+
+                                <div class="schedule-time">
+
+                                    <strong>
+                                        @item.StartTime.ToString("HH:mm")
+                                    </strong>
+
+                                    <span>
+                                        @item.EndTime.ToString("HH:mm")
+                                    </span>
+
+                                </div>
+
+                                <div class="schedule-subject">
+
+                                    <strong>
+                                        @item.Subject.Name
+                                    </strong>
+
+                                    <span>
+                                        @item.Group.Name
+                                    </span>
+
+                                </div>
+
+                                <div class="schedule-teacher">
+
+                                    <div class="mini-avatar">
+
+                                        @(string.IsNullOrWhiteSpace(
+                                            item.Teacher.ApplicationUser.FullName)
+                                            ? "T"
+                                            : item.Teacher.ApplicationUser.FullName
+                                                .Substring(0, 1)
+                                                .ToUpper())
+
+                                    </div>
+
+                                    <span>
+                                        @item.Teacher.ApplicationUser.FullName
+                                    </span>
+
+                                </div>
+
+                                <div class="action-buttons">
 
                                     <a asp-action="Details"
                                        asp-route-id="@item.Id"
-                                       class="btn btn-sm btn-outline-info">
-                                        Details
+                                       class="action-btn action-details">
+                                        View
                                     </a>
 
                                     <a asp-action="Edit"
                                        asp-route-id="@item.Id"
-                                       class="btn btn-sm btn-outline-primary">
+                                       class="action-btn action-edit">
                                         Edit
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@item.Id"
-                                       class="btn btn-sm btn-outline-danger">
+                                       class="action-btn action-delete">
                                         Delete
                                     </a>
 
-                                </td>
+                                </div>
 
-                            </tr>
+                            </div>
                         }
 
-                        </tbody>
+                    </div>
+                }
 
-                    </table>
-
-                </div>
-            }
-
-        </div>
+            </div>
+        }
 
     </div>
 

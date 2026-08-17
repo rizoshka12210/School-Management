@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
@@ -20,19 +19,30 @@ public class GroupsController : Controller
         _context = context;
     }
 
-
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? search)
     {
-        var groups = await _context.Groups
+        var query = _context.Groups
             .Include(g => g.Students)
             .Include(g => g.Teachers)
                 .ThenInclude(t => t.ApplicationUser)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var value = search.Trim().ToLower();
+
+            query = query.Where(g =>
+                g.Name.ToLower().Contains(value));
+        }
+
+        ViewBag.Search = search;
+
+        var groups = await query
             .OrderBy(g => g.Name)
             .ToListAsync();
 
         return View(groups);
     }
-
 
     public async Task<IActionResult> Details(int id)
     {
@@ -50,7 +60,6 @@ public class GroupsController : Controller
         return View(group);
     }
 
-
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -61,23 +70,23 @@ public class GroupsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(GroupFormViewModel model)
+    public async Task<IActionResult> Create(
+        GroupFormViewModel model)
     {
-        if (!ModelState.IsValid)
-        {
-            await LoadTeachersAsync();
-            return View(model);
-        }
+        var exists = await _context.Groups
+            .AnyAsync(g =>
+                g.Name.ToLower() ==
+                model.Name.Trim().ToLower());
 
-        var nameExists = await _context.Groups
-            .AnyAsync(g => g.Name == model.Name);
-
-        if (nameExists)
+        if (exists)
         {
             ModelState.AddModelError(
                 nameof(model.Name),
                 "A group with this name already exists.");
+        }
 
+        if (!ModelState.IsValid)
+        {
             await LoadTeachersAsync();
 
             return View(model);
@@ -88,10 +97,12 @@ public class GroupsController : Controller
             Name = model.Name.Trim()
         };
 
-        if (model.TeacherIds.Count > 0)
+        if (model.TeacherIds != null &&
+            model.TeacherIds.Count > 0)
         {
             var teachers = await _context.Teachers
-                .Where(t => model.TeacherIds.Contains(t.Id))
+                .Where(t =>
+                    model.TeacherIds.Contains(t.Id))
                 .ToListAsync();
 
             foreach (var teacher in teachers)
@@ -104,9 +115,11 @@ public class GroupsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Group created successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -134,44 +147,36 @@ public class GroupsController : Controller
         return View(model);
     }
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-        int id,
         GroupFormViewModel model)
     {
-        if (id != model.Id)
-        {
-            return BadRequest();
-        }
-
-        if (!ModelState.IsValid)
-        {
-            await LoadTeachersAsync();
-            return View(model);
-        }
-
         var group = await _context.Groups
             .Include(g => g.Teachers)
-            .FirstOrDefaultAsync(g => g.Id == id);
+            .FirstOrDefaultAsync(
+                g => g.Id == model.Id);
 
         if (group == null)
         {
             return NotFound();
         }
 
-        var nameExists = await _context.Groups
+        var exists = await _context.Groups
             .AnyAsync(g =>
-                g.Name == model.Name &&
-                g.Id != id);
+                g.Id != model.Id &&
+                g.Name.ToLower() ==
+                model.Name.Trim().ToLower());
 
-        if (nameExists)
+        if (exists)
         {
             ModelState.AddModelError(
                 nameof(model.Name),
                 "A group with this name already exists.");
+        }
 
+        if (!ModelState.IsValid)
+        {
             await LoadTeachersAsync();
 
             return View(model);
@@ -181,10 +186,12 @@ public class GroupsController : Controller
 
         group.Teachers.Clear();
 
-        if (model.TeacherIds.Count > 0)
+        if (model.TeacherIds != null &&
+            model.TeacherIds.Count > 0)
         {
             var teachers = await _context.Teachers
-                .Where(t => model.TeacherIds.Contains(t.Id))
+                .Where(t =>
+                    model.TeacherIds.Contains(t.Id))
                 .ToListAsync();
 
             foreach (var teacher in teachers)
@@ -195,10 +202,12 @@ public class GroupsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Group updated successfully.";
+
         return RedirectToAction(nameof(Index));
     }
 
-  
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
@@ -217,9 +226,9 @@ public class GroupsController : Controller
     }
 
     [HttpPost]
-    [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(
+        int id)
     {
         var group = await _context.Groups
             .FirstOrDefaultAsync(g => g.Id == id);
@@ -238,7 +247,7 @@ public class GroupsController : Controller
         if (hasLessons || hasSchedules)
         {
             TempData["Error"] =
-                "This group cannot be deleted because it is used in lessons or schedule.";
+                "This group cannot be deleted because it has lessons or schedule entries.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -247,20 +256,17 @@ public class GroupsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Group deleted successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
 
     private async Task LoadTeachersAsync()
     {
         ViewBag.Teachers = await _context.Teachers
             .Include(t => t.ApplicationUser)
             .OrderBy(t => t.ApplicationUser.FullName)
-            .Select(t => new SelectListItem
-            {
-                Value = t.Id.ToString(),
-                Text = t.ApplicationUser.FullName
-            })
             .ToListAsync();
     }
 }

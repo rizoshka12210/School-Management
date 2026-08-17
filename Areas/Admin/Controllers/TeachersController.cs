@@ -1,14 +1,15 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
-using SchoolManagementSystem.Web.Models.Entities;
 using SchoolManagementSystem.Web.Models.Identity;
 using SchoolManagementSystem.Web.ViewModels.Admin;
-using TeacherEntity = SchoolManagementSystem.Web.Models.Entities.Teacher;
+
+using TeacherEntity =
+    SchoolManagementSystem.Web.Models.Entities.Teacher;
+
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
@@ -27,17 +28,40 @@ public class TeachersController : Controller
     }
 
 
-    public async Task<IActionResult> Index()
+    // ==========================================
+    // INDEX
+    // ==========================================
+
+    public async Task<IActionResult> Index(string? search)
     {
-        var teachers = await _context.Teachers
+        var query = _context.Teachers
             .Include(t => t.ApplicationUser)
             .Include(t => t.Groups)
             .Include(t => t.Subjects)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var value = search.Trim().ToLower();
+
+            query = query.Where(t =>
+                t.ApplicationUser.FullName.ToLower().Contains(value) ||
+                t.ApplicationUser.Email!.ToLower().Contains(value));
+        }
+
+        ViewBag.Search = search;
+
+        var teachers = await query
             .OrderBy(t => t.ApplicationUser.FullName)
             .ToListAsync();
 
         return View(teachers);
     }
+
+
+    // ==========================================
+    // DETAILS
+    // ==========================================
 
     public async Task<IActionResult> Details(int id)
     {
@@ -48,22 +72,31 @@ public class TeachersController : Controller
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (teacher == null)
+        {
             return NotFound();
+        }
 
         return View(teacher);
     }
 
-   
+
+    // ==========================================
+    // CREATE GET
+    // ==========================================
 
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        await LoadLookupsAsync();
+        await LoadFormDataAsync();
 
         return View(new TeacherFormViewModel());
     }
 
-   
+
+    // ==========================================
+    // CREATE POST
+    // ==========================================
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
@@ -76,54 +109,57 @@ public class TeachersController : Controller
                 "Password is required.");
         }
 
-        if (!ModelState.IsValid)
-        {
-            await LoadLookupsAsync();
-            return View(model);
-        }
-
         var existingUser =
-            await _userManager.FindByEmailAsync(model.Email);
+            await _userManager.FindByEmailAsync(
+                model.Email);
 
         if (existingUser != null)
         {
             ModelState.AddModelError(
                 nameof(model.Email),
-                "This email is already registered.");
+                "A user with this email already exists.");
+        }
 
-            await LoadLookupsAsync();
+        if (!ModelState.IsValid)
+        {
+            await LoadFormDataAsync();
+
             return View(model);
         }
 
+
         var user = new ApplicationUser
         {
-            UserName = model.Email.Trim(),
-            Email = model.Email.Trim(),
             FullName = model.FullName.Trim(),
+            Email = model.Email.Trim(),
+            UserName = model.Email.Trim(),
             EmailConfirmed = true
         };
 
-        var createResult =
-            await _userManager.CreateAsync(
-                user,
-                model.Password!);
 
-        if (!createResult.Succeeded)
+        var result = await _userManager.CreateAsync(
+            user,
+            model.Password!);
+
+        if (!result.Succeeded)
         {
-            foreach (var error in createResult.Errors)
+            foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(
                     string.Empty,
                     error.Description);
             }
 
-            await LoadLookupsAsync();
+            await LoadFormDataAsync();
+
             return View(model);
         }
+
 
         await _userManager.AddToRoleAsync(
             user,
             Roles.Teacher);
+
 
         var teacher = new TeacherEntity
         {
@@ -131,191 +167,9 @@ public class TeachersController : Controller
             HourlyRate = model.HourlyRate
         };
 
-        if (model.GroupIds.Count > 0)
-        {
-            var groups = await _context.Groups
-                .Where(g => model.GroupIds.Contains(g.Id))
-                .ToListAsync();
 
-            foreach (var group in groups)
-            {
-                teacher.Groups.Add(group);
-            }
-        }
-
-        if (model.SubjectIds.Count > 0)
-        {
-            var subjects = await _context.Subjects
-                .Where(s => model.SubjectIds.Contains(s.Id))
-                .ToListAsync();
-
-            foreach (var subject in subjects)
-            {
-                teacher.Subjects.Add(subject);
-            }
-        }
-
-        try
-        {
-            _context.Teachers.Add(teacher);
-            await _context.SaveChangesAsync();
-        }
-        catch
-        {
-
-            await _userManager.DeleteAsync(user);
-            throw;
-        }
-
-        return RedirectToAction(nameof(Index));
-    }
-
-
-    [HttpGet]
-    public async Task<IActionResult> Edit(int id)
-    {
-        var teacher = await _context.Teachers
-            .Include(t => t.ApplicationUser)
-            .Include(t => t.Groups)
-            .Include(t => t.Subjects)
-            .FirstOrDefaultAsync(t => t.Id == id);
-
-        if (teacher == null)
-            return NotFound();
-
-        var model = new TeacherFormViewModel
-        {
-            Id = teacher.Id,
-            FullName = teacher.ApplicationUser.FullName,
-            Email = teacher.ApplicationUser.Email ?? string.Empty,
-            HourlyRate = teacher.HourlyRate,
-
-            GroupIds = teacher.Groups
-                .Select(g => g.Id)
-                .ToList(),
-
-            SubjectIds = teacher.Subjects
-                .Select(s => s.Id)
-                .ToList()
-        };
-
-        await LoadLookupsAsync();
-
-        return View(model);
-    }
-
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(
-        int id,
-        TeacherFormViewModel model)
-    {
-        if (id != model.Id)
-            return BadRequest();
-
-        if (!ModelState.IsValid)
-        {
-            await LoadLookupsAsync();
-            return View(model);
-        }
-
-        var teacher = await _context.Teachers
-            .Include(t => t.ApplicationUser)
-            .Include(t => t.Groups)
-            .Include(t => t.Subjects)
-            .FirstOrDefaultAsync(t => t.Id == id);
-
-        if (teacher == null)
-            return NotFound();
-
-        var anotherUser =
-            await _userManager.FindByEmailAsync(model.Email);
-
-        if (anotherUser != null &&
-            anotherUser.Id != teacher.ApplicationUserId)
-        {
-            ModelState.AddModelError(
-                nameof(model.Email),
-                "This email is already registered.");
-
-            await LoadLookupsAsync();
-            return View(model);
-        }
-
-        var user = teacher.ApplicationUser;
-
-        user.FullName = model.FullName.Trim();
-
-        var email = model.Email.Trim();
-
-        if (user.Email != email)
-        {
-            var emailResult =
-                await _userManager.SetEmailAsync(
-                    user,
-                    email);
-
-            if (!emailResult.Succeeded)
-            {
-                AddIdentityErrors(emailResult);
-
-                await LoadLookupsAsync();
-                return View(model);
-            }
-
-            var usernameResult =
-                await _userManager.SetUserNameAsync(
-                    user,
-                    email);
-
-            if (!usernameResult.Succeeded)
-            {
-                AddIdentityErrors(usernameResult);
-
-                await LoadLookupsAsync();
-                return View(model);
-            }
-        }
-
-        var updateUserResult =
-            await _userManager.UpdateAsync(user);
-
-        if (!updateUserResult.Succeeded)
-        {
-            AddIdentityErrors(updateUserResult);
-
-            await LoadLookupsAsync();
-            return View(model);
-        }
-
-
-        if (!string.IsNullOrWhiteSpace(model.Password))
-        {
-            var token =
-                await _userManager
-                    .GeneratePasswordResetTokenAsync(user);
-
-            var passwordResult =
-                await _userManager.ResetPasswordAsync(
-                    user,
-                    token,
-                    model.Password);
-
-            if (!passwordResult.Succeeded)
-            {
-                AddIdentityErrors(passwordResult);
-
-                await LoadLookupsAsync();
-                return View(model);
-            }
-        }
-
-        teacher.HourlyRate = model.HourlyRate;
-
-        teacher.Groups.Clear();
-
-        if (model.GroupIds.Count > 0)
+        if (model.GroupIds != null &&
+            model.GroupIds.Count > 0)
         {
             var groups = await _context.Groups
                 .Where(g =>
@@ -328,9 +182,9 @@ public class TeachersController : Controller
             }
         }
 
-        teacher.Subjects.Clear();
 
-        if (model.SubjectIds.Count > 0)
+        if (model.SubjectIds != null &&
+            model.SubjectIds.Count > 0)
         {
             var subjects = await _context.Subjects
                 .Where(s =>
@@ -343,12 +197,232 @@ public class TeachersController : Controller
             }
         }
 
+
+        _context.Teachers.Add(teacher);
+
         await _context.SaveChangesAsync();
+
+
+        TempData["Success"] =
+            "Teacher created successfully.";
 
         return RedirectToAction(nameof(Index));
     }
 
 
+    // ==========================================
+    // EDIT GET
+    // ==========================================
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var teacher = await _context.Teachers
+            .Include(t => t.ApplicationUser)
+            .Include(t => t.Groups)
+            .Include(t => t.Subjects)
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (teacher == null)
+        {
+            return NotFound();
+        }
+
+
+        var model = new TeacherFormViewModel
+        {
+            Id = teacher.Id,
+
+            FullName =
+                teacher.ApplicationUser.FullName,
+
+            Email =
+                teacher.ApplicationUser.Email ?? string.Empty,
+
+            HourlyRate =
+                teacher.HourlyRate,
+
+            GroupIds =
+                teacher.Groups
+                    .Select(g => g.Id)
+                    .ToList(),
+
+            SubjectIds =
+                teacher.Subjects
+                    .Select(s => s.Id)
+                    .ToList()
+        };
+
+
+        await LoadFormDataAsync();
+
+        return View(model);
+    }
+
+
+    // ==========================================
+    // EDIT POST
+    // ==========================================
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+        TeacherFormViewModel model)
+    {
+        var teacher = await _context.Teachers
+            .Include(t => t.ApplicationUser)
+            .Include(t => t.Groups)
+            .Include(t => t.Subjects)
+            .FirstOrDefaultAsync(
+                t => t.Id == model.Id);
+
+        if (teacher == null)
+        {
+            return NotFound();
+        }
+
+
+        var existingUser =
+            await _userManager.FindByEmailAsync(
+                model.Email);
+
+        if (existingUser != null &&
+            existingUser.Id !=
+            teacher.ApplicationUserId)
+        {
+            ModelState.AddModelError(
+                nameof(model.Email),
+                "A user with this email already exists.");
+        }
+
+
+        if (!ModelState.IsValid)
+        {
+            await LoadFormDataAsync();
+
+            return View(model);
+        }
+
+
+        var user = teacher.ApplicationUser;
+
+        user.FullName =
+            model.FullName.Trim();
+
+        user.Email =
+            model.Email.Trim();
+
+        user.UserName =
+            model.Email.Trim();
+
+
+        var userUpdateResult =
+            await _userManager.UpdateAsync(user);
+
+        if (!userUpdateResult.Succeeded)
+        {
+            foreach (var error in
+                     userUpdateResult.Errors)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    error.Description);
+            }
+
+            await LoadFormDataAsync();
+
+            return View(model);
+        }
+
+
+        // PASSWORD IS OPTIONAL ON EDIT
+
+        if (!string.IsNullOrWhiteSpace(
+                model.Password))
+        {
+            var token =
+                await _userManager
+                    .GeneratePasswordResetTokenAsync(
+                        user);
+
+            var passwordResult =
+                await _userManager.ResetPasswordAsync(
+                    user,
+                    token,
+                    model.Password);
+
+            if (!passwordResult.Succeeded)
+            {
+                foreach (var error in
+                         passwordResult.Errors)
+                {
+                    ModelState.AddModelError(
+                        string.Empty,
+                        error.Description);
+                }
+
+                await LoadFormDataAsync();
+
+                return View(model);
+            }
+        }
+
+
+        teacher.HourlyRate =
+            model.HourlyRate;
+
+
+        // GROUPS
+
+        teacher.Groups.Clear();
+
+        if (model.GroupIds != null &&
+            model.GroupIds.Count > 0)
+        {
+            var groups = await _context.Groups
+                .Where(g =>
+                    model.GroupIds.Contains(g.Id))
+                .ToListAsync();
+
+            foreach (var group in groups)
+            {
+                teacher.Groups.Add(group);
+            }
+        }
+
+
+        // SUBJECTS
+
+        teacher.Subjects.Clear();
+
+        if (model.SubjectIds != null &&
+            model.SubjectIds.Count > 0)
+        {
+            var subjects = await _context.Subjects
+                .Where(s =>
+                    model.SubjectIds.Contains(s.Id))
+                .ToListAsync();
+
+            foreach (var subject in subjects)
+            {
+                teacher.Subjects.Add(subject);
+            }
+        }
+
+
+        await _context.SaveChangesAsync();
+
+
+        TempData["Success"] =
+            "Teacher updated successfully.";
+
+        return RedirectToAction(nameof(Index));
+    }
+
+
+    // ==========================================
+    // DELETE GET
+    // ==========================================
 
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
@@ -360,93 +434,96 @@ public class TeachersController : Controller
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (teacher == null)
+        {
             return NotFound();
+        }
 
         return View(teacher);
     }
 
 
+    // ==========================================
+    // DELETE POST
+    // ==========================================
 
     [HttpPost]
-    [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(
+        int id)
     {
         var teacher = await _context.Teachers
             .Include(t => t.ApplicationUser)
             .FirstOrDefaultAsync(t => t.Id == id);
 
         if (teacher == null)
+        {
             return NotFound();
+        }
 
-        var hasLessons = await _context.Lessons
-            .AnyAsync(l => l.TeacherId == id);
 
-        var hasSchedules = await _context.Schedules
-            .AnyAsync(s => s.TeacherId == id);
+        var hasLessons =
+            await _context.Lessons
+                .AnyAsync(l =>
+                    l.TeacherId == id);
 
-        var hasGrades = await _context.Grades
-            .AnyAsync(g => g.TeacherId == id);
+        var hasSchedules =
+            await _context.Schedules
+                .AnyAsync(s =>
+                    s.TeacherId == id);
 
-        if (hasLessons || hasSchedules || hasGrades)
+        var hasGrades =
+            await _context.Grades
+                .AnyAsync(g =>
+                    g.TeacherId == id);
+
+
+        if (hasLessons ||
+            hasSchedules ||
+            hasGrades)
         {
             TempData["Error"] =
-                "This teacher cannot be deleted because they are used in lessons, schedules or grades.";
+                "This teacher cannot be deleted because they have lessons, schedules or grades.";
 
             return RedirectToAction(nameof(Index));
         }
 
-        var user = teacher.ApplicationUser;
 
-        teacher.Groups.Clear();
-        teacher.Subjects.Clear();
+        var user =
+            teacher.ApplicationUser;
+
 
         _context.Teachers.Remove(teacher);
 
         await _context.SaveChangesAsync();
 
-        var deleteUserResult =
-            await _userManager.DeleteAsync(user);
 
-        if (!deleteUserResult.Succeeded)
+        if (user != null)
         {
-            TempData["Error"] =
-                "Teacher profile was removed, but the user account could not be deleted.";
+            await _userManager.DeleteAsync(user);
         }
+
+
+        TempData["Success"] =
+            "Teacher deleted successfully.";
 
         return RedirectToAction(nameof(Index));
     }
 
 
-    private async Task LoadLookupsAsync()
-    {
-        ViewBag.Groups = await _context.Groups
-            .OrderBy(g => g.Name)
-            .Select(g => new SelectListItem
-            {
-                Value = g.Id.ToString(),
-                Text = g.Name
-            })
-            .ToListAsync();
+    // ==========================================
+    // FORM DATA
+    // ==========================================
 
-        ViewBag.Subjects = await _context.Subjects
-            .OrderBy(s => s.Name)
-            .Select(s => new SelectListItem
-            {
-                Value = s.Id.ToString(),
-                Text = s.Name
-            })
-            .ToListAsync();
-    }
-
-    private void AddIdentityErrors(
-        IdentityResult result)
+    private async Task LoadFormDataAsync()
     {
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(
-                string.Empty,
-                error.Description);
-        }
+        ViewBag.Groups =
+            await _context.Groups
+                .OrderBy(g => g.Name)
+                .ToListAsync();
+
+        ViewBag.Subjects =
+            await _context.Subjects
+                .OrderBy(s => s.Name)
+                .ToListAsync();
     }
 }

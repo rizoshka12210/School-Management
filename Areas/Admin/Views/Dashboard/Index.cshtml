@@ -1,129 +1,493 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.AdminDashboardViewModel
 
 @{
-    ViewData["Title"] = "Admin Dashboard";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="container mt-4">
+<div class="dashboard-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold">Admin Dashboard</h1>
-        <p class="text-muted">
-            School Management System overview
+    <div>
+        <h1 class="dashboard-title">
+            Admin Dashboard
+        </h1>
+
+        <p class="dashboard-subtitle">
+            Welcome back. Here's what's happening at school today.
         </p>
     </div>
 
-    <div class="row g-4">
+    <div class="dashboard-date">
+        @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+    </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">
+</div>
+
+
+<!-- STATISTICS -->
+
+<div class="row g-4 mb-4">
+
+    <!-- STUDENTS -->
+
+    <div class="col-sm-6 col-xl-3">
+
+        <a asp-area="Admin"
+           asp-controller="Students"
+           asp-action="Index"
+           class="text-decoration-none">
+
+            <div class="stat-card">
+
+                <div class="stat-icon stat-students">
+                    ST
+                </div>
+
+                <div>
+
+                    <div class="stat-label">
                         Students
-                    </h6>
+                    </div>
 
-                    <h2 class="fw-bold">
+                    <div class="stat-number">
                         @Model.StudentsCount
-                    </h2>
+                    </div>
 
-                    <a asp-area="Admin"
-                       asp-controller="Students"
-                       asp-action="Index"
-                       class="btn btn-sm btn-outline-primary mt-2">
-                        Manage Students
-                    </a>
+                    <div class="stat-link">
+                        View students →
+                    </div>
+
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <!-- TEACHERS -->
+
+    <div class="col-sm-6 col-xl-3">
+
+        <a asp-area="Admin"
+           asp-controller="Teachers"
+           asp-action="Index"
+           class="text-decoration-none">
+
+            <div class="stat-card">
+
+                <div class="stat-icon stat-teachers">
+                    TR
+                </div>
+
+                <div>
+
+                    <div class="stat-label">
                         Teachers
-                    </h6>
+                    </div>
 
-                    <h2 class="fw-bold">
+                    <div class="stat-number">
                         @Model.TeachersCount
-                    </h2>
+                    </div>
 
-                    <a asp-area="Admin"
-                       asp-controller="Teachers"
-                       asp-action="Index"
-                       class="btn btn-sm btn-outline-primary mt-2">
-                        Manage Teachers
-                    </a>
+                    <div class="stat-link">
+                        View teachers →
+                    </div>
+
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <!-- GROUPS -->
+
+    <div class="col-sm-6 col-xl-3">
+
+        <a asp-area="Admin"
+           asp-controller="Groups"
+           asp-action="Index"
+           class="text-decoration-none">
+
+            <div class="stat-card">
+
+                <div class="stat-icon stat-groups">
+                    GR
+                </div>
+
+                <div>
+
+                    <div class="stat-label">
                         Groups
-                    </h6>
+                    </div>
 
-                    <h2 class="fw-bold">
+                    <div class="stat-number">
                         @Model.GroupsCount
-                    </h2>
+                    </div>
 
-                    <a asp-area="Admin"
-                       asp-controller="Groups"
-                       asp-action="Index"
-                       class="btn btn-sm btn-outline-primary mt-2">
-                        Manage Groups
-                    </a>
+                    <div class="stat-link">
+                        View groups →
+                    </div>
+
                 </div>
+
             </div>
+
+        </a>
+
+    </div>
+
+
+    <!-- SUBJECTS -->
+
+    <div class="col-sm-6 col-xl-3">
+
+        <a asp-area="Admin"
+           asp-controller="Subjects"
+           asp-action="Index"
+           class="text-decoration-none">
+
+            <div class="stat-card">
+
+                <div class="stat-icon stat-subjects">
+                    SB
+                </div>
+
+                <div>
+
+                    <div class="stat-label">
+                        Subjects
+                    </div>
+
+                    <div class="stat-number">
+                        @Model.SubjectsCount
+                    </div>
+
+                    <div class="stat-link">
+                        View subjects →
+                    </div>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- QUICK ACTIONS -->
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+                <h5 class="section-title">
+                    Quick Actions
+                </h5>
+
+                <p class="section-subtitle">
+                    Common administrative actions
+                </p>
+            </div>
+
         </div>
 
-        <div class="col-md-6 col-xl-3">
-            <div class="card shadow-sm border-0 h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">
-                        Subjects
-                    </h6>
+        <div class="quick-actions">
 
-                    <h2 class="fw-bold">
-                        @Model.SubjectsCount
-                    </h2>
+            <a asp-area="Admin"
+               asp-controller="Students"
+               asp-action="Create"
+               class="quick-action">
+
+                <div class="quick-action-icon">
+                    +
+                </div>
+
+                <div>
+                    <strong>Add Student</strong>
+                    <span>Create a new student</span>
+                </div>
+
+            </a>
+
+
+            <a asp-area="Admin"
+               asp-controller="Teachers"
+               asp-action="Create"
+               class="quick-action">
+
+                <div class="quick-action-icon">
+                    +
+                </div>
+
+                <div>
+                    <strong>Add Teacher</strong>
+                    <span>Create teacher account</span>
+                </div>
+
+            </a>
+
+
+            <a asp-area="Admin"
+               asp-controller="Lessons"
+               asp-action="Create"
+               class="quick-action">
+
+                <div class="quick-action-icon">
+                    +
+                </div>
+
+                <div>
+                    <strong>Add Lesson</strong>
+                    <span>Create a lesson</span>
+                </div>
+
+            </a>
+
+
+            <a asp-area="Admin"
+               asp-controller="Schedule"
+               asp-action="Create"
+               class="quick-action">
+
+                <div class="quick-action-icon">
+                    +
+                </div>
+
+                <div>
+                    <strong>Add Schedule</strong>
+                    <span>Create schedule entry</span>
+                </div>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="row g-4">
+
+    <!-- TODAY LESSONS -->
+
+    <div class="col-xl-8">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h5 class="section-title">
+                            Today's Lessons
+                        </h5>
+
+                        <p class="section-subtitle">
+                            @Model.TodayLessonsCount lessons today
+                        </p>
+
+                    </div>
 
                     <a asp-area="Admin"
-                       asp-controller="Subjects"
+                       asp-controller="Lessons"
                        asp-action="Index"
-                       class="btn btn-sm btn-outline-primary mt-2">
-                        Manage Subjects
+                       class="btn btn-sm btn-outline-primary">
+                        View All
                     </a>
+
                 </div>
+
+                @if (!Model.TodayLessons.Any())
+                {
+                    <div class="dashboard-empty">
+
+                        <div class="dashboard-empty-icon">
+                            —
+                        </div>
+
+                        <h6>
+                            No lessons today
+                        </h6>
+
+                        <p>
+                            There are no lessons scheduled for today.
+                        </p>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+
+                        <table class="table align-middle dashboard-table">
+
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Group</th>
+                                    <th>Subject</th>
+                                    <th>Teacher</th>
+                                    <th>Topic</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                @foreach (var lesson in Model.TodayLessons)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            <span class="lesson-time">
+                                                @lesson.StartTime.ToString("HH:mm")
+                                            </span>
+
+                                            <span class="text-muted">
+                                                -
+                                                @lesson.EndTime.ToString("HH:mm")
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span class="dashboard-badge">
+                                                @lesson.Group.Name
+                                            </span>
+                                        </td>
+
+                                        <td class="fw-semibold">
+                                            @lesson.Subject.Name
+                                        </td>
+
+                                        <td>
+                                            @lesson.Teacher.ApplicationUser.FullName
+                                        </td>
+
+                                        <td>
+
+                                            @if (!string.IsNullOrWhiteSpace(lesson.Topic))
+                                            {
+                                                @lesson.Topic
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">
+                                                    No topic
+                                                </span>
+                                            }
+
+                                        </td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                }
+
             </div>
+
         </div>
 
     </div>
 
 
-    <div class="card shadow-sm border-0 mt-4">
-        <div class="card-body">
+    <!-- RECENT STUDENTS -->
 
-            <div class="d-flex justify-content-between align-items-center">
+    <div class="col-xl-4">
 
-                <div>
-                    <h5 class="mb-1">
-                        Today's Lessons
-                    </h5>
+        <div class="card border-0 shadow-sm h-100">
 
-                    <p class="text-muted mb-0">
-                        Number of lessons scheduled for today
-                    </p>
+            <div class="card-body">
+
+                <div class="section-header">
+
+                    <div>
+
+                        <h5 class="section-title">
+                            Recent Students
+                        </h5>
+
+                        <p class="section-subtitle">
+                            Recently added students
+                        </p>
+
+                    </div>
+
                 </div>
 
-                <div class="display-5 fw-bold">
-                    @Model.TodayLessonsCount
-                </div>
+                @if (!Model.RecentStudents.Any())
+                {
+                    <div class="dashboard-empty">
+
+                        <p>
+                            No students yet.
+                        </p>
+
+                    </div>
+                }
+                else
+                {
+                    <div class="recent-list">
+
+                        @foreach (var student in Model.RecentStudents)
+                        {
+                            <a asp-area="Admin"
+                               asp-controller="Students"
+                               asp-action="Details"
+                               asp-route-id="@student.Id"
+                               class="recent-item">
+
+                                <div class="recent-avatar">
+
+                                    @student.FirstName
+                                        .Substring(0, 1)
+                                        .ToUpper()
+
+                                </div>
+
+                                <div class="recent-info">
+
+                                    <strong>
+                                        @student.FirstName
+                                        @student.LastName
+                                    </strong>
+
+                                    <span>
+                                        @(student.Group?.Name ?? "No group")
+                                    </span>
+
+                                </div>
+
+                                <div class="recent-arrow">
+                                    →
+                                </div>
+
+                            </a>
+                        }
+
+                    </div>
+                }
 
             </div>
 
         </div>
+
     </div>
 
 </div>

@@ -4,79 +4,166 @@
     ViewData["Title"] = "Students";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div>
-            <h1 class="fw-bold mb-1">Students</h1>
-            <p class="text-muted mb-0">
-                Manage school students
-            </p>
-        </div>
+    <div>
+        <h1 class="page-title">
+            Students
+        </h1>
 
-        <a asp-area="Admin"
-           asp-controller="Students"
-           asp-action="Create"
-           class="btn btn-primary">
-            + Add Student
-        </a>
+        <p class="page-subtitle">
+            Manage students and their school information
+        </p>
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <a asp-area="Admin"
+       asp-controller="Students"
+       asp-action="Create"
+       class="btn btn-primary">
 
-        <div class="card-body">
+        + Add Student
 
-            @if (!Model.Any())
+    </a>
+
+</div>
+
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <!-- SEARCH -->
+
+        <form method="get"
+              asp-action="Index"
+              class="management-toolbar">
+
+            <div class="management-search">
+
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="Search student or group..." />
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Search
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(ViewBag.Search as string))
             {
-                <div class="text-center py-5">
-                    <h5>No students yet</h5>
+                <a asp-action="Index"
+                   class="btn btn-light">
+                    Clear
+                </a>
+            }
 
-                    <p class="text-muted">
-                        Add your first student.
-                    </p>
+        </form>
 
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    ST
+                </div>
+
+                <h5>
+                    No students found
+                </h5>
+
+                <p>
+                    @if (!string.IsNullOrWhiteSpace(ViewBag.Search as string))
+                    {
+                        <text>
+                            Try changing your search.
+                        </text>
+                    }
+                    else
+                    {
+                        <text>
+                            Add your first student to get started.
+                        </text>
+                    }
+                </p>
+
+                @if (string.IsNullOrWhiteSpace(ViewBag.Search as string))
+                {
                     <a asp-action="Create"
                        class="btn btn-primary">
-                        Add Student
+                        + Add Student
                     </a>
-                </div>
-            }
-            else
-            {
-                <div class="table-responsive">
+                }
 
-                    <table class="table table-hover align-middle">
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
 
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Date of Birth</th>
-                                <th>Group</th>
-                                <th>Parents</th>
-                                <th class="text-end">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
+                <table class="table table-hover management-table">
 
-                        <tbody>
+                    <thead>
+
+                        <tr>
+                            <th>Student</th>
+                            <th>Group</th>
+                            <th>Date of Birth</th>
+                            <th>Parents</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
 
                         @foreach (var student in Model)
                         {
                             <tr>
 
-                                <td class="fw-semibold">
-                                    @student.FirstName @student.LastName
-                                </td>
+                                <!-- STUDENT -->
 
                                 <td>
-                                    @student.DateOfBirth.ToString("dd.MM.yyyy")
+
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar">
+
+                                            @student.FirstName.Substring(0, 1).ToUpper()
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @student.FirstName
+                                                @student.LastName
+                                            </div>
+
+                                            <div class="person-id">
+                                                Student #@student.Id
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
                                 </td>
 
+
+                                <!-- GROUP -->
+
                                 <td>
+
                                     @if (student.Group != null)
                                     {
-                                        <span class="badge bg-primary">
+                                        <span class="group-badge">
                                             @student.Group.Name
                                         </span>
                                     }
@@ -86,57 +173,95 @@
                                             No group
                                         </span>
                                     }
+
                                 </td>
 
+
+                                <!-- DOB -->
+
                                 <td>
+                                    @student.DateOfBirth.ToString("dd.MM.yyyy")
+                                </td>
+
+
+                                <!-- PARENTS -->
+
+                                <td>
+
                                     @if (student.Parents.Any())
                                     {
-                                        @string.Join(
-                                            ", ",
-                                            student.Parents.Select(
-                                                p => p.ApplicationUser.FullName))
+                                        @foreach (var parent in student.Parents.Take(2))
+                                        {
+                                            <div class="small">
+                                                @parent.ApplicationUser.FullName
+                                            </div>
+                                        }
+
+                                        @if (student.Parents.Count > 2)
+                                        {
+                                            <span class="text-muted small">
+                                                +@(student.Parents.Count - 2) more
+                                            </span>
+                                        }
                                     }
                                     else
                                     {
                                         <span class="text-muted">
-                                            No parent
+                                            No parent assigned
                                         </span>
                                     }
+
                                 </td>
+
+
+                                <!-- ACTIONS -->
 
                                 <td class="text-end">
 
-                                    <a asp-action="Details"
-                                       asp-route-id="@student.Id"
-                                       class="btn btn-sm btn-outline-info">
-                                        Details
-                                    </a>
+                                    <div class="action-buttons">
 
-                                    <a asp-action="Edit"
-                                       asp-route-id="@student.Id"
-                                       class="btn btn-sm btn-outline-primary">
-                                        Edit
-                                    </a>
+                                        <a asp-action="Details"
+                                           asp-route-id="@student.Id"
+                                           class="action-btn action-details"
+                                           title="Details">
+                                            View
+                                        </a>
 
-                                    <a asp-action="Delete"
-                                       asp-route-id="@student.Id"
-                                       class="btn btn-sm btn-outline-danger">
-                                        Delete
-                                    </a>
+                                        <a asp-action="Edit"
+                                           asp-route-id="@student.Id"
+                                           class="action-btn action-edit"
+                                           title="Edit">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@student.Id"
+                                           class="action-btn action-delete"
+                                           title="Delete">
+                                            Delete
+                                        </a>
+
+                                    </div>
 
                                 </td>
 
                             </tr>
                         }
 
-                        </tbody>
+                    </tbody>
 
-                    </table>
+                </table>
 
-                </div>
-            }
+            </div>
 
-        </div>
+            <div class="table-footer">
+
+                <span>
+                    Showing @Model.Count() student(s)
+                </span>
+
+            </div>
+        }
 
     </div>
 

@@ -1,0 +1,170 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.ParentFormViewModel
+
+<div asp-validation-summary="ModelOnly"
+     class="alert alert-danger">
+</div>
+
+<div class="parent-form-grid">
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>
+                Parent Information
+            </h5>
+
+            <p>
+                Account information for the parent
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label asp-for="FullName"
+                           class="form-label">
+                        Full Name
+                    </label>
+
+                    <input asp-for="FullName"
+                           class="form-control"
+                           placeholder="Example: Michael Smith" />
+
+                    <span asp-validation-for="FullName"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label asp-for="Email"
+                           class="form-label">
+                        Email
+                    </label>
+
+                    <input asp-for="Email"
+                           type="email"
+                           class="form-control"
+                           placeholder="parent@school.com" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label asp-for="Password"
+                           class="form-label">
+
+                        Password
+
+                        @if (Model.Id != 0)
+                        {
+                            <span class="text-muted fw-normal">
+                                (optional)
+                            </span>
+                        }
+
+                    </label>
+
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control"
+                           placeholder="Enter password" />
+
+                    <span asp-validation-for="Password"
+                          class="text-danger small">
+                    </span>
+
+                    @if (Model.Id != 0)
+                    {
+                        <div class="form-hint">
+                            Leave empty to keep the current password.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>
+                Children
+            </h5>
+
+            <p>
+                Select students connected to this parent
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            @if (ViewBag.Students != null)
+            {
+                <div class="relation-selector">
+
+                    @foreach (var student in ViewBag.Students)
+                    {
+                        var selected =
+                            Model.StudentIds != null &&
+                            Model.StudentIds.Contains(
+                                student.Id);
+
+                        <label class="relation-option">
+
+                            <input type="checkbox"
+                                   name="StudentIds"
+                                   value="@student.Id"
+                                   checked="@selected" />
+
+                            <div class="relation-icon student-relation-icon">
+
+                                @(string.IsNullOrWhiteSpace(
+                                    student.FirstName)
+                                    ? "S"
+                                    : student.FirstName
+                                        .Substring(0, 1)
+                                        .ToUpper())
+
+                            </div>
+
+                            <div class="relation-info">
+
+                                <strong>
+                                    @student.FirstName
+                                    @student.LastName
+                                </strong>
+
+                                <span>
+                                    @(student.Group?.Name ?? "No group")
+                                </span>
+
+                            </div>
+
+                        </label>
+                    }
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

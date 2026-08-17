@@ -1,131 +1,187 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.LessonFormViewModel
 
 <div asp-validation-summary="ModelOnly"
-     class="text-danger mb-3">
+     class="alert alert-danger">
 </div>
 
-<div class="row">
+<div class="lesson-form-grid">
 
-    <div class="col-md-6 mb-3">
+    <div class="form-card">
 
-        <label asp-for="StartTime"
-               class="form-label">
-            Start Time
-        </label>
+        <div class="form-card-header">
 
-        <input asp-for="StartTime"
-               type="datetime-local"
-               class="form-control" />
+            <h5>Lesson Information</h5>
 
-        <span asp-validation-for="StartTime"
-              class="text-danger">
-        </span>
+            <p>
+                Set lesson date, time and topic
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label asp-for="StartTime"
+                           class="form-label">
+                        Start Time
+                    </label>
+
+                    <input asp-for="StartTime"
+                           type="datetime-local"
+                           class="form-control" />
+
+                    <span asp-validation-for="StartTime"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label asp-for="EndTime"
+                           class="form-label">
+                        End Time
+                    </label>
+
+                    <input asp-for="EndTime"
+                           type="datetime-local"
+                           class="form-control" />
+
+                    <span asp-validation-for="EndTime"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-12">
+
+                    <label asp-for="Topic"
+                           class="form-label">
+                        Topic
+                    </label>
+
+                    <input asp-for="Topic"
+                           class="form-control"
+                           placeholder="Example: Linear equations" />
+
+                    <span asp-validation-for="Topic"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="form-card">
 
-        <label asp-for="EndTime"
-               class="form-label">
-            End Time
-        </label>
+        <div class="form-card-header">
 
-        <input asp-for="EndTime"
-               type="datetime-local"
-               class="form-control" />
+            <h5>Assignment</h5>
 
-        <span asp-validation-for="EndTime"
-              class="text-danger">
-        </span>
+            <p>
+                Select group, teacher and subject
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="mb-4">
+
+                <label asp-for="GroupId"
+                       class="form-label">
+                    Group
+                </label>
+
+                <select asp-for="GroupId"
+                        class="form-select">
+
+                    <option value="">
+                        Select group
+                    </option>
+
+                    @foreach (var group in ViewBag.Groups)
+                    {
+                        <option value="@group.Id">
+                            @group.Name
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="GroupId"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label asp-for="TeacherId"
+                       class="form-label">
+                    Teacher
+                </label>
+
+                <select asp-for="TeacherId"
+                        class="form-select">
+
+                    <option value="">
+                        Select teacher
+                    </option>
+
+                    @foreach (var teacher in ViewBag.Teachers)
+                    {
+                        <option value="@teacher.Id">
+                            @teacher.ApplicationUser.FullName
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="TeacherId"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+            <div>
+
+                <label asp-for="SubjectId"
+                       class="form-label">
+                    Subject
+                </label>
+
+                <select asp-for="SubjectId"
+                        class="form-select">
+
+                    <option value="">
+                        Select subject
+                    </option>
+
+                    @foreach (var subject in ViewBag.Subjects)
+                    {
+                        <option value="@subject.Id">
+                            @subject.Name
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="SubjectId"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+        </div>
 
     </div>
-
-</div>
-
-<div class="mb-3">
-
-    <label asp-for="GroupId"
-           class="form-label">
-        Group
-    </label>
-
-    <select asp-for="GroupId"
-            asp-items="ViewBag.Groups"
-            class="form-select">
-
-        <option value="0">
-            -- Select Group --
-        </option>
-
-    </select>
-
-    <span asp-validation-for="GroupId"
-          class="text-danger">
-    </span>
-
-</div>
-
-<div class="mb-3">
-
-    <label asp-for="TeacherId"
-           class="form-label">
-        Teacher
-    </label>
-
-    <select asp-for="TeacherId"
-            asp-items="ViewBag.Teachers"
-            class="form-select">
-
-        <option value="0">
-            -- Select Teacher --
-        </option>
-
-    </select>
-
-    <span asp-validation-for="TeacherId"
-          class="text-danger">
-    </span>
-
-</div>
-
-<div class="mb-3">
-
-    <label asp-for="SubjectId"
-           class="form-label">
-        Subject
-    </label>
-
-    <select asp-for="SubjectId"
-            asp-items="ViewBag.Subjects"
-            class="form-select">
-
-        <option value="0">
-            -- Select Subject --
-        </option>
-
-    </select>
-
-    <span asp-validation-for="SubjectId"
-          class="text-danger">
-    </span>
-
-</div>
-
-<div class="mb-4">
-
-    <label asp-for="Topic"
-           class="form-label">
-        Topic
-    </label>
-
-    <textarea asp-for="Topic"
-              class="form-control"
-              rows="3"
-              placeholder="Example: Introduction to algebra">
-    </textarea>
-
-    <span asp-validation-for="Topic"
-          class="text-danger">
-    </span>
 
 </div>

@@ -1,0 +1,251 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.TeacherFormViewModel
+
+<div asp-validation-summary="ModelOnly"
+     class="alert alert-danger">
+</div>
+
+
+<div class="teacher-form-grid">
+
+    <!-- ACCOUNT -->
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>
+                Teacher Information
+            </h5>
+
+            <p>
+                Account and salary information
+            </p>
+
+        </div>
+
+
+        <div class="form-card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label asp-for="FullName"
+                           class="form-label">
+                        Full Name
+                    </label>
+
+                    <input asp-for="FullName"
+                           class="form-control"
+                           placeholder="Example: John Smith" />
+
+                    <span asp-validation-for="FullName"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="Email"
+                           class="form-label">
+                        Email
+                    </label>
+
+                    <input asp-for="Email"
+                           type="email"
+                           class="form-control"
+                           placeholder="teacher@school.com" />
+
+                    <span asp-validation-for="Email"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="HourlyRate"
+                           class="form-label">
+                        Hourly Rate
+                    </label>
+
+                    <input asp-for="HourlyRate"
+                           type="number"
+                           step="0.01"
+                           min="0"
+                           class="form-control"
+                           placeholder="50" />
+
+                    <span asp-validation-for="HourlyRate"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+
+                <div class="col-md-6">
+
+                    <label asp-for="Password"
+                           class="form-label">
+
+                        Password
+
+                        @if (Model.Id != 0)
+                        {
+                            <span class="text-muted fw-normal">
+                                (optional)
+                            </span>
+                        }
+
+                    </label>
+
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control"
+                           placeholder="Enter password" />
+
+                    <span asp-validation-for="Password"
+                          class="text-danger small">
+                    </span>
+
+
+                    @if (Model.Id != 0)
+                    {
+                        <div class="form-hint">
+                            Leave empty to keep the current password.
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- GROUPS -->
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>
+                Groups
+            </h5>
+
+            <p>
+                Select groups assigned to this teacher
+            </p>
+
+        </div>
+
+
+        <div class="form-card-body">
+
+            <div class="relation-selector">
+
+                @foreach (var group in ViewBag.Groups)
+                {
+                    var selected =
+                        Model.GroupIds != null &&
+                        Model.GroupIds.Contains(group.Id);
+
+                    <label class="relation-option">
+
+                        <input type="checkbox"
+                               name="GroupIds"
+                               value="@group.Id"
+                               checked="@selected" />
+
+                        <div class="relation-icon">
+                            GR
+                        </div>
+
+                        <div class="relation-info">
+
+                            <strong>
+                                @group.Name
+                            </strong>
+
+                            <span>
+                                School group
+                            </span>
+
+                        </div>
+
+                    </label>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SUBJECTS -->
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>
+                Subjects
+            </h5>
+
+            <p>
+                Select subjects taught by this teacher
+            </p>
+
+        </div>
+
+
+        <div class="form-card-body">
+
+            <div class="relation-selector">
+
+                @foreach (var subject in ViewBag.Subjects)
+                {
+                    var selected =
+                        Model.SubjectIds != null &&
+                        Model.SubjectIds.Contains(
+                            subject.Id);
+
+                    <label class="relation-option">
+
+                        <input type="checkbox"
+                               name="SubjectIds"
+                               value="@subject.Id"
+                               checked="@selected" />
+
+                        <div class="relation-icon subject-icon">
+                            SB
+                        </div>
+
+                        <div class="relation-info">
+
+                            <strong>
+                                @subject.Name
+                            </strong>
+
+                            <span>
+                                Subject
+                            </span>
+
+                        </div>
+
+                    </label>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

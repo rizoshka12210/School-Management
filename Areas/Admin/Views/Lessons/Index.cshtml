@@ -4,107 +4,187 @@
     ViewData["Title"] = "Lessons";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">Lessons</h1>
 
-        <div>
-            <h1 class="fw-bold mb-1">
-                Lessons
-            </h1>
-
-            <p class="text-muted mb-0">
-                Manage school lessons
-            </p>
-        </div>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Lesson
-        </a>
-
+        <p class="page-subtitle">
+            Manage lessons, teachers, subjects and lesson topics
+        </p>
     </div>
 
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["Error"]
-        </div>
-    }
+    <a asp-action="Create"
+       class="btn btn-primary">
+        + Add Lesson
+    </a>
 
-    <div class="card border-0 shadow-sm">
+</div>
 
-        <div class="card-body">
+<div class="card border-0 shadow-sm">
 
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
+    <div class="card-body">
 
-                    <h5>No lessons yet</h5>
+        <form method="get"
+              asp-action="Index"
+              class="lesson-filters">
 
-                    <p class="text-muted">
-                        Create your first lesson.
-                    </p>
+            <div class="lesson-search">
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="Search subject, teacher, group or topic..." />
+            </div>
 
-                    <a asp-action="Create"
-                       class="btn btn-primary">
-                        Add Lesson
-                    </a>
+            <div>
+                <input type="date"
+                       name="date"
+                       value="@ViewBag.Date"
+                       class="form-control" />
+            </div>
 
+            <div>
+                <select name="groupId"
+                        class="form-select">
+
+                    <option value="">
+                        All groups
+                    </option>
+
+                    @foreach (var group in ViewBag.Groups)
+                    {
+                        if (ViewBag.GroupId != null &&
+                            (int)ViewBag.GroupId == group.Id)
+                        {
+                            <option value="@group.Id" selected>
+                                @group.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@group.Id">
+                                @group.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Filter
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-light">
+                Clear
+            </a>
+
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    LS
                 </div>
-            }
-            else
-            {
-                <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+                <h5>No lessons found</h5>
 
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Group</th>
-                                <th>Subject</th>
-                                <th>Teacher</th>
-                                <th>Topic</th>
-                                <th class="text-end">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
+                <p>
+                    There are no lessons matching the selected filters.
+                </p>
 
-                        <tbody>
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    + Add Lesson
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Group</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Topic</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
 
                         @foreach (var lesson in Model)
                         {
                             <tr>
 
                                 <td>
-                                    @lesson.StartTime.ToString("dd.MM.yyyy")
+
+                                    <div class="lesson-date">
+                                        @lesson.StartTime.ToString("dd MMM yyyy")
+                                    </div>
+
+                                    <div class="lesson-time-range">
+                                        @lesson.StartTime.ToString("HH:mm")
+                                        –
+                                        @lesson.EndTime.ToString("HH:mm")
+                                    </div>
+
                                 </td>
 
                                 <td>
-                                    @lesson.StartTime.ToString("HH:mm")
-                                    -
-                                    @lesson.EndTime.ToString("HH:mm")
+                                    <span class="group-badge">
+                                        @lesson.Group.Name
+                                    </span>
                                 </td>
 
                                 <td>
-                                    @lesson.Group.Name
+                                    <span class="subject-badge">
+                                        @lesson.Subject.Name
+                                    </span>
                                 </td>
 
                                 <td>
-                                    @lesson.Subject.Name
+
+                                    <div class="person-cell">
+
+                                        <div class="mini-avatar">
+                                            @(string.IsNullOrWhiteSpace(
+                                                lesson.Teacher.ApplicationUser.FullName)
+                                                ? "T"
+                                                : lesson.Teacher.ApplicationUser.FullName
+                                                    .Substring(0, 1)
+                                                    .ToUpper())
+                                        </div>
+
+                                        <span class="fw-semibold">
+                                            @lesson.Teacher.ApplicationUser.FullName
+                                        </span>
+
+                                    </div>
+
                                 </td>
 
                                 <td>
-                                    @lesson.Teacher.ApplicationUser.FullName
-                                </td>
 
-                                <td>
-                                    @if (!string.IsNullOrWhiteSpace(lesson.Topic))
+                                    @if (!string.IsNullOrWhiteSpace(
+                                        lesson.Topic))
                                     {
-                                        @lesson.Topic
+                                        <span>
+                                            @lesson.Topic
+                                        </span>
                                     }
                                     else
                                     {
@@ -112,41 +192,48 @@
                                             No topic
                                         </span>
                                     }
+
                                 </td>
 
                                 <td class="text-end">
 
-                                    <a asp-action="Details"
-                                       asp-route-id="@lesson.Id"
-                                       class="btn btn-sm btn-outline-info">
-                                        Details
-                                    </a>
+                                    <div class="action-buttons">
 
-                                    <a asp-action="Edit"
-                                       asp-route-id="@lesson.Id"
-                                       class="btn btn-sm btn-outline-primary">
-                                        Edit
-                                    </a>
+                                        <a asp-action="Details"
+                                           asp-route-id="@lesson.Id"
+                                           class="action-btn action-details">
+                                            View
+                                        </a>
 
-                                    <a asp-action="Delete"
-                                       asp-route-id="@lesson.Id"
-                                       class="btn btn-sm btn-outline-danger">
-                                        Delete
-                                    </a>
+                                        <a asp-action="Edit"
+                                           asp-route-id="@lesson.Id"
+                                           class="action-btn action-edit">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@lesson.Id"
+                                           class="action-btn action-delete">
+                                            Delete
+                                        </a>
+
+                                    </div>
 
                                 </td>
 
                             </tr>
                         }
 
-                        </tbody>
+                    </tbody>
 
-                    </table>
+                </table>
 
-                </div>
-            }
+            </div>
 
-        </div>
+            <div class="table-footer">
+                Showing @Model.Count() lesson(s)
+            </div>
+        }
 
     </div>
 

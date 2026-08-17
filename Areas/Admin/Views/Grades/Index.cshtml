@@ -2,106 +2,282 @@
 
 @{
     ViewData["Title"] = "Grades";
+
+    var average = Model.Any()
+        ? Model.Average(g => g.Value)
+        : 0;
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">
+    <div>
+
+        <h1 class="page-title">
             Grades
         </h1>
 
-        <p class="text-muted mb-0">
-            Read-only student grades
+        <p class="page-subtitle">
+            View grades recorded by teachers
         </p>
+
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <div class="readonly-badge">
+        Read only
+    </div>
 
-        <div class="card-body">
+</div>
 
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
+<div class="grade-stats">
 
-                    <h5>No grades found</h5>
+    <div class="grade-stat">
 
-                    <p class="text-muted">
-                        Grades added by teachers will appear here.
-                    </p>
+        <div class="grade-stat-value">
+            @Model.Count()
+        </div>
 
+        <div class="grade-stat-label">
+            Total Grades
+        </div>
+
+    </div>
+
+    <div class="grade-stat">
+
+        <div class="grade-stat-value">
+            @average.ToString("0.00")
+        </div>
+
+        <div class="grade-stat-label">
+            Average Grade
+        </div>
+
+    </div>
+
+    <div class="grade-stat">
+
+        <div class="grade-stat-value">
+            @(Model.Any() ? Model.Max(g => g.Value) : 0)
+        </div>
+
+        <div class="grade-stat-label">
+            Highest Grade
+        </div>
+
+    </div>
+
+    <div class="grade-stat">
+
+        <div class="grade-stat-value">
+            @Model.Select(g => g.StudentId).Distinct().Count()
+        </div>
+
+        <div class="grade-stat-label">
+            Students Graded
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="grade-filters">
+
+            <div class="record-search">
+
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="Search student, subject or teacher..." />
+
+            </div>
+
+            <div>
+
+                <select name="subjectId"
+                        class="form-select">
+
+                    <option value="">
+                        All subjects
+                    </option>
+
+                    @foreach (var subject in ViewBag.Subjects)
+                    {
+                        if (ViewBag.SubjectId != null &&
+                            (int)ViewBag.SubjectId == subject.Id)
+                        {
+                            <option value="@subject.Id" selected>
+                                @subject.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@subject.Id">
+                                @subject.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Filter
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-light">
+                Clear
+            </a>
+
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    GD
                 </div>
-            }
-            else
-            {
-                <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+                <h5>
+                    No grades found
+                </h5>
 
-                        <thead>
+                <p>
+                    There are no grades matching the selected filters.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Grade</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var grade in Model)
+                        {
                             <tr>
-                                <th>Date</th>
-                                <th>Student</th>
-                                <th>Subject</th>
-                                <th>Teacher</th>
-                                <th>Grade</th>
-                                <th>Comment</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
+                                <td>
 
-                            @foreach (var grade in Model)
-                            {
-                                <tr>
+                                    <div class="record-date">
+                                        @grade.Date.ToString("dd MMM yyyy")
+                                    </div>
 
-                                    <td>
-                                        @grade.Date.ToString("dd.MM.yyyy")
-                                    </td>
+                                </td>
 
-                                    <td class="fw-semibold">
-                                        @grade.Student.FirstName
-                                        @grade.Student.LastName
-                                    </td>
+                                <td>
 
-                                    <td>
+                                    <div class="person-cell">
+
+                                        <div class="mini-avatar">
+                                            @grade.Student.FirstName.Substring(0, 1).ToUpper()
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @grade.Student.FirstName
+                                                @grade.Student.LastName
+                                            </div>
+
+                                            <div class="person-id">
+                                                Student #@grade.StudentId
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="subject-badge">
                                         @grade.Subject.Name
-                                    </td>
+                                    </span>
 
-                                    <td>
-                                        @grade.Teacher.ApplicationUser.FullName
-                                    </td>
+                                </td>
 
-                                    <td>
-                                        <span class="badge bg-primary fs-6">
+                                <td>
+                                    @grade.Teacher.ApplicationUser.FullName
+                                </td>
+
+                                <td>
+
+                                    @if (grade.Value >= 5)
+                                    {
+                                        <span class="grade-badge grade-high">
                                             @grade.Value
                                         </span>
-                                    </td>
+                                    }
+                                    else if (grade.Value >= 4)
+                                    {
+                                        <span class="grade-badge grade-good">
+                                            @grade.Value
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="grade-badge grade-low">
+                                            @grade.Value
+                                        </span>
+                                    }
 
-                                    <td>
-                                        @if (!string.IsNullOrWhiteSpace(grade.Comment))
-                                        {
-                                            @grade.Comment
-                                        }
-                                        else
-                                        {
-                                            <span class="text-muted">
-                                                —
-                                            </span>
-                                        }
-                                    </td>
+                                </td>
 
-                                </tr>
-                            }
+                                <td>
 
-                        </tbody>
+                                    @if (!string.IsNullOrWhiteSpace(
+                                        grade.Comment))
+                                    {
+                                        @grade.Comment
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            —
+                                        </span>
+                                    }
 
-                    </table>
+                                </td>
 
-                </div>
-            }
+                            </tr>
+                        }
 
-        </div>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="table-footer">
+                Showing @Model.Count() grade(s)
+            </div>
+        }
 
     </div>
 

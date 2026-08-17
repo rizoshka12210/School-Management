@@ -8,87 +8,346 @@
 
     string[] monthNames =
     {
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
     };
+
+    var totalSalary =
+        Model.Sum(x => x.TotalSalary);
+
+    var totalHours =
+        Model.Sum(x => x.WorkedHours);
+
+    var totalLessons =
+        Model.Sum(x => x.LessonsCount);
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">Salary</h1>
-        <p class="text-muted mb-0">Teacher salaries for the selected month</p>
+    <div>
+
+        <h1 class="page-title">
+            Teacher Salary
+        </h1>
+
+        <p class="page-subtitle">
+            Monthly teacher salary calculation based on worked hours
+        </p>
+
     </div>
 
-    <form method="get" class="row g-2 align-items-end mb-4">
-        <div class="col-auto">
-            <label class="form-label">Month</label>
-            <select name="month" class="form-select">
-                @for (var i = 1; i <= 12; i++)
+    <div class="readonly-badge">
+        Read only
+    </div>
+
+</div>
+
+<div class="salary-period">
+
+    <div>
+
+        <div class="salary-period-label">
+            Selected period
+        </div>
+
+        <div class="salary-period-value">
+            @monthNames[month - 1] @year
+        </div>
+
+    </div>
+
+    <form method="get"
+          asp-action="Index"
+          class="salary-filter">
+
+        <select name="month"
+                class="form-select">
+
+            @for (int i = 1; i <= 12; i++)
+            {
+                if (i == month)
                 {
-                    <option value="@i" selected="@(i == month)">@monthNames[i - 1]</option>
+                    <option value="@i" selected>
+                        @monthNames[i - 1]
+                    </option>
                 }
-            </select>
-        </div>
-        <div class="col-auto">
-            <label class="form-label">Year</label>
-            <select name="year" class="form-select">
-                @for (var y = DateTime.UtcNow.Year - 1; y <= DateTime.UtcNow.Year + 1; y++)
+                else
                 {
-                    <option value="@y" selected="@(y == year)">@y</option>
+                    <option value="@i">
+                        @monthNames[i - 1]
+                    </option>
                 }
-            </select>
-        </div>
-        <div class="col-auto">
-            <button type="submit" class="btn btn-primary">View</button>
-        </div>
+            }
+
+        </select>
+
+        <select name="year"
+                class="form-select">
+
+            @for (int i = DateTime.UtcNow.Year - 3;
+                i <= DateTime.UtcNow.Year + 1;
+                i++)
+            {
+                if (i == year)
+                {
+                    <option value="@i" selected>
+                        @i
+                    </option>
+                }
+                else
+                {
+                    <option value="@i">
+                        @i
+                    </option>
+                }
+            }
+
+        </select>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Apply
+        </button>
+
     </form>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
+</div>
 
-            <h5 class="mb-3">@monthNames[month - 1] @year</h5>
+<div class="salary-stats">
 
-            @if (!Model.Any())
-            {
-                <p class="text-muted mb-0">No teachers yet.</p>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Teacher</th>
-                                <th>Lessons</th>
-                                <th>Worked Hours</th>
-                                <th>Hourly Rate</th>
-                                <th>Total Salary</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var row in Model)
-                            {
-                                <tr>
-                                    <td>@row.TeacherName</td>
-                                    <td>@row.LessonsCount</td>
-                                    <td>@row.WorkedHours.ToString("N1")</td>
-                                    <td>@row.HourlyRate.ToString("N0")</td>
-                                    <td class="fw-semibold">@row.TotalSalary.ToString("N0")</td>
-                                </tr>
-                            }
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-light">
-                                <th colspan="4" class="text-end">Total</th>
-                                <th>@Model.Sum(r => r.TotalSalary).ToString("N0")</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            }
+    <div class="salary-stat">
+
+        <div class="salary-stat-label">
+            Teachers
+        </div>
+
+        <div class="salary-stat-value">
+            @Model.Count
+        </div>
+
+    </div>
+
+    <div class="salary-stat">
+
+        <div class="salary-stat-label">
+            Lessons
+        </div>
+
+        <div class="salary-stat-value">
+            @totalLessons
+        </div>
+
+    </div>
+
+    <div class="salary-stat">
+
+        <div class="salary-stat-label">
+            Worked Hours
+        </div>
+
+        <div class="salary-stat-value">
+            @totalHours.ToString("0.##")
+        </div>
+
+    </div>
+
+    <div class="salary-stat salary-total-card">
+
+        <div class="salary-stat-label">
+            Total Salary
+        </div>
+
+        <div class="salary-stat-value">
+            @totalSalary.ToString("0.00")
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Salary Details
+                </h5>
+
+                <p class="section-subtitle">
+                    @monthNames[month - 1] @year
+                </p>
+
+            </div>
 
         </div>
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    SA
+                </div>
+
+                <h5>
+                    No salary data
+                </h5>
+
+                <p>
+                    No teacher salary information is available for this period.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>Teacher</th>
+                            <th>Lessons</th>
+                            <th>Worked Hours</th>
+                            <th>Hourly Rate</th>
+                            <th class="text-end">
+                                Total Salary
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar salary-avatar">
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                item.TeacherName)
+                                                ? "T"
+                                                : item.TeacherName
+                                                    .Substring(0, 1)
+                                                    .ToUpper())
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @item.TeacherName
+                                            </div>
+
+                                            <div class="person-id">
+                                                Teacher
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="count-badge">
+                                        @item.LessonsCount
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <strong>
+                                        @item.WorkedHours.ToString("0.##")
+                                    </strong>
+
+                                    <span class="text-muted small">
+                                        hours
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    @item.HourlyRate.ToString("0.00")
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <span class="salary-amount">
+                                        @item.TotalSalary.ToString("0.00")
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                    <tfoot>
+
+                        <tr>
+
+                            <td>
+                                <strong>
+                                    Total
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    @totalLessons
+                                </strong>
+                            </td>
+
+                            <td>
+                                <strong>
+                                    @totalHours.ToString("0.##")
+                                </strong>
+                            </td>
+
+                            <td></td>
+
+                            <td class="text-end">
+
+                                <strong class="salary-total">
+                                    @totalSalary.ToString("0.00")
+                                </strong>
+
+                            </td>
+
+                        </tr>
+
+                    </tfoot>
+
+                </table>
+
+            </div>
+        }
+
     </div>
 
 </div>

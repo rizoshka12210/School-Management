@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
@@ -20,32 +19,72 @@ public class LessonsController : Controller
         _context = context;
     }
 
-
-
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(
+        string? search,
+        string? date,
+        int? groupId)
     {
-        var lessons = await _context.Lessons
+        var query = _context.Lessons
             .Include(l => l.Group)
+            .Include(l => l.Subject)
             .Include(l => l.Teacher)
                 .ThenInclude(t => t.ApplicationUser)
-            .Include(l => l.Subject)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var value = search.Trim().ToLower();
+
+            query = query.Where(l =>
+                l.Subject.Name.ToLower().Contains(value) ||
+                l.Group.Name.ToLower().Contains(value) ||
+                l.Teacher.ApplicationUser.FullName.ToLower().Contains(value) ||
+                (l.Topic != null &&
+                 l.Topic.ToLower().Contains(value)));
+        }
+
+        if (!string.IsNullOrWhiteSpace(date) &&
+            DateOnly.TryParse(date, out var parsedDate))
+        {
+            var start = DateTime.SpecifyKind(
+                parsedDate.ToDateTime(TimeOnly.MinValue),
+                DateTimeKind.Utc);
+
+            var end = start.AddDays(1);
+
+            query = query.Where(l =>
+                l.StartTime >= start &&
+                l.StartTime < end);
+        }
+
+        if (groupId.HasValue)
+        {
+            query = query.Where(l =>
+                l.GroupId == groupId.Value);
+        }
+
+        ViewBag.Search = search;
+        ViewBag.Date = date;
+        ViewBag.GroupId = groupId;
+
+        ViewBag.Groups = await _context.Groups
+            .OrderBy(g => g.Name)
+            .ToListAsync();
+
+        var lessons = await query
             .OrderByDescending(l => l.StartTime)
             .ToListAsync();
 
         return View(lessons);
     }
 
-
-
     public async Task<IActionResult> Details(int id)
     {
         var lesson = await _context.Lessons
             .Include(l => l.Group)
+            .Include(l => l.Subject)
             .Include(l => l.Teacher)
                 .ThenInclude(t => t.ApplicationUser)
-            .Include(l => l.Subject)
-            .Include(l => l.Attendances)
-            .Include(l => l.Grades)
             .FirstOrDefaultAsync(l => l.Id == id);
 
         if (lesson == null)
@@ -56,33 +95,47 @@ public class LessonsController : Controller
         return View(lesson);
     }
 
-
     [HttpGet]
     public async Task<IActionResult> Create()
     {
-        await LoadLookupsAsync();
+        await LoadFormDataAsync();
 
-        return View(new LessonFormViewModel
+        var now = DateTime.UtcNow;
+
+        var model = new LessonFormViewModel
         {
-            StartTime = DateTime.Today.AddHours(9),
-            EndTime = DateTime.Today.AddHours(10)
-        });
-    }
+            StartTime = now.AddHours(1),
+            EndTime = now.AddHours(2)
+        };
 
- 
+        return View(model);
+    }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
         LessonFormViewModel model)
     {
-        ValidateTimes(model);
+        if (model.EndTime <= model.StartTime)
+        {
+            ModelState.AddModelError(
+                nameof(model.EndTime),
+                "End time must be later than start time.");
+        }
 
-        await ValidateTeacherRelationshipAsync(model);
+        if (!await TeacherMatchesAsync(
+                model.TeacherId,
+                model.GroupId,
+                model.SubjectId))
+        {
+            ModelState.AddModelError(
+                nameof(model.TeacherId),
+                "Selected teacher must be assigned to this group and subject.");
+        }
 
         if (!ModelState.IsValid)
         {
-            await LoadLookupsAsync();
+            await LoadFormDataAsync();
 
             return View(model);
         }
@@ -90,13 +143,10 @@ public class LessonsController : Controller
         var lesson = new Lesson
         {
             StartTime = MakeUtc(model.StartTime),
-
             EndTime = MakeUtc(model.EndTime),
-
             Topic = string.IsNullOrWhiteSpace(model.Topic)
                 ? null
                 : model.Topic.Trim(),
-
             GroupId = model.GroupId,
             TeacherId = model.TeacherId,
             SubjectId = model.SubjectId
@@ -106,10 +156,11 @@ public class LessonsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Lesson created successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
-   
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -133,73 +184,73 @@ public class LessonsController : Controller
             SubjectId = lesson.SubjectId
         };
 
-        await LoadLookupsAsync();
+        await LoadFormDataAsync();
 
         return View(model);
     }
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-        int id,
         LessonFormViewModel model)
     {
-        if (id != model.Id)
-        {
-            return BadRequest();
-        }
-
-        ValidateTimes(model);
-
-        await ValidateTeacherRelationshipAsync(model);
-
-        if (!ModelState.IsValid)
-        {
-            await LoadLookupsAsync();
-
-            return View(model);
-        }
-
         var lesson = await _context.Lessons
-            .FirstOrDefaultAsync(l => l.Id == id);
+            .FirstOrDefaultAsync(l => l.Id == model.Id);
 
         if (lesson == null)
         {
             return NotFound();
         }
 
-        lesson.StartTime =
-            MakeUtc(model.StartTime);
+        if (model.EndTime <= model.StartTime)
+        {
+            ModelState.AddModelError(
+                nameof(model.EndTime),
+                "End time must be later than start time.");
+        }
 
-        lesson.EndTime =
-            MakeUtc(model.EndTime);
+        if (!await TeacherMatchesAsync(
+                model.TeacherId,
+                model.GroupId,
+                model.SubjectId))
+        {
+            ModelState.AddModelError(
+                nameof(model.TeacherId),
+                "Selected teacher must be assigned to this group and subject.");
+        }
 
-        lesson.Topic =
-            string.IsNullOrWhiteSpace(model.Topic)
-                ? null
-                : model.Topic.Trim();
+        if (!ModelState.IsValid)
+        {
+            await LoadFormDataAsync();
 
+            return View(model);
+        }
+
+        lesson.StartTime = MakeUtc(model.StartTime);
+        lesson.EndTime = MakeUtc(model.EndTime);
+        lesson.Topic = string.IsNullOrWhiteSpace(model.Topic)
+            ? null
+            : model.Topic.Trim();
         lesson.GroupId = model.GroupId;
         lesson.TeacherId = model.TeacherId;
         lesson.SubjectId = model.SubjectId;
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Lesson updated successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
         var lesson = await _context.Lessons
             .Include(l => l.Group)
+            .Include(l => l.Subject)
             .Include(l => l.Teacher)
                 .ThenInclude(t => t.ApplicationUser)
-            .Include(l => l.Subject)
-            .Include(l => l.Attendances)
-            .Include(l => l.Grades)
             .FirstOrDefaultAsync(l => l.Id == id);
 
         if (lesson == null)
@@ -210,16 +261,11 @@ public class LessonsController : Controller
         return View(lesson);
     }
 
-
-
     [HttpPost]
-    [ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var lesson = await _context.Lessons
-            .Include(l => l.Attendances)
-            .Include(l => l.Grades)
             .FirstOrDefaultAsync(l => l.Id == id);
 
         if (lesson == null)
@@ -227,13 +273,16 @@ public class LessonsController : Controller
             return NotFound();
         }
 
-        // Не удаляем урок, если Teacher уже
-        // поставил посещаемость или оценки.
-        if (lesson.Attendances.Any() ||
-            lesson.Grades.Any())
+        var hasAttendance = await _context.Attendances
+            .AnyAsync(a => a.LessonId == id);
+
+        var hasGrades = await _context.Grades
+            .AnyAsync(g => g.LessonId == id);
+
+        if (hasAttendance || hasGrades)
         {
             TempData["Error"] =
-                "This lesson cannot be deleted because it already has attendance or grades.";
+                "This lesson cannot be deleted because attendance or grades are connected to it.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -242,86 +291,44 @@ public class LessonsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Lesson deleted successfully.";
+
         return RedirectToAction(nameof(Index));
     }
 
-
-    private void ValidateTimes(
-        LessonFormViewModel model)
-    {
-        if (model.EndTime <= model.StartTime)
-        {
-            ModelState.AddModelError(
-                nameof(model.EndTime),
-                "End time must be later than start time.");
-        }
-    }
-
-    private async Task ValidateTeacherRelationshipAsync(
-        LessonFormViewModel model)
-    {
-        if (model.TeacherId <= 0 ||
-            model.GroupId <= 0 ||
-            model.SubjectId <= 0)
-        {
-            return;
-        }
-
-        var teacherHasAccess =
-            await _context.Teachers
-                .AnyAsync(t =>
-                    t.Id == model.TeacherId &&
-                    t.Groups.Any(
-                        g => g.Id == model.GroupId) &&
-                    t.Subjects.Any(
-                        s => s.Id == model.SubjectId));
-
-        if (!teacherHasAccess)
-        {
-            ModelState.AddModelError(
-                string.Empty,
-                "The selected teacher must be assigned to both the selected group and subject.");
-        }
-    }
-
-   
-    private async Task LoadLookupsAsync()
+    private async Task LoadFormDataAsync()
     {
         ViewBag.Groups = await _context.Groups
             .OrderBy(g => g.Name)
-            .Select(g => new SelectListItem
-            {
-                Value = g.Id.ToString(),
-                Text = g.Name
-            })
             .ToListAsync();
 
         ViewBag.Teachers = await _context.Teachers
             .Include(t => t.ApplicationUser)
             .OrderBy(t => t.ApplicationUser.FullName)
-            .Select(t => new SelectListItem
-            {
-                Value = t.Id.ToString(),
-                Text = t.ApplicationUser.FullName
-            })
             .ToListAsync();
 
         ViewBag.Subjects = await _context.Subjects
             .OrderBy(s => s.Name)
-            .Select(s => new SelectListItem
-            {
-                Value = s.Id.ToString(),
-                Text = s.Name
-            })
             .ToListAsync();
     }
 
+    private async Task<bool> TeacherMatchesAsync(
+        int teacherId,
+        int groupId,
+        int subjectId)
+    {
+        return await _context.Teachers
+            .AnyAsync(t =>
+                t.Id == teacherId &&
+                t.Groups.Any(g => g.Id == groupId) &&
+                t.Subjects.Any(s => s.Id == subjectId));
+    }
 
-    private static DateTime MakeUtc(
-        DateTime dateTime)
+    private static DateTime MakeUtc(DateTime value)
     {
         return DateTime.SpecifyKind(
-            dateTime,
+            value,
             DateTimeKind.Utc);
     }
 }

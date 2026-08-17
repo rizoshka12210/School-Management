@@ -4,90 +4,159 @@
     ViewData["Title"] = "Groups";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">
+            Groups
+        </h1>
 
-        <div>
-            <h1 class="fw-bold mb-1">Groups</h1>
-            <p class="text-muted mb-0">
-                Manage school groups
-            </p>
-        </div>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Group
-        </a>
-
+        <p class="page-subtitle">
+            Manage school groups, students and teachers
+        </p>
     </div>
 
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["Error"]
-        </div>
-    }
+    <a asp-action="Create"
+       class="btn btn-primary">
+        + Add Group
+    </a>
 
-    <div class="card border-0 shadow-sm">
+</div>
 
-        <div class="card-body">
+<div class="card border-0 shadow-sm">
 
-            @if (!Model.Any())
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="management-toolbar">
+
+            <div class="management-search">
+
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="Search group..." />
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Search
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(
+                    ViewBag.Search as string))
             {
-                <div class="text-center py-5">
-
-                    <h5>No groups yet</h5>
-
-                    <p class="text-muted">
-                        Create your first group.
-                    </p>
-
-                    <a asp-action="Create"
-                       class="btn btn-primary">
-                        Add Group
-                    </a>
-
-                </div>
+                <a asp-action="Index"
+                   class="btn btn-light">
+                    Clear
+                </a>
             }
-            else
-            {
-                <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+        </form>
 
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Students</th>
-                                <th>Teachers</th>
-                                <th class="text-end">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
 
-                        <tbody>
+                <div class="management-empty-icon">
+                    GR
+                </div>
+
+                <h5>
+                    No groups found
+                </h5>
+
+                <p>
+                    Create a group to organize students and teachers.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    + Add Group
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>Group</th>
+                            <th>Students</th>
+                            <th>Teachers</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
 
                         @foreach (var group in Model)
                         {
                             <tr>
 
-                                <td class="fw-semibold">
-                                    @group.Name
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar group-avatar">
+                                            GR
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @group.Name
+                                            </div>
+
+                                            <div class="person-id">
+                                                Group #@group.Id
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
                                 </td>
 
                                 <td>
-                                    @group.Students.Count
+
+                                    <span class="count-badge">
+                                        @group.Students.Count
+                                    </span>
+
+                                    <span class="text-muted small">
+                                        students
+                                    </span>
+
                                 </td>
 
                                 <td>
+
                                     @if (group.Teachers.Any())
                                     {
-                                        @string.Join(
-                                            ", ",
-                                            group.Teachers.Select(
-                                                t => t.ApplicationUser.FullName))
+                                        @foreach (var teacher in
+                                            group.Teachers.Take(2))
+                                        {
+                                            <div class="small fw-semibold mb-1">
+                                                @teacher.ApplicationUser.FullName
+                                            </div>
+                                        }
+
+                                        @if (group.Teachers.Count > 2)
+                                        {
+                                            <span class="text-muted small">
+                                                +@(group.Teachers.Count - 2) more
+                                            </span>
+                                        }
                                     }
                                     else
                                     {
@@ -95,41 +164,48 @@
                                             No teachers
                                         </span>
                                     }
+
                                 </td>
 
                                 <td class="text-end">
 
-                                    <a asp-action="Details"
-                                       asp-route-id="@group.Id"
-                                       class="btn btn-sm btn-outline-info">
-                                        Details
-                                    </a>
+                                    <div class="action-buttons">
 
-                                    <a asp-action="Edit"
-                                       asp-route-id="@group.Id"
-                                       class="btn btn-sm btn-outline-primary">
-                                        Edit
-                                    </a>
+                                        <a asp-action="Details"
+                                           asp-route-id="@group.Id"
+                                           class="action-btn action-details">
+                                            View
+                                        </a>
 
-                                    <a asp-action="Delete"
-                                       asp-route-id="@group.Id"
-                                       class="btn btn-sm btn-outline-danger">
-                                        Delete
-                                    </a>
+                                        <a asp-action="Edit"
+                                           asp-route-id="@group.Id"
+                                           class="action-btn action-edit">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@group.Id"
+                                           class="action-btn action-delete">
+                                            Delete
+                                        </a>
+
+                                    </div>
 
                                 </td>
 
                             </tr>
                         }
 
-                        </tbody>
+                    </tbody>
 
-                    </table>
+                </table>
 
-                </div>
-            }
+            </div>
 
-        </div>
+            <div class="table-footer">
+                Showing @Model.Count() group(s)
+            </div>
+        }
 
     </div>
 

@@ -1,177 +1,391 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var area = ViewContext.RouteData.Values["area"]?.ToString();
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    string Active(string targetArea, string targetController)
+    {
+        return area == targetArea && controller == targetController
+            ? "active"
+            : "";
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - School Management System</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0" />
 
-    <script type="importmap"></script>
+    <title>
+        @ViewData["Title"] - School Management
+    </title>
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
 
-    <link rel="stylesheet" href="~/SchoolManagementSystem.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet"
+          href="~/SchoolManagementSystem.Web.styles.css"
+          asp-append-version="true" />
 </head>
 
 <body>
 
-    <header>
+<div class="app">
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm mb-3">
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <aside class="sidebar">
 
-            <div class="container-fluid">
+            <div class="sidebar-brand">
 
-                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">
-                    School Management
-                </a>
+                <div class="brand-logo">
+                    S
+                </div>
 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-                        aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
-
-                    <span class="navbar-toggler-icon"></span>
-
-                </button>
-
-                <div class="collapse navbar-collapse" id="mainNavbar">
-
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
-                                Home
-                            </a>
-                        </li>
-
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
-                                    Dashboard
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Students" asp-action="Index">
-                                    Students
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Parents" asp-action="Index">
-                                    Parents
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Teachers" asp-action="Index">
-                                    Teachers
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Groups" asp-action="Index">
-                                    Groups
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Subjects" asp-action="Index">
-                                    Subjects
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Lessons" asp-action="Index">
-                                    Lessons
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Schedule" asp-action="Index">
-                                    Schedule
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Attendance" asp-action="Index">
-                                    Attendance
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Grades" asp-action="Index">
-                                    Grades
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Admin" asp-controller="Salary" asp-action="Index">
-                                    Salary
-                                </a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Teacher"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Teacher" asp-controller="Dashboard" asp-action="Index">
-                                    Teacher Dashboard
-                                </a>
-                            </li>
-                        }
-
-                        @if (User.IsInRole("Parent"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Dashboard" asp-action="Index">
-                                    Parent Dashboard
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="Parent" asp-controller="Progress" asp-action="Index">
-                                    Progress
-                                </a>
-                            </li>
-                        }
-
-                    </ul>
-
-                    <div class="d-flex align-items-center gap-3">
-
-                        @if (User.Identity?.IsAuthenticated == true)
-                        {
-                            <span class="text-muted small">
-                                @User.Identity.Name
-                            </span>
-
-                            <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post" class="d-inline">
-
-                                <button type="submit" class="btn btn-outline-danger">
-                                    Logout
-                                </button>
-
-                            </form>
-                        }
-                        else
-                        {
-                            <a asp-area="" asp-controller="Auth" asp-action="Login" class="btn btn-outline-primary">
-                                Login
-                            </a>
-                        }
-
+                <div>
+                    <div class="brand-title">
+                        School
                     </div>
 
+                    <div class="brand-subtitle">
+                        Management
+                    </div>
                 </div>
 
             </div>
 
-        </nav>
+            <nav class="sidebar-nav">
 
-    </header>
+                @if (User.IsInRole("Admin"))
+                {
+                    <div class="sidebar-section">
+                        ADMIN
+                    </div>
 
-    <div class="container">
+                    <a class="sidebar-link @Active("Admin", "Dashboard")"
+                       asp-area="Admin"
+                       asp-controller="Dashboard"
+                       asp-action="Index">
+                        Dashboard
+                    </a>
 
-        <main role="main" class="pb-5">
+                    <a class="sidebar-link @Active("Admin", "Students")"
+                       asp-area="Admin"
+                       asp-controller="Students"
+                       asp-action="Index">
+                        Students
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Parents")"
+                       asp-area="Admin"
+                       asp-controller="Parents"
+                       asp-action="Index">
+                        Parents
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Teachers")"
+                       asp-area="Admin"
+                       asp-controller="Teachers"
+                       asp-action="Index">
+                        Teachers
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Groups")"
+                       asp-area="Admin"
+                       asp-controller="Groups"
+                       asp-action="Index">
+                        Groups
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Subjects")"
+                       asp-area="Admin"
+                       asp-controller="Subjects"
+                       asp-action="Index">
+                        Subjects
+                    </a>
+
+                    <div class="sidebar-section">
+                        EDUCATION
+                    </div>
+
+                    <a class="sidebar-link @Active("Admin", "Lessons")"
+                       asp-area="Admin"
+                       asp-controller="Lessons"
+                       asp-action="Index">
+                        Lessons
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Schedule")"
+                       asp-area="Admin"
+                       asp-controller="Schedule"
+                       asp-action="Index">
+                        Schedule
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Attendance")"
+                       asp-area="Admin"
+                       asp-controller="Attendance"
+                       asp-action="Index">
+                        Attendance
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Grades")"
+                       asp-area="Admin"
+                       asp-controller="Grades"
+                       asp-action="Index">
+                        Grades
+                    </a>
+
+                    <a class="sidebar-link @Active("Admin", "Salary")"
+                       asp-area="Admin"
+                       asp-controller="Salary"
+                       asp-action="Index">
+                        Salary
+                    </a>
+                }
+
+                @if (User.IsInRole("Teacher"))
+                {
+                    <div class="sidebar-section">
+                        TEACHER
+                    </div>
+
+                    <a class="sidebar-link @Active("Teacher", "Dashboard")"
+                       asp-area="Teacher"
+                       asp-controller="Dashboard"
+                       asp-action="Index">
+                        Dashboard
+                    </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Groups")"
+                       asp-area="Teacher"
+                       asp-controller="Groups"
+                       asp-action="Index">
+                        My Groups
+                    </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Students")"
+                       asp-area="Teacher"
+                       asp-controller="Students"
+                       asp-action="Index">
+                        Students
+                    </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Attendance")"
+                       asp-area="Teacher"
+                       asp-controller="Attendance"
+                       asp-action="Index">
+                        Attendance
+                    </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Grades")"
+                       asp-area="Teacher"
+                       asp-controller="Grades"
+                       asp-action="Index">
+                        Grades
+                    </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Topics")"
+                       asp-area="Teacher"
+                       asp-controller="Topics"
+                       asp-action="Index">
+                        Topics
+                    </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Schedule")"
+                       asp-area="Teacher"
+                       asp-controller="Schedule"
+                       asp-action="Index">
+                        Schedule
+                    </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Salary")"
+                       asp-area="Teacher"
+                       asp-controller="Salary"
+                       asp-action="Index">
+                        My Salary
+                    </a>
+                }
+
+                @if (User.IsInRole("Parent"))
+                {
+                    <div class="sidebar-section">
+                        PARENT
+                    </div>
+
+                    <a class="sidebar-link @Active("Parent", "Dashboard")"
+                       asp-area="Parent"
+                       asp-controller="Dashboard"
+                       asp-action="Index">
+                        Dashboard
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Child")"
+                       asp-area="Parent"
+                       asp-controller="Child"
+                       asp-action="Index">
+                        My Child
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Schedule")"
+                       asp-area="Parent"
+                       asp-controller="Schedule"
+                       asp-action="Index">
+                        Schedule
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Grades")"
+                       asp-area="Parent"
+                       asp-controller="Grades"
+                       asp-action="Index">
+                        Grades
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Attendance")"
+                       asp-area="Parent"
+                       asp-controller="Attendance"
+                       asp-action="Index">
+                        Attendance
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Subjects")"
+                       asp-area="Parent"
+                       asp-controller="Subjects"
+                       asp-action="Index">
+                        Subjects
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Topics")"
+                       asp-area="Parent"
+                       asp-controller="Topics"
+                       asp-action="Index">
+                        Topics
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Progress")"
+                       asp-area="Parent"
+                       asp-controller="Progress"
+                       asp-action="Index">
+                        Progress
+                    </a>
+                }
+
+            </nav>
+
+        </aside>
+    }
+
+    <div class="main-wrapper">
+
+        <header class="topbar">
+
+            <div>
+
+                <h5 class="topbar-title">
+                    @ViewData["Title"]
+                </h5>
+
+            </div>
+
+            <div class="topbar-user">
+
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="user-info">
+
+                        <div class="user-avatar">
+                            @(User.Identity.Name?.Substring(0, 1).ToUpper())
+                        </div>
+
+                        <div class="user-details">
+
+                            <span class="user-email">
+                                @User.Identity.Name
+                            </span>
+
+                            <span class="user-role">
+
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <text>Administrator</text>
+                                }
+                                else if (User.IsInRole("Teacher"))
+                                {
+                                    <text>Teacher</text>
+                                }
+                                else if (User.IsInRole("Parent"))
+                                {
+                                    <text>Parent</text>
+                                }
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <form asp-area=""
+                          asp-controller="Auth"
+                          asp-action="Logout"
+                          method="post">
+
+                        <button type="submit"
+                                class="btn-logout">
+                            Logout
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <a asp-area=""
+                       asp-controller="Auth"
+                       asp-action="Login"
+                       class="btn btn-primary">
+                        Login
+                    </a>
+                }
+
+            </div>
+
+        </header>
+
+        <main class="page-content">
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show shadow-sm">
+
+                    @TempData["Success"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show shadow-sm">
+
+                    @TempData["Error"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+            }
 
             @RenderBody()
 
@@ -179,26 +393,17 @@
 
     </div>
 
-    <footer class="border-top footer text-muted">
+</div>
 
-        <div class="container py-3">
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-            &copy; 2026 - School Management System
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
-        </div>
+<script src="~/js/site.js"
+        asp-append-version="true">
+</script>
 
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="~/js/site.js" asp-append-version="true">
-    </script>
-
-    @await RenderSectionAsync(
-        "Scripts",
-        required: false)
+@await RenderSectionAsync("Scripts", required: false)
 
 </body>
 

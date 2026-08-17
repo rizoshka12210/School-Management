@@ -4,47 +4,46 @@
     ViewData["Title"] = "Add Schedule";
 }
 
-<div class="container mt-4">
+<div class="form-page-header">
 
-    <div class="row justify-content-center">
+    <a asp-action="Index"
+       class="back-link">
+        ← Schedule
+    </a>
 
-        <div class="col-lg-8">
+    <h1 class="page-title mt-2">
+        Add Schedule
+    </h1>
 
-            <div class="card border-0 shadow-sm">
+    <p class="page-subtitle">
+        Add a lesson to the weekly timetable
+    </p>
 
-                <div class="card-body p-4">
+</div>
 
-                    <h2 class="fw-bold mb-4">
-                        Add Schedule
-                    </h2>
+<form asp-action="Create"
+      method="post">
 
-                    <form asp-action="Create"
-                          method="post">
+    @Html.AntiForgeryToken()
 
-                        <partial name="_Form"
-                                 model="Model" />
+    <partial name="_Form"
+             model="Model" />
 
-                        <button type="submit"
-                                class="btn btn-primary">
-                            Create
-                        </button>
+    <div class="form-actions">
 
-                        <a asp-action="Index"
-                           class="btn btn-outline-secondary">
-                            Cancel
-                        </a>
+        <a asp-action="Index"
+           class="btn btn-light">
+            Cancel
+        </a>
 
-                    </form>
-
-                </div>
-
-            </div>
-
-        </div>
+        <button type="submit"
+                class="btn btn-primary">
+            Create Schedule
+        </button>
 
     </div>
 
-</div>
+</form>
 
 @section Scripts
 {

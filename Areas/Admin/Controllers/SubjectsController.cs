@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
@@ -20,26 +19,35 @@ public class SubjectsController : Controller
         _context = context;
     }
 
-  
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? search)
     {
-        var subjects = await _context.Subjects
+        var query = _context.Subjects
             .Include(s => s.Teachers)
                 .ThenInclude(t => t.ApplicationUser)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var value = search.Trim().ToLower();
+
+            query = query.Where(s =>
+                s.Name.ToLower().Contains(value));
+        }
+
+        ViewBag.Search = search;
+
+        var subjects = await query
             .OrderBy(s => s.Name)
             .ToListAsync();
 
         return View(subjects);
     }
 
-
     public async Task<IActionResult> Details(int id)
     {
         var subject = await _context.Subjects
             .Include(s => s.Teachers)
                 .ThenInclude(t => t.ApplicationUser)
-            .Include(s => s.Lessons)
-            .Include(s => s.Schedules)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         if (subject == null)
@@ -50,7 +58,6 @@ public class SubjectsController : Controller
         return View(subject);
     }
 
-
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -59,12 +66,23 @@ public class SubjectsController : Controller
         return View(new SubjectFormViewModel());
     }
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
         SubjectFormViewModel model)
     {
+        var exists = await _context.Subjects
+            .AnyAsync(s =>
+                s.Name.ToLower() ==
+                model.Name.Trim().ToLower());
+
+        if (exists)
+        {
+            ModelState.AddModelError(
+                nameof(model.Name),
+                "A subject with this name already exists.");
+        }
+
         if (!ModelState.IsValid)
         {
             await LoadTeachersAsync();
@@ -72,31 +90,13 @@ public class SubjectsController : Controller
             return View(model);
         }
 
-        var name = model.Name.Trim();
-
-        var normalizedName = name.ToLower();
-
-        var subjectExists = await _context.Subjects
-            .AnyAsync(s =>
-                s.Name.ToLower() == normalizedName);
-
-        if (subjectExists)
-        {
-            ModelState.AddModelError(
-                nameof(model.Name),
-                "A subject with this name already exists.");
-
-            await LoadTeachersAsync();
-
-            return View(model);
-        }
-
         var subject = new Subject
         {
-            Name = name
+            Name = model.Name.Trim()
         };
 
-        if (model.TeacherIds.Count > 0)
+        if (model.TeacherIds != null &&
+            model.TeacherIds.Count > 0)
         {
             var teachers = await _context.Teachers
                 .Where(t =>
@@ -113,9 +113,11 @@ public class SubjectsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Subject created successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -143,16 +145,32 @@ public class SubjectsController : Controller
         return View(model);
     }
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-        int id,
         SubjectFormViewModel model)
     {
-        if (id != model.Id)
+        var subject = await _context.Subjects
+            .Include(s => s.Teachers)
+            .FirstOrDefaultAsync(
+                s => s.Id == model.Id);
+
+        if (subject == null)
         {
-            return BadRequest();
+            return NotFound();
+        }
+
+        var exists = await _context.Subjects
+            .AnyAsync(s =>
+                s.Id != model.Id &&
+                s.Name.ToLower() ==
+                model.Name.Trim().ToLower());
+
+        if (exists)
+        {
+            ModelState.AddModelError(
+                nameof(model.Name),
+                "A subject with this name already exists.");
         }
 
         if (!ModelState.IsValid)
@@ -162,39 +180,12 @@ public class SubjectsController : Controller
             return View(model);
         }
 
-        var subject = await _context.Subjects
-            .Include(s => s.Teachers)
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (subject == null)
-        {
-            return NotFound();
-        }
-
-        var name = model.Name.Trim();
-        var normalizedName = name.ToLower();
-
-        var subjectExists = await _context.Subjects
-            .AnyAsync(s =>
-                s.Id != id &&
-                s.Name.ToLower() == normalizedName);
-
-        if (subjectExists)
-        {
-            ModelState.AddModelError(
-                nameof(model.Name),
-                "A subject with this name already exists.");
-
-            await LoadTeachersAsync();
-
-            return View(model);
-        }
-
-        subject.Name = name;
+        subject.Name = model.Name.Trim();
 
         subject.Teachers.Clear();
 
-        if (model.TeacherIds.Count > 0)
+        if (model.TeacherIds != null &&
+            model.TeacherIds.Count > 0)
         {
             var teachers = await _context.Teachers
                 .Where(t =>
@@ -209,9 +200,11 @@ public class SubjectsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Subject updated successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
@@ -219,8 +212,6 @@ public class SubjectsController : Controller
         var subject = await _context.Subjects
             .Include(s => s.Teachers)
                 .ThenInclude(t => t.ApplicationUser)
-            .Include(s => s.Lessons)
-            .Include(s => s.Schedules)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         if (subject == null)
@@ -231,11 +222,10 @@ public class SubjectsController : Controller
         return View(subject);
     }
 
-
     [HttpPost]
-    [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(
+        int id)
     {
         var subject = await _context.Subjects
             .FirstOrDefaultAsync(s => s.Id == id);
@@ -254,10 +244,12 @@ public class SubjectsController : Controller
         var hasGrades = await _context.Grades
             .AnyAsync(g => g.SubjectId == id);
 
-        if (hasLessons || hasSchedules || hasGrades)
+        if (hasLessons ||
+            hasSchedules ||
+            hasGrades)
         {
             TempData["Error"] =
-                "This subject cannot be deleted because it is already used in lessons, schedules or grades.";
+                "This subject cannot be deleted because it has lessons, schedules or grades.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -266,20 +258,17 @@ public class SubjectsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Subject deleted successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
 
     private async Task LoadTeachersAsync()
     {
         ViewBag.Teachers = await _context.Teachers
             .Include(t => t.ApplicationUser)
             .OrderBy(t => t.ApplicationUser.FullName)
-            .Select(t => new SelectListItem
-            {
-                Value = t.Id.ToString(),
-                Text = t.ApplicationUser.FullName
-            })
             .ToListAsync();
     }
 }

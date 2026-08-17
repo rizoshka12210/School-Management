@@ -4,140 +4,52 @@
     ViewData["Title"] = "Add Student";
 }
 
-<div class="container mt-4">
+<div class="form-page-header">
 
-    <div class="row justify-content-center">
+    <div>
 
-        <div class="col-lg-7">
+        <a asp-action="Index"
+           class="back-link">
+            ← Students
+        </a>
 
-            <div class="card border-0 shadow-sm">
+        <h1 class="page-title mt-2">
+            Add Student
+        </h1>
 
-                <div class="card-body p-4">
-
-                    <h2 class="fw-bold mb-4">
-                        Add Student
-                    </h2>
-
-                    <form asp-action="Create"
-                          method="post">
-
-                        <div asp-validation-summary="ModelOnly"
-                             class="text-danger mb-3">
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-
-                                <label asp-for="FirstName"
-                                       class="form-label">
-                                    First Name
-                                </label>
-
-                                <input asp-for="FirstName"
-                                       class="form-control" />
-
-                                <span asp-validation-for="FirstName"
-                                      class="text-danger">
-                                </span>
-
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-
-                                <label asp-for="LastName"
-                                       class="form-label">
-                                    Last Name
-                                </label>
-
-                                <input asp-for="LastName"
-                                       class="form-control" />
-
-                                <span asp-validation-for="LastName"
-                                      class="text-danger">
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label asp-for="DateOfBirth"
-                                   class="form-label">
-                                Date of Birth
-                            </label>
-
-                            <input asp-for="DateOfBirth"
-                                   type="date"
-                                   class="form-control" />
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label asp-for="GroupId"
-                                   class="form-label">
-                                Group
-                            </label>
-
-                            <select asp-for="GroupId"
-                                    asp-items="ViewBag.Groups"
-                                    class="form-select">
-
-                                <option value="">
-                                    -- No Group --
-                                </option>
-
-                            </select>
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label asp-for="ParentIds"
-                                   class="form-label">
-                                Parents
-                            </label>
-
-                            <select asp-for="ParentIds"
-                                    asp-items="ViewBag.Parents"
-                                    class="form-select"
-                                    multiple
-                                    size="5">
-                            </select>
-
-                            <small class="text-muted">
-                                Hold Command on Mac to select multiple parents.
-                            </small>
-
-                        </div>
-
-                        <div class="d-flex gap-2">
-
-                            <button type="submit"
-                                    class="btn btn-primary">
-                                Create
-                            </button>
-
-                            <a asp-action="Index"
-                               class="btn btn-outline-secondary">
-                                Cancel
-                            </a>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-        </div>
+        <p class="page-subtitle">
+            Create a new student and assign group and parents
+        </p>
 
     </div>
 
 </div>
+
+
+<form asp-action="Create"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <partial name="_Form"
+             model="Model" />
+
+    <div class="form-actions">
+
+        <a asp-action="Index"
+           class="btn btn-light">
+            Cancel
+        </a>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Create Student
+        </button>
+
+    </div>
+
+</form>
+
 
 @section Scripts
 {

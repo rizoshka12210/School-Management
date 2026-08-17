@@ -1,133 +1,192 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.ScheduleFormViewModel
 
 <div asp-validation-summary="ModelOnly"
-     class="text-danger mb-3">
+     class="alert alert-danger">
 </div>
 
-<div class="mb-3">
+<div class="lesson-form-grid">
 
-    <label asp-for="DayOfWeek"
-           class="form-label">
-        Day
-    </label>
+    <div class="form-card">
 
-    <select asp-for="DayOfWeek"
-            class="form-select">
+        <div class="form-card-header">
 
-        @foreach (DayOfWeek day in Enum.GetValues<DayOfWeek>())
-        {
-            <option value="@day">
-                @day
-            </option>
-        }
+            <h5>
+                Time
+            </h5>
 
-    </select>
+            <p>
+                Select weekday and lesson time
+            </p>
 
-</div>
+        </div>
 
-<div class="row">
+        <div class="form-card-body">
 
-    <div class="col-md-6 mb-3">
+            <div class="mb-4">
 
-        <label asp-for="StartTime"
-               class="form-label">
-            Start Time
-        </label>
+                <label asp-for="DayOfWeek"
+                       class="form-label">
+                    Day
+                </label>
 
-        <input asp-for="StartTime"
-               type="time"
-               class="form-control" />
+                <select asp-for="DayOfWeek"
+                        asp-items="Html.GetEnumSelectList<DayOfWeek>()"
+                        class="form-select">
+                </select>
 
-        <span asp-validation-for="StartTime"
-              class="text-danger">
-        </span>
+                <span asp-validation-for="DayOfWeek"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label asp-for="StartTime"
+                           class="form-label">
+                        Start Time
+                    </label>
+
+                    <input asp-for="StartTime"
+                           type="time"
+                           class="form-control" />
+
+                    <span asp-validation-for="StartTime"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label asp-for="EndTime"
+                           class="form-label">
+                        End Time
+                    </label>
+
+                    <input asp-for="EndTime"
+                           type="time"
+                           class="form-control" />
+
+                    <span asp-validation-for="EndTime"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="col-md-6 mb-3">
+    <div class="form-card">
 
-        <label asp-for="EndTime"
-               class="form-label">
-            End Time
-        </label>
+        <div class="form-card-header">
 
-        <input asp-for="EndTime"
-               type="time"
-               class="form-control" />
+            <h5>
+                Lesson Assignment
+            </h5>
 
-        <span asp-validation-for="EndTime"
-              class="text-danger">
-        </span>
+            <p>
+                Select group, teacher and subject
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="mb-4">
+
+                <label asp-for="GroupId"
+                       class="form-label">
+                    Group
+                </label>
+
+                <select asp-for="GroupId"
+                        class="form-select">
+
+                    <option value="">
+                        Select group
+                    </option>
+
+                    @foreach (var group in ViewBag.Groups)
+                    {
+                        <option value="@group.Id">
+                            @group.Name
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="GroupId"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+            <div class="mb-4">
+
+                <label asp-for="TeacherId"
+                       class="form-label">
+                    Teacher
+                </label>
+
+                <select asp-for="TeacherId"
+                        class="form-select">
+
+                    <option value="">
+                        Select teacher
+                    </option>
+
+                    @foreach (var teacher in ViewBag.Teachers)
+                    {
+                        <option value="@teacher.Id">
+                            @teacher.ApplicationUser.FullName
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="TeacherId"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+            <div>
+
+                <label asp-for="SubjectId"
+                       class="form-label">
+                    Subject
+                </label>
+
+                <select asp-for="SubjectId"
+                        class="form-select">
+
+                    <option value="">
+                        Select subject
+                    </option>
+
+                    @foreach (var subject in ViewBag.Subjects)
+                    {
+                        <option value="@subject.Id">
+                            @subject.Name
+                        </option>
+                    }
+
+                </select>
+
+                <span asp-validation-for="SubjectId"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+        </div>
 
     </div>
-
-</div>
-
-<div class="mb-3">
-
-    <label asp-for="GroupId"
-           class="form-label">
-        Group
-    </label>
-
-    <select asp-for="GroupId"
-            asp-items="ViewBag.Groups"
-            class="form-select">
-
-        <option value="0">
-            -- Select Group --
-        </option>
-
-    </select>
-
-    <span asp-validation-for="GroupId"
-          class="text-danger">
-    </span>
-
-</div>
-
-<div class="mb-3">
-
-    <label asp-for="TeacherId"
-           class="form-label">
-        Teacher
-    </label>
-
-    <select asp-for="TeacherId"
-            asp-items="ViewBag.Teachers"
-            class="form-select">
-
-        <option value="0">
-            -- Select Teacher --
-        </option>
-
-    </select>
-
-    <span asp-validation-for="TeacherId"
-          class="text-danger">
-    </span>
-
-</div>
-
-<div class="mb-4">
-
-    <label asp-for="SubjectId"
-           class="form-label">
-        Subject
-    </label>
-
-    <select asp-for="SubjectId"
-            asp-items="ViewBag.Subjects"
-            class="form-select">
-
-        <option value="0">
-            -- Select Subject --
-        </option>
-
-    </select>
-
-    <span asp-validation-for="SubjectId"
-          class="text-danger">
-    </span>
 
 </div>

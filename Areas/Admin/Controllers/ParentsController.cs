@@ -1,14 +1,14 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Identity;
 using SchoolManagementSystem.Web.ViewModels.Admin;
 
-using ParentEntity = SchoolManagementSystem.Web.Models.Entities.Parent;
+using ParentEntity =
+    SchoolManagementSystem.Web.Models.Entities.Parent;
 
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
@@ -27,18 +27,32 @@ public class ParentsController : Controller
         _userManager = userManager;
     }
 
-
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? search)
     {
-        var parents = await _context.Parents
+        var query = _context.Parents
             .Include(p => p.ApplicationUser)
             .Include(p => p.Students)
+                .ThenInclude(s => s.Group)
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var value = search.Trim().ToLower();
+
+            query = query.Where(p =>
+                p.ApplicationUser.FullName.ToLower().Contains(value) ||
+                (p.ApplicationUser.Email != null &&
+                 p.ApplicationUser.Email.ToLower().Contains(value)));
+        }
+
+        ViewBag.Search = search;
+
+        var parents = await query
             .OrderBy(p => p.ApplicationUser.FullName)
             .ToListAsync();
 
         return View(parents);
     }
-
 
     public async Task<IActionResult> Details(int id)
     {
@@ -56,7 +70,6 @@ public class ParentsController : Controller
         return View(parent);
     }
 
-
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -64,7 +77,6 @@ public class ParentsController : Controller
 
         return View(new ParentFormViewModel());
     }
-
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -78,23 +90,18 @@ public class ParentsController : Controller
                 "Password is required.");
         }
 
-        if (!ModelState.IsValid)
-        {
-            await LoadStudentsAsync();
-            return View(model);
-        }
-
-        var email = model.Email.Trim();
-
         var existingUser =
-            await _userManager.FindByEmailAsync(email);
+            await _userManager.FindByEmailAsync(model.Email);
 
         if (existingUser != null)
         {
             ModelState.AddModelError(
                 nameof(model.Email),
-                "This email is already registered.");
+                "A user with this email already exists.");
+        }
 
+        if (!ModelState.IsValid)
+        {
             await LoadStudentsAsync();
 
             return View(model);
@@ -103,8 +110,8 @@ public class ParentsController : Controller
         var user = new ApplicationUser
         {
             FullName = model.FullName.Trim(),
-            Email = email,
-            UserName = email,
+            Email = model.Email.Trim(),
+            UserName = model.Email.Trim(),
             EmailConfirmed = true
         };
 
@@ -114,35 +121,29 @@ public class ParentsController : Controller
 
         if (!result.Succeeded)
         {
-            AddIdentityErrors(result);
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    error.Description);
+            }
 
             await LoadStudentsAsync();
 
             return View(model);
         }
 
-        var roleResult =
-            await _userManager.AddToRoleAsync(
-                user,
-                Roles.Parent);
-
-        if (!roleResult.Succeeded)
-        {
-            await _userManager.DeleteAsync(user);
-
-            AddIdentityErrors(roleResult);
-
-            await LoadStudentsAsync();
-
-            return View(model);
-        }
+        await _userManager.AddToRoleAsync(
+            user,
+            Roles.Parent);
 
         var parent = new ParentEntity
         {
             ApplicationUserId = user.Id
         };
 
-        if (model.StudentIds.Count > 0)
+        if (model.StudentIds != null &&
+            model.StudentIds.Count > 0)
         {
             var students = await _context.Students
                 .Where(s =>
@@ -155,22 +156,16 @@ public class ParentsController : Controller
             }
         }
 
-        try
-        {
-            _context.Parents.Add(parent);
+        _context.Parents.Add(parent);
 
-            await _context.SaveChangesAsync();
-        }
-        catch
-        {
-            await _userManager.DeleteAsync(user);
-            throw;
-        }
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            "Parent created successfully.";
 
         return RedirectToAction(nameof(Index));
     }
 
- 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -187,14 +182,8 @@ public class ParentsController : Controller
         var model = new ParentFormViewModel
         {
             Id = parent.Id,
-
-            FullName =
-                parent.ApplicationUser.FullName,
-
-            Email =
-                parent.ApplicationUser.Email
-                ?? string.Empty,
-
+            FullName = parent.ApplicationUser.FullName,
+            Email = parent.ApplicationUser.Email ?? string.Empty,
             StudentIds = parent.Students
                 .Select(s => s.Id)
                 .ToList()
@@ -205,16 +194,32 @@ public class ParentsController : Controller
         return View(model);
     }
 
-
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
-        int id,
         ParentFormViewModel model)
     {
-        if (id != model.Id)
+        var parent = await _context.Parents
+            .Include(p => p.ApplicationUser)
+            .Include(p => p.Students)
+            .FirstOrDefaultAsync(
+                p => p.Id == model.Id);
+
+        if (parent == null)
         {
-            return BadRequest();
+            return NotFound();
+        }
+
+        var existingUser =
+            await _userManager.FindByEmailAsync(
+                model.Email);
+
+        if (existingUser != null &&
+            existingUser.Id != parent.ApplicationUserId)
+        {
+            ModelState.AddModelError(
+                nameof(model.Email),
+                "A user with this email already exists.");
         }
 
         if (!ModelState.IsValid)
@@ -224,74 +229,23 @@ public class ParentsController : Controller
             return View(model);
         }
 
-        var parent = await _context.Parents
-            .Include(p => p.ApplicationUser)
-            .Include(p => p.Students)
-            .FirstOrDefaultAsync(p => p.Id == id);
-
-        if (parent == null)
-        {
-            return NotFound();
-        }
-
         var user = parent.ApplicationUser;
 
-        var email = model.Email.Trim();
-
-        var anotherUser =
-            await _userManager.FindByEmailAsync(email);
-
-        if (anotherUser != null &&
-            anotherUser.Id != user.Id)
-        {
-            ModelState.AddModelError(
-                nameof(model.Email),
-                "This email is already registered.");
-
-            await LoadStudentsAsync();
-
-            return View(model);
-        }
-
         user.FullName = model.FullName.Trim();
-
-        if (user.Email != email)
-        {
-            var emailResult =
-                await _userManager.SetEmailAsync(
-                    user,
-                    email);
-
-            if (!emailResult.Succeeded)
-            {
-                AddIdentityErrors(emailResult);
-
-                await LoadStudentsAsync();
-
-                return View(model);
-            }
-
-            var usernameResult =
-                await _userManager.SetUserNameAsync(
-                    user,
-                    email);
-
-            if (!usernameResult.Succeeded)
-            {
-                AddIdentityErrors(usernameResult);
-
-                await LoadStudentsAsync();
-
-                return View(model);
-            }
-        }
+        user.Email = model.Email.Trim();
+        user.UserName = model.Email.Trim();
 
         var updateResult =
             await _userManager.UpdateAsync(user);
 
         if (!updateResult.Succeeded)
         {
-            AddIdentityErrors(updateResult);
+            foreach (var error in updateResult.Errors)
+            {
+                ModelState.AddModelError(
+                    string.Empty,
+                    error.Description);
+            }
 
             await LoadStudentsAsync();
 
@@ -312,7 +266,12 @@ public class ParentsController : Controller
 
             if (!passwordResult.Succeeded)
             {
-                AddIdentityErrors(passwordResult);
+                foreach (var error in passwordResult.Errors)
+                {
+                    ModelState.AddModelError(
+                        string.Empty,
+                        error.Description);
+                }
 
                 await LoadStudentsAsync();
 
@@ -322,7 +281,8 @@ public class ParentsController : Controller
 
         parent.Students.Clear();
 
-        if (model.StudentIds.Count > 0)
+        if (model.StudentIds != null &&
+            model.StudentIds.Count > 0)
         {
             var students = await _context.Students
                 .Where(s =>
@@ -337,9 +297,11 @@ public class ParentsController : Controller
 
         await _context.SaveChangesAsync();
 
+        TempData["Success"] =
+            "Parent updated successfully.";
+
         return RedirectToAction(nameof(Index));
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
@@ -357,11 +319,10 @@ public class ParentsController : Controller
         return View(parent);
     }
 
-
     [HttpPost]
-    [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(
+        int id)
     {
         var parent = await _context.Parents
             .Include(p => p.ApplicationUser)
@@ -381,43 +342,23 @@ public class ParentsController : Controller
 
         await _context.SaveChangesAsync();
 
-        var result =
-            await _userManager.DeleteAsync(user);
-
-        if (!result.Succeeded)
+        if (user != null)
         {
-            TempData["Error"] =
-                "Parent profile was deleted, but the login account could not be deleted.";
+            await _userManager.DeleteAsync(user);
         }
+
+        TempData["Success"] =
+            "Parent deleted successfully.";
 
         return RedirectToAction(nameof(Index));
     }
 
-
     private async Task LoadStudentsAsync()
     {
         ViewBag.Students = await _context.Students
+            .Include(s => s.Group)
             .OrderBy(s => s.FirstName)
             .ThenBy(s => s.LastName)
-            .Select(s => new SelectListItem
-            {
-                Value = s.Id.ToString(),
-
-                Text =
-                    s.FirstName + " " +
-                    s.LastName
-            })
             .ToListAsync();
-    }
-
-    private void AddIdentityErrors(
-        IdentityResult result)
-    {
-        foreach (var error in result.Errors)
-        {
-            ModelState.AddModelError(
-                string.Empty,
-                error.Description);
-        }
     }
 }

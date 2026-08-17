@@ -1,0 +1,106 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.SubjectFormViewModel
+
+<div asp-validation-summary="ModelOnly"
+     class="alert alert-danger">
+</div>
+
+<div class="parent-form-grid">
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>
+                Subject Information
+            </h5>
+
+            <p>
+                Enter the subject name
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <label asp-for="Name"
+                   class="form-label">
+                Subject Name
+            </label>
+
+            <input asp-for="Name"
+                   class="form-control"
+                   placeholder="Example: Mathematics" />
+
+            <span asp-validation-for="Name"
+                  class="text-danger small">
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>
+                Teachers
+            </h5>
+
+            <p>
+                Select teachers who teach this subject
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="relation-selector">
+
+                @foreach (var teacher in ViewBag.Teachers)
+                {
+                    var selected =
+                        Model.TeacherIds != null &&
+                        Model.TeacherIds.Contains(
+                            teacher.Id);
+
+                    <label class="relation-option">
+
+                        <input type="checkbox"
+                               name="TeacherIds"
+                               value="@teacher.Id"
+                               checked="@selected" />
+
+                        <div class="relation-icon teacher-relation-icon">
+
+                            @(string.IsNullOrWhiteSpace(
+                                teacher.ApplicationUser.FullName)
+                                ? "T"
+                                : teacher.ApplicationUser.FullName
+                                    .Substring(0, 1)
+                                    .ToUpper())
+
+                        </div>
+
+                        <div class="relation-info">
+
+                            <strong>
+                                @teacher.ApplicationUser.FullName
+                            </strong>
+
+                            <span>
+                                @teacher.ApplicationUser.Email
+                            </span>
+
+                        </div>
+
+                    </label>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -4,85 +4,46 @@
     ViewData["Title"] = "Add Subject";
 }
 
-<div class="container mt-4">
+<div class="form-page-header">
 
-    <div class="row justify-content-center">
+    <a asp-action="Index"
+       class="back-link">
+        ← Subjects
+    </a>
 
-        <div class="col-lg-7">
+    <h1 class="page-title mt-2">
+        Add Subject
+    </h1>
 
-            <div class="card border-0 shadow-sm">
+    <p class="page-subtitle">
+        Create a subject and assign teachers
+    </p>
 
-                <div class="card-body p-4">
+</div>
 
-                    <h2 class="fw-bold mb-4">
-                        Add Subject
-                    </h2>
+<form asp-action="Create"
+      method="post">
 
-                    <form asp-action="Create"
-                          method="post">
+    @Html.AntiForgeryToken()
 
-                        <div asp-validation-summary="ModelOnly"
-                             class="text-danger mb-3">
-                        </div>
+    <partial name="_Form"
+             model="Model" />
 
-                        <div class="mb-3">
+    <div class="form-actions">
 
-                            <label asp-for="Name"
-                                   class="form-label">
-                                Subject Name
-                            </label>
+        <a asp-action="Index"
+           class="btn btn-light">
+            Cancel
+        </a>
 
-                            <input asp-for="Name"
-                                   class="form-control"
-                                   placeholder="Example: Mathematics" />
-
-                            <span asp-validation-for="Name"
-                                  class="text-danger">
-                            </span>
-
-                        </div>
-
-                        <div class="mb-4">
-
-                            <label asp-for="TeacherIds"
-                                   class="form-label">
-                                Teachers
-                            </label>
-
-                            <select asp-for="TeacherIds"
-                                    asp-items="ViewBag.Teachers"
-                                    class="form-select"
-                                    multiple
-                                    size="5">
-                            </select>
-
-                            <small class="text-muted">
-                                Hold Command on Mac to select multiple teachers.
-                            </small>
-
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-primary">
-                            Create
-                        </button>
-
-                        <a asp-action="Index"
-                           class="btn btn-outline-secondary">
-                            Cancel
-                        </a>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-        </div>
+        <button type="submit"
+                class="btn btn-primary">
+            Create Subject
+        </button>
 
     </div>
 
-</div>
+</form>
 
 @section Scripts
 {

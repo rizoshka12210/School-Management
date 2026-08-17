@@ -4,129 +4,231 @@
     ViewData["Title"] = "Parents";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">
+            Parents
+        </h1>
 
-        <div>
-            <h1 class="fw-bold mb-1">Parents</h1>
-
-            <p class="text-muted mb-0">
-                Manage parent accounts
-            </p>
-        </div>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Parent
-        </a>
-
+        <p class="page-subtitle">
+            Manage parent accounts and connected students
+        </p>
     </div>
 
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["Error"]
-        </div>
-    }
+    <a asp-action="Create"
+       class="btn btn-primary">
+        + Add Parent
+    </a>
 
-    <div class="card border-0 shadow-sm">
+</div>
 
-        <div class="card-body">
+<div class="card border-0 shadow-sm">
 
-            @if (!Model.Any())
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="management-toolbar">
+
+            <div class="management-search">
+
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="Search parent or email..." />
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Search
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(
+                    ViewBag.Search as string))
             {
-                <div class="text-center py-5">
-
-                    <h5>No parents found</h5>
-
-                    <a asp-action="Create"
-                       class="btn btn-primary mt-2">
-                        Add Parent
-                    </a>
-
-                </div>
+                <a asp-action="Index"
+                   class="btn btn-light">
+                    Clear
+                </a>
             }
-            else
-            {
-                <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+        </form>
 
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Children</th>
-                                <th class="text-end">
-                                    Actions
-                                </th>
-                            </tr>
-                        </thead>
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
 
-                        <tbody>
+                <div class="management-empty-icon">
+                    PA
+                </div>
+
+                <h5>
+                    No parents found
+                </h5>
+
+                <p>
+                    Add a parent account or change your search.
+                </p>
+
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    + Add Parent
+                </a>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>Parent</th>
+                            <th>Children</th>
+                            <th>Groups</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
 
                         @foreach (var parent in Model)
                         {
                             <tr>
 
-                                <td class="fw-semibold">
-                                    @parent.ApplicationUser.FullName
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar parent-avatar">
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                parent.ApplicationUser.FullName)
+                                                ? "P"
+                                                : parent.ApplicationUser.FullName
+                                                    .Substring(0, 1)
+                                                    .ToUpper())
+
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @parent.ApplicationUser.FullName
+                                            </div>
+
+                                            <div class="person-id">
+                                                @parent.ApplicationUser.Email
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
                                 </td>
 
                                 <td>
-                                    @parent.ApplicationUser.Email
-                                </td>
 
-                                <td>
                                     @if (parent.Students.Any())
                                     {
-                                        @string.Join(
-                                            ", ",
-                                            parent.Students.Select(
-                                                s => s.FirstName + " " + s.LastName))
+                                        @foreach (var student in
+                                            parent.Students.Take(3))
+                                        {
+                                            <div class="student-mini">
+                                                @student.FirstName
+                                                @student.LastName
+                                            </div>
+                                        }
+
+                                        @if (parent.Students.Count > 3)
+                                        {
+                                            <div class="text-muted small">
+                                                +@(parent.Students.Count - 3) more
+                                            </div>
+                                        }
                                     }
                                     else
                                     {
                                         <span class="text-muted">
-                                            No children
+                                            No children assigned
                                         </span>
                                     }
+
+                                </td>
+
+                                <td>
+
+                                    @if (parent.Students.Any(
+                                        s => s.Group != null))
+                                    {
+                                        @foreach (var group in
+                                            parent.Students
+                                                .Where(s => s.Group != null)
+                                                .Select(s => s.Group!)
+                                                .DistinctBy(g => g.Id)
+                                                .Take(3))
+                                        {
+                                            <span class="group-badge me-1">
+                                                @group.Name
+                                            </span>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            No groups
+                                        </span>
+                                    }
+
                                 </td>
 
                                 <td class="text-end">
 
-                                    <a asp-action="Details"
-                                       asp-route-id="@parent.Id"
-                                       class="btn btn-sm btn-outline-info">
-                                        Details
-                                    </a>
+                                    <div class="action-buttons">
 
-                                    <a asp-action="Edit"
-                                       asp-route-id="@parent.Id"
-                                       class="btn btn-sm btn-outline-primary">
-                                        Edit
-                                    </a>
+                                        <a asp-action="Details"
+                                           asp-route-id="@parent.Id"
+                                           class="action-btn action-details">
+                                            View
+                                        </a>
 
-                                    <a asp-action="Delete"
-                                       asp-route-id="@parent.Id"
-                                       class="btn btn-sm btn-outline-danger">
-                                        Delete
-                                    </a>
+                                        <a asp-action="Edit"
+                                           asp-route-id="@parent.Id"
+                                           class="action-btn action-edit">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@parent.Id"
+                                           class="action-btn action-delete">
+                                            Delete
+                                        </a>
+
+                                    </div>
 
                                 </td>
 
                             </tr>
                         }
 
-                        </tbody>
+                    </tbody>
 
-                    </table>
+                </table>
 
-                </div>
-            }
+            </div>
 
-        </div>
+            <div class="table-footer">
+                Showing @Model.Count() parent(s)
+            </div>
+        }
+
     </div>
 
 </div>

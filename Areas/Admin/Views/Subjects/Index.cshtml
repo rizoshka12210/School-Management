@@ -4,99 +4,146 @@
     ViewData["Title"] = "Subjects";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="page-title">
+            Subjects
+        </h1>
 
-        <div>
-            <h1 class="fw-bold mb-1">
-                Subjects
-            </h1>
-
-            <p class="text-muted mb-0">
-                Manage school subjects
-            </p>
-        </div>
-
-        <a asp-action="Create"
-           class="btn btn-primary">
-            + Add Subject
-        </a>
-
+        <p class="page-subtitle">
+            Manage school subjects and assigned teachers
+        </p>
     </div>
 
-    @if (TempData["Error"] != null)
-    {
-        <div class="alert alert-danger">
-            @TempData["Error"]
-        </div>
-    }
+    <a asp-action="Create"
+       class="btn btn-primary">
+        + Add Subject
+    </a>
 
-    <div class="card border-0 shadow-sm">
+</div>
 
-        <div class="card-body">
+<div class="card border-0 shadow-sm">
 
-            @if (!Model.Any())
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="management-toolbar">
+
+            <div class="management-search">
+
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="Search subject..." />
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Search
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(
+                    ViewBag.Search as string))
             {
-                <div class="text-center py-5">
-
-                    <h5>
-                        No subjects yet
-                    </h5>
-
-                    <p class="text-muted">
-                        Create your first subject.
-                    </p>
-
-                    <a asp-action="Create"
-                       class="btn btn-primary">
-                        Add Subject
-                    </a>
-
-                </div>
+                <a asp-action="Index"
+                   class="btn btn-light">
+                    Clear
+                </a>
             }
-            else
-            {
-                <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+        </form>
 
-                        <thead>
-                            <tr>
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
 
-                                <th>
-                                    Subject
-                                </th>
+                <div class="management-empty-icon">
+                    SB
+                </div>
 
-                                <th>
-                                    Teachers
-                                </th>
+                <h5>
+                    No subjects found
+                </h5>
 
-                                <th class="text-end">
-                                    Actions
-                                </th>
+                <p>
+                    Create a subject to get started.
+                </p>
 
-                            </tr>
-                        </thead>
+                <a asp-action="Create"
+                   class="btn btn-primary">
+                    + Add Subject
+                </a>
 
-                        <tbody>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Teachers</th>
+                            <th class="text-end">
+                                Actions
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
 
                         @foreach (var subject in Model)
                         {
                             <tr>
 
-                                <td class="fw-semibold">
-                                    @subject.Name
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar subject-avatar">
+                                            SB
+                                        </div>
+
+                                        <div>
+
+                                            <div class="person-name">
+                                                @subject.Name
+                                            </div>
+
+                                            <div class="person-id">
+                                                Subject #@subject.Id
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
                                 </td>
 
                                 <td>
 
                                     @if (subject.Teachers.Any())
                                     {
-                                        @string.Join(
-                                            ", ",
-                                            subject.Teachers.Select(
-                                                t => t.ApplicationUser.FullName))
+                                        @foreach (var teacher in
+                                            subject.Teachers.Take(3))
+                                        {
+                                            <span class="teacher-badge me-1">
+                                                @teacher.ApplicationUser.FullName
+                                            </span>
+                                        }
+
+                                        @if (subject.Teachers.Count > 3)
+                                        {
+                                            <span class="text-muted small">
+                                                +@(subject.Teachers.Count - 3)
+                                            </span>
+                                        }
                                     }
                                     else
                                     {
@@ -109,37 +156,43 @@
 
                                 <td class="text-end">
 
-                                    <a asp-action="Details"
-                                       asp-route-id="@subject.Id"
-                                       class="btn btn-sm btn-outline-info">
-                                        Details
-                                    </a>
+                                    <div class="action-buttons">
 
-                                    <a asp-action="Edit"
-                                       asp-route-id="@subject.Id"
-                                       class="btn btn-sm btn-outline-primary">
-                                        Edit
-                                    </a>
+                                        <a asp-action="Details"
+                                           asp-route-id="@subject.Id"
+                                           class="action-btn action-details">
+                                            View
+                                        </a>
 
-                                    <a asp-action="Delete"
-                                       asp-route-id="@subject.Id"
-                                       class="btn btn-sm btn-outline-danger">
-                                        Delete
-                                    </a>
+                                        <a asp-action="Edit"
+                                           asp-route-id="@subject.Id"
+                                           class="action-btn action-edit">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@subject.Id"
+                                           class="action-btn action-delete">
+                                            Delete
+                                        </a>
+
+                                    </div>
 
                                 </td>
 
                             </tr>
                         }
 
-                        </tbody>
+                    </tbody>
 
-                    </table>
+                </table>
 
-                </div>
-            }
+            </div>
 
-        </div>
+            <div class="table-footer">
+                Showing @Model.Count() subject(s)
+            </div>
+        }
 
     </div>
 

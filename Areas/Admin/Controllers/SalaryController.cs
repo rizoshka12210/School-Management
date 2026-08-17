@@ -11,28 +11,47 @@ public class SalaryController : Controller
 {
     private readonly SalaryService _salaryService;
 
-    public SalaryController(SalaryService salaryService)
+    public SalaryController(
+        SalaryService salaryService)
     {
         _salaryService = salaryService;
     }
 
-    public async Task<IActionResult> Index(int? year, int? month)
+    public async Task<IActionResult> Index(
+        int? year,
+        int? month)
     {
         var now = DateTime.UtcNow;
-        var selectedYear = year ?? now.Year;
-        var selectedMonth = month ?? now.Month;
 
-        if (selectedMonth < 1 || selectedMonth > 12)
+        var selectedYear =
+            year ?? now.Year;
+
+        var selectedMonth =
+            month ?? now.Month;
+
+        if (selectedMonth < 1 ||
+            selectedMonth > 12)
         {
             return BadRequest();
         }
 
-        var results = await _salaryService.CalculateForAllTeachersAsync(
-            selectedYear,
-            selectedMonth);
+        if (selectedYear < 2000 ||
+            selectedYear > 2100)
+        {
+            return BadRequest();
+        }
 
-        ViewBag.Year = selectedYear;
-        ViewBag.Month = selectedMonth;
+        var results =
+            await _salaryService
+                .CalculateForAllTeachersAsync(
+                    selectedYear,
+                    selectedMonth);
+
+        ViewBag.Year =
+            selectedYear;
+
+        ViewBag.Month =
+            selectedMonth;
 
         return View(results);
     }
