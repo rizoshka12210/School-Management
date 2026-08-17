@@ -5091,3 +5091,817 @@ h1 {
         flex-direction: column;
     }
 }
+.theme-toggle {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 11px;
+    background: white;
+    cursor: pointer;
+    font-size: 17px;
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
+}
+
+.theme-toggle:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
+
+html,
+body,
+.topbar,
+.page-content,
+.card,
+.form-card,
+.management-table,
+.form-control,
+.form-select {
+    transition:
+        background-color .2s ease,
+        border-color .2s ease,
+        color .2s ease;
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html[data-theme="dark"] body {
+    background: #0b1120;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .main-wrapper {
+    background: #0b1120;
+}
+
+html[data-theme="dark"] .page-content {
+    background: #0b1120;
+}
+
+html[data-theme="dark"] .topbar {
+    border-color: #253047;
+    background: #111827;
+}
+
+html[data-theme="dark"] .topbar-title h4 {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .user-info strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .user-info span {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .user-avatar {
+    background: #312e81;
+    color: #c7d2fe;
+}
+
+html[data-theme="dark"] .theme-toggle {
+    border-color: #334155;
+    background: #1e293b;
+}
+
+html[data-theme="dark"] .theme-toggle:hover {
+    background: #334155;
+}
+
+html[data-theme="dark"] .logout-btn {
+    border-color: #7f1d1d;
+    background: transparent;
+    color: #f87171;
+}
+
+html[data-theme="dark"] .logout-btn:hover {
+    background: #450a0a;
+}
+
+html[data-theme="dark"] .page-title,
+html[data-theme="dark"] .dashboard-title,
+html[data-theme="dark"] .section-title,
+html[data-theme="dark"] .person-name {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .page-subtitle,
+html[data-theme="dark"] .dashboard-subtitle,
+html[data-theme="dark"] .section-subtitle,
+html[data-theme="dark"] .person-id,
+html[data-theme="dark"] .record-time {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .form-card,
+html[data-theme="dark"] .teacher-quick-card,
+html[data-theme="dark"] .teacher-group-card,
+html[data-theme="dark"] .teacher-info-stat,
+html[data-theme="dark"] .teacher-student-stat,
+html[data-theme="dark"] .teacher-attendance-stat,
+html[data-theme="dark"] .teacher-grade-stat,
+html[data-theme="dark"] .teacher-topic-stat,
+html[data-theme="dark"] .teacher-schedule-stat,
+html[data-theme="dark"] .teacher-salary-card,
+html[data-theme="dark"] .teacher-topic-info-card,
+html[data-theme="dark"] .teacher-schedule-day,
+html[data-theme="dark"] .teacher-salary-filter-card,
+html[data-theme="dark"] .teacher-salary-calculation,
+html[data-theme="dark"] .parent-child-card,
+html[data-theme="dark"] .parent-student-stat,
+html[data-theme="dark"] .parent-grade-stat,
+html[data-theme="dark"] .parent-attendance-main-card,
+html[data-theme="dark"] .parent-attendance-mini,
+html[data-theme="dark"] .parent-progress-hero,
+html[data-theme="dark"] .parent-progress-stat,
+html[data-theme="dark"] .parent-schedule-stat,
+html[data-theme="dark"] .parent-schedule-day,
+html[data-theme="dark"] .parent-subject-card,
+html[data-theme="dark"] .parent-topic-stat,
+html[data-theme="dark"] .parent-topic-content {
+    border-color: #253047 !important;
+    background: #111827 !important;
+    color: #e5e7eb;
+    box-shadow:
+        0 4px 18px
+        rgba(0, 0, 0, .18);
+}
+
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .attendance-stat,
+html[data-theme="dark"] .grade-stat,
+html[data-theme="dark"] .salary-stat {
+    border-color: #253047;
+    background: #111827;
+}
+
+html[data-theme="dark"] .stat-number,
+html[data-theme="dark"] .attendance-stat-value,
+html[data-theme="dark"] .grade-stat-value,
+html[data-theme="dark"] .salary-stat-value {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .stat-label,
+html[data-theme="dark"] .stat-link,
+html[data-theme="dark"] .attendance-stat-label,
+html[data-theme="dark"] .grade-stat-label,
+html[data-theme="dark"] .salary-stat-label {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .teacher-stat-card {
+    border-color: #253047;
+    background: #111827;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-stat-card:hover {
+    border-color: #4f46e5;
+    background: #172033;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-stat-number,
+html[data-theme="dark"] .teacher-stat-card strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-stat-label,
+html[data-theme="dark"] .teacher-stat-link {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .teacher-quick-action,
+html[data-theme="dark"] .parent-access-card {
+    border-color: #334155;
+    background: #172033;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-quick-action:hover,
+html[data-theme="dark"] .parent-access-card:hover {
+    border-color: #6366f1;
+    background: #1e293b;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-quick-action strong,
+html[data-theme="dark"] .parent-access-card strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-group-name,
+html[data-theme="dark"] .teacher-lesson-title,
+html[data-theme="dark"] .teacher-schedule-subject,
+html[data-theme="dark"] .parent-child-profile h4,
+html[data-theme="dark"] .parent-subject-card h4,
+html[data-theme="dark"] .parent-topic-content h5 {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-group-subtitle,
+html[data-theme="dark"] .teacher-lesson-time span,
+html[data-theme="dark"] .teacher-schedule-group,
+html[data-theme="dark"] .parent-child-profile span,
+html[data-theme="dark"] .parent-subject-card p,
+html[data-theme="dark"] .parent-topic-time {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .teacher-student-summary {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .teacher-student-summary strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-student-summary span {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .teacher-schedule-day-header,
+html[data-theme="dark"] .parent-schedule-day-header {
+    border-color: #253047;
+    background: #172033;
+}
+
+html[data-theme="dark"] .teacher-schedule-day-name,
+html[data-theme="dark"] .parent-schedule-day-header strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-schedule-item,
+html[data-theme="dark"] .parent-schedule-row,
+html[data-theme="dark"] .teacher-attendance-row,
+html[data-theme="dark"] .teacher-grade-entry-row {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .teacher-attendance-student strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-status-option span {
+    border-color: #334155;
+    background: #172033;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .teacher-status-option:hover span {
+    background: #1e293b;
+}
+
+html[data-theme="dark"] .topic-edit-layout .form-card {
+    background: #111827;
+}
+
+html[data-theme="dark"] .teacher-topic-info-row {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .teacher-topic-info-title,
+html[data-theme="dark"] .teacher-topic-info-row strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .salary-period {
+    border-color: #253047;
+    background: #111827;
+}
+
+html[data-theme="dark"] .salary-period-value {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-summary-bar {
+    border-color: #253047;
+    background: #253047;
+}
+
+html[data-theme="dark"] .parent-summary-bar > div {
+    background: #111827;
+}
+
+html[data-theme="dark"] .parent-summary-bar strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-child-header {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .parent-child-stat {
+    background: #172033;
+}
+
+html[data-theme="dark"] .parent-child-stat strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-card-section-header > span {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .parent-recent-grade {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .parent-recent-grade strong {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .parent-no-grades {
+    background: #172033;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .parent-child-actions {
+    border-color: #253047;
+    background: #253047;
+}
+
+html[data-theme="dark"] .parent-child-action {
+    background: #111827;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .parent-child-action:hover {
+    background: #172033;
+    color: #818cf8;
+}
+
+html[data-theme="dark"] .parent-info-row {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .parent-info-row strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-subject-average-card {
+    border-color: #334155;
+    background: #172033;
+}
+
+html[data-theme="dark"] .parent-subject-average-card span {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .parent-subject-average-card strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-progress-score-value {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-progress-divider {
+    background: #334155;
+}
+
+html[data-theme="dark"] .parent-progress-subject {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .parent-progress-subject-header strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-progress-bar {
+    background: #334155;
+}
+
+html[data-theme="dark"] .parent-subject-summary > div {
+    border-color: #253047;
+    background: #111827;
+}
+
+html[data-theme="dark"] .parent-subject-summary strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .parent-subject-teachers {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .parent-subject-teacher span {
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .parent-topic-line::after {
+    background: #334155;
+}
+
+html[data-theme="dark"] .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #e5e7eb;
+    --bs-table-border-color: #253047;
+    --bs-table-hover-bg: #172033;
+    --bs-table-hover-color: #f8fafc;
+
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .table thead th {
+    border-color: #253047;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .table tbody td {
+    border-color: #253047;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .management-table tfoot td {
+    border-color: #334155;
+    background: #172033;
+}
+
+html[data-theme="dark"] .record-date {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+    border-color: #334155;
+    background-color: #172033;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus {
+    border-color: #6366f1;
+    background-color: #172033;
+    color: #f8fafc;
+    box-shadow:
+        0 0 0 .2rem
+        rgba(99, 102, 241, .15);
+}
+
+html[data-theme="dark"] .form-control::placeholder {
+    color: #64748b;
+}
+
+html[data-theme="dark"] .form-label,
+html[data-theme="dark"] label {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .form-select option {
+    background: #172033;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .btn-light {
+    border-color: #334155;
+    background: #1e293b;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .btn-light:hover {
+    background: #334155;
+    color: white;
+}
+
+html[data-theme="dark"] .btn-outline-secondary {
+    border-color: #475569;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .text-muted {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .bg-light {
+    background: #172033 !important;
+    color: #e5e7eb !important;
+}
+
+html[data-theme="dark"] .border-bottom,
+html[data-theme="dark"] .border-top {
+    border-color: #253047 !important;
+}
+
+html[data-theme="dark"] .teacher-simple-empty,
+html[data-theme="dark"] .parent-small-empty {
+    border-color: #475569;
+    background: #172033;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .readonly-badge,
+html[data-theme="dark"] .teacher-count-label {
+    border-color: #334155;
+    background: #172033;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .action-details {
+    background: #1e293b;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .action-details:hover {
+    background: #334155;
+    color: white;
+}
+
+html[data-theme="dark"] .parent-attendance-circle {
+    border-color: #064e3b;
+    border-top-color: #34d399;
+}
+
+html[data-theme="dark"] .parent-attendance-main-info strong {
+    color: #34d399;
+}
+
+html[data-theme="dark"] .teacher-salary-total-card {
+    border-color: #065f46 !important;
+    background: #10231e !important;
+}
+
+html[data-theme="dark"] .teacher-formula-item {
+    background: #172033;
+}
+
+html[data-theme="dark"] .teacher-formula-item strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-formula-result {
+    background: #10231e;
+}
+
+html[data-theme="dark"] .teacher-formula-result strong {
+    color: #34d399;
+}
+.btn-theme {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 17px;
+    transition: .2s ease;
+}
+
+.btn-theme:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] .app,
+html[data-theme="dark"] .main-wrapper,
+html[data-theme="dark"] .page-content {
+    background: #0f172a;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .topbar {
+    background: #111827;
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .topbar-title,
+html[data-theme="dark"] .page-title,
+html[data-theme="dark"] .dashboard-title,
+html[data-theme="dark"] .section-title,
+html[data-theme="dark"] .person-name {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .page-subtitle,
+html[data-theme="dark"] .dashboard-subtitle,
+html[data-theme="dark"] .section-subtitle,
+html[data-theme="dark"] .person-id,
+html[data-theme="dark"] .record-time {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .user-email {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .user-role {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .btn-theme {
+    border-color: #334155;
+    background: #1e293b;
+}
+
+html[data-theme="dark"] .btn-theme:hover {
+    background: #334155;
+}
+
+html[data-theme="dark"] .card,
+html[data-theme="dark"] .form-card,
+html[data-theme="dark"] .stat-card,
+html[data-theme="dark"] .teacher-stat-card,
+html[data-theme="dark"] .teacher-quick-card,
+html[data-theme="dark"] .teacher-group-card,
+html[data-theme="dark"] .teacher-info-stat,
+html[data-theme="dark"] .teacher-student-stat,
+html[data-theme="dark"] .teacher-attendance-stat,
+html[data-theme="dark"] .teacher-grade-stat,
+html[data-theme="dark"] .teacher-topic-stat,
+html[data-theme="dark"] .teacher-schedule-stat,
+html[data-theme="dark"] .teacher-salary-card,
+html[data-theme="dark"] .teacher-topic-info-card,
+html[data-theme="dark"] .teacher-schedule-day,
+html[data-theme="dark"] .teacher-salary-filter-card,
+html[data-theme="dark"] .teacher-salary-calculation,
+html[data-theme="dark"] .attendance-stat,
+html[data-theme="dark"] .grade-stat,
+html[data-theme="dark"] .salary-stat,
+html[data-theme="dark"] .parent-child-card,
+html[data-theme="dark"] .parent-student-stat,
+html[data-theme="dark"] .parent-grade-stat,
+html[data-theme="dark"] .parent-attendance-main-card,
+html[data-theme="dark"] .parent-attendance-mini,
+html[data-theme="dark"] .parent-progress-hero,
+html[data-theme="dark"] .parent-progress-stat,
+html[data-theme="dark"] .parent-schedule-stat,
+html[data-theme="dark"] .parent-schedule-day,
+html[data-theme="dark"] .parent-subject-card,
+html[data-theme="dark"] .parent-topic-stat,
+html[data-theme="dark"] .parent-topic-content {
+    background: #111827 !important;
+    border-color: #334155 !important;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .stat-number,
+html[data-theme="dark"] .teacher-stat-number,
+html[data-theme="dark"] .attendance-stat-value,
+html[data-theme="dark"] .grade-stat-value,
+html[data-theme="dark"] .salary-stat-value {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .table {
+    --bs-table-bg: transparent;
+    --bs-table-color: #e5e7eb;
+    --bs-table-border-color: #334155;
+    --bs-table-hover-bg: #1e293b;
+    --bs-table-hover-color: #ffffff;
+
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .table th {
+    color: #94a3b8;
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .table td {
+    color: #e5e7eb;
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .record-date {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .form-control,
+html[data-theme="dark"] .form-select {
+    background: #1e293b;
+    border-color: #475569;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .form-control::placeholder {
+    color: #64748b;
+}
+
+html[data-theme="dark"] .form-control:focus,
+html[data-theme="dark"] .form-select:focus {
+    background: #1e293b;
+    border-color: #6366f1;
+    color: #ffffff;
+    box-shadow: 0 0 0 .2rem rgba(99, 102, 241, .15);
+}
+
+html[data-theme="dark"] .form-select option {
+    background: #1e293b;
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] label,
+html[data-theme="dark"] .form-label {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .text-muted {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .bg-light {
+    background: #1e293b !important;
+    color: #e5e7eb !important;
+}
+
+html[data-theme="dark"] .btn-light {
+    background: #1e293b;
+    border-color: #475569;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .btn-light:hover {
+    background: #334155;
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .teacher-count-label,
+html[data-theme="dark"] .readonly-badge {
+    background: #1e293b;
+    border-color: #334155;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .teacher-quick-action,
+html[data-theme="dark"] .parent-access-card {
+    background: #1e293b;
+    border-color: #334155;
+    color: #e5e7eb;
+}
+
+html[data-theme="dark"] .teacher-quick-action strong,
+html[data-theme="dark"] .parent-access-card strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-schedule-day-header,
+html[data-theme="dark"] .parent-schedule-day-header {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .teacher-simple-empty,
+html[data-theme="dark"] .parent-small-empty {
+    background: #1e293b;
+    border-color: #475569;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .parent-summary-bar {
+    background: #334155;
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .parent-summary-bar > div {
+    background: #111827;
+}
+
+html[data-theme="dark"] .parent-child-stat,
+html[data-theme="dark"] .parent-subject-average-card,
+html[data-theme="dark"] .teacher-formula-item {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .parent-child-action {
+    background: #111827;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .parent-child-action:hover {
+    background: #1e293b;
+}
+
+html[data-theme="dark"] .parent-topic-line::after {
+    background: #475569;
+}
+
+html[data-theme="dark"] .parent-progress-bar {
+    background: #334155;
+}
+
+html[data-theme="dark"] .border-bottom,
+html[data-theme="dark"] .border-top {
+    border-color: #334155 !important;
+}

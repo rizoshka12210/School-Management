@@ -23,6 +23,18 @@
         @ViewData["Title"] - School Management
     </title>
 
+    <script>
+        (() => {
+            const savedTheme = localStorage.getItem("school-theme");
+
+            if (savedTheme === "dark") {
+                document.documentElement.setAttribute("data-theme", "dark");
+            } else {
+                document.documentElement.setAttribute("data-theme", "light");
+            }
+        })();
+    </script>
+
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
@@ -50,6 +62,7 @@
                 </div>
 
                 <div>
+
                     <div class="brand-title">
                         School
                     </div>
@@ -57,6 +70,7 @@
                     <div class="brand-subtitle">
                         Management
                     </div>
+
                 </div>
 
             </div>
@@ -178,6 +192,13 @@
                         Students
                     </a>
 
+                    <a class="sidebar-link @Active("Teacher", "Lessons")"
+                       asp-area="Teacher"
+                       asp-controller="Lessons"
+                       asp-action="Index">
+                        Lessons
+                    </a>
+
                     <a class="sidebar-link @Active("Teacher", "Attendance")"
                        asp-area="Teacher"
                        asp-controller="Attendance"
@@ -228,10 +249,10 @@
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Child")"
-                        asp-controller="Child"
-                        asp-action="Details"
-                        class="nav-link">
-                         My Child
+                       asp-area="Parent"
+                       asp-controller="Child"
+                       asp-action="Details">
+                        My Child
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Schedule")"
@@ -331,6 +352,18 @@
 
                     </div>
 
+                    <button type="button"
+                            id="themeToggle"
+                            class="btn-theme"
+                            aria-label="Toggle dark mode"
+                            title="Change theme">
+
+                        <span id="themeIcon">
+                            🌙
+                        </span>
+
+                    </button>
+
                     <form asp-area=""
                           asp-controller="Auth"
                           asp-action="Logout"
@@ -405,6 +438,39 @@
 
 @await RenderSectionAsync("Scripts", required: false)
 
-</body>
+<script>
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
 
+    function applyTheme(theme) {
+        document.documentElement.setAttribute("data-theme", theme);
+
+        localStorage.setItem("school-theme", theme);
+
+        if (themeIcon) {
+            themeIcon.textContent =
+                theme === "dark" ? "☀️" : "🌙";
+        }
+    }
+
+    const savedTheme =
+        localStorage.getItem("school-theme") || "light";
+
+    applyTheme(savedTheme);
+
+    if (themeToggle) {
+        themeToggle.onclick = function () {
+            const currentTheme =
+                document.documentElement.getAttribute("data-theme");
+
+            if (currentTheme === "dark") {
+                applyTheme("light");
+            } else {
+                applyTheme("dark");
+            }
+        };
+    }
+</script>
+
+</body>
 </html>
