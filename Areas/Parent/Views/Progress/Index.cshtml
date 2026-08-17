@@ -4,213 +4,250 @@
     ViewData["Title"] = "Progress";
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">
+    <div>
+
+        <h1 class="page-title">
             Student Progress
         </h1>
 
-        <p class="text-muted mb-0">
-            @Model.StudentName
+        <div class="parent-progress-student">
+
+            <strong>
+                @Model.StudentName
+            </strong>
+
             @if (!string.IsNullOrWhiteSpace(Model.GroupName))
             {
-                <span>• @Model.GroupName</span>
+                <span class="group-badge">
+                    @Model.GroupName
+                </span>
             }
-        </p>
-    </div>
-
-    <div class="row g-4 mb-4">
-
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-muted">
-                        Average Grade
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        @Model.AverageGrade
-                    </h2>
-
-                    <small class="text-muted">
-                        @Model.GradesCount grades
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-muted">
-                        Attendance
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        @Model.AttendanceRate%
-                    </h2>
-
-                    <small class="text-muted">
-                        @Model.TotalLessons attendance records
-                    </small>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-4">
-
-            <div class="card border-0 shadow-sm h-100">
-
-                <div class="card-body">
-
-                    <h6 class="text-muted">
-                        Absences
-                    </h6>
-
-                    <h2 class="fw-bold">
-                        @Model.AbsentCount
-                    </h2>
-
-                    <small class="text-muted">
-                        Excused: @Model.ExcusedCount
-                    </small>
-
-                </div>
-
-            </div>
 
         </div>
 
     </div>
 
-    <div class="card border-0 shadow-sm mb-4">
+</div>
 
-        <div class="card-body">
+<div class="parent-progress-hero">
 
-            <h5 class="mb-3">
-                Attendance Details
-            </h5>
+    <div class="parent-progress-score">
 
-            <div class="row text-center">
+        <div class="parent-progress-score-label">
+            Overall Average
+        </div>
 
-                <div class="col">
-                    <div class="fw-bold text-success fs-4">
-                        @Model.PresentCount
-                    </div>
+        <div class="parent-progress-score-value">
+            @Model.AverageGrade.ToString("0.##")
+        </div>
 
-                    <div class="text-muted">
-                        Present
-                    </div>
-                </div>
+        <div class="parent-progress-score-detail">
+            Based on @Model.GradesCount grade(s)
+        </div>
 
-                <div class="col">
-                    <div class="fw-bold text-warning fs-4">
-                        @Model.LateCount
-                    </div>
+    </div>
 
-                    <div class="text-muted">
-                        Late
-                    </div>
-                </div>
+    <div class="parent-progress-divider">
+    </div>
 
-                <div class="col">
-                    <div class="fw-bold text-danger fs-4">
-                        @Model.AbsentCount
-                    </div>
+    <div class="parent-progress-score">
 
-                    <div class="text-muted">
-                        Absent
-                    </div>
-                </div>
+        <div class="parent-progress-score-label">
+            Attendance Rate
+        </div>
 
-                <div class="col">
-                    <div class="fw-bold text-info fs-4">
-                        @Model.ExcusedCount
-                    </div>
+        <div class="parent-progress-score-value">
+            @Model.AttendanceRate.ToString("0.#")%
+        </div>
 
-                    <div class="text-muted">
-                        Excused
-                    </div>
-                </div>
+        <div class="parent-progress-score-detail">
+            @Model.TotalLessons attendance record(s)
+        </div>
 
-            </div>
+    </div>
+
+</div>
+
+<div class="parent-progress-stats">
+
+    <div class="parent-progress-stat">
+
+        <div class="parent-progress-stat-icon progress-present">
+            PR
+        </div>
+
+        <div>
+
+            <span>
+                Present
+            </span>
+
+            <strong>
+                @Model.PresentCount
+            </strong>
 
         </div>
 
     </div>
 
-    <div class="card border-0 shadow-sm">
+    <div class="parent-progress-stat">
 
-        <div class="card-body">
+        <div class="parent-progress-stat-icon progress-late">
+            LT
+        </div>
 
-            <h5 class="mb-3">
-                Progress by Subject
-            </h5>
+        <div>
 
-            @if (!Model.Subjects.Any())
-            {
-                <p class="text-muted mb-0">
-                    No grades available yet.
+            <span>
+                Late
+            </span>
+
+            <strong>
+                @Model.LateCount
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="parent-progress-stat">
+
+        <div class="parent-progress-stat-icon progress-absent">
+            AB
+        </div>
+
+        <div>
+
+            <span>
+                Absent
+            </span>
+
+            <strong>
+                @Model.AbsentCount
+            </strong>
+
+        </div>
+
+    </div>
+
+    <div class="parent-progress-stat">
+
+        <div class="parent-progress-stat-icon progress-excused">
+            EX
+        </div>
+
+        <div>
+
+            <span>
+                Excused
+            </span>
+
+            <strong>
+                @Model.ExcusedCount
+            </strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Progress by Subject
+                </h5>
+
+                <p class="section-subtitle">
+                    Academic performance across subjects
                 </p>
-            }
-            else
-            {
-                <div class="table-responsive">
 
-                    <table class="table table-hover align-middle">
+            </div>
 
-                        <thead>
-                            <tr>
-                                <th>Subject</th>
-                                <th>Grades</th>
-                                <th>Average Grade</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-
-                            @foreach (var subject in Model.Subjects)
-                            {
-                                <tr>
-
-                                    <td class="fw-semibold">
-                                        @subject.SubjectName
-                                    </td>
-
-                                    <td>
-                                        @subject.GradesCount
-                                    </td>
-
-                                    <td>
-                                        <span class="badge bg-primary fs-6">
-                                            @subject.AverageGrade
-                                        </span>
-                                    </td>
-
-                                </tr>
-                            }
-
-                        </tbody>
-
-                    </table>
-
-                </div>
-            }
+            <div class="teacher-count-label">
+                @Model.Subjects.Count subject(s)
+            </div>
 
         </div>
+
+        @if (!Model.Subjects.Any())
+        {
+            <div class="parent-empty">
+
+                <div class="parent-empty-icon">
+                    PR
+                </div>
+
+                <h5>
+                    No progress data
+                </h5>
+
+                <p>
+                    Subject progress will appear after grades are recorded.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="parent-progress-subjects">
+
+                @foreach (var subject in Model.Subjects)
+                {
+                    var progressWidth =
+                        Math.Min(
+                            subject.AverageGrade / 5.0 * 100.0,
+                            100.0);
+
+                    <div class="parent-progress-subject">
+
+                        <div class="parent-progress-subject-header">
+
+                            <div>
+
+                                <strong>
+                                    @subject.SubjectName
+                                </strong>
+
+                                <span>
+                                    @subject.GradesCount grade(s)
+                                </span>
+
+                            </div>
+
+                            <div class="parent-progress-subject-score">
+
+                                @subject.AverageGrade.ToString("0.##")
+
+                                <span>
+                                    / 5
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="parent-progress-bar">
+
+                            <div class="parent-progress-bar-value"
+                                 style="width: @progressWidth.ToString("0", System.Globalization.CultureInfo.InvariantCulture)%">
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+
+            </div>
+        }
 
     </div>
 

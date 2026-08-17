@@ -2,54 +2,239 @@
 
 @{
     ViewData["Title"] = "Schedule";
+
+    var totalLessons = Model.Count();
+
+    var subjectsCount = Model
+        .Select(s => s.SubjectId)
+        .Distinct()
+        .Count();
+
+    var teachersCount = Model
+        .Select(s => s.TeacherId)
+        .Distinct()
+        .Count();
+
+    var daysCount = Model
+        .Select(s => s.DayOfWeek)
+        .Distinct()
+        .Count();
+
+    var orderedDays = new[]
+    {
+        DayOfWeek.Monday,
+        DayOfWeek.Tuesday,
+        DayOfWeek.Wednesday,
+        DayOfWeek.Thursday,
+        DayOfWeek.Friday,
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday
+    };
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">Schedule</h1>
-        <p class="text-muted mb-0">@ViewBag.StudentName's weekly schedule</p>
+    <div>
+
+        <h1 class="page-title">
+            Schedule
+        </h1>
+
+        <p class="page-subtitle">
+            @ViewBag.StudentName's weekly timetable
+        </p>
+
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-
-            @if (!Model.Any())
-            {
-                <div class="text-center py-5">
-                    <h5>No schedule yet</h5>
-                </div>
-            }
-            else
-            {
-                @foreach (var dayGroup in Model.GroupBy(s => s.DayOfWeek))
-                {
-                    <h6 class="text-muted mt-3">@dayGroup.Key</h6>
-                    <div class="table-responsive mb-3">
-                        <table class="table table-hover align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Subject</th>
-                                    <th>Teacher</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var s in dayGroup.OrderBy(s => s.StartTime))
-                                {
-                                    <tr>
-                                        <td>@s.StartTime.ToString("HH:mm") - @s.EndTime.ToString("HH:mm")</td>
-                                        <td>@s.Subject.Name</td>
-                                        <td>@s.Teacher.ApplicationUser.FullName</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-            }
-
-        </div>
+    <div class="teacher-count-label">
+        @totalLessons lesson(s)
     </div>
 
 </div>
+
+<div class="parent-schedule-stats">
+
+    <div class="parent-schedule-stat">
+
+        <div class="parent-schedule-stat-icon parent-schedule-lessons">
+            LS
+        </div>
+
+        <div>
+            <span>Weekly Lessons</span>
+            <strong>@totalLessons</strong>
+        </div>
+
+    </div>
+
+    <div class="parent-schedule-stat">
+
+        <div class="parent-schedule-stat-icon parent-schedule-subjects">
+            SB
+        </div>
+
+        <div>
+            <span>Subjects</span>
+            <strong>@subjectsCount</strong>
+        </div>
+
+    </div>
+
+    <div class="parent-schedule-stat">
+
+        <div class="parent-schedule-stat-icon parent-schedule-teachers">
+            TR
+        </div>
+
+        <div>
+            <span>Teachers</span>
+            <strong>@teachersCount</strong>
+        </div>
+
+    </div>
+
+    <div class="parent-schedule-stat">
+
+        <div class="parent-schedule-stat-icon parent-schedule-days">
+            DY
+        </div>
+
+        <div>
+            <span>School Days</span>
+            <strong>@daysCount</strong>
+        </div>
+
+    </div>
+
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+
+        <div class="parent-empty">
+
+            <div class="parent-empty-icon">
+                SC
+            </div>
+
+            <h5>
+                No schedule yet
+            </h5>
+
+            <p>
+                The weekly schedule will appear here when it is created.
+            </p>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <div class="parent-week-schedule">
+
+        @foreach (var day in orderedDays)
+        {
+            var lessons = Model
+                .Where(s => s.DayOfWeek == day)
+                .OrderBy(s => s.StartTime)
+                .ToList();
+
+            if (lessons.Any())
+            {
+                <div class="parent-schedule-day">
+
+                    <div class="parent-schedule-day-header">
+
+                        <div>
+
+                            <strong>
+                                @day
+                            </strong>
+
+                            <span>
+                                @lessons.Count lesson(s)
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="parent-schedule-day-body">
+
+                        @foreach (var lesson in lessons)
+                        {
+                            <div class="parent-schedule-row">
+
+                                <div class="parent-schedule-time">
+
+                                    <strong>
+                                        @lesson.StartTime.ToString("HH:mm")
+                                    </strong>
+
+                                    <span>
+                                        @lesson.EndTime.ToString("HH:mm")
+                                    </span>
+
+                                </div>
+
+                                <div class="parent-schedule-marker">
+                                </div>
+
+                                <div class="parent-schedule-info">
+
+                                    <strong>
+                                        @lesson.Subject.Name
+                                    </strong>
+
+                                    <span>
+                                        School lesson
+                                    </span>
+
+                                </div>
+
+                                <div>
+
+                                    <span class="subject-badge">
+                                        @lesson.Subject.Name
+                                    </span>
+
+                                </div>
+
+                                <div class="parent-schedule-teacher">
+
+                                    <div class="mini-avatar">
+
+                                        @(string.IsNullOrWhiteSpace(
+                                            lesson.Teacher.ApplicationUser.FullName)
+                                            ? "T"
+                                            : lesson.Teacher.ApplicationUser.FullName.Substring(0, 1).ToUpper())
+
+                                    </div>
+
+                                    <div>
+
+                                        <span>
+                                            Teacher
+                                        </span>
+
+                                        <strong>
+                                            @lesson.Teacher.ApplicationUser.FullName
+                                        </strong>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+            }
+        }
+
+    </div>
+}

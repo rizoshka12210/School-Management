@@ -4069,3 +4069,1025 @@ h1 {
         grid-template-columns: 1fr;
     }
 }
+.parent-grade-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.parent-grade-stat {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 105px;
+    padding: 18px;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: white;
+    box-shadow:
+        0 4px 16px
+        rgba(15, 23, 42, .04);
+}
+
+.parent-grade-stat-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.parent-grade-stat > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-grade-stat span {
+    color: #9ca3af;
+    font-size: 10px;
+}
+
+.parent-grade-stat strong {
+    margin-top: 2px;
+    color: #111827;
+    font-size: 22px;
+}
+
+.parent-grade-average {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.parent-grade-total {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.parent-grade-high {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.parent-grade-subjects {
+    background: #fdf2f8;
+    color: #db2777;
+}
+
+.parent-subject-average-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(auto-fit, minmax(180px, 1fr));
+    gap: 11px;
+}
+
+.parent-subject-average-card {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 13px;
+    border: 1px solid #e5e7eb;
+    border-radius: 11px;
+    background: #fafafa;
+}
+
+.parent-subject-average-icon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background: #fff7ed;
+    color: #ea580c;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.parent-subject-average-card > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-subject-average-card span {
+    color: #6b7280;
+    font-size: 10px;
+}
+
+.parent-subject-average-card strong {
+    margin-top: 2px;
+    color: #111827;
+    font-size: 18px;
+}
+
+.parent-small-empty {
+    padding: 22px;
+    border: 1px dashed #d1d5db;
+    border-radius: 10px;
+    color: #9ca3af;
+    text-align: center;
+    font-size: 11px;
+}
+
+.parent-attendance-overview {
+    display: grid;
+    grid-template-columns:
+        minmax(300px, 1fr)
+        minmax(0, 1.5fr);
+    gap: 17px;
+    margin-bottom: 22px;
+}
+
+.parent-attendance-main-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    min-height: 165px;
+    padding: 22px;
+    border: 1px solid #a7f3d0;
+    border-radius: 15px;
+    background: #f7fffb;
+}
+
+.parent-attendance-circle {
+    width: 95px;
+    height: 95px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 8px solid #d1fae5;
+    border-top-color: #10b981;
+    border-radius: 50%;
+}
+
+.parent-attendance-circle > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.parent-attendance-circle strong {
+    color: #047857;
+    font-size: 19px;
+}
+
+.parent-attendance-circle span {
+    color: #6b7280;
+    font-size: 8px;
+}
+
+.parent-attendance-main-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-attendance-main-info > span {
+    color: #6b7280;
+    font-size: 11px;
+}
+
+.parent-attendance-main-info strong {
+    margin-top: 3px;
+    color: #047857;
+    font-size: 30px;
+}
+
+.parent-attendance-main-info small {
+    margin-top: 4px;
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-attendance-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.parent-attendance-mini {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 75px;
+    padding: 14px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: white;
+}
+
+.parent-attendance-mini-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 9px;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.parent-attendance-mini > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-attendance-mini span {
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-attendance-mini strong {
+    margin-top: 1px;
+    color: #111827;
+    font-size: 18px;
+}
+
+.parent-progress-student {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 6px;
+}
+
+.parent-progress-student strong {
+    color: #374151;
+    font-size: 13px;
+}
+
+.parent-progress-hero {
+    display: grid;
+    grid-template-columns:
+        1fr
+        1px
+        1fr;
+    align-items: center;
+    margin-bottom: 18px;
+    padding: 25px;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    background: white;
+    box-shadow:
+        0 4px 16px
+        rgba(15, 23, 42, .04);
+}
+
+.parent-progress-score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.parent-progress-score-label {
+    color: #9ca3af;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.parent-progress-score-value {
+    margin-top: 5px;
+    color: #111827;
+    font-size: 36px;
+    font-weight: 800;
+}
+
+.parent-progress-score-detail {
+    margin-top: 3px;
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-progress-divider {
+    width: 1px;
+    height: 70px;
+    background: #e5e7eb;
+}
+
+.parent-progress-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.parent-progress-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 90px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: white;
+}
+
+.parent-progress-stat-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.parent-progress-stat > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-progress-stat span {
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-progress-stat strong {
+    margin-top: 1px;
+    color: #111827;
+    font-size: 20px;
+}
+
+.progress-present {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.progress-late {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.progress-absent {
+    background: #fef2f2;
+    color: #dc2626;
+}
+
+.progress-excused {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.parent-progress-subjects {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.parent-progress-subject {
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.parent-progress-subject:last-child {
+    border-bottom: 0;
+}
+
+.parent-progress-subject-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.parent-progress-subject-header > div:first-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-progress-subject-header strong {
+    color: #111827;
+    font-size: 13px;
+}
+
+.parent-progress-subject-header span {
+    margin-top: 2px;
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-progress-subject-score {
+    color: #4f46e5;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.parent-progress-subject-score span {
+    color: #9ca3af;
+    font-size: 9px;
+    font-weight: 500;
+}
+
+.parent-progress-bar {
+    width: 100%;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #f1f5f9;
+}
+
+.parent-progress-bar-value {
+    height: 100%;
+    border-radius: 20px;
+    background: #4f46e5;
+}
+
+@media (max-width: 1050px) {
+    .parent-grade-stats,
+    .parent-progress-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .parent-attendance-overview {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .parent-grade-stats,
+    .parent-progress-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .parent-attendance-mini-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .parent-attendance-main-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .parent-progress-hero {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .parent-progress-divider {
+        width: 100%;
+        height: 1px;
+    }
+}
+.parent-schedule-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.parent-schedule-stat {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 100px;
+    padding: 17px;
+    border: 1px solid #e5e7eb;
+    border-radius: 13px;
+    background: white;
+    box-shadow:
+        0 4px 16px
+        rgba(15, 23, 42, .04);
+}
+
+.parent-schedule-stat-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.parent-schedule-stat > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-schedule-stat span {
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-schedule-stat strong {
+    margin-top: 2px;
+    color: #111827;
+    font-size: 21px;
+}
+
+.parent-schedule-lessons {
+    background: #eef2ff;
+    color: #4f46e5;
+}
+
+.parent-schedule-subjects {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.parent-schedule-teachers {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.parent-schedule-days {
+    background: #fdf2f8;
+    color: #db2777;
+}
+
+.parent-week-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: 17px;
+}
+
+.parent-schedule-day {
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    background: white;
+    box-shadow:
+        0 4px 16px
+        rgba(15, 23, 42, .035);
+}
+
+.parent-schedule-day-header {
+    padding: 15px 19px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8fafc;
+}
+
+.parent-schedule-day-header > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-schedule-day-header strong {
+    color: #111827;
+    font-size: 15px;
+}
+
+.parent-schedule-day-header span {
+    margin-top: 2px;
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-schedule-day-body {
+    padding: 3px 18px;
+}
+
+.parent-schedule-row {
+    display: grid;
+    grid-template-columns:
+        70px
+        3px
+        minmax(150px, 1fr)
+        minmax(120px, auto)
+        minmax(190px, auto);
+    align-items: center;
+    gap: 15px;
+    min-height: 80px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.parent-schedule-row:last-child {
+    border-bottom: 0;
+}
+
+.parent-schedule-time {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-schedule-time strong {
+    color: #111827;
+    font-size: 14px;
+}
+
+.parent-schedule-time span {
+    margin-top: 2px;
+    color: #9ca3af;
+    font-size: 10px;
+}
+
+.parent-schedule-marker {
+    width: 3px;
+    height: 40px;
+    border-radius: 10px;
+    background: #db2777;
+}
+
+.parent-schedule-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-schedule-info strong {
+    color: #111827;
+    font-size: 12px;
+}
+
+.parent-schedule-info span {
+    margin-top: 2px;
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-schedule-teacher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.parent-schedule-teacher > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-schedule-teacher span {
+    color: #9ca3af;
+    font-size: 8px;
+}
+
+.parent-schedule-teacher strong {
+    margin-top: 1px;
+    color: #374151;
+    font-size: 10px;
+    font-weight: 650;
+}
+
+.parent-subject-summary {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.parent-subject-summary > div {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 200px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: white;
+}
+
+.parent-subject-summary-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #fff7ed;
+    color: #ea580c;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.parent-subject-teacher-icon {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.parent-subject-summary > div > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-subject-summary span {
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-subject-summary strong {
+    color: #111827;
+    font-size: 20px;
+}
+
+.parent-subject-grid {
+    display: grid;
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+    gap: 17px;
+}
+
+.parent-subject-card {
+    padding: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 15px;
+    background: white;
+    box-shadow:
+        0 4px 16px
+        rgba(15, 23, 42, .04);
+}
+
+.parent-subject-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.parent-subject-card-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #fff7ed;
+    color: #ea580c;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.parent-subject-card-badge {
+    padding: 5px 9px;
+    border-radius: 7px;
+    background: #f8fafc;
+    color: #9ca3af;
+    font-size: 8px;
+    font-weight: 650;
+    text-transform: uppercase;
+}
+
+.parent-subject-card h4 {
+    margin: 18px 0 3px;
+    color: #111827;
+    font-size: 17px;
+    font-weight: 750;
+}
+
+.parent-subject-card > p {
+    margin: 0;
+    color: #9ca3af;
+    font-size: 10px;
+}
+
+.parent-subject-teachers {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.parent-subject-teachers-title {
+    margin-bottom: 2px;
+    color: #9ca3af;
+    font-size: 8px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+}
+
+.parent-subject-teacher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.parent-subject-teacher span {
+    color: #374151;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.parent-topic-stats {
+    display: grid;
+    grid-template-columns:
+        repeat(2, minmax(180px, 1fr))
+        minmax(240px, 1.3fr);
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.parent-topic-stat {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 100px;
+    padding: 17px;
+    border: 1px solid #e5e7eb;
+    border-radius: 13px;
+    background: white;
+}
+
+.parent-topic-stat-icon {
+    width: 43px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 11px;
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.parent-topic-stat > div:last-child {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-topic-stat span {
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-topic-stat strong {
+    margin-top: 2px;
+    color: #111827;
+    font-size: 20px;
+}
+
+.parent-topic-total {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.parent-topic-subject {
+    background: #fff7ed;
+    color: #ea580c;
+}
+
+.parent-topic-date {
+    background: #fdf2f8;
+    color: #db2777;
+}
+
+.parent-topic-latest-text {
+    font-size: 15px !important;
+}
+
+.parent-topic-timeline {
+    display: flex;
+    flex-direction: column;
+}
+
+.parent-topic-row {
+    display: grid;
+    grid-template-columns:
+        52px
+        20px
+        minmax(0, 1fr);
+    gap: 12px;
+}
+
+.parent-topic-date-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 15px;
+}
+
+.parent-topic-date-box strong {
+    color: #111827;
+    font-size: 18px;
+}
+
+.parent-topic-date-box span {
+    color: #9ca3af;
+    font-size: 9px;
+    text-transform: uppercase;
+}
+
+.parent-topic-line {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.parent-topic-line::after {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e5e7eb;
+    content: "";
+}
+
+.parent-topic-dot {
+    position: relative;
+    z-index: 1;
+    width: 10px;
+    height: 10px;
+    margin-top: 22px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: #db2777;
+    box-shadow: 0 0 0 2px #fbcfe8;
+}
+
+.parent-topic-content {
+    margin-bottom: 14px;
+    padding: 15px 17px;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fafafa;
+}
+
+.parent-topic-content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.parent-topic-full-date {
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+.parent-topic-content h5 {
+    margin: 12px 0 4px;
+    color: #111827;
+    font-size: 13px;
+    line-height: 1.5;
+    font-weight: 650;
+}
+
+.parent-topic-time {
+    color: #9ca3af;
+    font-size: 9px;
+}
+
+@media (max-width: 1100px) {
+    .parent-schedule-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .parent-subject-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .parent-schedule-row {
+        grid-template-columns:
+            65px
+            3px
+            1fr
+            auto;
+    }
+
+    .parent-schedule-teacher {
+        grid-column: 3 / -1;
+        padding-bottom: 12px;
+    }
+}
+
+@media (max-width: 700px) {
+    .parent-schedule-stats,
+    .parent-topic-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .parent-subject-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .parent-subject-summary {
+        flex-direction: column;
+    }
+
+    .parent-subject-summary > div {
+        width: 100%;
+    }
+
+    .parent-schedule-row {
+        grid-template-columns:
+            55px
+            3px
+            1fr;
+        gap: 10px;
+        padding: 12px 0;
+    }
+
+    .parent-schedule-row > div:nth-child(4) {
+        display: none;
+    }
+
+    .parent-schedule-teacher {
+        grid-column: 3;
+    }
+
+    .parent-topic-content-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

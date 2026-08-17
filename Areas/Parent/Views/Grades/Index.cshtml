@@ -2,84 +2,319 @@
 
 @{
     ViewData["Title"] = "Grades";
-    var averages = ViewBag.AverageBySubject as Dictionary<string, double> ?? new();
+
+    var averages =
+        ViewBag.AverageBySubject as Dictionary<string, double>
+        ?? new Dictionary<string, double>();
+
+    double overallAverage =
+        Convert.ToDouble(ViewBag.OverallAverage);
+
+    var totalGrades = Model.Count();
+
+    var highestGrade =
+        Model.Any()
+            ? Model.Max(g => g.Value)
+            : 0;
+
+    var subjectsCount =
+        Model.Select(g => g.SubjectId)
+            .Distinct()
+            .Count();
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">Grades</h1>
-        <p class="text-muted mb-0">@ViewBag.StudentName's grade history</p>
+    <div>
+
+        <h1 class="page-title">
+            Grades
+        </h1>
+
+        <p class="page-subtitle">
+            @ViewBag.StudentName's academic results
+        </p>
+
     </div>
 
-    <div class="row g-4 mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Overall Average</h6>
-                    <h2 class="fw-bold">@ViewBag.OverallAverage</h2>
-                </div>
-            </div>
+    <a asp-area="Parent"
+       asp-controller="Progress"
+       asp-action="Index"
+       class="btn btn-outline-primary">
+        View Progress
+    </a>
+
+</div>
+
+<div class="parent-grade-stats">
+
+    <div class="parent-grade-stat">
+
+        <div class="parent-grade-stat-icon parent-grade-average">
+            AV
         </div>
-        <div class="col-md-8">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted mb-2">Average by Subject</h6>
-                    @if (!averages.Any())
-                    {
-                        <span class="text-muted">No grades yet</span>
-                    }
-                    else
-                    {
-                        @foreach (var pair in averages)
-                        {
-                            <span class="badge bg-primary-subtle text-primary-emphasis me-1 mb-1">
-                                @pair.Key: @pair.Value
+
+        <div>
+            <span>Overall Average</span>
+            <strong>@overallAverage.ToString("0.##")</strong>
+        </div>
+
+    </div>
+
+    <div class="parent-grade-stat">
+
+        <div class="parent-grade-stat-icon parent-grade-total">
+            GD
+        </div>
+
+        <div>
+            <span>Total Grades</span>
+            <strong>@totalGrades</strong>
+        </div>
+
+    </div>
+
+    <div class="parent-grade-stat">
+
+        <div class="parent-grade-stat-icon parent-grade-high">
+            HI
+        </div>
+
+        <div>
+            <span>Highest Grade</span>
+            <strong>@highestGrade</strong>
+        </div>
+
+    </div>
+
+    <div class="parent-grade-stat">
+
+        <div class="parent-grade-stat-icon parent-grade-subjects">
+            SB
+        </div>
+
+        <div>
+            <span>Subjects</span>
+            <strong>@subjectsCount</strong>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Subject Performance
+                </h5>
+
+                <p class="section-subtitle">
+                    Average grade for each subject
+                </p>
+
+            </div>
+
+        </div>
+
+        @if (!averages.Any())
+        {
+            <div class="parent-small-empty">
+                No subject averages available yet.
+            </div>
+        }
+        else
+        {
+            <div class="parent-subject-average-grid">
+
+                @foreach (var pair in averages)
+                {
+                    <div class="parent-subject-average-card">
+
+                        <div class="parent-subject-average-icon">
+                            SB
+                        </div>
+
+                        <div>
+
+                            <span>
+                                @pair.Key
                             </span>
-                        }
-                    }
-                </div>
+
+                            <strong>
+                                @pair.Value.ToString("0.##")
+                            </strong>
+
+                        </div>
+
+                    </div>
+                }
+
             </div>
-        </div>
+        }
+
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
+</div>
 
-            @if (!Model.Any())
-            {
-                <p class="text-muted mb-0">No grades recorded yet.</p>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Subject</th>
-                                <th>Teacher</th>
-                                <th>Grade</th>
-                                <th>Comment</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var grade in Model)
-                            {
-                                <tr>
-                                    <td>@grade.Date.ToString("dd.MM.yyyy")</td>
-                                    <td>@grade.Subject.Name</td>
-                                    <td>@grade.Teacher.ApplicationUser.FullName</td>
-                                    <td><span class="badge bg-primary">@grade.Value</span></td>
-                                    <td>@grade.Comment</td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Grade History
+                </h5>
+
+                <p class="section-subtitle">
+                    All recorded grades for @ViewBag.StudentName
+                </p>
+
+            </div>
+
+            <div class="teacher-count-label">
+                @totalGrades grade(s)
+            </div>
 
         </div>
+
+        @if (!Model.Any())
+        {
+            <div class="parent-empty">
+
+                <div class="parent-empty-icon">
+                    GD
+                </div>
+
+                <h5>
+                    No grades yet
+                </h5>
+
+                <p>
+                    Grades recorded by teachers will appear here.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>Subject</th>
+                            <th>Teacher</th>
+                            <th>Grade</th>
+                            <th>Comment</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var grade in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <div class="record-date">
+                                        @grade.Date.ToString("dd MMM yyyy")
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="subject-badge">
+                                        @grade.Subject.Name
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <div class="person-cell">
+
+                                        <div class="mini-avatar">
+
+                                            @(string.IsNullOrWhiteSpace(
+                                                grade.Teacher.ApplicationUser.FullName)
+                                                ? "T"
+                                                : grade.Teacher.ApplicationUser.FullName
+                                                    .Substring(0, 1)
+                                                    .ToUpper())
+
+                                        </div>
+
+                                        <span class="fw-semibold">
+                                            @grade.Teacher.ApplicationUser.FullName
+                                        </span>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    @if (grade.Value >= 5)
+                                    {
+                                        <span class="grade-badge grade-high">
+                                            @grade.Value
+                                        </span>
+                                    }
+                                    else if (grade.Value >= 4)
+                                    {
+                                        <span class="grade-badge grade-good">
+                                            @grade.Value
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="grade-badge grade-low">
+                                            @grade.Value
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(grade.Comment))
+                                    {
+                                        @grade.Comment
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">
+                                            —
+                                        </span>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
     </div>
 
 </div>

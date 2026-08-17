@@ -1,76 +1,312 @@
+@using SchoolManagementSystem.Web.Models.Enums
+
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Attendance>
 
 @{
     ViewData["Title"] = "Attendance";
+
+    double attendanceRate =
+        Convert.ToDouble(ViewBag.AttendanceRate);
+
+    int totalLessons =
+        Convert.ToInt32(ViewBag.TotalLessons);
+
+    int presentCount =
+        Convert.ToInt32(ViewBag.PresentCount);
+
+    var absentCount =
+        Model.Count(a =>
+            a.Status == AttendanceStatus.Absent);
+
+    var lateCount =
+        Model.Count(a =>
+            a.Status == AttendanceStatus.Late);
+
+    var excusedCount =
+        Model.Count(a =>
+            a.Status == AttendanceStatus.Excused);
 }
 
-<div class="container mt-4">
+<div class="page-header">
 
-    <div class="mb-4">
-        <h1 class="fw-bold mb-1">Attendance</h1>
-        <p class="text-muted mb-0">@ViewBag.StudentName's attendance record</p>
+    <div>
+
+        <h1 class="page-title">
+            Attendance
+        </h1>
+
+        <p class="page-subtitle">
+            @ViewBag.StudentName's attendance history
+        </p>
+
     </div>
 
-    <div class="row g-4 mb-4">
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm h-100">
-                <div class="card-body">
-                    <h6 class="text-muted">Attendance Rate</h6>
-                    <h2 class="fw-bold">@ViewBag.AttendanceRate%</h2>
-                    <p class="text-muted small mb-0">
-                        Total lessons: @ViewBag.TotalLessons &middot; Present: @ViewBag.PresentCount
-                    </p>
-                </div>
+    <a asp-area="Parent"
+       asp-controller="Progress"
+       asp-action="Index"
+       class="btn btn-outline-primary">
+        View Progress
+    </a>
+
+</div>
+
+<div class="parent-attendance-overview">
+
+    <div class="parent-attendance-main-card">
+
+        <div class="parent-attendance-circle">
+
+            <div>
+
+                <strong>
+                    @attendanceRate.ToString("0.#")%
+                </strong>
+
+                <span>
+                    Attendance
+                </span>
+
             </div>
+
         </div>
+
+        <div class="parent-attendance-main-info">
+
+            <span>
+                Overall Attendance Rate
+            </span>
+
+            <strong>
+                @attendanceRate.ToString("0.#")%
+            </strong>
+
+            <small>
+                @presentCount present out of @totalLessons attendance records
+            </small>
+
+        </div>
+
     </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
+    <div class="parent-attendance-mini-grid">
 
-            @if (!Model.Any())
-            {
-                <p class="text-muted mb-0">No attendance records yet.</p>
-            }
-            else
-            {
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Subject</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var a in Model)
-                            {
-                                <tr>
-                                    <td>@a.Lesson.StartTime.ToString("dd.MM.yyyy")</td>
-                                    <td>@a.Lesson.Subject.Name</td>
-                                    <td>
-                                        @if (a.Status == SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Present)
-                                        {
-                                            <span class="badge bg-success">Present</span>
-                                        }
-                                        else if (a.Status == SchoolManagementSystem.Web.Models.Enums.AttendanceStatus.Absent)
-                                        {
-                                            <span class="badge bg-danger">Absent</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="badge bg-warning text-dark">@a.Status</span>
-                                        }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
+        <div class="parent-attendance-mini">
+
+            <div class="parent-attendance-mini-icon status-present">
+                PR
+            </div>
+
+            <div>
+
+                <span>
+                    Present
+                </span>
+
+                <strong>
+                    @presentCount
+                </strong>
+
+            </div>
 
         </div>
+
+        <div class="parent-attendance-mini">
+
+            <div class="parent-attendance-mini-icon status-absent">
+                AB
+            </div>
+
+            <div>
+
+                <span>
+                    Absent
+                </span>
+
+                <strong>
+                    @absentCount
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="parent-attendance-mini">
+
+            <div class="parent-attendance-mini-icon status-late">
+                LT
+            </div>
+
+            <div>
+
+                <span>
+                    Late
+                </span>
+
+                <strong>
+                    @lateCount
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="parent-attendance-mini">
+
+            <div class="parent-attendance-mini-icon status-excused">
+                EX
+            </div>
+
+            <div>
+
+                <span>
+                    Excused
+                </span>
+
+                <strong>
+                    @excusedCount
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+
+                <h5 class="section-title">
+                    Attendance History
+                </h5>
+
+                <p class="section-subtitle">
+                    Detailed attendance records
+                </p>
+
+            </div>
+
+            <div class="teacher-count-label">
+                @Model.Count() record(s)
+            </div>
+
+        </div>
+
+        @if (!Model.Any())
+        {
+            <div class="parent-empty">
+
+                <div class="parent-empty-icon">
+                    AT
+                </div>
+
+                <h5>
+                    No attendance records
+                </h5>
+
+                <p>
+                    Attendance records will appear here after lessons.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Date & Time</th>
+                            <th>Subject</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var attendance in Model)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <div class="record-date">
+                                        @attendance.Lesson.StartTime.ToString("dd MMM yyyy")
+                                    </div>
+
+                                    <div class="record-time">
+                                        @attendance.Lesson.StartTime.ToString("HH:mm")
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="subject-badge">
+                                        @attendance.Lesson.Subject.Name
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    @switch (attendance.Status)
+                                    {
+                                        case AttendanceStatus.Present:
+
+                                            <span class="status-badge status-present">
+                                                Present
+                                            </span>
+
+                                            break;
+
+                                        case AttendanceStatus.Absent:
+
+                                            <span class="status-badge status-absent">
+                                                Absent
+                                            </span>
+
+                                            break;
+
+                                        case AttendanceStatus.Late:
+
+                                            <span class="status-badge status-late">
+                                                Late
+                                            </span>
+
+                                            break;
+
+                                        case AttendanceStatus.Excused:
+
+                                            <span class="status-badge status-excused">
+                                                Excused
+                                            </span>
+
+                                            break;
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
     </div>
 
 </div>
