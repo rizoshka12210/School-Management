@@ -11,7 +11,7 @@
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 
 <head>
     <meta charset="utf-8" />
@@ -64,11 +64,11 @@
                 <div>
 
                     <div class="brand-title">
-                        School
+                        @Localizer["School"]
                     </div>
 
                     <div class="brand-subtitle">
-                        Management
+                        @Localizer["Management"]
                     </div>
 
                 </div>
@@ -80,221 +80,221 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <div class="sidebar-section">
-                        ADMIN
+                        @Localizer["NavSectionAdmin"]
                     </div>
 
                     <a class="sidebar-link @Active("Admin", "Dashboard")"
                        asp-area="Admin"
                        asp-controller="Dashboard"
                        asp-action="Index">
-                        Dashboard
+                        @Localizer["Dashboard"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Students")"
                        asp-area="Admin"
                        asp-controller="Students"
                        asp-action="Index">
-                        Students
+                        @Localizer["Students"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Parents")"
                        asp-area="Admin"
                        asp-controller="Parents"
                        asp-action="Index">
-                        Parents
+                        @Localizer["Parents"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Teachers")"
                        asp-area="Admin"
                        asp-controller="Teachers"
                        asp-action="Index">
-                        Teachers
+                        @Localizer["Teachers"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Groups")"
                        asp-area="Admin"
                        asp-controller="Groups"
                        asp-action="Index">
-                        Groups
+                        @Localizer["Groups"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Subjects")"
                        asp-area="Admin"
                        asp-controller="Subjects"
                        asp-action="Index">
-                        Subjects
+                        @Localizer["Subjects"]
                     </a>
 
                     <div class="sidebar-section">
-                        EDUCATION
+                        @Localizer["NavSectionEducation"]
                     </div>
 
                     <a class="sidebar-link @Active("Admin", "Lessons")"
                        asp-area="Admin"
                        asp-controller="Lessons"
                        asp-action="Index">
-                        Lessons
+                        @Localizer["Lessons"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Schedule")"
                        asp-area="Admin"
                        asp-controller="Schedule"
                        asp-action="Index">
-                        Schedule
+                        @Localizer["Schedule"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Attendance")"
                        asp-area="Admin"
                        asp-controller="Attendance"
                        asp-action="Index">
-                        Attendance
+                        @Localizer["Attendance"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Grades")"
                        asp-area="Admin"
                        asp-controller="Grades"
                        asp-action="Index">
-                        Grades
+                        @Localizer["Grades"]
                     </a>
 
                     <a class="sidebar-link @Active("Admin", "Salary")"
                        asp-area="Admin"
                        asp-controller="Salary"
                        asp-action="Index">
-                        Salary
+                        @Localizer["Salary"]
                     </a>
                 }
 
                 @if (User.IsInRole("Teacher"))
                 {
                     <div class="sidebar-section">
-                        TEACHER
+                        @Localizer["NavSectionTeacher"]
                     </div>
 
                     <a class="sidebar-link @Active("Teacher", "Dashboard")"
                        asp-area="Teacher"
                        asp-controller="Dashboard"
                        asp-action="Index">
-                        Dashboard
+                        @Localizer["Dashboard"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Groups")"
                        asp-area="Teacher"
                        asp-controller="Groups"
                        asp-action="Index">
-                        My Groups
+                        @Localizer["My Groups"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Students")"
                        asp-area="Teacher"
                        asp-controller="Students"
                        asp-action="Index">
-                        Students
+                        @Localizer["Students"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Lessons")"
                        asp-area="Teacher"
                        asp-controller="Lessons"
                        asp-action="Index">
-                        Lessons
+                        @Localizer["Lessons"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Attendance")"
                        asp-area="Teacher"
                        asp-controller="Attendance"
                        asp-action="Index">
-                        Attendance
+                        @Localizer["Attendance"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Grades")"
                        asp-area="Teacher"
                        asp-controller="Grades"
                        asp-action="Index">
-                        Grades
+                        @Localizer["Grades"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Topics")"
                        asp-area="Teacher"
                        asp-controller="Topics"
                        asp-action="Index">
-                        Topics
+                        @Localizer["Topics"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Schedule")"
                        asp-area="Teacher"
                        asp-controller="Schedule"
                        asp-action="Index">
-                        Schedule
+                        @Localizer["Schedule"]
                     </a>
 
                     <a class="sidebar-link @Active("Teacher", "Salary")"
                        asp-area="Teacher"
                        asp-controller="Salary"
                        asp-action="Index">
-                        My Salary
+                        @Localizer["My Salary"]
                     </a>
                 }
 
                 @if (User.IsInRole("Parent"))
                 {
                     <div class="sidebar-section">
-                        PARENT
+                        @Localizer["NavSectionParent"]
                     </div>
 
                     <a class="sidebar-link @Active("Parent", "Dashboard")"
                        asp-area="Parent"
                        asp-controller="Dashboard"
                        asp-action="Index">
-                        Dashboard
+                        @Localizer["Dashboard"]
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Child")"
                        asp-area="Parent"
                        asp-controller="Child"
                        asp-action="Details">
-                        My Child
+                        @Localizer["My Child"]
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Schedule")"
                        asp-area="Parent"
                        asp-controller="Schedule"
                        asp-action="Index">
-                        Schedule
+                        @Localizer["Schedule"]
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Grades")"
                        asp-area="Parent"
                        asp-controller="Grades"
                        asp-action="Index">
-                        Grades
+                        @Localizer["Grades"]
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Attendance")"
                        asp-area="Parent"
                        asp-controller="Attendance"
                        asp-action="Index">
-                        Attendance
+                        @Localizer["Attendance"]
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Subjects")"
                        asp-area="Parent"
                        asp-controller="Subjects"
                        asp-action="Index">
-                        Subjects
+                        @Localizer["Subjects"]
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Topics")"
                        asp-area="Parent"
                        asp-controller="Topics"
                        asp-action="Index">
-                        Topics
+                        @Localizer["Topics"]
                     </a>
 
                     <a class="sidebar-link @Active("Parent", "Progress")"
                        asp-area="Parent"
                        asp-controller="Progress"
                        asp-action="Index">
-                        Progress
+                        @Localizer["Progress"]
                     </a>
                 }
 
@@ -335,15 +335,15 @@
 
                                 @if (User.IsInRole("Admin"))
                                 {
-                                    <text>Administrator</text>
+                                    <text>@Localizer["Administrator"]</text>
                                 }
                                 else if (User.IsInRole("Teacher"))
                                 {
-                                    <text>Teacher</text>
+                                    <text>@Localizer["Teacher"]</text>
                                 }
                                 else if (User.IsInRole("Parent"))
                                 {
-                                    <text>Parent</text>
+                                    <text>@Localizer["Parent"]</text>
                                 }
 
                             </span>
@@ -352,11 +352,53 @@
 
                     </div>
 
+                    var currentCulture =
+                        System.Globalization.CultureInfo.CurrentUICulture.Name;
+
+                    var returnUrl =
+                        Context.Request.Path + Context.Request.QueryString;
+
+                    <div class="lang-switcher">
+
+                        <form asp-area=""
+                              asp-controller="Home"
+                              asp-action="SetCulture"
+                              method="post">
+
+                            <input type="hidden" name="culture" value="en-US" />
+                            <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                            <button type="submit"
+                                    class="btn-lang @(currentCulture == "en-US" ? "active" : "")"
+                                    title="@Localizer["Switch to English"]">
+                                EN
+                            </button>
+
+                        </form>
+
+                        <form asp-area=""
+                              asp-controller="Home"
+                              asp-action="SetCulture"
+                              method="post">
+
+                            <input type="hidden" name="culture" value="ru-RU" />
+                            <input type="hidden" name="returnUrl" value="@returnUrl" />
+
+                            <button type="submit"
+                                    class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")"
+                                    title="@Localizer["Switch to Russian"]">
+                                RU
+                            </button>
+
+                        </form>
+
+                    </div>
+
                     <button type="button"
                             id="themeToggle"
                             class="btn-theme"
-                            aria-label="Toggle dark mode"
-                            title="Change theme">
+                            aria-label="@Localizer["Toggle dark mode"]"
+                            title="@Localizer["Change theme"]">
 
                         <span id="themeIcon">
                             🌙
@@ -371,7 +413,7 @@
 
                         <button type="submit"
                                 class="btn-logout">
-                            Logout
+                            @Localizer["Logout"]
                         </button>
 
                     </form>
@@ -382,7 +424,7 @@
                        asp-controller="Auth"
                        asp-action="Login"
                        class="btn btn-primary">
-                        Login
+                        @Localizer["Login"]
                     </a>
                 }
 

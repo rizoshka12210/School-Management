@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="School" xml:space="preserve">
+    <value>Школа</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Управление</value>
+  </data>
+  <data name="NavSectionAdmin" xml:space="preserve">
+    <value>АДМИН</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Панель управления</value>
+  </data>
+  <data name="Students" xml:space="preserve">
+    <value>Ученики</value>
+  </data>
+  <data name="Parents" xml:space="preserve">
+    <value>Родители</value>
+  </data>
+  <data name="Teachers" xml:space="preserve">
+    <value>Учителя</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Группы</value>
+  </data>
+  <data name="Subjects" xml:space="preserve">
+    <value>Предметы</value>
+  </data>
+  <data name="NavSectionEducation" xml:space="preserve">
+    <value>ОБУЧЕНИЕ</value>
+  </data>
+  <data name="Lessons" xml:space="preserve">
+    <value>Уроки</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+  <data name="Attendance" xml:space="preserve">
+    <value>Посещаемость</value>
+  </data>
+  <data name="Grades" xml:space="preserve">
+    <value>Оценки</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>Зарплата</value>
+  </data>
+  <data name="NavSectionTeacher" xml:space="preserve">
+    <value>УЧИТЕЛЬ</value>
+  </data>
+  <data name="My Groups" xml:space="preserve">
+    <value>Мои группы</value>
+  </data>
+  <data name="Topics" xml:space="preserve">
+    <value>Темы</value>
+  </data>
+  <data name="My Salary" xml:space="preserve">
+    <value>Моя зарплата</value>
+  </data>
+  <data name="NavSectionParent" xml:space="preserve">
+    <value>РОДИТЕЛЬ</value>
+  </data>
+  <data name="My Child" xml:space="preserve">
+    <value>Мой ребёнок</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Успеваемость</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Учитель</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Родитель</value>
+  </data>
+  <data name="Switch to English" xml:space="preserve">
+    <value>Переключить на английский</value>
+  </data>
+  <data name="Switch to Russian" xml:space="preserve">
+    <value>Переключить на русский</value>
+  </data>
+  <data name="Toggle dark mode" xml:space="preserve">
+    <value>Переключить тёмный режим</value>
+  </data>
+  <data name="Change theme" xml:space="preserve">
+    <value>Сменить тему</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Войти</value>
+  </data>
+</root>

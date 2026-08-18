@@ -5668,6 +5668,47 @@ html[data-theme="dark"] .teacher-formula-result strong {
     transform: translateY(-1px);
 }
 
+.lang-switcher {
+    display: flex;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.lang-switcher form {
+    display: contents;
+}
+
+.btn-lang {
+    width: 38px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: #ffffff;
+    color: #64748b;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    transition: .2s ease;
+}
+
+.btn-lang:not(:last-child) {
+    border-right: 1px solid #e5e7eb;
+}
+
+.btn-lang:hover {
+    background: #f8fafc;
+}
+
+.btn-lang.active {
+    background: #4f46e5;
+    color: #ffffff;
+}
+
 html[data-theme="dark"] {
     color-scheme: dark;
 }
@@ -5716,6 +5757,28 @@ html[data-theme="dark"] .btn-theme {
 
 html[data-theme="dark"] .btn-theme:hover {
     background: #334155;
+}
+
+html[data-theme="dark"] .lang-switcher {
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .btn-lang {
+    background: #1e293b;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .btn-lang:not(:last-child) {
+    border-right-color: #334155;
+}
+
+html[data-theme="dark"] .btn-lang:hover {
+    background: #334155;
+}
+
+html[data-theme="dark"] .btn-lang.active {
+    background: #6366f1;
+    color: #ffffff;
 }
 
 html[data-theme="dark"] .card,
