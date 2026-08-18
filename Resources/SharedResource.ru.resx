@@ -577,4 +577,73 @@
   <data name="Select parents connected to this student" xml:space="preserve">
     <value>Выберите родителей, связанных с этим учеником</value>
   </data>
+  <data name="Manage parent accounts and connected students" xml:space="preserve">
+    <value>Управление аккаунтами родителей и связанными учениками</value>
+  </data>
+  <data name="Add Parent" xml:space="preserve">
+    <value>Добавить родителя</value>
+  </data>
+  <data name="Search parent or email..." xml:space="preserve">
+    <value>Поиск родителя или email...</value>
+  </data>
+  <data name="No parents found" xml:space="preserve">
+    <value>Родители не найдены</value>
+  </data>
+  <data name="Add a parent account or change your search." xml:space="preserve">
+    <value>Добавьте аккаунт родителя или измените запрос.</value>
+  </data>
+  <data name="No children assigned" xml:space="preserve">
+    <value>Дети не назначены</value>
+  </data>
+  <data name="No groups" xml:space="preserve">
+    <value>Нет групп</value>
+  </data>
+  <data name="Showing {0} parent(s)" xml:space="preserve">
+    <value>Показано родителей: {0}</value>
+  </data>
+  <data name="Create a parent account and connect students" xml:space="preserve">
+    <value>Создайте аккаунт родителя и привяжите учеников</value>
+  </data>
+  <data name="Create Parent" xml:space="preserve">
+    <value>Создать родителя</value>
+  </data>
+  <data name="Update parent information and connected students" xml:space="preserve">
+    <value>Обновите информацию о родителе и связанных учениках</value>
+  </data>
+  <data name="Delete Parent" xml:space="preserve">
+    <value>Удалить родителя</value>
+  </data>
+  <data name="The Parent login account will also be deleted." xml:space="preserve">
+    <value>Учётная запись родителя также будет удалена.</value>
+  </data>
+  <data name="Parent Details" xml:space="preserve">
+    <value>Информация о родителе</value>
+  </data>
+  <data name="No children assigned." xml:space="preserve">
+    <value>Дети не назначены.</value>
+  </data>
+  <data name="Parent Information" xml:space="preserve">
+    <value>Информация о родителе</value>
+  </data>
+  <data name="Account information for the parent" xml:space="preserve">
+    <value>Информация об аккаунте родителя</value>
+  </data>
+  <data name="Full Name" xml:space="preserve">
+    <value>Полное имя</value>
+  </data>
+  <data name="Example: Michael Smith" xml:space="preserve">
+    <value>Например: Иван Иванов</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>необязательно</value>
+  </data>
+  <data name="Enter password" xml:space="preserve">
+    <value>Введите пароль</value>
+  </data>
+  <data name="Leave empty to keep the current password." xml:space="preserve">
+    <value>Оставьте пустым, чтобы сохранить текущий пароль.</value>
+  </data>
+  <data name="Select students connected to this parent" xml:space="preserve">
+    <value>Выберите учеников, связанных с этим родителем</value>
+  </data>
 </root>

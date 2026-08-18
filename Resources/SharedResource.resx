@@ -577,4 +577,73 @@
   <data name="Select parents connected to this student" xml:space="preserve">
     <value>Select parents connected to this student</value>
   </data>
+  <data name="Manage parent accounts and connected students" xml:space="preserve">
+    <value>Manage parent accounts and connected students</value>
+  </data>
+  <data name="Add Parent" xml:space="preserve">
+    <value>Add Parent</value>
+  </data>
+  <data name="Search parent or email..." xml:space="preserve">
+    <value>Search parent or email...</value>
+  </data>
+  <data name="No parents found" xml:space="preserve">
+    <value>No parents found</value>
+  </data>
+  <data name="Add a parent account or change your search." xml:space="preserve">
+    <value>Add a parent account or change your search.</value>
+  </data>
+  <data name="No children assigned" xml:space="preserve">
+    <value>No children assigned</value>
+  </data>
+  <data name="No groups" xml:space="preserve">
+    <value>No groups</value>
+  </data>
+  <data name="Showing {0} parent(s)" xml:space="preserve">
+    <value>Showing {0} parent(s)</value>
+  </data>
+  <data name="Create a parent account and connect students" xml:space="preserve">
+    <value>Create a parent account and connect students</value>
+  </data>
+  <data name="Create Parent" xml:space="preserve">
+    <value>Create Parent</value>
+  </data>
+  <data name="Update parent information and connected students" xml:space="preserve">
+    <value>Update parent information and connected students</value>
+  </data>
+  <data name="Delete Parent" xml:space="preserve">
+    <value>Delete Parent</value>
+  </data>
+  <data name="The Parent login account will also be deleted." xml:space="preserve">
+    <value>The Parent login account will also be deleted.</value>
+  </data>
+  <data name="Parent Details" xml:space="preserve">
+    <value>Parent Details</value>
+  </data>
+  <data name="No children assigned." xml:space="preserve">
+    <value>No children assigned.</value>
+  </data>
+  <data name="Parent Information" xml:space="preserve">
+    <value>Parent Information</value>
+  </data>
+  <data name="Account information for the parent" xml:space="preserve">
+    <value>Account information for the parent</value>
+  </data>
+  <data name="Full Name" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Example: Michael Smith" xml:space="preserve">
+    <value>Example: Michael Smith</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>optional</value>
+  </data>
+  <data name="Enter password" xml:space="preserve">
+    <value>Enter password</value>
+  </data>
+  <data name="Leave empty to keep the current password." xml:space="preserve">
+    <value>Leave empty to keep the current password.</value>
+  </data>
+  <data name="Select students connected to this parent" xml:space="preserve">
+    <value>Select students connected to this parent</value>
+  </data>
 </root>
