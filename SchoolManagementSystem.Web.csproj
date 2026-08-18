@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Tests/**" />
+    <Content Remove="Tests/**" />
+    <None Remove="Tests/**" />
+    <EmbeddedResource Remove="Tests/**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
