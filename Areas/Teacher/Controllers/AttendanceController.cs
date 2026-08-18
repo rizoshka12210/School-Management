@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Teacher;
 
 using AttendanceEntity = SchoolManagementSystem.Web.Models.Entities.Attendance;
@@ -11,11 +12,15 @@ namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
 public class AttendanceController : TeacherControllerBase
 {
+    private readonly AttendanceService _attendanceService;
+
     public AttendanceController(
         AppDbContext context,
-        OwnershipHelper ownership)
+        OwnershipHelper ownership,
+        AttendanceService attendanceService)
         : base(context, ownership)
     {
+        _attendanceService = attendanceService;
     }
 
     public async Task<IActionResult> Index()
@@ -37,6 +42,70 @@ public class AttendanceController : TeacherControllerBase
             .ToListAsync();
 
         return View(lessons);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Journal(
+        int? groupId,
+        int? subjectId,
+        DateTime? from,
+        DateTime? to)
+    {
+        var teacherId = await GetTeacherIdAsync();
+
+        if (teacherId == null)
+        {
+            return Forbid();
+        }
+
+        ViewBag.Groups = await Context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.Groups)
+            .OrderBy(g => g.Name)
+            .ToListAsync();
+
+        ViewBag.Subjects = await Context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.Subjects)
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+
+        if (!groupId.HasValue)
+        {
+            ViewBag.GroupId = null;
+            ViewBag.SubjectId = subjectId;
+
+            return View();
+        }
+
+        var owns = await Ownership.TeacherOwnsGroupAsync(User, groupId.Value);
+
+        if (!owns)
+        {
+            return Forbid();
+        }
+
+        var fromUtc = DateTime.SpecifyKind(
+            (from ?? DateTime.UtcNow.AddMonths(-1)).Date,
+            DateTimeKind.Utc);
+
+        var toUtc = DateTime.SpecifyKind(
+            (to ?? DateTime.UtcNow).Date.AddDays(1),
+            DateTimeKind.Utc);
+
+        var journal = await _attendanceService.BuildJournalAsync(
+            groupId.Value,
+            fromUtc,
+            toUtc,
+            subjectId,
+            teacherId);
+
+        ViewBag.GroupId = groupId;
+        ViewBag.SubjectId = subjectId;
+        ViewBag.From = fromUtc;
+        ViewBag.To = toUtc;
+
+        return View(journal);
     }
 
     [HttpGet]

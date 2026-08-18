@@ -5964,6 +5964,87 @@ html[data-theme="dark"] .parent-progress-bar {
     background: #334155;
 }
 
+.journal-filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.journal-filters > div {
+    min-width: 150px;
+}
+
+.journal-table-wrap {
+    max-height: 70vh;
+    overflow: auto;
+}
+
+.journal-table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.journal-table th,
+.journal-table td {
+    white-space: nowrap;
+    text-align: center;
+}
+
+.journal-sticky-col {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: #ffffff;
+    text-align: left !important;
+    min-width: 160px;
+}
+
+.journal-table thead .journal-sticky-col {
+    z-index: 3;
+}
+
+.journal-date-col {
+    font-size: 11px;
+    color: #64748b;
+    min-width: 44px;
+}
+
+.journal-cell {
+    padding: 4px !important;
+}
+
+.journal-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 6px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.journal-cell-empty {
+    background: #f1f5f9;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .journal-sticky-col {
+    background: #0f172a;
+}
+
+html[data-theme="dark"] .journal-date-col {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .journal-cell-empty {
+    background: #1e293b;
+    color: #64748b;
+}
+
 html[data-theme="dark"] .border-bottom,
 html[data-theme="dark"] .border-top {
     border-color: #334155 !important;

@@ -85,6 +85,51 @@ public class AttendanceController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> Journal(
+        int? groupId,
+        int? subjectId,
+        DateTime? from,
+        DateTime? to)
+    {
+        ViewBag.Groups = await _context.Groups
+            .OrderBy(g => g.Name)
+            .ToListAsync();
+
+        ViewBag.Subjects = await _context.Subjects
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+
+        if (!groupId.HasValue)
+        {
+            ViewBag.GroupId = null;
+            ViewBag.SubjectId = subjectId;
+
+            return View();
+        }
+
+        var fromUtc = DateTime.SpecifyKind(
+            (from ?? DateTime.UtcNow.AddMonths(-1)).Date,
+            DateTimeKind.Utc);
+
+        var toUtc = DateTime.SpecifyKind(
+            (to ?? DateTime.UtcNow).Date.AddDays(1),
+            DateTimeKind.Utc);
+
+        var journal = await _attendanceService.BuildJournalAsync(
+            groupId.Value,
+            fromUtc,
+            toUtc,
+            subjectId);
+
+        ViewBag.GroupId = groupId;
+        ViewBag.SubjectId = subjectId;
+        ViewBag.From = fromUtc;
+        ViewBag.To = toUtc;
+
+        return View(journal);
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
         var attendance = await _context.Attendances

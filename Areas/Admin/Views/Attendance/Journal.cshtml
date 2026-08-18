@@ -1,0 +1,244 @@
+@using SchoolManagementSystem.Web.Models.Enums
+@model SchoolManagementSystem.Web.ViewModels.Shared.AttendanceJournalViewModel
+
+@{
+    ViewData["Title"] = "Attendance Journal";
+
+    string StatusAbbr(AttendanceStatus? status) => status switch
+    {
+        AttendanceStatus.Present => "P",
+        AttendanceStatus.Absent => "A",
+        AttendanceStatus.Late => "L",
+        AttendanceStatus.Excused => "E",
+        _ => "—"
+    };
+
+    string StatusClass(AttendanceStatus? status) => status switch
+    {
+        AttendanceStatus.Present => "status-present",
+        AttendanceStatus.Absent => "status-absent",
+        AttendanceStatus.Late => "status-late",
+        AttendanceStatus.Excused => "status-excused",
+        _ => "journal-cell-empty"
+    };
+}
+
+<div class="page-header">
+
+    <div>
+        <h1 class="page-title">
+            Attendance Journal
+        </h1>
+
+        <p class="page-subtitle">
+            Students &times; lesson dates, at a glance
+        </p>
+    </div>
+
+    <a asp-action="Index"
+       class="btn btn-light">
+        ← Flat list
+    </a>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Journal"
+              class="journal-filters">
+
+            <div>
+                <label class="form-label">Group</label>
+
+                <select name="groupId"
+                        class="form-select"
+                        required>
+
+                    <option value="">Select group</option>
+
+                    @foreach (var group in ViewBag.Groups)
+                    {
+                        if (ViewBag.GroupId != null &&
+                            (int)ViewBag.GroupId == group.Id)
+                        {
+                            <option value="@group.Id" selected>
+                                @group.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@group.Id">
+                                @group.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+            </div>
+
+            <div>
+                <label class="form-label">Subject</label>
+
+                <select name="subjectId"
+                        class="form-select">
+
+                    <option value="">All subjects</option>
+
+                    @foreach (var subject in ViewBag.Subjects)
+                    {
+                        if (ViewBag.SubjectId != null &&
+                            (int)ViewBag.SubjectId == subject.Id)
+                        {
+                            <option value="@subject.Id" selected>
+                                @subject.Name
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@subject.Id">
+                                @subject.Name
+                            </option>
+                        }
+                    }
+
+                </select>
+            </div>
+
+            <div>
+                <label class="form-label">From</label>
+
+                <input type="date"
+                       name="from"
+                       value="@(Model?.From.ToString("yyyy-MM-dd"))"
+                       class="form-control" />
+            </div>
+
+            <div>
+                <label class="form-label">To</label>
+
+                <input type="date"
+                       name="to"
+                       value="@(Model?.To.AddDays(-1).ToString("yyyy-MM-dd"))"
+                       class="form-control" />
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Show
+            </button>
+
+        </form>
+
+        @if (Model == null)
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    AT
+                </div>
+
+                <h5>
+                    Select a group
+                </h5>
+
+                <p>
+                    Choose a group above to view its attendance journal.
+                </p>
+
+            </div>
+        }
+        else if (!Model.Columns.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    AT
+                </div>
+
+                <h5>
+                    No lessons in this range
+                </h5>
+
+                <p>
+                    There are no lessons for @Model.GroupName in the selected date range.
+                </p>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive journal-table-wrap">
+
+                <table class="table table-hover management-table journal-table">
+
+                    <thead>
+                        <tr>
+                            <th class="journal-sticky-col">Student</th>
+
+                            @foreach (var col in Model.Columns)
+                            {
+                                <th class="journal-date-col"
+                                    title="@col.SubjectName@(col.Topic != null ? " — " + col.Topic : "")">
+                                    @col.Date.ToString("dd MMM")
+                                </th>
+                            }
+
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var row in Model.Rows)
+                        {
+                            <tr>
+
+                                <td class="journal-sticky-col">
+                                    @row.StudentName
+                                </td>
+
+                                @foreach (var cell in row.Cells)
+                                {
+                                    <td class="journal-cell">
+
+                                        @if (cell.AttendanceId.HasValue)
+                                        {
+                                            <a asp-action="Edit"
+                                               asp-route-id="@cell.AttendanceId"
+                                               class="status-badge journal-status-badge @StatusClass(cell.Status)"
+                                               title="Edit">
+                                                @StatusAbbr(cell.Status)
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge journal-status-badge journal-cell-empty">
+                                                @StatusAbbr(cell.Status)
+                                            </span>
+                                        }
+
+                                    </td>
+                                }
+
+                                <td>
+                                    @row.AttendanceRate.ToString(
+                                        "0.#",
+                                        System.Globalization.CultureInfo.InvariantCulture)%
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+        }
+
+    </div>
+
+</div>
