@@ -1,0 +1,114 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.GradeFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Grade";
+}
+
+<div class="form-page-header">
+
+    <a asp-action="Index"
+       class="back-link">
+        ← Grades
+    </a>
+
+    <h1 class="page-title mt-2">
+        Edit Grade
+    </h1>
+
+    <p class="page-subtitle">
+        Correct the grade for @Model.StudentName
+    </p>
+
+</div>
+
+<form asp-action="Edit"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="Id"
+           type="hidden" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="alert alert-danger">
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>Grade</h5>
+
+            <p>
+                @Model.SubjectName • @Model.TeacherName •
+                @Model.Date.ToString("dd MMM yyyy")
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label asp-for="Value"
+                           class="form-label">
+                        Grade
+                    </label>
+
+                    <input asp-for="Value"
+                           type="number"
+                           min="1"
+                           max="5"
+                           class="form-control" />
+
+                    <span asp-validation-for="Value"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-12">
+
+                    <label asp-for="Comment"
+                           class="form-label">
+                        Comment
+                    </label>
+
+                    <input asp-for="Comment"
+                           class="form-control"
+                           placeholder="Optional comment" />
+
+                    <span asp-validation-for="Comment"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-actions">
+
+        <a asp-action="Index"
+           class="btn btn-light">
+            Cancel
+        </a>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Save Changes
+        </button>
+
+    </div>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

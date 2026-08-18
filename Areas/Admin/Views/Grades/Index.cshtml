@@ -17,13 +17,9 @@
         </h1>
 
         <p class="page-subtitle">
-            View grades recorded by teachers
+            View and correct grades recorded by teachers
         </p>
 
-    </div>
-
-    <div class="readonly-badge">
-        Read only
     </div>
 
 </div>
@@ -172,6 +168,7 @@
                             <th>Teacher</th>
                             <th>Grade</th>
                             <th>Comment</th>
+                            <th class="text-end">Actions</th>
                         </tr>
                     </thead>
 
@@ -262,6 +259,28 @@
                                             —
                                         </span>
                                     }
+
+                                </td>
+
+                                <td class="text-end">
+
+                                    <div class="action-buttons">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@grade.Id"
+                                           class="action-btn action-edit"
+                                           title="Edit">
+                                            Edit
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@grade.Id"
+                                           class="action-btn action-delete"
+                                           title="Delete">
+                                            Delete
+                                        </a>
+
+                                    </div>
 
                                 </td>
 

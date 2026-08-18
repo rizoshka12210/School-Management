@@ -1,0 +1,114 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.AttendanceFormViewModel
+@using SchoolManagementSystem.Web.Models.Enums
+
+@{
+    ViewData["Title"] = "Edit Attendance";
+}
+
+<div class="form-page-header">
+
+    <a asp-action="Index"
+       class="back-link">
+        ← Attendance
+    </a>
+
+    <h1 class="page-title mt-2">
+        Edit Attendance
+    </h1>
+
+    <p class="page-subtitle">
+        Correct the attendance record for @Model.StudentName
+    </p>
+
+</div>
+
+<form asp-action="Edit"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="Id"
+           type="hidden" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="alert alert-danger">
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-card-header">
+
+            <h5>Lesson</h5>
+
+            <p>
+                @Model.SubjectName • @Model.GroupName •
+                @Model.LessonDate.ToString("dd MMM yyyy HH:mm")
+            </p>
+
+        </div>
+
+        <div class="form-card-body">
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <label asp-for="Status"
+                           class="form-label">
+                        Status
+                    </label>
+
+                    <select asp-for="Status"
+                            asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
+                            class="form-select">
+                    </select>
+
+                    <span asp-validation-for="Status"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-12">
+
+                    <label asp-for="Note"
+                           class="form-label">
+                        Note
+                    </label>
+
+                    <input asp-for="Note"
+                           class="form-control"
+                           placeholder="Optional note" />
+
+                    <span asp-validation-for="Note"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-actions">
+
+        <a asp-action="Index"
+           class="btn btn-light">
+            Cancel
+        </a>
+
+        <button type="submit"
+                class="btn btn-primary">
+            Save Changes
+        </button>
+
+    </div>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
