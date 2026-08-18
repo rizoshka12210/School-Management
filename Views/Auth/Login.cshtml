@@ -7,7 +7,7 @@
 
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
 
 <head>
 
@@ -17,7 +17,7 @@
           content="width=device-width, initial-scale=1.0" />
 
     <title>
-        Login - School Management
+        @Localizer["Login"] - @Localizer["School Management"]
     </title>
 
     <link rel="stylesheet"
@@ -446,31 +446,29 @@
             </div>
 
             <div class="login-brand-label">
-                School Management
+                @Localizer["School Management"]
             </div>
 
             <h1>
-                Manage your school in one place.
+                @Localizer["Manage your school in one place."]
             </h1>
 
             <p class="login-brand-description">
-                A simple and secure system for administrators,
-                teachers and parents to manage school information,
-                lessons, attendance and academic progress.
+                @Localizer["A simple and secure system for administrators, teachers and parents to manage school information, lessons, attendance and academic progress."]
             </p>
 
             <div class="login-role-list">
 
                 <div class="login-role">
-                    Administrator
+                    @Localizer["Administrator"]
                 </div>
 
                 <div class="login-role">
-                    Teacher
+                    @Localizer["Teacher"]
                 </div>
 
                 <div class="login-role">
-                    Parent
+                    @Localizer["Parent"]
                 </div>
 
             </div>
@@ -488,11 +486,11 @@
             </div>
 
             <h2 class="login-title">
-                Welcome back
+                @Localizer["Welcome back"]
             </h2>
 
             <p class="login-subtitle">
-                Sign in to your School Management account
+                @Localizer["Sign in to your School Management account"]
             </p>
 
             <div class="login-card">
@@ -511,12 +509,12 @@
 
                         <label asp-for="Email"
                                class="login-label">
-                            Email
+                            @Localizer["Email"]
                         </label>
 
                         <input asp-for="Email"
                                class="login-input"
-                               placeholder="Enter your email"
+                               placeholder="@Localizer["Enter your email"]"
                                autocomplete="email" />
 
                         <span asp-validation-for="Email">
@@ -528,12 +526,12 @@
 
                         <label asp-for="Password"
                                class="login-label">
-                            Password
+                            @Localizer["Password"]
                         </label>
 
                         <input asp-for="Password"
                                class="login-input"
-                               placeholder="Enter your password"
+                               placeholder="@Localizer["Enter your password"]"
                                autocomplete="current-password" />
 
                         <span asp-validation-for="Password">
@@ -548,7 +546,7 @@
                             <input asp-for="RememberMe" />
 
                             <span>
-                                Remember me
+                                @Localizer["Remember me"]
                             </span>
 
                         </label>
@@ -557,7 +555,7 @@
 
                     <button type="submit"
                             class="login-button">
-                        Sign In
+                        @Localizer["Sign In"]
                     </button>
 
                 </form>
@@ -565,7 +563,7 @@
             </div>
 
             <div class="login-footer">
-                School Management System
+                @Localizer["School Management System"]
             </div>
 
         </div>

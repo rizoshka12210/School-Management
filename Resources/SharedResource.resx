@@ -61,6 +61,9 @@
   <data name="School" xml:space="preserve">
     <value>School</value>
   </data>
+  <data name="School Management" xml:space="preserve">
+    <value>School Management</value>
+  </data>
   <data name="Management" xml:space="preserve">
     <value>Management</value>
   </data>
@@ -150,5 +153,248 @@
   </data>
   <data name="Login" xml:space="preserve">
     <value>Login</value>
+  </data>
+  <data name="Manage your school in one place." xml:space="preserve">
+    <value>Manage your school in one place.</value>
+  </data>
+  <data name="A simple and secure system for administrators, teachers and parents to manage school information, lessons, attendance and academic progress." xml:space="preserve">
+    <value>A simple and secure system for administrators, teachers and parents to manage school information, lessons, attendance and academic progress.</value>
+  </data>
+  <data name="Welcome back" xml:space="preserve">
+    <value>Welcome back</value>
+  </data>
+  <data name="Sign in to your School Management account" xml:space="preserve">
+    <value>Sign in to your School Management account</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Enter your email" xml:space="preserve">
+    <value>Enter your email</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="Enter your password" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="Remember me" xml:space="preserve">
+    <value>Remember me</value>
+  </data>
+  <data name="Sign In" xml:space="preserve">
+    <value>Sign In</value>
+  </data>
+  <data name="School Management System" xml:space="preserve">
+    <value>School Management System</value>
+  </data>
+  <data name="Invalid email or password." xml:space="preserve">
+    <value>Invalid email or password.</value>
+  </data>
+  <data name="Too many failed attempts. Your account is temporarily locked, please try again later." xml:space="preserve">
+    <value>Too many failed attempts. Your account is temporarily locked, please try again later.</value>
+  </data>
+  <data name="Access Denied" xml:space="preserve">
+    <value>Access Denied</value>
+  </data>
+  <data name="You do not have permission to access this page." xml:space="preserve">
+    <value>You do not have permission to access this page.</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Home Page" xml:space="preserve">
+    <value>Home Page</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Welcome</value>
+  </data>
+  <data name="Please sign in to access your School Management account." xml:space="preserve">
+    <value>Please sign in to access your School Management account.</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Use this page to detail your site's privacy policy." xml:space="preserve">
+    <value>Use this page to detail your site's privacy policy.</value>
+  </data>
+  <data name="Admin Dashboard" xml:space="preserve">
+    <value>Admin Dashboard</value>
+  </data>
+  <data name="Welcome back. Here's what's happening at school today." xml:space="preserve">
+    <value>Welcome back. Here's what's happening at school today.</value>
+  </data>
+  <data name="View students →" xml:space="preserve">
+    <value>View students →</value>
+  </data>
+  <data name="View teachers →" xml:space="preserve">
+    <value>View teachers →</value>
+  </data>
+  <data name="View groups →" xml:space="preserve">
+    <value>View groups →</value>
+  </data>
+  <data name="View subjects →" xml:space="preserve">
+    <value>View subjects →</value>
+  </data>
+  <data name="Quick Actions" xml:space="preserve">
+    <value>Quick Actions</value>
+  </data>
+  <data name="Common administrative actions" xml:space="preserve">
+    <value>Common administrative actions</value>
+  </data>
+  <data name="Add Student" xml:space="preserve">
+    <value>Add Student</value>
+  </data>
+  <data name="Create a new student" xml:space="preserve">
+    <value>Create a new student</value>
+  </data>
+  <data name="Add Teacher" xml:space="preserve">
+    <value>Add Teacher</value>
+  </data>
+  <data name="Create teacher account" xml:space="preserve">
+    <value>Create teacher account</value>
+  </data>
+  <data name="Add Lesson" xml:space="preserve">
+    <value>Add Lesson</value>
+  </data>
+  <data name="Create a lesson" xml:space="preserve">
+    <value>Create a lesson</value>
+  </data>
+  <data name="Add Schedule" xml:space="preserve">
+    <value>Add Schedule</value>
+  </data>
+  <data name="Create schedule entry" xml:space="preserve">
+    <value>Create schedule entry</value>
+  </data>
+  <data name="Today's Lessons" xml:space="preserve">
+    <value>Today's Lessons</value>
+  </data>
+  <data name="{0} lessons today" xml:space="preserve">
+    <value>{0} lessons today</value>
+  </data>
+  <data name="View All" xml:space="preserve">
+    <value>View All</value>
+  </data>
+  <data name="No lessons today" xml:space="preserve">
+    <value>No lessons today</value>
+  </data>
+  <data name="There are no lessons scheduled for today." xml:space="preserve">
+    <value>There are no lessons scheduled for today.</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Subject</value>
+  </data>
+  <data name="Topic" xml:space="preserve">
+    <value>Topic</value>
+  </data>
+  <data name="No topic" xml:space="preserve">
+    <value>No topic</value>
+  </data>
+  <data name="Recent Students" xml:space="preserve">
+    <value>Recent Students</value>
+  </data>
+  <data name="Recently added students" xml:space="preserve">
+    <value>Recently added students</value>
+  </data>
+  <data name="No students yet." xml:space="preserve">
+    <value>No students yet.</value>
+  </data>
+  <data name="No group" xml:space="preserve">
+    <value>No group</value>
+  </data>
+  <data name="Teacher Dashboard" xml:space="preserve">
+    <value>Teacher Dashboard</value>
+  </data>
+  <data name="Here's your teaching overview for today." xml:space="preserve">
+    <value>Here's your teaching overview for today.</value>
+  </data>
+  <data name="My Students" xml:space="preserve">
+    <value>My Students</value>
+  </data>
+  <data name="View lessons →" xml:space="preserve">
+    <value>View lessons →</value>
+  </data>
+  <data name="Monthly Salary" xml:space="preserve">
+    <value>Monthly Salary</value>
+  </data>
+  <data name="{0} hours worked" xml:space="preserve">
+    <value>{0} hours worked</value>
+  </data>
+  <data name="Access your most common teaching tools" xml:space="preserve">
+    <value>Access your most common teaching tools</value>
+  </data>
+  <data name="Mark student attendance" xml:space="preserve">
+    <value>Mark student attendance</value>
+  </data>
+  <data name="Manage student grades" xml:space="preserve">
+    <value>Manage student grades</value>
+  </data>
+  <data name="Manage lesson topics" xml:space="preserve">
+    <value>Manage lesson topics</value>
+  </data>
+  <data name="View weekly schedule" xml:space="preserve">
+    <value>View weekly schedule</value>
+  </data>
+  <data name="Today's Schedule" xml:space="preserve">
+    <value>Today's Schedule</value>
+  </data>
+  <data name="1 lesson scheduled today" xml:space="preserve">
+    <value>1 lesson scheduled today</value>
+  </data>
+  <data name="{0} lessons scheduled today" xml:space="preserve">
+    <value>{0} lessons scheduled today</value>
+  </data>
+  <data name="You don't have any lessons scheduled for today." xml:space="preserve">
+    <value>You don't have any lessons scheduled for today.</value>
+  </data>
+  <data name="Go to Weekly Schedule" xml:space="preserve">
+    <value>Go to Weekly Schedule</value>
+  </data>
+  <data name="No topic yet" xml:space="preserve">
+    <value>No topic yet</value>
+  </data>
+  <data name="Attendance marked" xml:space="preserve">
+    <value>Attendance marked</value>
+  </data>
+  <data name="Not marked" xml:space="preserve">
+    <value>Not marked</value>
+  </data>
+  <data name="Parent Dashboard" xml:space="preserve">
+    <value>Parent Dashboard</value>
+  </data>
+  <data name="Family Portal" xml:space="preserve">
+    <value>Family Portal</value>
+  </data>
+  <data name="Follow your children's academic progress and attendance" xml:space="preserve">
+    <value>Follow your children's academic progress and attendance</value>
+  </data>
+  <data name="No children linked" xml:space="preserve">
+    <value>No children linked</value>
+  </data>
+  <data name="No students are currently connected to your parent account." xml:space="preserve">
+    <value>No students are currently connected to your parent account.</value>
+  </data>
+  <data name="Children" xml:space="preserve">
+    <value>Children</value>
+  </data>
+  <data name="Average Attendance" xml:space="preserve">
+    <value>Average Attendance</value>
+  </data>
+  <data name="Average Grade" xml:space="preserve">
+    <value>Average Grade</value>
+  </data>
+  <data name="View Profile →" xml:space="preserve">
+    <value>View Profile →</value>
+  </data>
+  <data name="Recent Grades" xml:space="preserve">
+    <value>Recent Grades</value>
+  </data>
+  <data name="No grades recorded yet." xml:space="preserve">
+    <value>No grades recorded yet.</value>
   </data>
 </root>

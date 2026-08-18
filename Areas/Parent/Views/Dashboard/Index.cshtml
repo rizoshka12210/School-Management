@@ -1,22 +1,22 @@
 @model SchoolManagementSystem.Web.ViewModels.Parent.ParentDashboardViewModel
 
 @{
-    ViewData["Title"] = "Parent Dashboard";
+    ViewData["Title"] = Localizer["Parent Dashboard"];
 }
 
 <div class="parent-dashboard-header">
 
     <div>
         <div class="parent-welcome-label">
-            Family Portal
+            @Localizer["Family Portal"]
         </div>
 
         <h1 class="page-title">
-            Parent Dashboard
+            @Localizer["Parent Dashboard"]
         </h1>
 
         <p class="page-subtitle">
-            Follow your children's academic progress and attendance
+            @Localizer["Follow your children's academic progress and attendance"]
         </p>
     </div>
 
@@ -37,11 +37,11 @@
             </div>
 
             <h5>
-                No children linked
+                @Localizer["No children linked"]
             </h5>
 
             <p>
-                No students are currently connected to your parent account.
+                @Localizer["No students are currently connected to your parent account."]
             </p>
 
         </div>
@@ -55,7 +55,7 @@ else
         <div>
 
             <span>
-                Children
+                @Localizer["Children"]
             </span>
 
             <strong>
@@ -67,7 +67,7 @@ else
         <div>
 
             <span>
-                Average Attendance
+                @Localizer["Average Attendance"]
             </span>
 
             <strong>
@@ -79,7 +79,7 @@ else
         <div>
 
             <span>
-                Average Grade
+                @Localizer["Average Grade"]
             </span>
 
             <strong>
@@ -127,7 +127,7 @@ else
                        asp-action="Details"
                        asp-route-studentId="@child.StudentId"
                        class="parent-profile-link">
-                        View Profile →
+                        @Localizer["View Profile →"]
                     </a>
 
                 </div>
@@ -143,7 +143,7 @@ else
                         <div>
 
                             <span>
-                                Attendance
+                                @Localizer["Attendance"]
                             </span>
 
                             <strong>
@@ -163,7 +163,7 @@ else
                         <div>
 
                             <span>
-                                Average Grade
+                                @Localizer["Average Grade"]
                             </span>
 
                             <strong>
@@ -181,14 +181,14 @@ else
                     <div class="parent-card-section-header">
 
                         <span>
-                            Recent Grades
+                            @Localizer["Recent Grades"]
                         </span>
 
                         <a asp-area="Parent"
                            asp-controller="Grades"
                            asp-action="Index"
                            asp-route-studentId="@child.StudentId">
-                            View all
+                            @Localizer["View All"]
                         </a>
 
                     </div>
@@ -196,7 +196,7 @@ else
                     @if (!child.RecentGrades.Any())
                     {
                         <div class="parent-no-grades">
-                            No grades recorded yet.
+                            @Localizer["No grades recorded yet."]
                         </div>
                     }
                     else
@@ -256,7 +256,7 @@ else
                         <span class="parent-action-icon parent-action-schedule">
                             SC
                         </span>
-                        Schedule
+                        @Localizer["Schedule"]
                     </a>
 
                     <a asp-area="Parent"
@@ -267,7 +267,7 @@ else
                         <span class="parent-action-icon parent-action-grades">
                             GD
                         </span>
-                        Grades
+                        @Localizer["Grades"]
                     </a>
 
                     <a asp-area="Parent"
@@ -278,7 +278,7 @@ else
                         <span class="parent-action-icon parent-action-attendance">
                             AT
                         </span>
-                        Attendance
+                        @Localizer["Attendance"]
                     </a>
 
                     <a asp-area="Parent"
@@ -289,7 +289,7 @@ else
                         <span class="parent-action-icon parent-action-progress">
                             PR
                         </span>
-                        Progress
+                        @Localizer["Progress"]
                     </a>
 
                 </div>

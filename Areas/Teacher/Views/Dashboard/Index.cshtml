@@ -1,14 +1,14 @@
 @model SchoolManagementSystem.Web.ViewModels.Teacher.TeacherDashboardViewModel
 
 @{
-    ViewData["Title"] = "Teacher Dashboard";
+    ViewData["Title"] = Localizer["Teacher Dashboard"];
 }
 
 <div class="teacher-dashboard-header">
 
     <div>
         <div class="teacher-welcome-label">
-            Welcome back
+            @Localizer["Welcome back"]
         </div>
 
         <h1 class="page-title">
@@ -16,7 +16,7 @@
         </h1>
 
         <p class="page-subtitle">
-            Here's your teaching overview for today.
+            @Localizer["Here's your teaching overview for today."]
         </p>
     </div>
 
@@ -40,7 +40,7 @@
         <div class="teacher-stat-content">
 
             <span class="teacher-stat-label">
-                My Groups
+                @Localizer["My Groups"]
             </span>
 
             <strong class="teacher-stat-number">
@@ -48,7 +48,7 @@
             </strong>
 
             <span class="teacher-stat-link">
-                View groups →
+                @Localizer["View groups →"]
             </span>
 
         </div>
@@ -67,7 +67,7 @@
         <div class="teacher-stat-content">
 
             <span class="teacher-stat-label">
-                My Students
+                @Localizer["My Students"]
             </span>
 
             <strong class="teacher-stat-number">
@@ -75,7 +75,7 @@
             </strong>
 
             <span class="teacher-stat-link">
-                View students →
+                @Localizer["View students →"]
             </span>
 
         </div>
@@ -94,7 +94,7 @@
         <div class="teacher-stat-content">
 
             <span class="teacher-stat-label">
-                Today's Lessons
+                @Localizer["Today's Lessons"]
             </span>
 
             <strong class="teacher-stat-number">
@@ -102,7 +102,7 @@
             </strong>
 
             <span class="teacher-stat-link">
-                View lessons →
+                @Localizer["View lessons →"]
             </span>
 
         </div>
@@ -121,7 +121,7 @@
         <div class="teacher-stat-content">
 
             <span class="teacher-stat-label">
-                Monthly Salary
+                @Localizer["Monthly Salary"]
             </span>
 
             <strong class="teacher-stat-number teacher-salary-number">
@@ -129,7 +129,7 @@
             </strong>
 
             <span class="teacher-stat-link">
-                @Model.CurrentMonthWorkedHours.ToString("0.#") hours worked
+                @Localizer["{0} hours worked", Model.CurrentMonthWorkedHours.ToString("0.#")]
             </span>
 
         </div>
@@ -144,11 +144,11 @@
 
         <div>
             <h5 class="section-title">
-                Quick Actions
+                @Localizer["Quick Actions"]
             </h5>
 
             <p class="section-subtitle">
-                Access your most common teaching tools
+                @Localizer["Access your most common teaching tools"]
             </p>
         </div>
 
@@ -166,8 +166,8 @@
             </div>
 
             <div>
-                <strong>Attendance</strong>
-                <span>Mark student attendance</span>
+                <strong>@Localizer["Attendance"]</strong>
+                <span>@Localizer["Mark student attendance"]</span>
             </div>
 
             <div class="teacher-quick-arrow">
@@ -186,8 +186,8 @@
             </div>
 
             <div>
-                <strong>Grades</strong>
-                <span>Manage student grades</span>
+                <strong>@Localizer["Grades"]</strong>
+                <span>@Localizer["Manage student grades"]</span>
             </div>
 
             <div class="teacher-quick-arrow">
@@ -206,8 +206,8 @@
             </div>
 
             <div>
-                <strong>Topics</strong>
-                <span>Manage lesson topics</span>
+                <strong>@Localizer["Topics"]</strong>
+                <span>@Localizer["Manage lesson topics"]</span>
             </div>
 
             <div class="teacher-quick-arrow">
@@ -226,8 +226,8 @@
             </div>
 
             <div>
-                <strong>Schedule</strong>
-                <span>View weekly schedule</span>
+                <strong>@Localizer["Schedule"]</strong>
+                <span>@Localizer["View weekly schedule"]</span>
             </div>
 
             <div class="teacher-quick-arrow">
@@ -249,18 +249,18 @@
             <div>
 
                 <h5 class="section-title">
-                    Today's Schedule
+                    @Localizer["Today's Schedule"]
                 </h5>
 
                 <p class="section-subtitle">
 
                     @if (Model.TodayLessons.Count == 1)
                     {
-                        <text>1 lesson scheduled today</text>
+                        @Localizer["1 lesson scheduled today"]
                     }
                     else
                     {
-                        <text>@Model.TodayLessons.Count lessons scheduled today</text>
+                        @Localizer["{0} lessons scheduled today", Model.TodayLessons.Count]
                     }
 
                 </p>
@@ -271,7 +271,7 @@
                asp-controller="Lessons"
                asp-action="Index"
                class="btn btn-sm btn-outline-primary">
-                View All
+                @Localizer["View All"]
             </a>
 
         </div>
@@ -285,18 +285,18 @@
                 </div>
 
                 <h5>
-                    No lessons today
+                    @Localizer["No lessons today"]
                 </h5>
 
                 <p>
-                    You don't have any lessons scheduled for today.
+                    @Localizer["You don't have any lessons scheduled for today."]
                 </p>
 
                 <a asp-area="Teacher"
                    asp-controller="Schedule"
                    asp-action="Index"
                    class="btn btn-outline-primary btn-sm">
-                    View Weekly Schedule
+                    @Localizer["Go to Weekly Schedule"]
                 </a>
 
             </div>
@@ -336,7 +336,7 @@
                         <div class="teacher-lesson-topic">
 
                             <span class="teacher-lesson-small-label">
-                                Topic
+                                @Localizer["Topic"]
                             </span>
 
                             @if (!string.IsNullOrWhiteSpace(lesson.Topic))
@@ -348,7 +348,7 @@
                             else
                             {
                                 <span class="text-muted">
-                                    No topic yet
+                                    @Localizer["No topic yet"]
                                 </span>
                             }
 
@@ -359,13 +359,13 @@
                             @if (lesson.AttendanceMarked)
                             {
                                 <span class="status-badge status-present">
-                                    Attendance marked
+                                    @Localizer["Attendance marked"]
                                 </span>
                             }
                             else
                             {
                                 <span class="status-badge teacher-status-pending">
-                                    Not marked
+                                    @Localizer["Not marked"]
                                 </span>
                             }
 
@@ -378,7 +378,7 @@
                                asp-action="Mark"
                                asp-route-lessonId="@lesson.LessonId"
                                class="action-btn action-edit">
-                                Attendance
+                                @Localizer["Attendance"]
                             </a>
 
                             <a asp-area="Teacher"
@@ -386,7 +386,7 @@
                                asp-action="Add"
                                asp-route-lessonId="@lesson.LessonId"
                                class="action-btn teacher-grade-button">
-                                Grades
+                                @Localizer["Grades"]
                             </a>
 
                         </div>

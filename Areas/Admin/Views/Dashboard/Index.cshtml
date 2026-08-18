@@ -1,18 +1,18 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.AdminDashboardViewModel
 
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = Localizer["Dashboard"];
 }
 
 <div class="dashboard-header">
 
     <div>
         <h1 class="dashboard-title">
-            Admin Dashboard
+            @Localizer["Admin Dashboard"]
         </h1>
 
         <p class="dashboard-subtitle">
-            Welcome back. Here's what's happening at school today.
+            @Localizer["Welcome back. Here's what's happening at school today."]
         </p>
     </div>
 
@@ -40,7 +40,7 @@
                 <div>
 
                     <div class="stat-label">
-                        Students
+                        @Localizer["Students"]
                     </div>
 
                     <div class="stat-number">
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="stat-link">
-                        View students →
+                        @Localizer["View students →"]
                     </div>
 
                 </div>
@@ -75,7 +75,7 @@
                 <div>
 
                     <div class="stat-label">
-                        Teachers
+                        @Localizer["Teachers"]
                     </div>
 
                     <div class="stat-number">
@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="stat-link">
-                        View teachers →
+                        @Localizer["View teachers →"]
                     </div>
 
                 </div>
@@ -110,7 +110,7 @@
                 <div>
 
                     <div class="stat-label">
-                        Groups
+                        @Localizer["Groups"]
                     </div>
 
                     <div class="stat-number">
@@ -118,7 +118,7 @@
                     </div>
 
                     <div class="stat-link">
-                        View groups →
+                        @Localizer["View groups →"]
                     </div>
 
                 </div>
@@ -145,7 +145,7 @@
                 <div>
 
                     <div class="stat-label">
-                        Subjects
+                        @Localizer["Subjects"]
                     </div>
 
                     <div class="stat-number">
@@ -153,7 +153,7 @@
                     </div>
 
                     <div class="stat-link">
-                        View subjects →
+                        @Localizer["View subjects →"]
                     </div>
 
                 </div>
@@ -174,11 +174,11 @@
 
             <div>
                 <h5 class="section-title">
-                    Quick Actions
+                    @Localizer["Quick Actions"]
                 </h5>
 
                 <p class="section-subtitle">
-                    Common administrative actions
+                    @Localizer["Common administrative actions"]
                 </p>
             </div>
 
@@ -196,8 +196,8 @@
                 </div>
 
                 <div>
-                    <strong>Add Student</strong>
-                    <span>Create a new student</span>
+                    <strong>@Localizer["Add Student"]</strong>
+                    <span>@Localizer["Create a new student"]</span>
                 </div>
 
             </a>
@@ -212,8 +212,8 @@
                 </div>
 
                 <div>
-                    <strong>Add Teacher</strong>
-                    <span>Create teacher account</span>
+                    <strong>@Localizer["Add Teacher"]</strong>
+                    <span>@Localizer["Create teacher account"]</span>
                 </div>
 
             </a>
@@ -228,8 +228,8 @@
                 </div>
 
                 <div>
-                    <strong>Add Lesson</strong>
-                    <span>Create a lesson</span>
+                    <strong>@Localizer["Add Lesson"]</strong>
+                    <span>@Localizer["Create a lesson"]</span>
                 </div>
 
             </a>
@@ -244,8 +244,8 @@
                 </div>
 
                 <div>
-                    <strong>Add Schedule</strong>
-                    <span>Create schedule entry</span>
+                    <strong>@Localizer["Add Schedule"]</strong>
+                    <span>@Localizer["Create schedule entry"]</span>
                 </div>
 
             </a>
@@ -269,11 +269,11 @@
                     <div>
 
                         <h5 class="section-title">
-                            Today's Lessons
+                            @Localizer["Today's Lessons"]
                         </h5>
 
                         <p class="section-subtitle">
-                            @Model.TodayLessonsCount lessons today
+                            @Localizer["{0} lessons today", Model.TodayLessonsCount]
                         </p>
 
                     </div>
@@ -282,7 +282,7 @@
                        asp-controller="Lessons"
                        asp-action="Index"
                        class="btn btn-sm btn-outline-primary">
-                        View All
+                        @Localizer["View All"]
                     </a>
 
                 </div>
@@ -296,11 +296,11 @@
                         </div>
 
                         <h6>
-                            No lessons today
+                            @Localizer["No lessons today"]
                         </h6>
 
                         <p>
-                            There are no lessons scheduled for today.
+                            @Localizer["There are no lessons scheduled for today."]
                         </p>
 
                     </div>
@@ -313,11 +313,11 @@
 
                             <thead>
                                 <tr>
-                                    <th>Time</th>
-                                    <th>Group</th>
-                                    <th>Subject</th>
-                                    <th>Teacher</th>
-                                    <th>Topic</th>
+                                    <th>@Localizer["Time"]</th>
+                                    <th>@Localizer["Group"]</th>
+                                    <th>@Localizer["Subject"]</th>
+                                    <th>@Localizer["Teacher"]</th>
+                                    <th>@Localizer["Topic"]</th>
                                 </tr>
                             </thead>
 
@@ -361,7 +361,7 @@
                                             else
                                             {
                                                 <span class="text-muted">
-                                                    No topic
+                                                    @Localizer["No topic"]
                                                 </span>
                                             }
 
@@ -394,11 +394,11 @@
                     <div>
 
                         <h5 class="section-title">
-                            Recent Students
+                            @Localizer["Recent Students"]
                         </h5>
 
                         <p class="section-subtitle">
-                            Recently added students
+                            @Localizer["Recently added students"]
                         </p>
 
                     </div>
@@ -410,7 +410,7 @@
                     <div class="dashboard-empty">
 
                         <p>
-                            No students yet.
+                            @Localizer["No students yet."]
                         </p>
 
                     </div>
@@ -438,7 +438,7 @@
                                     </strong>
 
                                     <span>
-                                        @(student.Group?.Name ?? "No group")
+                                        @(student.Group?.Name ?? Localizer["No group"].Value)
                                     </span>
 
                                 </div>

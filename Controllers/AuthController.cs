@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Models.Identity;
 using SchoolManagementSystem.Web.ViewModels.Auth;
@@ -11,13 +13,16 @@ public class AuthController : Controller
 {
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public AuthController(
         SignInManager<ApplicationUser> signInManager,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        IStringLocalizer<SharedResource> localizer)
     {
         _signInManager = signInManager;
         _userManager = userManager;
+        _localizer = localizer;
     }
 
     [HttpGet]
@@ -48,7 +53,7 @@ public class AuthController : Controller
         {
             ModelState.AddModelError(
                 string.Empty,
-                "Invalid email or password.");
+                _localizer["Invalid email or password."]);
 
             return View(model);
         }
@@ -63,7 +68,7 @@ public class AuthController : Controller
         {
             ModelState.AddModelError(
                 string.Empty,
-                "Too many failed attempts. Your account is temporarily locked, please try again later.");
+                _localizer["Too many failed attempts. Your account is temporarily locked, please try again later."]);
 
             return View(model);
         }
@@ -72,7 +77,7 @@ public class AuthController : Controller
         {
             ModelState.AddModelError(
                 string.Empty,
-                "Invalid email or password.");
+                _localizer["Invalid email or password."]);
 
             return View(model);
         }
