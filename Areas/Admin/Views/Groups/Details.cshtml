@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Models.Entities.Group
 
 @{
-    ViewData["Title"] = "Group Details";
+    ViewData["Title"] = Localizer["Group Details"];
 }
 
 <div class="container mt-4">
@@ -20,7 +20,7 @@
 
                     <hr />
 
-                    <h5>Students</h5>
+                    <h5>@Localizer["Students"]</h5>
 
                     @if (Model.Students.Any())
                     {
@@ -36,12 +36,12 @@
                     else
                     {
                         <p class="text-muted">
-                            No students in this group.
+                            @Localizer["No students in this group."]
                         </p>
                     }
 
                     <h5 class="mt-4">
-                        Teachers
+                        @Localizer["Teachers"]
                     </h5>
 
                     @if (Model.Teachers.Any())
@@ -58,19 +58,19 @@
                     else
                     {
                         <p class="text-muted">
-                            No teachers assigned.
+                            @Localizer["No teachers assigned."]
                         </p>
                     }
 
                     <a asp-action="Edit"
                        asp-route-id="@Model.Id"
                        class="btn btn-primary">
-                        Edit
+                        @Localizer["Edit"]
                     </a>
 
                     <a asp-action="Index"
                        class="btn btn-outline-secondary">
-                        Back
+                        @Localizer["Back"]
                     </a>
 
                 </div>

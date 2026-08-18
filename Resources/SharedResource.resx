@@ -397,4 +397,184 @@
   <data name="No grades recorded yet." xml:space="preserve">
     <value>No grades recorded yet.</value>
   </data>
+  <data name="Manage school groups, students and teachers" xml:space="preserve">
+    <value>Manage school groups, students and teachers</value>
+  </data>
+  <data name="Add Group" xml:space="preserve">
+    <value>Add Group</value>
+  </data>
+  <data name="Search group..." xml:space="preserve">
+    <value>Search group...</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="No groups found" xml:space="preserve">
+    <value>No groups found</value>
+  </data>
+  <data name="Create a group to organize students and teachers." xml:space="preserve">
+    <value>Create a group to organize students and teachers.</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Actions</value>
+  </data>
+  <data name="Group #{0}" xml:space="preserve">
+    <value>Group #{0}</value>
+  </data>
+  <data name="+{0} more" xml:space="preserve">
+    <value>+{0} more</value>
+  </data>
+  <data name="No teachers" xml:space="preserve">
+    <value>No teachers</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Showing {0} group(s)" xml:space="preserve">
+    <value>Showing {0} group(s)</value>
+  </data>
+  <data name="Create a new school group and assign teachers" xml:space="preserve">
+    <value>Create a new school group and assign teachers</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Create Group" xml:space="preserve">
+    <value>Create Group</value>
+  </data>
+  <data name="Save Changes" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="Edit Group" xml:space="preserve">
+    <value>Edit Group</value>
+  </data>
+  <data name="Update group information and assigned teachers" xml:space="preserve">
+    <value>Update group information and assigned teachers</value>
+  </data>
+  <data name="Delete Group" xml:space="preserve">
+    <value>Delete Group</value>
+  </data>
+  <data name="Are you sure you want to delete" xml:space="preserve">
+    <value>Are you sure you want to delete</value>
+  </data>
+  <data name="Yes, Delete" xml:space="preserve">
+    <value>Yes, Delete</value>
+  </data>
+  <data name="Group Details" xml:space="preserve">
+    <value>Group Details</value>
+  </data>
+  <data name="No students in this group." xml:space="preserve">
+    <value>No students in this group.</value>
+  </data>
+  <data name="No teachers assigned." xml:space="preserve">
+    <value>No teachers assigned.</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Group Information" xml:space="preserve">
+    <value>Group Information</value>
+  </data>
+  <data name="Enter the basic information for this group" xml:space="preserve">
+    <value>Enter the basic information for this group</value>
+  </data>
+  <data name="Group Name" xml:space="preserve">
+    <value>Group Name</value>
+  </data>
+  <data name="Example: Group 5A" xml:space="preserve">
+    <value>Example: Group 5A</value>
+  </data>
+  <data name="Select teachers assigned to this group" xml:space="preserve">
+    <value>Select teachers assigned to this group</value>
+  </data>
+  <data name="Manage students and their school information" xml:space="preserve">
+    <value>Manage students and their school information</value>
+  </data>
+  <data name="Search student or group..." xml:space="preserve">
+    <value>Search student or group...</value>
+  </data>
+  <data name="No students found" xml:space="preserve">
+    <value>No students found</value>
+  </data>
+  <data name="Try changing your search." xml:space="preserve">
+    <value>Try changing your search.</value>
+  </data>
+  <data name="Add your first student to get started." xml:space="preserve">
+    <value>Add your first student to get started.</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="Date of Birth" xml:space="preserve">
+    <value>Date of Birth</value>
+  </data>
+  <data name="Student #{0}" xml:space="preserve">
+    <value>Student #{0}</value>
+  </data>
+  <data name="No parent assigned" xml:space="preserve">
+    <value>No parent assigned</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Showing {0} student(s)" xml:space="preserve">
+    <value>Showing {0} student(s)</value>
+  </data>
+  <data name="Create a new student and assign group and parents" xml:space="preserve">
+    <value>Create a new student and assign group and parents</value>
+  </data>
+  <data name="Create Student" xml:space="preserve">
+    <value>Create Student</value>
+  </data>
+  <data name="Edit Student" xml:space="preserve">
+    <value>Edit Student</value>
+  </data>
+  <data name="Update student information and relationships" xml:space="preserve">
+    <value>Update student information and relationships</value>
+  </data>
+  <data name="Delete Student" xml:space="preserve">
+    <value>Delete Student</value>
+  </data>
+  <data name="This action cannot be undone." xml:space="preserve">
+    <value>This action cannot be undone.</value>
+  </data>
+  <data name="Student Details" xml:space="preserve">
+    <value>Student Details</value>
+  </data>
+  <data name="No parents assigned." xml:space="preserve">
+    <value>No parents assigned.</value>
+  </data>
+  <data name="Student Information" xml:space="preserve">
+    <value>Student Information</value>
+  </data>
+  <data name="Basic personal information about the student" xml:space="preserve">
+    <value>Basic personal information about the student</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Enter first name" xml:space="preserve">
+    <value>Enter first name</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Enter last name" xml:space="preserve">
+    <value>Enter last name</value>
+  </data>
+  <data name="— No group —" xml:space="preserve">
+    <value>— No group —</value>
+  </data>
+  <data name="Select parents connected to this student" xml:space="preserve">
+    <value>Select parents connected to this student</value>
+  </data>
 </root>

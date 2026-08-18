@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Models.Entities.Student
 
 @{
-    ViewData["Title"] = "Student Details";
+    ViewData["Title"] = Localizer["Student Details"];
 }
 
 <div class="container mt-4">
@@ -21,19 +21,19 @@
                     <hr />
 
                     <p>
-                        <strong>Date of Birth:</strong>
+                        <strong>@Localizer["Date of Birth"]:</strong>
                         @Model.DateOfBirth.ToString("dd.MM.yyyy")
                     </p>
 
                     <p>
-                        <strong>Group:</strong>
+                        <strong>@Localizer["Group"]:</strong>
 
-                        @(Model.Group?.Name ?? "No Group")
+                        @(Model.Group?.Name ?? Localizer["No group"].Value)
                     </p>
 
                     <div class="mb-4">
 
-                        <strong>Parents:</strong>
+                        <strong>@Localizer["Parents"]:</strong>
 
                         @if (Model.Parents.Any())
                         {
@@ -52,7 +52,7 @@
                         }
                         else
                         {
-                            <span>No parents assigned.</span>
+                            <span>@Localizer["No parents assigned."]</span>
                         }
 
                     </div>
@@ -60,12 +60,12 @@
                     <a asp-action="Edit"
                        asp-route-id="@Model.Id"
                        class="btn btn-primary">
-                        Edit
+                        @Localizer["Edit"]
                     </a>
 
                     <a asp-action="Index"
                        class="btn btn-outline-secondary">
-                        Back
+                        @Localizer["Back"]
                     </a>
 
                 </div>

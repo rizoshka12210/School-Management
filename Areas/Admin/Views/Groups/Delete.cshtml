@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Models.Entities.Group
 
 @{
-    ViewData["Title"] = "Delete Group";
+    ViewData["Title"] = Localizer["Delete Group"];
 }
 
 <div class="container mt-5">
@@ -15,21 +15,21 @@
                 <div class="card-body p-4">
 
                     <h2 class="fw-bold text-danger">
-                        Delete Group
+                        @Localizer["Delete Group"]
                     </h2>
 
                     <p class="mt-3">
-                        Are you sure you want to delete
+                        @Localizer["Are you sure you want to delete"]
                         <strong>@Model.Name</strong>?
                     </p>
 
                     <p>
-                        Students:
+                        @Localizer["Students"]:
                         <strong>@Model.Students.Count</strong>
                     </p>
 
                     <p>
-                        Teachers:
+                        @Localizer["Teachers"]:
                         <strong>@Model.Teachers.Count</strong>
                     </p>
 
@@ -39,12 +39,12 @@
 
                         <button type="submit"
                                 class="btn btn-danger">
-                            Yes, Delete
+                            @Localizer["Yes, Delete"]
                         </button>
 
                         <a asp-action="Index"
                            class="btn btn-outline-secondary">
-                            Cancel
+                            @Localizer["Cancel"]
                         </a>
 
                     </form>

@@ -13,8 +13,8 @@
         <div class="form-card-header">
 
             <div>
-                <h5>Student Information</h5>
-                <p>Basic personal information about the student</p>
+                <h5>@Localizer["Student Information"]</h5>
+                <p>@Localizer["Basic personal information about the student"]</p>
             </div>
 
         </div>
@@ -27,12 +27,12 @@
 
                     <label asp-for="FirstName"
                            class="form-label">
-                        First Name
+                        @Localizer["First Name"]
                     </label>
 
                     <input asp-for="FirstName"
                            class="form-control"
-                           placeholder="Enter first name" />
+                           placeholder="@Localizer["Enter first name"]" />
 
                     <span asp-validation-for="FirstName"
                           class="text-danger small">
@@ -45,12 +45,12 @@
 
                     <label asp-for="LastName"
                            class="form-label">
-                        Last Name
+                        @Localizer["Last Name"]
                     </label>
 
                     <input asp-for="LastName"
                            class="form-control"
-                           placeholder="Enter last name" />
+                           placeholder="@Localizer["Enter last name"]" />
 
                     <span asp-validation-for="LastName"
                           class="text-danger small">
@@ -63,7 +63,7 @@
 
                     <label asp-for="DateOfBirth"
                            class="form-label">
-                        Date of Birth
+                        @Localizer["Date of Birth"]
                     </label>
 
                     <input asp-for="DateOfBirth"
@@ -81,14 +81,14 @@
 
                     <label asp-for="GroupId"
                            class="form-label">
-                        Group
+                        @Localizer["Group"]
                     </label>
 
                     <select asp-for="GroupId"
                             class="form-select">
 
                         <option value="">
-                            — No group —
+                            @Localizer["— No group —"]
                         </option>
 
                         @foreach (var group in ViewBag.Groups)
@@ -120,10 +120,10 @@
         <div class="form-card-header">
 
             <div>
-                <h5>Parents</h5>
+                <h5>@Localizer["Parents"]</h5>
 
                 <p>
-                    Select parents connected to this student
+                    @Localizer["Select parents connected to this student"]
                 </p>
             </div>
 

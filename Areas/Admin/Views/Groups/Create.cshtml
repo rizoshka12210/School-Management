@@ -1,22 +1,22 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.GroupFormViewModel
 
 @{
-    ViewData["Title"] = "Add Group";
+    ViewData["Title"] = Localizer["Add Group"];
 }
 
 <div class="form-page-header">
 
     <a asp-action="Index"
        class="back-link">
-        ← Groups
+        ← @Localizer["Groups"]
     </a>
 
     <h1 class="page-title mt-2">
-        Add Group
+        @Localizer["Add Group"]
     </h1>
 
     <p class="page-subtitle">
-        Create a new school group and assign teachers
+        @Localizer["Create a new school group and assign teachers"]
     </p>
 
 </div>
@@ -33,12 +33,12 @@
 
         <a asp-action="Index"
            class="btn btn-light">
-            Cancel
+            @Localizer["Cancel"]
         </a>
 
         <button type="submit"
                 class="btn btn-primary">
-            Create Group
+            @Localizer["Create Group"]
         </button>
 
     </div>

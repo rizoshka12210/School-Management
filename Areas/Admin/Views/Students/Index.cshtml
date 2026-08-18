@@ -1,18 +1,18 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Student>
 
 @{
-    ViewData["Title"] = "Students";
+    ViewData["Title"] = Localizer["Students"];
 }
 
 <div class="page-header">
 
     <div>
         <h1 class="page-title">
-            Students
+            @Localizer["Students"]
         </h1>
 
         <p class="page-subtitle">
-            Manage students and their school information
+            @Localizer["Manage students and their school information"]
         </p>
     </div>
 
@@ -21,7 +21,7 @@
        asp-action="Create"
        class="btn btn-primary">
 
-        + Add Student
+        + @Localizer["Add Student"]
 
     </a>
 
@@ -44,20 +44,20 @@
                        name="search"
                        value="@ViewBag.Search"
                        class="form-control"
-                       placeholder="Search student or group..." />
+                       placeholder="@Localizer["Search student or group..."]" />
 
             </div>
 
             <button type="submit"
                     class="btn btn-primary">
-                Search
+                @Localizer["Search"]
             </button>
 
             @if (!string.IsNullOrWhiteSpace(ViewBag.Search as string))
             {
                 <a asp-action="Index"
                    class="btn btn-light">
-                    Clear
+                    @Localizer["Clear"]
                 </a>
             }
 
@@ -73,21 +73,17 @@
                 </div>
 
                 <h5>
-                    No students found
+                    @Localizer["No students found"]
                 </h5>
 
                 <p>
                     @if (!string.IsNullOrWhiteSpace(ViewBag.Search as string))
                     {
-                        <text>
-                            Try changing your search.
-                        </text>
+                        @Localizer["Try changing your search."]
                     }
                     else
                     {
-                        <text>
-                            Add your first student to get started.
-                        </text>
+                        @Localizer["Add your first student to get started."]
                     }
                 </p>
 
@@ -95,7 +91,7 @@
                 {
                     <a asp-action="Create"
                        class="btn btn-primary">
-                        + Add Student
+                        + @Localizer["Add Student"]
                     </a>
                 }
 
@@ -110,12 +106,12 @@
                     <thead>
 
                         <tr>
-                            <th>Student</th>
-                            <th>Group</th>
-                            <th>Date of Birth</th>
-                            <th>Parents</th>
+                            <th>@Localizer["Student"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Date of Birth"]</th>
+                            <th>@Localizer["Parents"]</th>
                             <th class="text-end">
-                                Actions
+                                @Localizer["Actions"]
                             </th>
                         </tr>
 
@@ -147,7 +143,7 @@
                                             </div>
 
                                             <div class="person-id">
-                                                Student #@student.Id
+                                                @Localizer["Student #{0}", student.Id]
                                             </div>
 
                                         </div>
@@ -170,7 +166,7 @@
                                     else
                                     {
                                         <span class="text-muted">
-                                            No group
+                                            @Localizer["No group"]
                                         </span>
                                     }
 
@@ -200,14 +196,14 @@
                                         @if (student.Parents.Count > 2)
                                         {
                                             <span class="text-muted small">
-                                                +@(student.Parents.Count - 2) more
+                                                @Localizer["+{0} more", student.Parents.Count - 2]
                                             </span>
                                         }
                                     }
                                     else
                                     {
                                         <span class="text-muted">
-                                            No parent assigned
+                                            @Localizer["No parent assigned"]
                                         </span>
                                     }
 
@@ -223,22 +219,22 @@
                                         <a asp-action="Details"
                                            asp-route-id="@student.Id"
                                            class="action-btn action-details"
-                                           title="Details">
-                                            View
+                                           title="@Localizer["Details"]">
+                                            @Localizer["View"]
                                         </a>
 
                                         <a asp-action="Edit"
                                            asp-route-id="@student.Id"
                                            class="action-btn action-edit"
-                                           title="Edit">
-                                            Edit
+                                           title="@Localizer["Edit"]">
+                                            @Localizer["Edit"]
                                         </a>
 
                                         <a asp-action="Delete"
                                            asp-route-id="@student.Id"
                                            class="action-btn action-delete"
-                                           title="Delete">
-                                            Delete
+                                           title="@Localizer["Delete"]">
+                                            @Localizer["Delete"]
                                         </a>
 
                                     </div>
@@ -257,7 +253,7 @@
             <div class="table-footer">
 
                 <span>
-                    Showing @Model.Count() student(s)
+                    @Localizer["Showing {0} student(s)", Model.Count()]
                 </span>
 
             </div>

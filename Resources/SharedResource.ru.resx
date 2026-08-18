@@ -397,4 +397,184 @@
   <data name="No grades recorded yet." xml:space="preserve">
     <value>Оценок пока нет.</value>
   </data>
+  <data name="Manage school groups, students and teachers" xml:space="preserve">
+    <value>Управление школьными группами, учениками и учителями</value>
+  </data>
+  <data name="Add Group" xml:space="preserve">
+    <value>Добавить группу</value>
+  </data>
+  <data name="Search group..." xml:space="preserve">
+    <value>Поиск группы...</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Сбросить</value>
+  </data>
+  <data name="No groups found" xml:space="preserve">
+    <value>Группы не найдены</value>
+  </data>
+  <data name="Create a group to organize students and teachers." xml:space="preserve">
+    <value>Создайте группу, чтобы объединить учеников и учителей.</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Действия</value>
+  </data>
+  <data name="Group #{0}" xml:space="preserve">
+    <value>Группа №{0}</value>
+  </data>
+  <data name="+{0} more" xml:space="preserve">
+    <value>+{0} ещё</value>
+  </data>
+  <data name="No teachers" xml:space="preserve">
+    <value>Нет учителей</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Просмотр</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Изменить</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Showing {0} group(s)" xml:space="preserve">
+    <value>Показано групп: {0}</value>
+  </data>
+  <data name="Create a new school group and assign teachers" xml:space="preserve">
+    <value>Создайте новую группу и назначьте учителей</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Create Group" xml:space="preserve">
+    <value>Создать группу</value>
+  </data>
+  <data name="Save Changes" xml:space="preserve">
+    <value>Сохранить изменения</value>
+  </data>
+  <data name="Edit Group" xml:space="preserve">
+    <value>Редактировать группу</value>
+  </data>
+  <data name="Update group information and assigned teachers" xml:space="preserve">
+    <value>Обновите информацию о группе и назначенных учителях</value>
+  </data>
+  <data name="Delete Group" xml:space="preserve">
+    <value>Удалить группу</value>
+  </data>
+  <data name="Are you sure you want to delete" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить</value>
+  </data>
+  <data name="Yes, Delete" xml:space="preserve">
+    <value>Да, удалить</value>
+  </data>
+  <data name="Group Details" xml:space="preserve">
+    <value>Информация о группе</value>
+  </data>
+  <data name="No students in this group." xml:space="preserve">
+    <value>В этой группе нет учеников.</value>
+  </data>
+  <data name="No teachers assigned." xml:space="preserve">
+    <value>Учителя не назначены.</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Group Information" xml:space="preserve">
+    <value>Информация о группе</value>
+  </data>
+  <data name="Enter the basic information for this group" xml:space="preserve">
+    <value>Введите основную информацию о группе</value>
+  </data>
+  <data name="Group Name" xml:space="preserve">
+    <value>Название группы</value>
+  </data>
+  <data name="Example: Group 5A" xml:space="preserve">
+    <value>Например: Группа 5А</value>
+  </data>
+  <data name="Select teachers assigned to this group" xml:space="preserve">
+    <value>Выберите учителей, назначенных на эту группу</value>
+  </data>
+  <data name="Manage students and their school information" xml:space="preserve">
+    <value>Управление учениками и их школьной информацией</value>
+  </data>
+  <data name="Search student or group..." xml:space="preserve">
+    <value>Поиск ученика или группы...</value>
+  </data>
+  <data name="No students found" xml:space="preserve">
+    <value>Ученики не найдены</value>
+  </data>
+  <data name="Try changing your search." xml:space="preserve">
+    <value>Попробуйте изменить запрос.</value>
+  </data>
+  <data name="Add your first student to get started." xml:space="preserve">
+    <value>Добавьте первого ученика, чтобы начать.</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>Ученик</value>
+  </data>
+  <data name="Date of Birth" xml:space="preserve">
+    <value>Дата рождения</value>
+  </data>
+  <data name="Student #{0}" xml:space="preserve">
+    <value>Ученик №{0}</value>
+  </data>
+  <data name="No parent assigned" xml:space="preserve">
+    <value>Родитель не назначен</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="Showing {0} student(s)" xml:space="preserve">
+    <value>Показано учеников: {0}</value>
+  </data>
+  <data name="Create a new student and assign group and parents" xml:space="preserve">
+    <value>Создайте нового ученика и назначьте группу и родителей</value>
+  </data>
+  <data name="Create Student" xml:space="preserve">
+    <value>Создать ученика</value>
+  </data>
+  <data name="Edit Student" xml:space="preserve">
+    <value>Редактировать ученика</value>
+  </data>
+  <data name="Update student information and relationships" xml:space="preserve">
+    <value>Обновите информацию об ученике и связях</value>
+  </data>
+  <data name="Delete Student" xml:space="preserve">
+    <value>Удалить ученика</value>
+  </data>
+  <data name="This action cannot be undone." xml:space="preserve">
+    <value>Это действие нельзя отменить.</value>
+  </data>
+  <data name="Student Details" xml:space="preserve">
+    <value>Информация об ученике</value>
+  </data>
+  <data name="No parents assigned." xml:space="preserve">
+    <value>Родители не назначены.</value>
+  </data>
+  <data name="Student Information" xml:space="preserve">
+    <value>Информация об ученике</value>
+  </data>
+  <data name="Basic personal information about the student" xml:space="preserve">
+    <value>Основная личная информация об ученике</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="Enter first name" xml:space="preserve">
+    <value>Введите имя</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="Enter last name" xml:space="preserve">
+    <value>Введите фамилию</value>
+  </data>
+  <data name="— No group —" xml:space="preserve">
+    <value>— Без группы —</value>
+  </data>
+  <data name="Select parents connected to this student" xml:space="preserve">
+    <value>Выберите родителей, связанных с этим учеником</value>
+  </data>
 </root>
