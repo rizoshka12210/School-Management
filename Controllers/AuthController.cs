@@ -57,7 +57,16 @@ public class AuthController : Controller
             user,
             model.Password,
             model.RememberMe,
-            lockoutOnFailure: false);
+            lockoutOnFailure: true);
+
+        if (result.IsLockedOut)
+        {
+            ModelState.AddModelError(
+                string.Empty,
+                "Too many failed attempts. Your account is temporarily locked, please try again later.");
+
+            return View(model);
+        }
 
         if (!result.Succeeded)
         {

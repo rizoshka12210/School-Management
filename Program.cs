@@ -28,6 +28,9 @@ builder.Services
         options.Password.RequiredLength = 6;
 
         options.User.RequireUniqueEmail = true;
+
+        options.Lockout.MaxFailedAccessAttempts = 5;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
