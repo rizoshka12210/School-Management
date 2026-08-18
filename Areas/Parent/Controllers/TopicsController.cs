@@ -2,17 +2,21 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
-using SchoolManagementSystem.Web.Models.Entities;
+using SchoolManagementSystem.Web.Services;
 
 namespace SchoolManagementSystem.Web.Areas.Parent.Controllers;
 
 public class TopicsController : ParentControllerBase
 {
+    private readonly TopicCalendarService _topicCalendarService;
+
     public TopicsController(
         AppDbContext context,
-        OwnershipHelper ownership)
+        OwnershipHelper ownership,
+        TopicCalendarService topicCalendarService)
         : base(context, ownership)
     {
+        _topicCalendarService = topicCalendarService;
     }
 
     public async Task<IActionResult> Index(int? studentId)
@@ -34,18 +38,8 @@ public class TopicsController : ParentControllerBase
 
         ViewBag.StudentName = $"{student.FirstName} {student.LastName}";
 
-        if (student.GroupId == null)
-        {
-            return View(new List<Lesson>());
-        }
-
-        var lessons = await Context.Lessons
-            .Where(l =>
-                l.GroupId == student.GroupId &&
-                l.Topic != null)
-            .Include(l => l.Subject)
-            .OrderByDescending(l => l.StartTime)
-            .ToListAsync();
+        var lessons = await _topicCalendarService.GetStudentTopicsAsync(
+            resolvedId.Value);
 
         return View(lessons);
     }

@@ -2,17 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Teacher;
 
 namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
 public class TopicsController : TeacherControllerBase
 {
+    private readonly TopicCalendarService _topicCalendarService;
+
     public TopicsController(
         AppDbContext context,
-        OwnershipHelper ownership)
+        OwnershipHelper ownership,
+        TopicCalendarService topicCalendarService)
         : base(context, ownership)
     {
+        _topicCalendarService = topicCalendarService;
     }
 
     public async Task<IActionResult> Index()
@@ -24,12 +29,8 @@ public class TopicsController : TeacherControllerBase
             return Forbid();
         }
 
-        var lessons = await Context.Lessons
-            .Where(l => l.TeacherId == teacherId)
-            .Include(l => l.Group)
-            .Include(l => l.Subject)
-            .OrderByDescending(l => l.StartTime)
-            .ToListAsync();
+        var lessons = await _topicCalendarService.GetTeacherTopicsAsync(
+            teacherId.Value);
 
         return View(lessons);
     }
