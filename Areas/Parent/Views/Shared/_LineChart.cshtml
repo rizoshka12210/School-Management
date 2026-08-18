@@ -1,0 +1,132 @@
+@using System.Globalization
+@model List<SchoolManagementSystem.Web.ViewModels.Parent.GroupComparisonPoint>
+
+@{
+    var inv = CultureInfo.InvariantCulture;
+
+    const int width = 640;
+    const int height = 220;
+    const int padTop = 16;
+    const int padBottom = 30;
+    const int padLeft = 30;
+    const int padRight = 16;
+
+    const double minValue = 1.0;
+    const double maxValue = 5.0;
+
+    var count = Model.Count;
+
+    var plotWidth = width - padLeft - padRight;
+    var plotHeight = height - padTop - padBottom;
+
+    string X(int i) => (count <= 1
+        ? padLeft
+        : padLeft + i * plotWidth / (double)(count - 1))
+        .ToString("0.##", inv);
+
+    string Y(double value)
+    {
+        var clamped = Math.Max(minValue, Math.Min(maxValue, value));
+
+        var y = padTop + plotHeight -
+            (clamped - minValue) / (maxValue - minValue) * plotHeight;
+
+        return y.ToString("0.##", inv);
+    }
+
+    string BuildPolyline(Func<SchoolManagementSystem.Web.ViewModels.Parent.GroupComparisonPoint, double?> selector)
+    {
+        var points = new List<string>();
+
+        for (var i = 0; i < count; i++)
+        {
+            var value = selector(Model[i]);
+
+            if (value.HasValue)
+            {
+                points.Add($"{X(i)},{Y(value.Value)}");
+            }
+        }
+
+        return string.Join(" ", points);
+    }
+
+    var childPoints = BuildPolyline(p => p.ChildAverage);
+    var groupPoints = BuildPolyline(p => p.GroupAverage);
+}
+
+<div class="line-chart-wrap">
+
+    <svg viewBox="0 0 @width @height"
+         class="line-chart"
+         xmlns="http://www.w3.org/2000/svg"
+         preserveAspectRatio="xMidYMid meet">
+
+        @for (var grid = 1; grid <= 5; grid++)
+        {
+            <line x1="@padLeft.ToString(inv)"
+                  y1="@Y(grid)"
+                  x2="@((width - padRight).ToString(inv))"
+                  y2="@Y(grid)"
+                  class="line-chart-grid" />
+
+            @Html.Raw(
+                $"<text x=\"4\" y=\"{Y(grid)}\" class=\"line-chart-axis-label\">{grid}</text>")
+        }
+
+        @if (!string.IsNullOrEmpty(groupPoints))
+        {
+            <polyline points="@groupPoints"
+                      class="line-chart-series line-chart-series-group"
+                      fill="none" />
+        }
+
+        @if (!string.IsNullOrEmpty(childPoints))
+        {
+            <polyline points="@childPoints"
+                      class="line-chart-series line-chart-series-child"
+                      fill="none" />
+        }
+
+        @for (var i = 0; i < count; i++)
+        {
+            if (Model[i].GroupAverage.HasValue)
+            {
+                <circle cx="@X(i)"
+                        cy="@Y(Model[i].GroupAverage!.Value)"
+                        r="3.5"
+                        class="line-chart-dot line-chart-dot-group" />
+            }
+
+            if (Model[i].ChildAverage.HasValue)
+            {
+                <circle cx="@X(i)"
+                        cy="@Y(Model[i].ChildAverage!.Value)"
+                        r="3.5"
+                        class="line-chart-dot line-chart-dot-child" />
+            }
+
+            var xLabel = System.Net.WebUtility.HtmlEncode(
+                Model[i].MonthLabel);
+
+            @Html.Raw(
+                $"<text x=\"{X(i)}\" y=\"{(height - 6).ToString(inv)}\" class=\"line-chart-x-label\">{xLabel}</text>")
+        }
+
+    </svg>
+
+    <div class="line-chart-legend">
+
+        <span class="line-chart-legend-item">
+            <span class="line-chart-legend-swatch line-chart-legend-child"></span>
+            Your child
+        </span>
+
+        <span class="line-chart-legend-item">
+            <span class="line-chart-legend-swatch line-chart-legend-group"></span>
+            Group average
+        </span>
+
+    </div>
+
+</div>

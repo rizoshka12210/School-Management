@@ -25,13 +25,30 @@ public class ProgressViewModel
     public double AttendanceRate { get; set; }
 
     public List<SubjectProgressViewModel> Subjects { get; set; } = new();
+
+    public int? ComparisonSubjectId { get; set; }
+
+    public string? ComparisonSubjectName { get; set; }
+
+    public List<GroupComparisonPoint> GroupComparison { get; set; } = new();
 }
 
 public class SubjectProgressViewModel
 {
+    public int SubjectId { get; set; }
+
     public string SubjectName { get; set; } = string.Empty;
 
     public int GradesCount { get; set; }
 
     public double AverageGrade { get; set; }
+}
+
+public class GroupComparisonPoint
+{
+    public string MonthLabel { get; set; } = string.Empty;
+
+    public double? ChildAverage { get; set; }
+
+    public double? GroupAverage { get; set; }
 }

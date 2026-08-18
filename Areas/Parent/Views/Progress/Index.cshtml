@@ -154,6 +154,69 @@
 
 </div>
 
+@if (Model.GroupComparison.Any())
+{
+    <div class="card border-0 shadow-sm">
+
+        <div class="card-body">
+
+            <div class="section-header">
+
+                <div>
+
+                    <h5 class="section-title">
+                        Your Child vs. Group Average
+                    </h5>
+
+                    <p class="section-subtitle">
+                        @Model.ComparisonSubjectName grades by month
+                    </p>
+
+                </div>
+
+                @if (Model.Subjects.Count > 1)
+                {
+                    <form method="get"
+                          asp-action="Index">
+
+                        <input type="hidden"
+                               name="studentId"
+                               value="@Model.StudentId" />
+
+                        <select name="subjectId"
+                                class="form-select"
+                                onchange="this.form.submit()">
+
+                            @foreach (var subject in Model.Subjects)
+                            {
+                                if (subject.SubjectId == Model.ComparisonSubjectId)
+                                {
+                                    <option value="@subject.SubjectId" selected>
+                                        @subject.SubjectName
+                                    </option>
+                                }
+                                else
+                                {
+                                    <option value="@subject.SubjectId">
+                                        @subject.SubjectName
+                                    </option>
+                                }
+                            }
+
+                        </select>
+
+                    </form>
+                }
+
+            </div>
+
+            <partial name="_LineChart" model="Model.GroupComparison" />
+
+        </div>
+
+    </div>
+}
+
 <div class="card border-0 shadow-sm">
 
     <div class="card-body">

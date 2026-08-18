@@ -24,7 +24,7 @@ public class ProgressController : ParentControllerBase
         _attendanceService = attendanceService;
     }
 
-    public async Task<IActionResult> Index(int? studentId)
+    public async Task<IActionResult> Index(int? studentId, int? subjectId)
     {
         var resolvedId =
             await ResolveStudentIdAsync(studentId);
@@ -85,6 +85,8 @@ public class ProgressController : ParentControllerBase
             })
             .Select(g => new SubjectProgressViewModel
             {
+                SubjectId = g.Key.SubjectId,
+
                 SubjectName = g.Key.Name,
 
                 GradesCount = g.Count(),
@@ -95,6 +97,77 @@ public class ProgressController : ParentControllerBase
             })
             .OrderBy(s => s.SubjectName)
             .ToList();
+
+        int? comparisonSubjectId = null;
+        string? comparisonSubjectName = null;
+        var groupComparison = new List<GroupComparisonPoint>();
+
+        if (student.GroupId.HasValue && subjects.Any())
+        {
+            comparisonSubjectId = subjectId.HasValue &&
+                subjects.Any(s => s.SubjectId == subjectId.Value)
+                    ? subjectId
+                    : subjects
+                        .OrderByDescending(s => s.GradesCount)
+                        .First()
+                        .SubjectId;
+
+            comparisonSubjectName = subjects
+                .First(s => s.SubjectId == comparisonSubjectId)
+                .SubjectName;
+
+            var groupGrades = await Context.Grades
+                .Where(g =>
+                    g.SubjectId == comparisonSubjectId.Value &&
+                    g.Student.GroupId == student.GroupId)
+                .Select(g => new { g.Date, g.Value, g.StudentId })
+                .ToListAsync();
+
+            var buckets = groupGrades
+                .Select(g => new DateTime(
+                    g.Date.Year,
+                    g.Date.Month,
+                    1,
+                    0,
+                    0,
+                    0,
+                    DateTimeKind.Utc))
+                .Distinct()
+                .OrderBy(d => d)
+                .ToList();
+
+            groupComparison = buckets
+                .Select(bucket =>
+                {
+                    var inBucket = groupGrades
+                        .Where(g =>
+                            g.Date.Year == bucket.Year &&
+                            g.Date.Month == bucket.Month)
+                        .ToList();
+
+                    var childInBucket = inBucket
+                        .Where(g => g.StudentId == student.Id)
+                        .ToList();
+
+                    return new GroupComparisonPoint
+                    {
+                        MonthLabel = bucket.ToString("MMM yyyy"),
+
+                        GroupAverage = inBucket.Any()
+                            ? Math.Round(
+                                inBucket.Average(g => g.Value),
+                                2)
+                            : null,
+
+                        ChildAverage = childInBucket.Any()
+                            ? Math.Round(
+                                childInBucket.Average(g => g.Value),
+                                2)
+                            : null
+                    };
+                })
+                .ToList();
+        }
 
         var model = new ProgressViewModel
         {
@@ -125,7 +198,13 @@ public class ProgressController : ParentControllerBase
 
             AttendanceRate = attendanceRate,
 
-            Subjects = subjects
+            Subjects = subjects,
+
+            ComparisonSubjectId = comparisonSubjectId,
+
+            ComparisonSubjectName = comparisonSubjectName,
+
+            GroupComparison = groupComparison
         };
 
         return View(model);
