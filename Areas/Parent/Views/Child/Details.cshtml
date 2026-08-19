@@ -53,7 +53,7 @@
         <div>
             <span>@Localizer["Average Grade"]</span>
             <strong>@averageGrade.ToString("0.##")</strong>
-            <small>@Localizer["Overall average"]</small>
+            <small>@Localizer["Overall Average"]</small>
         </div>
     </div>
 
@@ -122,13 +122,13 @@
 
                 <a asp-area="Parent" asp-controller="Grades" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
                     <div class="parent-access-icon parent-action-grades">GD</div>
-                    <div><strong>@Localizer["Grades"]</strong><span>@Localizer["Grade history"]</span></div>
+                    <div><strong>@Localizer["Grades"]</strong><span>@Localizer["Grade History"]</span></div>
                     <div class="parent-access-arrow">→</div>
                 </a>
 
                 <a asp-area="Parent" asp-controller="Attendance" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
                     <div class="parent-access-icon parent-action-attendance">AT</div>
-                    <div><strong>@Localizer["Attendance"]</strong><span>@Localizer["Attendance history"]</span></div>
+                    <div><strong>@Localizer["Attendance"]</strong><span>@Localizer["Attendance History"]</span></div>
                     <div class="parent-access-arrow">→</div>
                 </a>
 
@@ -140,7 +140,7 @@
 
                 <a asp-area="Parent" asp-controller="Topics" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
                     <div class="parent-access-icon parent-action-topic">TP</div>
-                    <div><strong>@Localizer["Topics"]</strong><span>@Localizer["Lesson topics"]</span></div>
+                    <div><strong>@Localizer["Topics"]</strong><span>@Localizer["Lesson Topics"]</span></div>
                     <div class="parent-access-arrow">→</div>
                 </a>
 
