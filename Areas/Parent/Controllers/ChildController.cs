@@ -3,16 +3,21 @@ using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
+using SchoolManagementSystem.Web.Services;
 
 namespace SchoolManagementSystem.Web.Areas.Parent.Controllers;
 
 public class ChildController : ParentControllerBase
 {
+    private readonly AchievementService _achievements;
+
     public ChildController(
         AppDbContext context,
-        OwnershipHelper ownership)
+        OwnershipHelper ownership,
+        AchievementService achievements)
         : base(context, ownership)
     {
+        _achievements = achievements;
     }
 
     public async Task<IActionResult> Details(int? studentId)
@@ -56,6 +61,8 @@ public class ChildController : ParentControllerBase
         ViewBag.AverageGrade = grades.Any()
             ? Math.Round(grades.Average(g => g.Value), 2)
             : 0;
+
+        ViewBag.Achievements = await _achievements.GetBadgesAsync(resolvedId.Value);
 
         return View(student);
     }

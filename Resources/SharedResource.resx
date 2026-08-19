@@ -1081,4 +1081,7 @@
   <data name="students unit" xml:space="preserve">
     <value>students</value>
   </data>
+  <data name="Achievements" xml:space="preserve">
+    <value>Achievements</value>
+  </data>
 </root>
