@@ -11,11 +11,11 @@
         <div class="form-card-header">
 
             <h5>
-                Time
+                @Localizer["Time"]
             </h5>
 
             <p>
-                Select weekday and lesson time
+                @Localizer["Select weekday and lesson time"]
             </p>
 
         </div>
@@ -26,7 +26,7 @@
 
                 <label asp-for="DayOfWeek"
                        class="form-label">
-                    Day
+                    @Localizer["Day"]
                 </label>
 
                 <select asp-for="DayOfWeek"
@@ -46,7 +46,7 @@
 
                     <label asp-for="StartTime"
                            class="form-label">
-                        Start Time
+                        @Localizer["Start Time"]
                     </label>
 
                     <input asp-for="StartTime"
@@ -63,7 +63,7 @@
 
                     <label asp-for="EndTime"
                            class="form-label">
-                        End Time
+                        @Localizer["End Time"]
                     </label>
 
                     <input asp-for="EndTime"
@@ -87,11 +87,11 @@
         <div class="form-card-header">
 
             <h5>
-                Lesson Assignment
+                @Localizer["Lesson Assignment"]
             </h5>
 
             <p>
-                Select group, teacher and subject
+                @Localizer["Select group, teacher and subject"]
             </p>
 
         </div>
@@ -102,14 +102,14 @@
 
                 <label asp-for="GroupId"
                        class="form-label">
-                    Group
+                    @Localizer["Group"]
                 </label>
 
                 <select asp-for="GroupId"
                         class="form-select">
 
                     <option value="">
-                        Select group
+                        @Localizer["Select group"]
                     </option>
 
                     @foreach (var group in ViewBag.Groups)
@@ -131,14 +131,14 @@
 
                 <label asp-for="TeacherId"
                        class="form-label">
-                    Teacher
+                    @Localizer["Teacher"]
                 </label>
 
                 <select asp-for="TeacherId"
                         class="form-select">
 
                     <option value="">
-                        Select teacher
+                        @Localizer["Select teacher"]
                     </option>
 
                     @foreach (var teacher in ViewBag.Teachers)
@@ -160,14 +160,14 @@
 
                 <label asp-for="SubjectId"
                        class="form-label">
-                    Subject
+                    @Localizer["Subject"]
                 </label>
 
                 <select asp-for="SubjectId"
                         class="form-select">
 
                     <option value="">
-                        Select subject
+                        @Localizer["Select subject"]
                     </option>
 
                     @foreach (var subject in ViewBag.Subjects)

@@ -847,4 +847,49 @@
   <data name="Update lesson information" xml:space="preserve">
     <value>Обновите информацию об уроке</value>
   </data>
+  <data name="Add a lesson to the weekly timetable" xml:space="preserve">
+    <value>Добавьте урок в недельное расписание</value>
+  </data>
+  <data name="All days" xml:space="preserve">
+    <value>Все дни</value>
+  </data>
+  <data name="Are you sure you want to delete this schedule entry?" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить эту запись расписания?</value>
+  </data>
+  <data name="Create a schedule entry or change the filters." xml:space="preserve">
+    <value>Создайте запись расписания или измените фильтры.</value>
+  </data>
+  <data name="Create Schedule" xml:space="preserve">
+    <value>Создать запись расписания</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>День</value>
+  </data>
+  <data name="Delete Schedule" xml:space="preserve">
+    <value>Удалить запись расписания</value>
+  </data>
+  <data name="Edit Schedule" xml:space="preserve">
+    <value>Редактировать расписание</value>
+  </data>
+  <data name="Lesson Assignment" xml:space="preserve">
+    <value>Назначение урока</value>
+  </data>
+  <data name="Manage the weekly school timetable" xml:space="preserve">
+    <value>Управление недельным расписанием школы</value>
+  </data>
+  <data name="No schedule entries found" xml:space="preserve">
+    <value>Записи расписания не найдены</value>
+  </data>
+  <data name="Schedule Details" xml:space="preserve">
+    <value>Информация о расписании</value>
+  </data>
+  <data name="Select weekday and lesson time" xml:space="preserve">
+    <value>Выберите день недели и время урока</value>
+  </data>
+  <data name="Update the timetable entry" xml:space="preserve">
+    <value>Обновите запись расписания</value>
+  </data>
+  <data name="{0} lesson(s)" xml:space="preserve">
+    <value>Уроков: {0}</value>
+  </data>
 </root>

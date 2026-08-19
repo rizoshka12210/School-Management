@@ -1,24 +1,24 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Schedule>
 
 @{
-    ViewData["Title"] = "Schedule";
+    ViewData["Title"] = Localizer["Schedule"];
 }
 
 <div class="page-header">
 
     <div>
         <h1 class="page-title">
-            Schedule
+            @Localizer["Schedule"]
         </h1>
 
         <p class="page-subtitle">
-            Manage the weekly school timetable
+            @Localizer["Manage the weekly school timetable"]
         </p>
     </div>
 
     <a asp-action="Create"
        class="btn btn-primary">
-        + Add Schedule
+        + @Localizer["Add Schedule"]
     </a>
 
 </div>
@@ -37,7 +37,7 @@
                         class="form-select">
 
                     <option value="">
-                        All days
+                        @Localizer["All days"]
                     </option>
 
                     @foreach (var day in Enum.GetValues<DayOfWeek>())
@@ -66,7 +66,7 @@
                         class="form-select">
 
                     <option value="">
-                        All groups
+                        @Localizer["All groups"]
                     </option>
 
                     @foreach (var group in ViewBag.Groups)
@@ -92,12 +92,12 @@
 
             <button type="submit"
                     class="btn btn-primary">
-                Filter
+                @Localizer["Filter"]
             </button>
 
             <a asp-action="Index"
                class="btn btn-light">
-                Clear
+                @Localizer["Clear"]
             </a>
 
         </form>
@@ -111,16 +111,16 @@
                 </div>
 
                 <h5>
-                    No schedule entries found
+                    @Localizer["No schedule entries found"]
                 </h5>
 
                 <p>
-                    Create a schedule entry or change the filters.
+                    @Localizer["Create a schedule entry or change the filters."]
                 </p>
 
                 <a asp-action="Create"
                    class="btn btn-primary">
-                    + Add Schedule
+                    + @Localizer["Add Schedule"]
                 </a>
 
             </div>
@@ -142,7 +142,7 @@
                                 </span>
 
                                 <span class="schedule-day-count">
-                                    @dayGroup.Count() lesson(s)
+                                    @Localizer["{0} lesson(s)", dayGroup.Count()]
                                 </span>
                             </div>
 
@@ -201,19 +201,19 @@
                                     <a asp-action="Details"
                                        asp-route-id="@item.Id"
                                        class="action-btn action-details">
-                                        View
+                                        @Localizer["View"]
                                     </a>
 
                                     <a asp-action="Edit"
                                        asp-route-id="@item.Id"
                                        class="action-btn action-edit">
-                                        Edit
+                                        @Localizer["Edit"]
                                     </a>
 
                                     <a asp-action="Delete"
                                        asp-route-id="@item.Id"
                                        class="action-btn action-delete">
-                                        Delete
+                                        @Localizer["Delete"]
                                     </a>
 
                                 </div>

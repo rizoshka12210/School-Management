@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Models.Entities.Schedule
 
 @{
-    ViewData["Title"] = "Schedule Details";
+    ViewData["Title"] = Localizer["Schedule Details"];
 }
 
 <div class="container mt-4">
@@ -15,18 +15,18 @@
                 <div class="card-body p-4">
 
                     <h2 class="fw-bold">
-                        Schedule Details
+                        @Localizer["Schedule Details"]
                     </h2>
 
                     <hr />
 
                     <p>
-                        <strong>Day:</strong>
+                        <strong>@Localizer["Day"]:</strong>
                         @Model.DayOfWeek
                     </p>
 
                     <p>
-                        <strong>Time:</strong>
+                        <strong>@Localizer["Time"]:</strong>
 
                         @Model.StartTime.ToString("HH:mm")
                         -
@@ -34,29 +34,29 @@
                     </p>
 
                     <p>
-                        <strong>Group:</strong>
+                        <strong>@Localizer["Group"]:</strong>
                         @Model.Group.Name
                     </p>
 
                     <p>
-                        <strong>Subject:</strong>
+                        <strong>@Localizer["Subject"]:</strong>
                         @Model.Subject.Name
                     </p>
 
                     <p>
-                        <strong>Teacher:</strong>
+                        <strong>@Localizer["Teacher"]:</strong>
                         @Model.Teacher.ApplicationUser.FullName
                     </p>
 
                     <a asp-action="Edit"
                        asp-route-id="@Model.Id"
                        class="btn btn-primary">
-                        Edit
+                        @Localizer["Edit"]
                     </a>
 
                     <a asp-action="Index"
                        class="btn btn-outline-secondary">
-                        Back
+                        @Localizer["Back"]
                     </a>
 
                 </div>

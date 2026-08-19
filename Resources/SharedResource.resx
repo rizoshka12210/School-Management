@@ -847,4 +847,49 @@
   <data name="Update lesson information" xml:space="preserve">
     <value>Update lesson information</value>
   </data>
+  <data name="Add a lesson to the weekly timetable" xml:space="preserve">
+    <value>Add a lesson to the weekly timetable</value>
+  </data>
+  <data name="All days" xml:space="preserve">
+    <value>All days</value>
+  </data>
+  <data name="Are you sure you want to delete this schedule entry?" xml:space="preserve">
+    <value>Are you sure you want to delete this schedule entry?</value>
+  </data>
+  <data name="Create a schedule entry or change the filters." xml:space="preserve">
+    <value>Create a schedule entry or change the filters.</value>
+  </data>
+  <data name="Create Schedule" xml:space="preserve">
+    <value>Create Schedule</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Day</value>
+  </data>
+  <data name="Delete Schedule" xml:space="preserve">
+    <value>Delete Schedule</value>
+  </data>
+  <data name="Edit Schedule" xml:space="preserve">
+    <value>Edit Schedule</value>
+  </data>
+  <data name="Lesson Assignment" xml:space="preserve">
+    <value>Lesson Assignment</value>
+  </data>
+  <data name="Manage the weekly school timetable" xml:space="preserve">
+    <value>Manage the weekly school timetable</value>
+  </data>
+  <data name="No schedule entries found" xml:space="preserve">
+    <value>No schedule entries found</value>
+  </data>
+  <data name="Schedule Details" xml:space="preserve">
+    <value>Schedule Details</value>
+  </data>
+  <data name="Select weekday and lesson time" xml:space="preserve">
+    <value>Select weekday and lesson time</value>
+  </data>
+  <data name="Update the timetable entry" xml:space="preserve">
+    <value>Update the timetable entry</value>
+  </data>
+  <data name="{0} lesson(s)" xml:space="preserve">
+    <value>{0} lesson(s)</value>
+  </data>
 </root>

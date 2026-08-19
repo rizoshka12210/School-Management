@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Models.Entities.Schedule
 
 @{
-    ViewData["Title"] = "Delete Schedule";
+    ViewData["Title"] = Localizer["Delete Schedule"];
 }
 
 <div class="container mt-5">
@@ -15,39 +15,39 @@
                 <div class="card-body p-4">
 
                     <h2 class="text-danger fw-bold">
-                        Delete Schedule
+                        @Localizer["Delete Schedule"]
                     </h2>
 
                     <p class="mt-3">
-                        Are you sure you want to delete this schedule entry?
+                        @Localizer["Are you sure you want to delete this schedule entry?"]
                     </p>
 
                     <hr />
 
                     <p>
-                        <strong>Day:</strong>
+                        <strong>@Localizer["Day"]:</strong>
                         @Model.DayOfWeek
                     </p>
 
                     <p>
-                        <strong>Time:</strong>
+                        <strong>@Localizer["Time"]:</strong>
                         @Model.StartTime.ToString("HH:mm")
                         -
                         @Model.EndTime.ToString("HH:mm")
                     </p>
 
                     <p>
-                        <strong>Group:</strong>
+                        <strong>@Localizer["Group"]:</strong>
                         @Model.Group.Name
                     </p>
 
                     <p>
-                        <strong>Subject:</strong>
+                        <strong>@Localizer["Subject"]:</strong>
                         @Model.Subject.Name
                     </p>
 
                     <p>
-                        <strong>Teacher:</strong>
+                        <strong>@Localizer["Teacher"]:</strong>
                         @Model.Teacher.ApplicationUser.FullName
                     </p>
 
@@ -57,12 +57,12 @@
 
                         <button type="submit"
                                 class="btn btn-danger">
-                            Yes, Delete
+                            @Localizer["Yes, Delete"]
                         </button>
 
                         <a asp-action="Index"
                            class="btn btn-outline-secondary">
-                            Cancel
+                            @Localizer["Cancel"]
                         </a>
 
                     </form>
