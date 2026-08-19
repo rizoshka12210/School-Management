@@ -73,7 +73,7 @@
   <data name="Missing" xml:space="preserve"><value>Не заполнено</value></data>
   <data name="No group" xml:space="preserve"><value>Без группы</value></data>
   <data name="hours" xml:space="preserve"><value>часов</value></data>
-  <data name="students" xml:space="preserve"><value>учеников</value></data>
+  <data name="students unit" xml:space="preserve"><value>учеников</value></data>
 
   <data name="View and correct student attendance records across the school" xml:space="preserve"><value>Просматривайте и исправляйте записи посещаемости учеников по всей школе</value></data>
   <data name="Journal View" xml:space="preserve"><value>Журнал</value></data>

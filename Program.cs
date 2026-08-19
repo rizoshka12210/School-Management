@@ -11,6 +11,7 @@ using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException(
@@ -18,6 +19,7 @@ var connectionString =
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
+
 
 builder.Services
     .AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -27,18 +29,22 @@ builder.Services
         options.Password.RequireUppercase = true;
         options.Password.RequireNonAlphanumeric = true;
         options.Password.RequiredLength = 6;
+
         options.User.RequireUniqueEmail = true;
+
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
     })
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Auth/Login";
     options.AccessDeniedPath = "/Auth/AccessDenied";
 });
+
 
 builder.Services.AddLocalization();
 
@@ -63,14 +69,19 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 builder.Services.AddScoped<OwnershipHelper>();
+
 builder.Services.AddScoped<AttendanceService>();
 builder.Services.AddScoped<GradeService>();
 builder.Services.AddScoped<SalaryService>();
 builder.Services.AddScoped<TopicCalendarService>();
+builder.Services.AddScoped<AchievementService>();
+builder.Services.AddScoped<LeaderboardService>();
+builder.Services.AddScoped<ActivityLogService>();
 builder.Services.AddScoped<StudentRiskService>();
 builder.Services.AddScoped<NotificationService>();
 
 var app = builder.Build();
+
 
 using (var scope = app.Services.CreateScope())
 {
@@ -83,19 +94,30 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
+
 app.UseRequestLocalization();
+
 app.UseRouting();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
+
 
 app.MapControllerRoute(
     name: "areas",
     pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
+
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
 
 app.Run();
