@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Entities;
@@ -13,10 +15,14 @@ namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 public class SubjectsController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public SubjectsController(AppDbContext context)
+    public SubjectsController(
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -114,7 +120,7 @@ public class SubjectsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Subject created successfully.";
+            _localizer["Subject created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -201,7 +207,7 @@ public class SubjectsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Subject updated successfully.";
+            _localizer["Subject updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -250,7 +256,7 @@ public class SubjectsController : Controller
             hasGrades)
         {
             TempData["Error"] =
-                "This subject cannot be deleted because it has lessons, schedules or grades.";
+                _localizer["This subject cannot be deleted because it has lessons, schedules or grades."].Value;
 
             return RedirectToAction(nameof(Index));
         }
@@ -260,7 +266,7 @@ public class SubjectsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Subject deleted successfully.";
+            _localizer["Subject deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }

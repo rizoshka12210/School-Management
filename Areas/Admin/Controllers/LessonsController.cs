@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Entities;
@@ -13,10 +15,14 @@ namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 public class LessonsController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public LessonsController(AppDbContext context)
+    public LessonsController(
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index(
@@ -120,7 +126,7 @@ public class LessonsController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.EndTime),
-                "End time must be later than start time.");
+                _localizer["End time must be later than start time."].Value);
         }
 
         if (!await TeacherMatchesAsync(
@@ -130,7 +136,7 @@ public class LessonsController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.TeacherId),
-                "Selected teacher must be assigned to this group and subject.");
+                _localizer["Selected teacher must be assigned to this group and subject."].Value);
         }
 
         if (!ModelState.IsValid)
@@ -157,7 +163,7 @@ public class LessonsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Lesson created successfully.";
+            _localizer["Lesson created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -206,7 +212,7 @@ public class LessonsController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.EndTime),
-                "End time must be later than start time.");
+                _localizer["End time must be later than start time."].Value);
         }
 
         if (!await TeacherMatchesAsync(
@@ -216,7 +222,7 @@ public class LessonsController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.TeacherId),
-                "Selected teacher must be assigned to this group and subject.");
+                _localizer["Selected teacher must be assigned to this group and subject."].Value);
         }
 
         if (!ModelState.IsValid)
@@ -238,7 +244,7 @@ public class LessonsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Lesson updated successfully.";
+            _localizer["Lesson updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -283,7 +289,7 @@ public class LessonsController : Controller
         if (hasAttendance || hasGrades)
         {
             TempData["Error"] =
-                "This lesson cannot be deleted because attendance or grades are connected to it.";
+                _localizer["This lesson cannot be deleted because attendance or grades are connected to it."].Value;
 
             return RedirectToAction(nameof(Index));
         }
@@ -293,7 +299,7 @@ public class LessonsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Lesson deleted successfully.";
+            _localizer["Lesson deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }

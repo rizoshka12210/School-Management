@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.ViewModels.Admin;
@@ -15,10 +17,14 @@ namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 public class ScheduleController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public ScheduleController(AppDbContext context)
+    public ScheduleController(
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index(
@@ -122,7 +128,7 @@ public class ScheduleController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Schedule entry created successfully.";
+            _localizer["Schedule entry created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -187,7 +193,7 @@ public class ScheduleController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Schedule updated successfully.";
+            _localizer["Schedule updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -228,7 +234,7 @@ public class ScheduleController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Schedule entry deleted successfully.";
+            _localizer["Schedule entry deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -240,7 +246,7 @@ public class ScheduleController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.EndTime),
-                "End time must be later than start time.");
+                _localizer["End time must be later than start time."].Value);
         }
 
         var teacherMatches =
@@ -255,7 +261,7 @@ public class ScheduleController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.TeacherId),
-                "Selected teacher must be assigned to this group and subject.");
+                _localizer["Selected teacher must be assigned to this group and subject."].Value);
         }
 
         var teacherOverlap =
@@ -270,7 +276,7 @@ public class ScheduleController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.StartTime),
-                "This teacher already has another lesson during this time.");
+                _localizer["This teacher already has another lesson during this time."].Value);
         }
 
         var groupOverlap =
@@ -285,7 +291,7 @@ public class ScheduleController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.StartTime),
-                "This group already has another lesson during this time.");
+                _localizer["This group already has another lesson during this time."].Value);
         }
     }
 

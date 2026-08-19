@@ -892,4 +892,106 @@
   <data name="{0} lesson(s)" xml:space="preserve">
     <value>Уроков: {0}</value>
   </data>
+  <data name="Group created successfully." xml:space="preserve">
+    <value>Группа успешно создана.</value>
+  </data>
+  <data name="Group deleted successfully." xml:space="preserve">
+    <value>Группа успешно удалена.</value>
+  </data>
+  <data name="Group updated successfully." xml:space="preserve">
+    <value>Группа успешно обновлена.</value>
+  </data>
+  <data name="Lesson created successfully." xml:space="preserve">
+    <value>Урок успешно создан.</value>
+  </data>
+  <data name="Lesson deleted successfully." xml:space="preserve">
+    <value>Урок успешно удалён.</value>
+  </data>
+  <data name="Lesson updated successfully." xml:space="preserve">
+    <value>Урок успешно обновлён.</value>
+  </data>
+  <data name="Parent created successfully." xml:space="preserve">
+    <value>Родитель успешно добавлен.</value>
+  </data>
+  <data name="Parent deleted successfully." xml:space="preserve">
+    <value>Родитель успешно удалён.</value>
+  </data>
+  <data name="Parent updated successfully." xml:space="preserve">
+    <value>Родитель успешно обновлён.</value>
+  </data>
+  <data name="Schedule entry created successfully." xml:space="preserve">
+    <value>Запись расписания успешно создана.</value>
+  </data>
+  <data name="Schedule entry deleted successfully." xml:space="preserve">
+    <value>Запись расписания успешно удалена.</value>
+  </data>
+  <data name="Schedule updated successfully." xml:space="preserve">
+    <value>Расписание успешно обновлено.</value>
+  </data>
+  <data name="Student created successfully." xml:space="preserve">
+    <value>Ученик успешно добавлен.</value>
+  </data>
+  <data name="Student deleted successfully." xml:space="preserve">
+    <value>Ученик успешно удалён.</value>
+  </data>
+  <data name="Student updated successfully." xml:space="preserve">
+    <value>Ученик успешно обновлён.</value>
+  </data>
+  <data name="Subject created successfully." xml:space="preserve">
+    <value>Предмет успешно создан.</value>
+  </data>
+  <data name="Subject deleted successfully." xml:space="preserve">
+    <value>Предмет успешно удалён.</value>
+  </data>
+  <data name="Subject updated successfully." xml:space="preserve">
+    <value>Предмет успешно обновлён.</value>
+  </data>
+  <data name="Teacher created successfully." xml:space="preserve">
+    <value>Учитель успешно добавлен.</value>
+  </data>
+  <data name="Teacher deleted successfully." xml:space="preserve">
+    <value>Учитель успешно удалён.</value>
+  </data>
+  <data name="Teacher updated successfully." xml:space="preserve">
+    <value>Учитель успешно обновлён.</value>
+  </data>
+  <data name="This group cannot be deleted because it has lessons or schedule entries." xml:space="preserve">
+    <value>Эту группу нельзя удалить, так как у неё есть уроки или записи расписания.</value>
+  </data>
+  <data name="This lesson cannot be deleted because attendance or grades are connected to it." xml:space="preserve">
+    <value>Этот урок нельзя удалить, так как с ним связаны посещаемость или оценки.</value>
+  </data>
+  <data name="This subject cannot be deleted because it has lessons, schedules or grades." xml:space="preserve">
+    <value>Этот предмет нельзя удалить, так как у него есть уроки, расписание или оценки.</value>
+  </data>
+  <data name="This teacher cannot be deleted because they have lessons, schedules or grades." xml:space="preserve">
+    <value>Этого учителя нельзя удалить, так как у него есть уроки, расписание или оценки.</value>
+  </data>
+  <data name="Group name is required" xml:space="preserve">
+    <value>Название группы обязательно</value>
+  </data>
+  <data name="Subject name is required" xml:space="preserve">
+    <value>Название предмета обязательно</value>
+  </data>
+  <data name="Select a group" xml:space="preserve">
+    <value>Выберите группу</value>
+  </data>
+  <data name="Select a teacher" xml:space="preserve">
+    <value>Выберите учителя</value>
+  </data>
+  <data name="Select a subject" xml:space="preserve">
+    <value>Выберите предмет</value>
+  </data>
+  <data name="Selected teacher must be assigned to this group and subject." xml:space="preserve">
+    <value>Выбранный учитель должен быть назначен на эту группу и предмет.</value>
+  </data>
+  <data name="End time must be later than start time." xml:space="preserve">
+    <value>Время окончания должно быть позже времени начала.</value>
+  </data>
+  <data name="This teacher already has another lesson during this time." xml:space="preserve">
+    <value>У этого учителя уже есть другой урок в это время.</value>
+  </data>
+  <data name="This group already has another lesson during this time." xml:space="preserve">
+    <value>У этой группы уже есть другой урок в это время.</value>
+  </data>
 </root>

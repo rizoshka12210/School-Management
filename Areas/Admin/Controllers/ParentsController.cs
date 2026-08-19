@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Identity;
@@ -18,13 +20,16 @@ public class ParentsController : Controller
 {
     private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public ParentsController(
         AppDbContext context,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
         _userManager = userManager;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -161,7 +166,7 @@ public class ParentsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Parent created successfully.";
+            _localizer["Parent created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -298,7 +303,7 @@ public class ParentsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Parent updated successfully.";
+            _localizer["Parent updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -349,7 +354,7 @@ public class ParentsController : Controller
         }
 
         TempData["Success"] =
-            "Parent deleted successfully.";
+            _localizer["Parent deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }

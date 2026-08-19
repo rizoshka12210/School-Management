@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Identity;
@@ -18,13 +20,16 @@ public class TeachersController : Controller
 {
     private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public TeachersController(
         AppDbContext context,
-        UserManager<ApplicationUser> userManager)
+        UserManager<ApplicationUser> userManager,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
         _userManager = userManager;
+        _localizer = localizer;
     }
 
 
@@ -204,7 +209,7 @@ public class TeachersController : Controller
 
 
         TempData["Success"] =
-            "Teacher created successfully.";
+            _localizer["Teacher created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -414,7 +419,7 @@ public class TeachersController : Controller
 
 
         TempData["Success"] =
-            "Teacher updated successfully.";
+            _localizer["Teacher updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -483,7 +488,7 @@ public class TeachersController : Controller
             hasGrades)
         {
             TempData["Error"] =
-                "This teacher cannot be deleted because they have lessons, schedules or grades.";
+                _localizer["This teacher cannot be deleted because they have lessons, schedules or grades."].Value;
 
             return RedirectToAction(nameof(Index));
         }
@@ -505,7 +510,7 @@ public class TeachersController : Controller
 
 
         TempData["Success"] =
-            "Teacher deleted successfully.";
+            _localizer["Teacher deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }

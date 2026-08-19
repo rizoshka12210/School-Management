@@ -892,4 +892,106 @@
   <data name="{0} lesson(s)" xml:space="preserve">
     <value>{0} lesson(s)</value>
   </data>
+  <data name="Group created successfully." xml:space="preserve">
+    <value>Group created successfully.</value>
+  </data>
+  <data name="Group deleted successfully." xml:space="preserve">
+    <value>Group deleted successfully.</value>
+  </data>
+  <data name="Group updated successfully." xml:space="preserve">
+    <value>Group updated successfully.</value>
+  </data>
+  <data name="Lesson created successfully." xml:space="preserve">
+    <value>Lesson created successfully.</value>
+  </data>
+  <data name="Lesson deleted successfully." xml:space="preserve">
+    <value>Lesson deleted successfully.</value>
+  </data>
+  <data name="Lesson updated successfully." xml:space="preserve">
+    <value>Lesson updated successfully.</value>
+  </data>
+  <data name="Parent created successfully." xml:space="preserve">
+    <value>Parent created successfully.</value>
+  </data>
+  <data name="Parent deleted successfully." xml:space="preserve">
+    <value>Parent deleted successfully.</value>
+  </data>
+  <data name="Parent updated successfully." xml:space="preserve">
+    <value>Parent updated successfully.</value>
+  </data>
+  <data name="Schedule entry created successfully." xml:space="preserve">
+    <value>Schedule entry created successfully.</value>
+  </data>
+  <data name="Schedule entry deleted successfully." xml:space="preserve">
+    <value>Schedule entry deleted successfully.</value>
+  </data>
+  <data name="Schedule updated successfully." xml:space="preserve">
+    <value>Schedule updated successfully.</value>
+  </data>
+  <data name="Student created successfully." xml:space="preserve">
+    <value>Student created successfully.</value>
+  </data>
+  <data name="Student deleted successfully." xml:space="preserve">
+    <value>Student deleted successfully.</value>
+  </data>
+  <data name="Student updated successfully." xml:space="preserve">
+    <value>Student updated successfully.</value>
+  </data>
+  <data name="Subject created successfully." xml:space="preserve">
+    <value>Subject created successfully.</value>
+  </data>
+  <data name="Subject deleted successfully." xml:space="preserve">
+    <value>Subject deleted successfully.</value>
+  </data>
+  <data name="Subject updated successfully." xml:space="preserve">
+    <value>Subject updated successfully.</value>
+  </data>
+  <data name="Teacher created successfully." xml:space="preserve">
+    <value>Teacher created successfully.</value>
+  </data>
+  <data name="Teacher deleted successfully." xml:space="preserve">
+    <value>Teacher deleted successfully.</value>
+  </data>
+  <data name="Teacher updated successfully." xml:space="preserve">
+    <value>Teacher updated successfully.</value>
+  </data>
+  <data name="This group cannot be deleted because it has lessons or schedule entries." xml:space="preserve">
+    <value>This group cannot be deleted because it has lessons or schedule entries.</value>
+  </data>
+  <data name="This lesson cannot be deleted because attendance or grades are connected to it." xml:space="preserve">
+    <value>This lesson cannot be deleted because attendance or grades are connected to it.</value>
+  </data>
+  <data name="This subject cannot be deleted because it has lessons, schedules or grades." xml:space="preserve">
+    <value>This subject cannot be deleted because it has lessons, schedules or grades.</value>
+  </data>
+  <data name="This teacher cannot be deleted because they have lessons, schedules or grades." xml:space="preserve">
+    <value>This teacher cannot be deleted because they have lessons, schedules or grades.</value>
+  </data>
+  <data name="Group name is required" xml:space="preserve">
+    <value>Group name is required</value>
+  </data>
+  <data name="Subject name is required" xml:space="preserve">
+    <value>Subject name is required</value>
+  </data>
+  <data name="Select a group" xml:space="preserve">
+    <value>Select a group</value>
+  </data>
+  <data name="Select a teacher" xml:space="preserve">
+    <value>Select a teacher</value>
+  </data>
+  <data name="Select a subject" xml:space="preserve">
+    <value>Select a subject</value>
+  </data>
+  <data name="Selected teacher must be assigned to this group and subject." xml:space="preserve">
+    <value>Selected teacher must be assigned to this group and subject.</value>
+  </data>
+  <data name="End time must be later than start time." xml:space="preserve">
+    <value>End time must be later than start time.</value>
+  </data>
+  <data name="This teacher already has another lesson during this time." xml:space="preserve">
+    <value>This teacher already has another lesson during this time.</value>
+  </data>
+  <data name="This group already has another lesson during this time." xml:space="preserve">
+    <value>This group already has another lesson during this time.</value>
+  </data>
 </root>

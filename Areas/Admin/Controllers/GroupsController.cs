@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Entities;
@@ -13,10 +15,14 @@ namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 public class GroupsController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public GroupsController(AppDbContext context)
+    public GroupsController(
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -116,7 +122,7 @@ public class GroupsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Group created successfully.";
+            _localizer["Group created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -203,7 +209,7 @@ public class GroupsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Group updated successfully.";
+            _localizer["Group updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -248,7 +254,7 @@ public class GroupsController : Controller
         if (hasLessons || hasSchedules)
         {
             TempData["Error"] =
-                "This group cannot be deleted because it has lessons or schedule entries.";
+                _localizer["This group cannot be deleted because it has lessons or schedule entries."].Value;
 
             return RedirectToAction(nameof(Index));
         }
@@ -258,7 +264,7 @@ public class GroupsController : Controller
         await _context.SaveChangesAsync();
 
         TempData["Success"] =
-            "Group deleted successfully.";
+            _localizer["Group deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }

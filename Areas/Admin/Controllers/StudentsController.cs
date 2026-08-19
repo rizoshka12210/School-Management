@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Entities;
@@ -13,10 +15,14 @@ namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 public class StudentsController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public StudentsController(AppDbContext context)
+    public StudentsController(
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
+        _localizer = localizer;
     }
 
 
@@ -136,7 +142,7 @@ public class StudentsController : Controller
 
 
         TempData["Success"] =
-            "Student created successfully.";
+            _localizer["Student created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -249,7 +255,7 @@ public class StudentsController : Controller
 
 
         TempData["Success"] =
-            "Student updated successfully.";
+            _localizer["Student updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -296,7 +302,7 @@ public class StudentsController : Controller
 
 
         TempData["Success"] =
-            "Student deleted successfully.";
+            _localizer["Student deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
