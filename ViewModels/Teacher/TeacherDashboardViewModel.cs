@@ -17,6 +17,12 @@ public class TeacherDashboardViewModel
     public decimal CurrentMonthSalary { get; set; }
 
     public List<CalendarEvent> UpcomingEvents { get; set; } = new();
+
+    public int StudentsTodayCount { get; set; }
+
+    public int MissingGradesCount { get; set; }
+
+    public int AttendanceNotCompletedCount { get; set; }
 }
 
 public class TeacherLessonSummary

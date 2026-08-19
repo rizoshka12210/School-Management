@@ -1186,4 +1186,22 @@
   <data name="Missed {0} — {1}" xml:space="preserve">
     <value>Missed {0} — {1}</value>
   </data>
+  <data name="Good morning" xml:space="preserve">
+    <value>Good morning</value>
+  </data>
+  <data name="Good afternoon" xml:space="preserve">
+    <value>Good afternoon</value>
+  </data>
+  <data name="Good evening" xml:space="preserve">
+    <value>Good evening</value>
+  </data>
+  <data name="Students Today" xml:space="preserve">
+    <value>Students Today</value>
+  </data>
+  <data name="Missing Grades" xml:space="preserve">
+    <value>Missing Grades</value>
+  </data>
+  <data name="Attendance Not Completed" xml:space="preserve">
+    <value>Attendance Not Completed</value>
+  </data>
 </root>

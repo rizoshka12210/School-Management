@@ -36,12 +36,20 @@ public class DashboardController : TeacherControllerBase
         var today = DateTime.UtcNow.Date;
         var tomorrow = today.AddDays(1);
 
-        var todayLessons = await Context.Lessons
+        var todayLessonsRaw = await Context.Lessons
             .Where(l =>
                 l.TeacherId == teacherId &&
                 l.StartTime >= today &&
                 l.StartTime < tomorrow)
+            .Include(l => l.Group)
+                .ThenInclude(g => g.Students)
+            .Include(l => l.Subject)
+            .Include(l => l.Attendances)
+            .Include(l => l.Grades)
             .OrderBy(l => l.StartTime)
+            .ToListAsync();
+
+        var todayLessons = todayLessonsRaw
             .Select(l => new TeacherLessonSummary
             {
                 LessonId = l.Id,
@@ -52,7 +60,20 @@ public class DashboardController : TeacherControllerBase
                 Topic = l.Topic,
                 AttendanceMarked = l.Attendances.Any()
             })
-            .ToListAsync();
+            .ToList();
+
+        var studentsTodayCount = todayLessonsRaw
+            .SelectMany(l => l.Group.Students)
+            .Select(s => s.Id)
+            .Distinct()
+            .Count();
+
+        var attendanceNotCompletedCount = todayLessonsRaw
+            .Count(l => !l.Attendances.Any());
+
+        var missingGradesCount = todayLessonsRaw
+            .Sum(l => l.Group.Students
+                .Count(s => !l.Grades.Any(g => g.StudentId == s.Id)));
 
         var groupsCount = await Context.Teachers
             .Where(t => t.Id == teacherId)
@@ -86,7 +107,10 @@ public class DashboardController : TeacherControllerBase
                 .Where(e => e.Date >= today)
                 .OrderBy(e => e.Date)
                 .Take(5)
-                .ToListAsync()
+                .ToListAsync(),
+            StudentsTodayCount = studentsTodayCount,
+            MissingGradesCount = missingGradesCount,
+            AttendanceNotCompletedCount = attendanceNotCompletedCount
         };
 
         return View(model);

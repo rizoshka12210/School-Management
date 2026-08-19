@@ -1183,4 +1183,22 @@
   <data name="Missed {0} — {1}" xml:space="preserve">
     <value>Пропущено: {0} — {1}</value>
   </data>
+  <data name="Good morning" xml:space="preserve">
+    <value>Доброе утро</value>
+  </data>
+  <data name="Good afternoon" xml:space="preserve">
+    <value>Добрый день</value>
+  </data>
+  <data name="Good evening" xml:space="preserve">
+    <value>Добрый вечер</value>
+  </data>
+  <data name="Students Today" xml:space="preserve">
+    <value>Учеников сегодня</value>
+  </data>
+  <data name="Missing Grades" xml:space="preserve">
+    <value>Не выставлено оценок</value>
+  </data>
+  <data name="Attendance Not Completed" xml:space="preserve">
+    <value>Посещаемость не отмечена</value>
+  </data>
 </root>

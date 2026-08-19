@@ -2,17 +2,22 @@
 
 @{
     ViewData["Title"] = Localizer["Teacher Dashboard"];
+
+    var hour = DateTime.Now.Hour;
+
+    var greetingKey = hour switch
+    {
+        < 12 => "Good morning",
+        < 18 => "Good afternoon",
+        _ => "Good evening"
+    };
 }
 
 <div class="teacher-dashboard-header">
 
     <div>
-        <div class="teacher-welcome-label">
-            @Localizer["Welcome back"]
-        </div>
-
         <h1 class="page-title">
-            @Model.TeacherName
+            @Localizer[greetingKey], @Model.TeacherName 👋
         </h1>
 
         <p class="page-subtitle">
@@ -135,6 +140,34 @@
         </div>
 
     </a>
+
+</div>
+
+<div class="teacher-today-stats">
+
+    <div class="teacher-info-stat">
+        <div class="teacher-info-stat-icon">ST</div>
+        <div>
+            <span>@Localizer["Students Today"]</span>
+            <strong>@Model.StudentsTodayCount</strong>
+        </div>
+    </div>
+
+    <div class="teacher-info-stat">
+        <div class="teacher-info-stat-icon subject-color">GD</div>
+        <div>
+            <span>@Localizer["Missing Grades"]</span>
+            <strong>@Model.MissingGradesCount</strong>
+        </div>
+    </div>
+
+    <div class="teacher-info-stat">
+        <div class="teacher-info-stat-icon lessons-color">AT</div>
+        <div>
+            <span>@Localizer["Attendance Not Completed"]</span>
+            <strong>@Model.AttendanceNotCompletedCount</strong>
+        </div>
+    </div>
 
 </div>
 
