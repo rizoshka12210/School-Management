@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
@@ -13,14 +15,17 @@ namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 public class AttendanceController : TeacherControllerBase
 {
     private readonly AttendanceService _attendanceService;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public AttendanceController(
         AppDbContext context,
         OwnershipHelper ownership,
-        AttendanceService attendanceService)
+        AttendanceService attendanceService,
+        IStringLocalizer<SharedResource> localizer)
         : base(context, ownership)
     {
         _attendanceService = attendanceService;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index()
@@ -188,8 +193,6 @@ public class AttendanceController : TeacherControllerBase
 
         foreach (var row in model.Students)
         {
-            // A student not in this lesson's group cannot receive
-            // attendance for it, even if the posted form was altered.
             if (!validStudentIds.Contains(row.StudentId))
             {
                 continue;
@@ -215,7 +218,7 @@ public class AttendanceController : TeacherControllerBase
 
         await Context.SaveChangesAsync();
 
-        TempData["Success"] = "Attendance saved.";
+        TempData["Success"] = _localizer["Attendance saved."];
 
         return RedirectToAction(
             nameof(Mark),

@@ -1,7 +1,7 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Lesson>
 
 @{
-    ViewData["Title"] = "Grades";
+    ViewData["Title"] = Localizer["Grades"];
 
     var totalLessons = Model.Count();
 
@@ -9,276 +9,112 @@
         l.Group.Students.Any() &&
         l.Grades.Count >= l.Group.Students.Count);
 
-    var withGrades = Model.Count(l =>
-        l.Grades.Any());
-
-    var totalGrades = Model.Sum(l =>
-        l.Grades.Count);
+    var withGrades = Model.Count(l => l.Grades.Any());
+    var totalGrades = Model.Sum(l => l.Grades.Count);
 }
 
 <div class="page-header">
-
     <div>
-
-        <h1 class="page-title">
-            Grades
-        </h1>
-
-        <p class="page-subtitle">
-            Enter and manage student grades for your lessons
-        </p>
-
+        <h1 class="page-title">@Localizer["Grades"]</h1>
+        <p class="page-subtitle">@Localizer["Enter and manage student grades for your lessons"]</p>
     </div>
-
-    <div class="teacher-count-label">
-        @totalLessons lesson(s)
-    </div>
-
+    <div class="teacher-count-label">@Localizer["{0} lesson(s)", totalLessons]</div>
 </div>
 
 <div class="teacher-grade-stats">
-
     <div class="teacher-grade-stat">
-
-        <div class="teacher-grade-stat-icon grade-stat-lessons">
-            LS
-        </div>
-
-        <div>
-
-            <span>
-                Lessons
-            </span>
-
-            <strong>
-                @totalLessons
-            </strong>
-
-        </div>
-
+        <div class="teacher-grade-stat-icon grade-stat-lessons">LS</div>
+        <div><span>@Localizer["Lessons"]</span><strong>@totalLessons</strong></div>
     </div>
-
     <div class="teacher-grade-stat">
-
-        <div class="teacher-grade-stat-icon grade-stat-records">
-            GD
-        </div>
-
-        <div>
-
-            <span>
-                Grades Entered
-            </span>
-
-            <strong>
-                @totalGrades
-            </strong>
-
-        </div>
-
+        <div class="teacher-grade-stat-icon grade-stat-records">GD</div>
+        <div><span>@Localizer["Grades Entered"]</span><strong>@totalGrades</strong></div>
     </div>
-
     <div class="teacher-grade-stat">
-
-        <div class="teacher-grade-stat-icon grade-stat-active">
-            ✓
-        </div>
-
-        <div>
-
-            <span>
-                Lessons With Grades
-            </span>
-
-            <strong>
-                @withGrades
-            </strong>
-
-        </div>
-
+        <div class="teacher-grade-stat-icon grade-stat-active">✓</div>
+        <div><span>@Localizer["Lessons With Grades"]</span><strong>@withGrades</strong></div>
     </div>
-
     <div class="teacher-grade-stat">
-
-        <div class="teacher-grade-stat-icon grade-stat-complete">
-            100
-        </div>
-
-        <div>
-
-            <span>
-                Completed
-            </span>
-
-            <strong>
-                @completed
-            </strong>
-
-        </div>
-
+        <div class="teacher-grade-stat-icon grade-stat-complete">100</div>
+        <div><span>@Localizer["Completed"]</span><strong>@completed</strong></div>
     </div>
-
 </div>
 
 <div class="card border-0 shadow-sm">
-
     <div class="card-body">
-
         <div class="section-header">
-
             <div>
-
-                <h5 class="section-title">
-                    My Lessons
-                </h5>
-
-                <p class="section-subtitle">
-                    Select a lesson to enter student grades
-                </p>
-
+                <h5 class="section-title">@Localizer["My Lessons"]</h5>
+                <p class="section-subtitle">@Localizer["Select a lesson to enter student grades"]</p>
             </div>
-
         </div>
 
         @if (!Model.Any())
         {
             <div class="teacher-empty">
-
-                <div class="teacher-empty-icon">
-                    GD
-                </div>
-
-                <h5>
-                    No lessons yet
-                </h5>
-
-                <p>
-                    Your lessons will appear here when they are scheduled.
-                </p>
-
+                <div class="teacher-empty-icon">GD</div>
+                <h5>@Localizer["No lessons yet"]</h5>
+                <p>@Localizer["Your lessons will appear here when they are scheduled."]</p>
             </div>
         }
         else
         {
             <div class="table-responsive">
-
                 <table class="table table-hover management-table">
-
                     <thead>
-
                         <tr>
-                            <th>Date</th>
-                            <th>Group</th>
-                            <th>Subject</th>
-                            <th>Students</th>
-                            <th>Grades Entered</th>
-                            <th class="text-end">
-                                Action
-                            </th>
+                            <th>@Localizer["Date"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Students"]</th>
+                            <th>@Localizer["Grades Entered"]</th>
+                            <th class="text-end">@Localizer["Action"]</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         @foreach (var lesson in Model)
                         {
-                            var entered =
-                                lesson.Grades.Count;
-
-                            var total =
-                                lesson.Group.Students.Count;
-
+                            var entered = lesson.Grades.Count;
+                            var total = lesson.Group.Students.Count;
                             <tr>
-
                                 <td>
-
-                                    <div class="record-date">
-                                        @lesson.StartTime.ToString("dd MMM yyyy")
-                                    </div>
-
-                                    <div class="record-time">
-                                        @lesson.StartTime.ToString("HH:mm")
-                                    </div>
-
+                                    <div class="record-date">@lesson.StartTime.ToString("dd MMM yyyy")</div>
+                                    <div class="record-time">@lesson.StartTime.ToString("HH:mm")</div>
                                 </td>
-
+                                <td><span class="group-badge">@lesson.Group.Name</span></td>
+                                <td><span class="subject-badge">@lesson.Subject.Name</span></td>
+                                <td><span class="teacher-student-count">@total</span></td>
                                 <td>
-
-                                    <span class="group-badge">
-                                        @lesson.Group.Name
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <span class="subject-badge">
-                                        @lesson.Subject.Name
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <span class="teacher-student-count">
-                                        @total
-                                    </span>
-
-                                </td>
-
-                                <td>
-
                                     @if (entered == 0)
                                     {
-                                        <span class="status-badge teacher-status-pending">
-                                            No grades
-                                        </span>
+                                        <span class="status-badge teacher-status-pending">@Localizer["No grades"]</span>
                                     }
                                     else if (entered < total)
                                     {
-                                        <span class="status-badge status-late">
-                                            @entered / @total
-                                        </span>
+                                        <span class="status-badge status-late">@entered / @total</span>
                                     }
                                     else
                                     {
-                                        <span class="status-badge status-present">
-                                            @entered / @total
-                                        </span>
+                                        <span class="status-badge status-present">@entered / @total</span>
                                     }
-
                                 </td>
-
                                 <td class="text-end">
-
-                                    <a asp-action="Add"
-                                       asp-route-lessonId="@lesson.Id"
-                                       class="action-btn teacher-grade-button">
-
+                                    <a asp-action="Add" asp-route-lessonId="@lesson.Id" class="action-btn teacher-grade-button">
                                         @if (entered == 0)
                                         {
-                                            <text>Enter Grades</text>
+                                            @Localizer["Enter Grades"]
                                         }
                                         else
                                         {
-                                            <text>Edit Grades</text>
+                                            @Localizer["Edit Grades"]
                                         }
-
                                     </a>
-
                                 </td>
-
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
         }
-
     </div>
-
 </div>

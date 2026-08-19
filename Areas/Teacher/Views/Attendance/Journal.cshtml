@@ -2,7 +2,7 @@
 @model SchoolManagementSystem.Web.ViewModels.Shared.AttendanceJournalViewModel
 
 @{
-    ViewData["Title"] = "Attendance Journal";
+    ViewData["Title"] = Localizer["Attendance Journal"];
 
     string StatusAbbr(AttendanceStatus? status) => status switch
     {
@@ -24,160 +24,89 @@
 }
 
 <div class="page-header">
-
     <div>
-        <h1 class="page-title">
-            Attendance Journal
-        </h1>
-
-        <p class="page-subtitle">
-            Your students &times; lesson dates, at a glance
-        </p>
+        <h1 class="page-title">@Localizer["Attendance Journal"]</h1>
+        <p class="page-subtitle">@Localizer["Your students × lesson dates, at a glance"]</p>
     </div>
 
-    <a asp-action="Index"
-       class="btn btn-light">
-        ← Lessons
-    </a>
-
+    <a asp-action="Index" class="btn btn-light">← @Localizer["Lessons"]</a>
 </div>
 
 <div class="card border-0 shadow-sm">
-
     <div class="card-body">
-
-        <form method="get"
-              asp-action="Journal"
-              class="journal-filters">
-
+        <form method="get" asp-action="Journal" class="journal-filters">
             <div>
-                <label class="form-label">Group</label>
-
-                <select name="groupId"
-                        class="form-select"
-                        required>
-
-                    <option value="">Select group</option>
-
+                <label class="form-label">@Localizer["Group"]</label>
+                <select name="groupId" class="form-select" required>
+                    <option value="">@Localizer["Select group"]</option>
                     @foreach (var group in ViewBag.Groups)
                     {
-                        if (ViewBag.GroupId != null &&
-                            (int)ViewBag.GroupId == group.Id)
+                        if (ViewBag.GroupId != null && (int)ViewBag.GroupId == group.Id)
                         {
-                            <option value="@group.Id" selected>
-                                @group.Name
-                            </option>
+                            <option value="@group.Id" selected>@group.Name</option>
                         }
                         else
                         {
-                            <option value="@group.Id">
-                                @group.Name
-                            </option>
+                            <option value="@group.Id">@group.Name</option>
                         }
                     }
-
                 </select>
             </div>
 
             <div>
-                <label class="form-label">Subject</label>
-
-                <select name="subjectId"
-                        class="form-select">
-
-                    <option value="">All subjects</option>
-
+                <label class="form-label">@Localizer["Subject"]</label>
+                <select name="subjectId" class="form-select">
+                    <option value="">@Localizer["All subjects"]</option>
                     @foreach (var subject in ViewBag.Subjects)
                     {
-                        if (ViewBag.SubjectId != null &&
-                            (int)ViewBag.SubjectId == subject.Id)
+                        if (ViewBag.SubjectId != null && (int)ViewBag.SubjectId == subject.Id)
                         {
-                            <option value="@subject.Id" selected>
-                                @subject.Name
-                            </option>
+                            <option value="@subject.Id" selected>@subject.Name</option>
                         }
                         else
                         {
-                            <option value="@subject.Id">
-                                @subject.Name
-                            </option>
+                            <option value="@subject.Id">@subject.Name</option>
                         }
                     }
-
                 </select>
             </div>
 
             <div>
-                <label class="form-label">From</label>
-
-                <input type="date"
-                       name="from"
-                       value="@(Model?.From.ToString("yyyy-MM-dd"))"
-                       class="form-control" />
+                <label class="form-label">@Localizer["From"]</label>
+                <input type="date" name="from" value="@(Model?.From.ToString("yyyy-MM-dd"))" class="form-control" />
             </div>
 
             <div>
-                <label class="form-label">To</label>
-
-                <input type="date"
-                       name="to"
-                       value="@(Model?.To.AddDays(-1).ToString("yyyy-MM-dd"))"
-                       class="form-control" />
+                <label class="form-label">@Localizer["To"]</label>
+                <input type="date" name="to" value="@(Model?.To.AddDays(-1).ToString("yyyy-MM-dd"))" class="form-control" />
             </div>
 
-            <button type="submit"
-                    class="btn btn-primary">
-                Show
-            </button>
-
+            <button type="submit" class="btn btn-primary">@Localizer["Show"]</button>
         </form>
 
         @if (Model == null)
         {
             <div class="management-empty">
-
-                <div class="management-empty-icon">
-                    AT
-                </div>
-
-                <h5>
-                    Select a group
-                </h5>
-
-                <p>
-                    Choose one of your groups above to view its attendance journal.
-                </p>
-
+                <div class="management-empty-icon">AT</div>
+                <h5>@Localizer["Select a group"]</h5>
+                <p>@Localizer["Choose one of your groups above to view its attendance journal."]</p>
             </div>
         }
         else if (!Model.Columns.Any())
         {
             <div class="management-empty">
-
-                <div class="management-empty-icon">
-                    AT
-                </div>
-
-                <h5>
-                    No lessons in this range
-                </h5>
-
-                <p>
-                    There are no lessons for @Model.GroupName in the selected date range.
-                </p>
-
+                <div class="management-empty-icon">AT</div>
+                <h5>@Localizer["No lessons in this range"]</h5>
+                <p>@Localizer["There are no lessons for {0} in the selected date range.", Model.GroupName]</p>
             </div>
         }
         else
         {
             <div class="table-responsive journal-table-wrap">
-
                 <table class="table table-hover management-table journal-table">
-
                     <thead>
                         <tr>
-                            <th class="journal-sticky-col">Student</th>
-
+                            <th class="journal-sticky-col">@Localizer["Student"]</th>
                             @foreach (var col in Model.Columns)
                             {
                                 <th class="journal-date-col"
@@ -185,54 +114,33 @@
                                     @col.Date.ToString("dd MMM")
                                 </th>
                             }
-
-                            <th>Rate</th>
+                            <th>@Localizer["Rate"]</th>
                         </tr>
                     </thead>
-
                     <tbody>
-
                         @foreach (var row in Model.Rows)
                         {
                             <tr>
-
-                                <td class="journal-sticky-col">
-                                    @row.StudentName
-                                </td>
-
+                                <td class="journal-sticky-col">@row.StudentName</td>
                                 @for (var i = 0; i < row.Cells.Count; i++)
                                 {
                                     var cell = row.Cells[i];
                                     var lessonId = Model.Columns[i].LessonId;
-
                                     <td class="journal-cell">
-
                                         <a asp-action="Mark"
                                            asp-route-lessonId="@lessonId"
                                            class="status-badge journal-status-badge @StatusClass(cell.Status)"
-                                           title="Mark">
+                                           title="@Localizer["Mark"]">
                                             @StatusAbbr(cell.Status)
                                         </a>
-
                                     </td>
                                 }
-
-                                <td>
-                                    @row.AttendanceRate.ToString(
-                                        "0.#",
-                                        System.Globalization.CultureInfo.InvariantCulture)%
-                                </td>
-
+                                <td>@row.AttendanceRate.ToString("0.#", System.Globalization.CultureInfo.InvariantCulture)%</td>
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
         }
-
     </div>
-
 </div>

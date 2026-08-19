@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Services;
@@ -10,14 +12,17 @@ namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 public class TopicsController : TeacherControllerBase
 {
     private readonly TopicCalendarService _topicCalendarService;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public TopicsController(
         AppDbContext context,
         OwnershipHelper ownership,
-        TopicCalendarService topicCalendarService)
+        TopicCalendarService topicCalendarService,
+        IStringLocalizer<SharedResource> localizer)
         : base(context, ownership)
     {
         _topicCalendarService = topicCalendarService;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index()
@@ -105,7 +110,7 @@ public class TopicsController : TeacherControllerBase
 
         await Context.SaveChangesAsync();
 
-        TempData["Success"] = "Topic saved.";
+        TempData["Success"] = _localizer["Topic saved."];
 
         return RedirectToAction(nameof(Index));
     }

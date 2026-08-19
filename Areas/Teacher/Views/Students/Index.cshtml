@@ -1,7 +1,7 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Student>
 
 @{
-    ViewData["Title"] = "My Students";
+    ViewData["Title"] = Localizer["My Students"];
 
     var students = Model.ToList();
 
@@ -13,173 +13,78 @@
 }
 
 <div class="page-header">
-
     <div>
-
-        <h1 class="page-title">
-            My Students
-        </h1>
-
-        <p class="page-subtitle">
-            Students from your assigned groups
-        </p>
-
+        <h1 class="page-title">@Localizer["My Students"]</h1>
+        <p class="page-subtitle">@Localizer["Students from your assigned groups"]</p>
     </div>
-
-    <div class="teacher-count-label">
-        @students.Count student(s)
-    </div>
-
+    <div class="teacher-count-label">@Localizer["{0} student(s)", students.Count]</div>
 </div>
 
 @if (!students.Any())
 {
     <div class="card border-0 shadow-sm">
-
         <div class="teacher-empty">
-
-            <div class="teacher-empty-icon">
-                ST
-            </div>
-
-            <h5>
-                No students
-            </h5>
-
-            <p>
-                Students will appear here when you are assigned to a group.
-            </p>
-
+            <div class="teacher-empty-icon">ST</div>
+            <h5>@Localizer["No students"]</h5>
+            <p>@Localizer["Students will appear here when you are assigned to a group."]</p>
         </div>
-
     </div>
 }
 else
 {
     <div class="card border-0 shadow-sm">
-
         <div class="card-body">
-
             <div class="teacher-student-summary">
-
-                <div>
-
-                    <span>
-                        Total Students
-                    </span>
-
-                    <strong>
-                        @students.Count
-                    </strong>
-
-                </div>
-
-                <div>
-
-                    <span>
-                        Groups
-                    </span>
-
-                    <strong>
-                        @groupsCount
-                    </strong>
-
-                </div>
-
+                <div><span>@Localizer["Total Students"]</span><strong>@students.Count</strong></div>
+                <div><span>@Localizer["Groups"]</span><strong>@groupsCount</strong></div>
             </div>
 
             <div class="table-responsive">
-
                 <table class="table table-hover management-table">
-
                     <thead>
-
                         <tr>
-                            <th>Student</th>
-                            <th>Group</th>
-                            <th>Date of Birth</th>
-                            <th class="text-end">
-                                Action
-                            </th>
+                            <th>@Localizer["Student"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Date of Birth"]</th>
+                            <th class="text-end">@Localizer["Action"]</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         @foreach (var student in students)
                         {
                             <tr>
-
                                 <td>
-
                                     <div class="person-cell">
-
                                         <div class="person-avatar">
-
                                             @(string.IsNullOrWhiteSpace(student.FirstName)
                                                 ? "S"
                                                 : student.FirstName.Substring(0, 1).ToUpper())
-
                                         </div>
-
                                         <div>
-
-                                            <div class="person-name">
-                                                @student.FirstName @student.LastName
-                                            </div>
-
-                                            <div class="person-id">
-                                                Student #@student.Id
-                                            </div>
-
+                                            <div class="person-name">@student.FirstName @student.LastName</div>
+                                            <div class="person-id">@Localizer["Student #{0}", student.Id]</div>
                                         </div>
-
                                     </div>
-
                                 </td>
-
                                 <td>
-
                                     @if (student.Group != null)
                                     {
-                                        <span class="group-badge">
-                                            @student.Group.Name
-                                        </span>
+                                        <span class="group-badge">@student.Group.Name</span>
                                     }
                                     else
                                     {
-                                        <span class="text-muted">
-                                            No group
-                                        </span>
+                                        <span class="text-muted">@Localizer["No group"]</span>
                                     }
-
                                 </td>
-
-                                <td>
-                                    @student.DateOfBirth.ToString("dd MMM yyyy")
-                                </td>
-
+                                <td>@student.DateOfBirth.ToString("dd MMM yyyy")</td>
                                 <td class="text-end">
-
-                                    <a asp-action="Details"
-                                       asp-route-id="@student.Id"
-                                       class="action-btn action-details">
-                                        View Profile
-                                    </a>
-
+                                    <a asp-action="Details" asp-route-id="@student.Id" class="action-btn action-details">@Localizer["View Profile"]</a>
                                 </td>
-
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </div>
-
     </div>
 }

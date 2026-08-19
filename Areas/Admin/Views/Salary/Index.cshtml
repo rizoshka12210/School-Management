@@ -1,7 +1,7 @@
 @model List<SchoolManagementSystem.Web.Services.TeacherSalarySummary>
 
 @{
-    ViewData["Title"] = "Salary";
+    ViewData["Title"] = Localizer["Salary"];
 
     int year = ViewBag.Year;
     int month = ViewBag.Month;
@@ -22,14 +22,9 @@
         "December"
     };
 
-    var totalSalary =
-        Model.Sum(x => x.TotalSalary);
-
-    var totalHours =
-        Model.Sum(x => x.WorkedHours);
-
-    var totalLessons =
-        Model.Sum(x => x.LessonsCount);
+    var totalSalary = Model.Sum(x => x.TotalSalary);
+    var totalHours = Model.Sum(x => x.WorkedHours);
+    var totalLessons = Model.Sum(x => x.LessonsCount);
 }
 
 <div class="page-header">
@@ -37,17 +32,17 @@
     <div>
 
         <h1 class="page-title">
-            Teacher Salary
+            @Localizer["Teacher Salary"]
         </h1>
 
         <p class="page-subtitle">
-            Monthly teacher salary calculation based on worked hours
+            @Localizer["Monthly teacher salary calculation based on worked hours"]
         </p>
 
     </div>
 
     <div class="readonly-badge">
-        Read only
+        @Localizer["Read only"]
     </div>
 
 </div>
@@ -57,11 +52,11 @@
     <div>
 
         <div class="salary-period-label">
-            Selected period
+            @Localizer["Selected period"]
         </div>
 
         <div class="salary-period-value">
-            @monthNames[month - 1] @year
+            @Localizer[monthNames[month - 1]] @year
         </div>
 
     </div>
@@ -78,13 +73,13 @@
                 if (i == month)
                 {
                     <option value="@i" selected>
-                        @monthNames[i - 1]
+                        @Localizer[monthNames[i - 1]]
                     </option>
                 }
                 else
                 {
                     <option value="@i">
-                        @monthNames[i - 1]
+                        @Localizer[monthNames[i - 1]]
                     </option>
                 }
             }
@@ -116,7 +111,7 @@
 
         <button type="submit"
                 class="btn btn-primary">
-            Apply
+            @Localizer["Apply"]
         </button>
 
     </form>
@@ -128,7 +123,7 @@
     <div class="salary-stat">
 
         <div class="salary-stat-label">
-            Teachers
+            @Localizer["Teachers"]
         </div>
 
         <div class="salary-stat-value">
@@ -140,7 +135,7 @@
     <div class="salary-stat">
 
         <div class="salary-stat-label">
-            Lessons
+            @Localizer["Lessons"]
         </div>
 
         <div class="salary-stat-value">
@@ -152,7 +147,7 @@
     <div class="salary-stat">
 
         <div class="salary-stat-label">
-            Worked Hours
+            @Localizer["Worked Hours"]
         </div>
 
         <div class="salary-stat-value">
@@ -164,7 +159,7 @@
     <div class="salary-stat salary-total-card">
 
         <div class="salary-stat-label">
-            Total Salary
+            @Localizer["Total Salary"]
         </div>
 
         <div class="salary-stat-value">
@@ -184,11 +179,11 @@
             <div>
 
                 <h5 class="section-title">
-                    Salary Details
+                    @Localizer["Salary Details"]
                 </h5>
 
                 <p class="section-subtitle">
-                    @monthNames[month - 1] @year
+                    @Localizer[monthNames[month - 1]] @year
                 </p>
 
             </div>
@@ -204,11 +199,11 @@
                 </div>
 
                 <h5>
-                    No salary data
+                    @Localizer["No salary data"]
                 </h5>
 
                 <p>
-                    No teacher salary information is available for this period.
+                    @Localizer["No teacher salary information is available for this period."]
                 </p>
 
             </div>
@@ -221,12 +216,12 @@
 
                     <thead>
                         <tr>
-                            <th>Teacher</th>
-                            <th>Lessons</th>
-                            <th>Worked Hours</th>
-                            <th>Hourly Rate</th>
+                            <th>@Localizer["Teacher"]</th>
+                            <th>@Localizer["Lessons"]</th>
+                            <th>@Localizer["Worked Hours"]</th>
+                            <th>@Localizer["Hourly Rate"]</th>
                             <th class="text-end">
-                                Total Salary
+                                @Localizer["Total Salary"]
                             </th>
                         </tr>
                     </thead>
@@ -259,7 +254,7 @@
                                             </div>
 
                                             <div class="person-id">
-                                                Teacher
+                                                @Localizer["Teacher"]
                                             </div>
 
                                         </div>
@@ -283,7 +278,7 @@
                                     </strong>
 
                                     <span class="text-muted small">
-                                        hours
+                                        @Localizer["hours"]
                                     </span>
 
                                 </td>
@@ -313,7 +308,7 @@
 
                             <td>
                                 <strong>
-                                    Total
+                                    @Localizer["Total"]
                                 </strong>
                             </td>
 
