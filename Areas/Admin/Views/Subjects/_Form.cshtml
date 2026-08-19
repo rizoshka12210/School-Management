@@ -11,11 +11,11 @@
         <div class="form-card-header">
 
             <h5>
-                Subject Information
+                @Localizer["Subject Information"]
             </h5>
 
             <p>
-                Enter the subject name
+                @Localizer["Enter the subject name"]
             </p>
 
         </div>
@@ -24,12 +24,12 @@
 
             <label asp-for="Name"
                    class="form-label">
-                Subject Name
+                @Localizer["Subject Name"]
             </label>
 
             <input asp-for="Name"
                    class="form-control"
-                   placeholder="Example: Mathematics" />
+                   placeholder="@Localizer["Example: Mathematics"]" />
 
             <span asp-validation-for="Name"
                   class="text-danger small">
@@ -44,11 +44,11 @@
         <div class="form-card-header">
 
             <h5>
-                Teachers
+                @Localizer["Teachers"]
             </h5>
 
             <p>
-                Select teachers who teach this subject
+                @Localizer["Select teachers who teach this subject"]
             </p>
 
         </div>

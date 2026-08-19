@@ -715,4 +715,55 @@
   <data name="Teacher Information" xml:space="preserve">
     <value>Teacher Information</value>
   </data>
+  <data name="Add Subject" xml:space="preserve">
+    <value>Add Subject</value>
+  </data>
+  <data name="Create a subject and assign teachers" xml:space="preserve">
+    <value>Create a subject and assign teachers</value>
+  </data>
+  <data name="Create a subject to get started." xml:space="preserve">
+    <value>Create a subject to get started.</value>
+  </data>
+  <data name="Create Subject" xml:space="preserve">
+    <value>Create Subject</value>
+  </data>
+  <data name="Delete Subject" xml:space="preserve">
+    <value>Delete Subject</value>
+  </data>
+  <data name="Edit Subject" xml:space="preserve">
+    <value>Edit Subject</value>
+  </data>
+  <data name="Enter the subject name" xml:space="preserve">
+    <value>Enter the subject name</value>
+  </data>
+  <data name="Example: Mathematics" xml:space="preserve">
+    <value>Example: Mathematics</value>
+  </data>
+  <data name="Manage school subjects and assigned teachers" xml:space="preserve">
+    <value>Manage school subjects and assigned teachers</value>
+  </data>
+  <data name="No subjects found" xml:space="preserve">
+    <value>No subjects found</value>
+  </data>
+  <data name="Schedule entries" xml:space="preserve">
+    <value>Schedule entries</value>
+  </data>
+  <data name="Search subject..." xml:space="preserve">
+    <value>Search subject...</value>
+  </data>
+  <data name="Select teachers who teach this subject" xml:space="preserve">
+    <value>Select teachers who teach this subject</value>
+  </data>
+  <data name="Subject Details" xml:space="preserve">
+    <value>Subject Details</value>
+  </data>
+  <data name="Subject Information" xml:space="preserve">
+    <value>Subject Information</value>
+  </data>
+  <data name="Subject Name" xml:space="preserve">
+    <value>Subject Name</value>
+  </data>
+  <data name="Update subject information and assigned teachers" xml:space="preserve">
+    <value>Update subject information and assigned teachers</value>
+  </data>
 </root>

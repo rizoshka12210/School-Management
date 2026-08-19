@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Models.Entities.Subject
 
 @{
-    ViewData["Title"] = "Subject Details";
+    ViewData["Title"] = Localizer["Subject Details"];
 }
 
 <div class="container mt-4">
@@ -21,7 +21,7 @@
                     <hr />
 
                     <h5>
-                        Teachers
+                        @Localizer["Teachers"]
                     </h5>
 
                     @if (Model.Teachers.Any())
@@ -42,31 +42,31 @@
                     else
                     {
                         <p class="text-muted">
-                            No teachers assigned.
+                            @Localizer["No teachers assigned."]
                         </p>
                     }
 
                     <hr />
 
                     <p>
-                        <strong>Lessons:</strong>
+                        <strong>@Localizer["Lessons"]:</strong>
                         @Model.Lessons.Count
                     </p>
 
                     <p>
-                        <strong>Schedule entries:</strong>
+                        <strong>@Localizer["Schedule entries"]:</strong>
                         @Model.Schedules.Count
                     </p>
 
                     <a asp-action="Edit"
                        asp-route-id="@Model.Id"
                        class="btn btn-primary">
-                        Edit
+                        @Localizer["Edit"]
                     </a>
 
                     <a asp-action="Index"
                        class="btn btn-outline-secondary">
-                        Back
+                        @Localizer["Back"]
                     </a>
 
                 </div>
