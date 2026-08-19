@@ -14,11 +14,11 @@
         <div class="form-card-header">
 
             <h5>
-                Teacher Information
+                @Localizer["Teacher Information"]
             </h5>
 
             <p>
-                Account and salary information
+                @Localizer["Account and salary information"]
             </p>
 
         </div>
@@ -32,12 +32,12 @@
 
                     <label asp-for="FullName"
                            class="form-label">
-                        Full Name
+                        @Localizer["Full Name"]
                     </label>
 
                     <input asp-for="FullName"
                            class="form-control"
-                           placeholder="Example: John Smith" />
+                           placeholder="@Localizer["Example: John Smith"]" />
 
                     <span asp-validation-for="FullName"
                           class="text-danger small">
@@ -50,7 +50,7 @@
 
                     <label asp-for="Email"
                            class="form-label">
-                        Email
+                        @Localizer["Email"]
                     </label>
 
                     <input asp-for="Email"
@@ -69,7 +69,7 @@
 
                     <label asp-for="HourlyRate"
                            class="form-label">
-                        Hourly Rate
+                        @Localizer["Hourly Rate"]
                     </label>
 
                     <input asp-for="HourlyRate"
@@ -91,12 +91,12 @@
                     <label asp-for="Password"
                            class="form-label">
 
-                        Password
+                        @Localizer["Password"]
 
                         @if (Model.Id != 0)
                         {
                             <span class="text-muted fw-normal">
-                                (optional)
+                                (@Localizer["optional"])
                             </span>
                         }
 
@@ -105,7 +105,7 @@
                     <input asp-for="Password"
                            type="password"
                            class="form-control"
-                           placeholder="Enter password" />
+                           placeholder="@Localizer["Enter password"]" />
 
                     <span asp-validation-for="Password"
                           class="text-danger small">
@@ -115,7 +115,7 @@
                     @if (Model.Id != 0)
                     {
                         <div class="form-hint">
-                            Leave empty to keep the current password.
+                            @Localizer["Leave empty to keep the current password."]
                         </div>
                     }
 
@@ -135,11 +135,11 @@
         <div class="form-card-header">
 
             <h5>
-                Groups
+                @Localizer["Groups"]
             </h5>
 
             <p>
-                Select groups assigned to this teacher
+                @Localizer["Select groups assigned to this teacher"]
             </p>
 
         </div>
@@ -173,7 +173,7 @@
                             </strong>
 
                             <span>
-                                School group
+                                @Localizer["School group"]
                             </span>
 
                         </div>
@@ -195,11 +195,11 @@
         <div class="form-card-header">
 
             <h5>
-                Subjects
+                @Localizer["Subjects"]
             </h5>
 
             <p>
-                Select subjects taught by this teacher
+                @Localizer["Select subjects taught by this teacher"]
             </p>
 
         </div>
@@ -234,7 +234,7 @@
                             </strong>
 
                             <span>
-                                Subject
+                                @Localizer["Subject"]
                             </span>
 
                         </div>

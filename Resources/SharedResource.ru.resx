@@ -646,4 +646,73 @@
   <data name="Select students connected to this parent" xml:space="preserve">
     <value>Выберите учеников, связанных с этим родителем</value>
   </data>
+  <data name="Manage teachers, subjects and assigned groups" xml:space="preserve">
+    <value>Управление учителями, предметами и назначенными группами</value>
+  </data>
+  <data name="Search teacher or email..." xml:space="preserve">
+    <value>Поиск учителя или email...</value>
+  </data>
+  <data name="No teachers found" xml:space="preserve">
+    <value>Учителя не найдены</value>
+  </data>
+  <data name="No teachers match your search." xml:space="preserve">
+    <value>Нет учителей, соответствующих запросу.</value>
+  </data>
+  <data name="Hourly Rate" xml:space="preserve">
+    <value>Почасовая ставка</value>
+  </data>
+  <data name="hour" xml:space="preserve">
+    <value>час</value>
+  </data>
+  <data name="No subjects" xml:space="preserve">
+    <value>Нет предметов</value>
+  </data>
+  <data name="Showing {0} teacher(s)" xml:space="preserve">
+    <value>Показано учителей: {0}</value>
+  </data>
+  <data name="Create a teacher account and assign groups and subjects" xml:space="preserve">
+    <value>Создайте аккаунт учителя и назначьте группы и предметы</value>
+  </data>
+  <data name="Create Teacher" xml:space="preserve">
+    <value>Создать учителя</value>
+  </data>
+  <data name="Update teacher information, groups and subjects" xml:space="preserve">
+    <value>Обновите информацию об учителе, группах и предметах</value>
+  </data>
+  <data name="Delete Teacher" xml:space="preserve">
+    <value>Удалить учителя</value>
+  </data>
+  <data name="The Teacher login account will also be deleted." xml:space="preserve">
+    <value>Учётная запись учителя также будет удалена.</value>
+  </data>
+  <data name="Teacher Details" xml:space="preserve">
+    <value>Информация об учителе</value>
+  </data>
+  <data name="No groups assigned." xml:space="preserve">
+    <value>Группы не назначены.</value>
+  </data>
+  <data name="No subjects assigned." xml:space="preserve">
+    <value>Предметы не назначены.</value>
+  </data>
+  <data name="Account and salary information" xml:space="preserve">
+    <value>Информация об аккаунте и зарплате</value>
+  </data>
+  <data name="Example: John Smith" xml:space="preserve">
+    <value>Например: Иван Петров</value>
+  </data>
+  <data name="School group" xml:space="preserve">
+    <value>Школьная группа</value>
+  </data>
+  <data name="Edit Teacher" xml:space="preserve">
+    <value>Редактировать учителя</value>
+  </data>
+  <data name="Select groups assigned to this teacher" xml:space="preserve">
+    <value>Выберите группы, назначенные этому учителю</value>
+  </data>
+  <data name="Select subjects taught by this teacher" xml:space="preserve">
+    <value>Выберите предметы, которые преподаёт этот учитель</value>
+  </data>
+  <data name="Teacher Information" xml:space="preserve">
+    <value>Информация об учителе</value>
+  </data>
 </root>

@@ -1,22 +1,22 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.TeacherFormViewModel
 
 @{
-    ViewData["Title"] = "Add Teacher";
+    ViewData["Title"] = Localizer["Add Teacher"];
 }
 
 <div class="form-page-header">
 
     <a asp-action="Index"
        class="back-link">
-        ← Teachers
+        ← @Localizer["Teachers"]
     </a>
 
     <h1 class="page-title mt-2">
-        Add Teacher
+        @Localizer["Add Teacher"]
     </h1>
 
     <p class="page-subtitle">
-        Create a teacher account and assign groups and subjects
+        @Localizer["Create a teacher account and assign groups and subjects"]
     </p>
 
 </div>
@@ -35,12 +35,12 @@
 
         <a asp-action="Index"
            class="btn btn-light">
-            Cancel
+            @Localizer["Cancel"]
         </a>
 
         <button type="submit"
                 class="btn btn-primary">
-            Create Teacher
+            @Localizer["Create Teacher"]
         </button>
 
     </div>

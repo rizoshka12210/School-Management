@@ -646,4 +646,73 @@
   <data name="Select students connected to this parent" xml:space="preserve">
     <value>Select students connected to this parent</value>
   </data>
+  <data name="Manage teachers, subjects and assigned groups" xml:space="preserve">
+    <value>Manage teachers, subjects and assigned groups</value>
+  </data>
+  <data name="Search teacher or email..." xml:space="preserve">
+    <value>Search teacher or email...</value>
+  </data>
+  <data name="No teachers found" xml:space="preserve">
+    <value>No teachers found</value>
+  </data>
+  <data name="No teachers match your search." xml:space="preserve">
+    <value>No teachers match your search.</value>
+  </data>
+  <data name="Hourly Rate" xml:space="preserve">
+    <value>Hourly Rate</value>
+  </data>
+  <data name="hour" xml:space="preserve">
+    <value>hour</value>
+  </data>
+  <data name="No subjects" xml:space="preserve">
+    <value>No subjects</value>
+  </data>
+  <data name="Showing {0} teacher(s)" xml:space="preserve">
+    <value>Showing {0} teacher(s)</value>
+  </data>
+  <data name="Create a teacher account and assign groups and subjects" xml:space="preserve">
+    <value>Create a teacher account and assign groups and subjects</value>
+  </data>
+  <data name="Create Teacher" xml:space="preserve">
+    <value>Create Teacher</value>
+  </data>
+  <data name="Update teacher information, groups and subjects" xml:space="preserve">
+    <value>Update teacher information, groups and subjects</value>
+  </data>
+  <data name="Delete Teacher" xml:space="preserve">
+    <value>Delete Teacher</value>
+  </data>
+  <data name="The Teacher login account will also be deleted." xml:space="preserve">
+    <value>The Teacher login account will also be deleted.</value>
+  </data>
+  <data name="Teacher Details" xml:space="preserve">
+    <value>Teacher Details</value>
+  </data>
+  <data name="No groups assigned." xml:space="preserve">
+    <value>No groups assigned.</value>
+  </data>
+  <data name="No subjects assigned." xml:space="preserve">
+    <value>No subjects assigned.</value>
+  </data>
+  <data name="Account and salary information" xml:space="preserve">
+    <value>Account and salary information</value>
+  </data>
+  <data name="Example: John Smith" xml:space="preserve">
+    <value>Example: John Smith</value>
+  </data>
+  <data name="School group" xml:space="preserve">
+    <value>School group</value>
+  </data>
+  <data name="Edit Teacher" xml:space="preserve">
+    <value>Edit Teacher</value>
+  </data>
+  <data name="Select groups assigned to this teacher" xml:space="preserve">
+    <value>Select groups assigned to this teacher</value>
+  </data>
+  <data name="Select subjects taught by this teacher" xml:space="preserve">
+    <value>Select subjects taught by this teacher</value>
+  </data>
+  <data name="Teacher Information" xml:space="preserve">
+    <value>Teacher Information</value>
+  </data>
 </root>
