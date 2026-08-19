@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Services.TeacherSalarySummary
 
 @{
-    ViewData["Title"] = "My Salary";
+    ViewData["Title"] = Localizer["My Salary"];
 
     string[] monthNames =
     {
@@ -21,254 +21,116 @@
 }
 
 <div class="page-header">
-
     <div>
-
-        <h1 class="page-title">
-            My Salary
-        </h1>
-
-        <p class="page-subtitle">
-            View your monthly salary based on conducted lessons
-        </p>
-
+        <h1 class="page-title">@Localizer["My Salary"]</h1>
+        <p class="page-subtitle">@Localizer["View your monthly salary based on conducted lessons"]</p>
     </div>
-
 </div>
 
 <div class="teacher-salary-filter-card">
-
     <div>
-
-        <div class="teacher-salary-period-label">
-            Selected period
-        </div>
-
-        <div class="teacher-salary-period">
-            @monthNames[Model.Month - 1] @Model.Year
-        </div>
-
+        <div class="teacher-salary-period-label">@Localizer["Selected period"]</div>
+        <div class="teacher-salary-period">@Localizer[monthNames[Model.Month - 1]] @Model.Year</div>
     </div>
 
-    <form method="get"
-          asp-action="Index"
-          class="teacher-salary-filter">
-
+    <form method="get" asp-action="Index" class="teacher-salary-filter">
         <div>
-
-            <label>
-                Month
-            </label>
-
-            <select name="month"
-                    class="form-select">
-
+            <label>@Localizer["Month"]</label>
+            <select name="month" class="form-select">
                 @for (var i = 1; i <= 12; i++)
                 {
                     if (i == Model.Month)
                     {
-                        <option value="@i" selected>
-                            @monthNames[i - 1]
-                        </option>
+                        <option value="@i" selected>@Localizer[monthNames[i - 1]]</option>
                     }
                     else
                     {
-                        <option value="@i">
-                            @monthNames[i - 1]
-                        </option>
+                        <option value="@i">@Localizer[monthNames[i - 1]]</option>
                     }
                 }
-
             </select>
-
         </div>
 
         <div>
-
-            <label>
-                Year
-            </label>
-
-            <select name="year"
-                    class="form-select">
-
-                @for (var y = DateTime.UtcNow.Year - 3;
-                    y <= DateTime.UtcNow.Year + 1;
-                    y++)
+            <label>@Localizer["Year"]</label>
+            <select name="year" class="form-select">
+                @for (var y = DateTime.UtcNow.Year - 3; y <= DateTime.UtcNow.Year + 1; y++)
                 {
                     if (y == Model.Year)
                     {
-                        <option value="@y" selected>
-                            @y
-                        </option>
+                        <option value="@y" selected>@y</option>
                     }
                     else
                     {
-                        <option value="@y">
-                            @y
-                        </option>
+                        <option value="@y">@y</option>
                     }
                 }
-
             </select>
-
         </div>
 
-        <button type="submit"
-                class="btn btn-primary">
-            View
-        </button>
-
+        <button type="submit" class="btn btn-primary">@Localizer["View"]</button>
     </form>
-
 </div>
 
 <div class="teacher-salary-grid">
-
     <div class="teacher-salary-card">
-
-        <div class="teacher-salary-icon salary-lessons-icon">
-            LS
-        </div>
-
+        <div class="teacher-salary-icon salary-lessons-icon">LS</div>
         <div>
-
-            <span>
-                Lessons Conducted
-            </span>
-
-            <strong>
-                @Model.LessonsCount
-            </strong>
-
-            <small>
-                This month
-            </small>
-
+            <span>@Localizer["Lessons Conducted"]</span>
+            <strong>@Model.LessonsCount</strong>
+            <small>@Localizer["This month"]</small>
         </div>
-
     </div>
 
     <div class="teacher-salary-card">
-
-        <div class="teacher-salary-icon salary-hours-icon">
-            HR
-        </div>
-
+        <div class="teacher-salary-icon salary-hours-icon">HR</div>
         <div>
-
-            <span>
-                Worked Hours
-            </span>
-
-            <strong>
-                @Model.WorkedHours.ToString("0.##")
-            </strong>
-
-            <small>
-                Total hours
-            </small>
-
+            <span>@Localizer["Worked Hours"]</span>
+            <strong>@Model.WorkedHours.ToString("0.##")</strong>
+            <small>@Localizer["Total hours"]</small>
         </div>
-
     </div>
 
     <div class="teacher-salary-card">
-
-        <div class="teacher-salary-icon salary-rate-icon">
-            RT
-        </div>
-
+        <div class="teacher-salary-icon salary-rate-icon">RT</div>
         <div>
-
-            <span>
-                Hourly Rate
-            </span>
-
-            <strong>
-                @Model.HourlyRate.ToString("0.00")
-            </strong>
-
-            <small>
-                Per hour
-            </small>
-
+            <span>@Localizer["Hourly Rate"]</span>
+            <strong>@Model.HourlyRate.ToString("0.00")</strong>
+            <small>@Localizer["Per hour"]</small>
         </div>
-
     </div>
 
     <div class="teacher-salary-card teacher-salary-total-card">
-
-        <div class="teacher-salary-icon salary-total-icon">
-            SA
-        </div>
-
+        <div class="teacher-salary-icon salary-total-icon">SA</div>
         <div>
-
-            <span>
-                Total Salary
-            </span>
-
-            <strong>
-                @Model.TotalSalary.ToString("0.00")
-            </strong>
-
-            <small>
-                @monthNames[Model.Month - 1] @Model.Year
-            </small>
-
+            <span>@Localizer["Total Salary"]</span>
+            <strong>@Model.TotalSalary.ToString("0.00")</strong>
+            <small>@Localizer[monthNames[Model.Month - 1]] @Model.Year</small>
         </div>
-
     </div>
-
 </div>
 
 <div class="teacher-salary-calculation">
-
-    <div class="teacher-salary-calculation-title">
-        Salary Calculation
-    </div>
+    <div class="teacher-salary-calculation-title">@Localizer["Salary Calculation"]</div>
 
     <div class="teacher-salary-formula">
+        <div class="teacher-formula-item">
+            <span>@Localizer["Worked Hours"]</span>
+            <strong>@Model.WorkedHours.ToString("0.##")</strong>
+        </div>
+
+        <div class="teacher-formula-symbol">×</div>
 
         <div class="teacher-formula-item">
-
-            <span>Worked Hours</span>
-
-            <strong>
-                @Model.WorkedHours.ToString("0.##")
-            </strong>
-
+            <span>@Localizer["Hourly Rate"]</span>
+            <strong>@Model.HourlyRate.ToString("0.00")</strong>
         </div>
 
-        <div class="teacher-formula-symbol">
-            ×
-        </div>
-
-        <div class="teacher-formula-item">
-
-            <span>Hourly Rate</span>
-
-            <strong>
-                @Model.HourlyRate.ToString("0.00")
-            </strong>
-
-        </div>
-
-        <div class="teacher-formula-symbol">
-            =
-        </div>
+        <div class="teacher-formula-symbol">=</div>
 
         <div class="teacher-formula-item teacher-formula-result">
-
-            <span>Total Salary</span>
-
-            <strong>
-                @Model.TotalSalary.ToString("0.00")
-            </strong>
-
+            <span>@Localizer["Total Salary"]</span>
+            <strong>@Model.TotalSalary.ToString("0.00")</strong>
         </div>
-
     </div>
-
 </div>
