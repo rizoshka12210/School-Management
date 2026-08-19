@@ -1210,4 +1210,205 @@
   <data name="No activity recorded yet." xml:space="preserve">
     <value>Пока нет записей о действиях.</value>
   </data>
+  <data name="Smart School Dashboard" xml:space="preserve">
+    <value>Умная школьная панель</value>
+  </data>
+  <data name="Live academic performance, attendance and student risk analytics." xml:space="preserve">
+    <value>Успеваемость, посещаемость и риск-аналитика учеников в реальном времени.</value>
+  </data>
+  <data name="School-wide average" xml:space="preserve">
+    <value>Средний балл по школе</value>
+  </data>
+  <data name="All attendance records" xml:space="preserve">
+    <value>Все записи посещаемости</value>
+  </data>
+  <data name="Students Absent Today" xml:space="preserve">
+    <value>Отсутствующих сегодня</value>
+  </data>
+  <data name="Unique students" xml:space="preserve">
+    <value>Уникальных учеников</value>
+  </data>
+  <data name="Scheduled lessons" xml:space="preserve">
+    <value>Запланированных уроков</value>
+  </data>
+  <data name="Attendance Trend" xml:space="preserve">
+    <value>Динамика посещаемости</value>
+  </data>
+  <data name="Daily attendance percentage" xml:space="preserve">
+    <value>Ежедневный процент посещаемости</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Неделя</value>
+  </data>
+  <data name="School Overview" xml:space="preserve">
+    <value>Обзор школы</value>
+  </data>
+  <data name="Current system totals" xml:space="preserve">
+    <value>Текущие показатели системы</value>
+  </data>
+  <data name="Top 5 Students" xml:space="preserve">
+    <value>Топ-5 учеников</value>
+  </data>
+  <data name="Best average grades with attendance as tie-breaker" xml:space="preserve">
+    <value>Лучший средний балл, при равенстве — по посещаемости</value>
+  </data>
+  <data name="No grade data yet." xml:space="preserve">
+    <value>Пока нет данных об оценках.</value>
+  </data>
+  <data name="att." xml:space="preserve">
+    <value>посещ.</value>
+  </data>
+  <data name="Early Warning System" xml:space="preserve">
+    <value>Система раннего предупреждения</value>
+  </data>
+  <data name="Students who need attention right now" xml:space="preserve">
+    <value>Ученики, которым сейчас нужно внимание</value>
+  </data>
+  <data name="All students are currently in the good zone." xml:space="preserve">
+    <value>Все ученики сейчас в хорошей зоне.</value>
+  </data>
+  <data name="{0} lesson(s) today" xml:space="preserve">
+    <value>{0} урок(ов) сегодня</value>
+  </data>
+  <data name="Student Profile 360°" xml:space="preserve">
+    <value>Профиль ученика 360°</value>
+  </data>
+  <data name="Edit profile" xml:space="preserve">
+    <value>Редактировать профиль</value>
+  </data>
+  <data name="Reasons" xml:space="preserve">
+    <value>Причины</value>
+  </data>
+  <data name="No active risk signals detected." xml:space="preserve">
+    <value>Активных признаков риска не обнаружено.</value>
+  </data>
+  <data name="Attendance Calendar" xml:space="preserve">
+    <value>Календарь посещаемости</value>
+  </data>
+  <data name="Not assigned" xml:space="preserve">
+    <value>Не назначен</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Хорошо</value>
+  </data>
+  <data name="Attention Needed" xml:space="preserve">
+    <value>Требует внимания</value>
+  </data>
+  <data name="At Risk" xml:space="preserve">
+    <value>В зоне риска</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="No attendance data yet" xml:space="preserve">
+    <value>Пока нет данных о посещаемости</value>
+  </data>
+  <data name="Attendance below 70%" xml:space="preserve">
+    <value>Посещаемость ниже 70%</value>
+  </data>
+  <data name="Attendance below 85%" xml:space="preserve">
+    <value>Посещаемость ниже 85%</value>
+  </data>
+  <data name="No grades recorded yet" xml:space="preserve">
+    <value>Пока нет оценок</value>
+  </data>
+  <data name="Average grade below 3.0" xml:space="preserve">
+    <value>Средний балл ниже 3.0</value>
+  </data>
+  <data name="Average grade below 3.5" xml:space="preserve">
+    <value>Средний балл ниже 3.5</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="Role-based updates from your school activity." xml:space="preserve">
+    <value>Обновления по вашей роли из школьной активности.</value>
+  </data>
+  <data name="{0} notification(s)" xml:space="preserve">
+    <value>{0} уведомлени(й)</value>
+  </data>
+  <data name="No notifications" xml:space="preserve">
+    <value>Нет уведомлений</value>
+  </data>
+  <data name="There is nothing new for your account right now." xml:space="preserve">
+    <value>Для вашего аккаунта сейчас нет ничего нового.</value>
+  </data>
+  <data name="Student joined" xml:space="preserve">
+    <value>Новый ученик</value>
+  </data>
+  <data name="Absence alert" xml:space="preserve">
+    <value>Внимание: отсутствие</value>
+  </data>
+  <data name="Attendance completed" xml:space="preserve">
+    <value>Посещаемость отмечена</value>
+  </data>
+  <data name="Attendance pending" xml:space="preserve">
+    <value>Посещаемость не отмечена</value>
+  </data>
+  <data name="New grade" xml:space="preserve">
+    <value>Новая оценка</value>
+  </data>
+  <data name="Missed lesson" xml:space="preserve">
+    <value>Пропущен урок</value>
+  </data>
+  <data name="{0} joined {1}" xml:space="preserve">
+    <value>{0} присоединился к {1}</value>
+  </data>
+  <data name="{0} lesson(s) scheduled today" xml:space="preserve">
+    <value>{0} урок(ов) запланировано на сегодня</value>
+  </data>
+  <data name="{0} student(s) are absent today" xml:space="preserve">
+    <value>{0} учеников отсутствует сегодня</value>
+  </data>
+  <data name="{0} missed {1}" xml:space="preserve">
+    <value>{0} пропустил {1}</value>
+  </data>
+  <data name="Interactive Weekly Schedule" xml:space="preserve">
+    <value>Интерактивное недельное расписание</value>
+  </data>
+  <data name="Visual timetable with teacher, group and subject cards." xml:space="preserve">
+    <value>Наглядное расписание с карточками учителя, группы и предмета.</value>
+  </data>
+  <data name="Click a lesson card to open details, edit or delete it." xml:space="preserve">
+    <value>Нажмите на карточку урока, чтобы открыть, изменить или удалить его.</value>
+  </data>
+  <data name="Teacher {0} already has {1} with {2} at {3}–{4}." xml:space="preserve">
+    <value>Учитель {0} уже проводит {1} с {2} в {3}–{4}.</value>
+  </data>
+  <data name="Group {0} already has {1} with {2} at {3}–{4}." xml:space="preserve">
+    <value>У группы {0} уже есть {1} с {2} в {3}–{4}.</value>
+  </data>
+  <data name="Earned and upcoming student badges" xml:space="preserve">
+    <value>Полученные и будущие награды ученика</value>
+  </data>
+  <data name="Automatic risk status from grades + attendance" xml:space="preserve">
+    <value>Автоматический статус риска по оценкам и посещаемости</value>
+  </data>
+  <data name="Across {0} grade(s)" xml:space="preserve">
+    <value>По {0} оценкам</value>
+  </data>
+  <data name="{0} attendance record(s)" xml:space="preserve">
+    <value>{0} записей посещаемости</value>
+  </data>
+  <data name="Current school group" xml:space="preserve">
+    <value>Текущая школьная группа</value>
+  </data>
+  <data name="Connected parent account(s)" xml:space="preserve">
+    <value>Привязанных аккаунтов родителей</value>
+  </data>
+  <data name="Personal and family information" xml:space="preserve">
+    <value>Личная информация и информация о семье</value>
+  </data>
+  <data name="Latest academic results" xml:space="preserve">
+    <value>Последние результаты успеваемости</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Оценка</value>
+  </data>
+  <data name="No attendance data yet." xml:space="preserve">
+    <value>Пока нет данных о посещаемости.</value>
+  </data>
+  <data name="Last {0} attendance records" xml:space="preserve">
+    <value>Последние {0} записей посещаемости</value>
+  </data>
 </root>

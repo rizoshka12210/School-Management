@@ -1213,4 +1213,205 @@
   <data name="No activity recorded yet." xml:space="preserve">
     <value>No activity recorded yet.</value>
   </data>
+  <data name="Smart School Dashboard" xml:space="preserve">
+    <value>Smart School Dashboard</value>
+  </data>
+  <data name="Live academic performance, attendance and student risk analytics." xml:space="preserve">
+    <value>Live academic performance, attendance and student risk analytics.</value>
+  </data>
+  <data name="School-wide average" xml:space="preserve">
+    <value>School-wide average</value>
+  </data>
+  <data name="All attendance records" xml:space="preserve">
+    <value>All attendance records</value>
+  </data>
+  <data name="Students Absent Today" xml:space="preserve">
+    <value>Students Absent Today</value>
+  </data>
+  <data name="Unique students" xml:space="preserve">
+    <value>Unique students</value>
+  </data>
+  <data name="Scheduled lessons" xml:space="preserve">
+    <value>Scheduled lessons</value>
+  </data>
+  <data name="Attendance Trend" xml:space="preserve">
+    <value>Attendance Trend</value>
+  </data>
+  <data name="Daily attendance percentage" xml:space="preserve">
+    <value>Daily attendance percentage</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Week</value>
+  </data>
+  <data name="School Overview" xml:space="preserve">
+    <value>School Overview</value>
+  </data>
+  <data name="Current system totals" xml:space="preserve">
+    <value>Current system totals</value>
+  </data>
+  <data name="Top 5 Students" xml:space="preserve">
+    <value>Top 5 Students</value>
+  </data>
+  <data name="Best average grades with attendance as tie-breaker" xml:space="preserve">
+    <value>Best average grades with attendance as tie-breaker</value>
+  </data>
+  <data name="No grade data yet." xml:space="preserve">
+    <value>No grade data yet.</value>
+  </data>
+  <data name="att." xml:space="preserve">
+    <value>att.</value>
+  </data>
+  <data name="Early Warning System" xml:space="preserve">
+    <value>Early Warning System</value>
+  </data>
+  <data name="Students who need attention right now" xml:space="preserve">
+    <value>Students who need attention right now</value>
+  </data>
+  <data name="All students are currently in the good zone." xml:space="preserve">
+    <value>All students are currently in the good zone.</value>
+  </data>
+  <data name="{0} lesson(s) today" xml:space="preserve">
+    <value>{0} lesson(s) today</value>
+  </data>
+  <data name="Student Profile 360°" xml:space="preserve">
+    <value>Student Profile 360°</value>
+  </data>
+  <data name="Edit profile" xml:space="preserve">
+    <value>Edit profile</value>
+  </data>
+  <data name="Reasons" xml:space="preserve">
+    <value>Reasons</value>
+  </data>
+  <data name="No active risk signals detected." xml:space="preserve">
+    <value>No active risk signals detected.</value>
+  </data>
+  <data name="Attendance Calendar" xml:space="preserve">
+    <value>Attendance Calendar</value>
+  </data>
+  <data name="Not assigned" xml:space="preserve">
+    <value>Not assigned</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Good</value>
+  </data>
+  <data name="Attention Needed" xml:space="preserve">
+    <value>Attention Needed</value>
+  </data>
+  <data name="At Risk" xml:space="preserve">
+    <value>At Risk</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Unknown</value>
+  </data>
+  <data name="No attendance data yet" xml:space="preserve">
+    <value>No attendance data yet</value>
+  </data>
+  <data name="Attendance below 70%" xml:space="preserve">
+    <value>Attendance below 70%</value>
+  </data>
+  <data name="Attendance below 85%" xml:space="preserve">
+    <value>Attendance below 85%</value>
+  </data>
+  <data name="No grades recorded yet" xml:space="preserve">
+    <value>No grades recorded yet</value>
+  </data>
+  <data name="Average grade below 3.0" xml:space="preserve">
+    <value>Average grade below 3.0</value>
+  </data>
+  <data name="Average grade below 3.5" xml:space="preserve">
+    <value>Average grade below 3.5</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Notifications</value>
+  </data>
+  <data name="Role-based updates from your school activity." xml:space="preserve">
+    <value>Role-based updates from your school activity.</value>
+  </data>
+  <data name="{0} notification(s)" xml:space="preserve">
+    <value>{0} notification(s)</value>
+  </data>
+  <data name="No notifications" xml:space="preserve">
+    <value>No notifications</value>
+  </data>
+  <data name="There is nothing new for your account right now." xml:space="preserve">
+    <value>There is nothing new for your account right now.</value>
+  </data>
+  <data name="Student joined" xml:space="preserve">
+    <value>Student joined</value>
+  </data>
+  <data name="Absence alert" xml:space="preserve">
+    <value>Absence alert</value>
+  </data>
+  <data name="Attendance completed" xml:space="preserve">
+    <value>Attendance completed</value>
+  </data>
+  <data name="Attendance pending" xml:space="preserve">
+    <value>Attendance pending</value>
+  </data>
+  <data name="New grade" xml:space="preserve">
+    <value>New grade</value>
+  </data>
+  <data name="Missed lesson" xml:space="preserve">
+    <value>Missed lesson</value>
+  </data>
+  <data name="{0} joined {1}" xml:space="preserve">
+    <value>{0} joined {1}</value>
+  </data>
+  <data name="{0} lesson(s) scheduled today" xml:space="preserve">
+    <value>{0} lesson(s) scheduled today</value>
+  </data>
+  <data name="{0} student(s) are absent today" xml:space="preserve">
+    <value>{0} student(s) are absent today</value>
+  </data>
+  <data name="{0} missed {1}" xml:space="preserve">
+    <value>{0} missed {1}</value>
+  </data>
+  <data name="Interactive Weekly Schedule" xml:space="preserve">
+    <value>Interactive Weekly Schedule</value>
+  </data>
+  <data name="Visual timetable with teacher, group and subject cards." xml:space="preserve">
+    <value>Visual timetable with teacher, group and subject cards.</value>
+  </data>
+  <data name="Click a lesson card to open details, edit or delete it." xml:space="preserve">
+    <value>Click a lesson card to open details, edit or delete it.</value>
+  </data>
+  <data name="Teacher {0} already has {1} with {2} at {3}–{4}." xml:space="preserve">
+    <value>Teacher {0} already has {1} with {2} at {3}–{4}.</value>
+  </data>
+  <data name="Group {0} already has {1} with {2} at {3}–{4}." xml:space="preserve">
+    <value>Group {0} already has {1} with {2} at {3}–{4}.</value>
+  </data>
+  <data name="Earned and upcoming student badges" xml:space="preserve">
+    <value>Earned and upcoming student badges</value>
+  </data>
+  <data name="Automatic risk status from grades + attendance" xml:space="preserve">
+    <value>Automatic risk status from grades + attendance</value>
+  </data>
+  <data name="Across {0} grade(s)" xml:space="preserve">
+    <value>Across {0} grade(s)</value>
+  </data>
+  <data name="{0} attendance record(s)" xml:space="preserve">
+    <value>{0} attendance record(s)</value>
+  </data>
+  <data name="Current school group" xml:space="preserve">
+    <value>Current school group</value>
+  </data>
+  <data name="Connected parent account(s)" xml:space="preserve">
+    <value>Connected parent account(s)</value>
+  </data>
+  <data name="Personal and family information" xml:space="preserve">
+    <value>Personal and family information</value>
+  </data>
+  <data name="Latest academic results" xml:space="preserve">
+    <value>Latest academic results</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
+  <data name="No attendance data yet." xml:space="preserve">
+    <value>No attendance data yet.</value>
+  </data>
+  <data name="Last {0} attendance records" xml:space="preserve">
+    <value>Last {0} attendance records</value>
+  </data>
 </root>

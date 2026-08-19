@@ -22,10 +22,10 @@
 
 <div class="page-header">
     <div>
-        <h1 class="page-title">Interactive Weekly Schedule</h1>
-        <p class="page-subtitle">Visual timetable with teacher, group and subject cards.</p>
+        <h1 class="page-title">@Localizer["Interactive Weekly Schedule"]</h1>
+        <p class="page-subtitle">@Localizer["Visual timetable with teacher, group and subject cards."]</p>
     </div>
-    <a asp-action="Create" class="btn btn-primary">+ Add Schedule</a>
+    <a asp-action="Create" class="btn btn-primary">+ @Localizer["Add Schedule"]</a>
 </div>
 
 <div class="card border-0 shadow-sm mb-4">
@@ -33,7 +33,7 @@
         <form method="get" asp-action="Index" class="schedule-filters">
             <div>
                 <select name="day" class="form-select">
-                    <option value="">All days</option>
+                    <option value="">@Localizer["All days"]</option>
                     @foreach (var day in Enum.GetValues<DayOfWeek>())
                     {
                         if ((ViewBag.Day as string) == day.ToString())
@@ -49,7 +49,7 @@
             </div>
             <div>
                 <select name="groupId" class="form-select">
-                    <option value="">All groups</option>
+                    <option value="">@Localizer["All groups"]</option>
                     @foreach (var group in ViewBag.Groups)
                     {
                         if (ViewBag.GroupId != null && (int)ViewBag.GroupId == group.Id)
@@ -63,8 +63,8 @@
                     }
                 </select>
             </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
-            <a asp-action="Index" class="btn btn-light">Clear</a>
+            <button type="submit" class="btn btn-primary">@Localizer["Filter"]</button>
+            <a asp-action="Index" class="btn btn-light">@Localizer["Clear"]</a>
         </form>
     </div>
 </div>
@@ -74,9 +74,9 @@
     <div class="card border-0 shadow-sm">
         <div class="management-empty">
             <div class="management-empty-icon">SC</div>
-            <h5>No schedule entries found</h5>
-            <p>Create a schedule entry or change the filters.</p>
-            <a asp-action="Create" class="btn btn-primary">+ Add Schedule</a>
+            <h5>@Localizer["No schedule entries found"]</h5>
+            <p>@Localizer["Create a schedule entry or change the filters."]</p>
+            <a asp-action="Create" class="btn btn-primary">+ @Localizer["Add Schedule"]</a>
         </div>
     </div>
 }
@@ -87,7 +87,7 @@ else
             <table class="weekly-schedule-table">
                 <thead>
                     <tr>
-                        <th class="weekly-time-head">Time</th>
+                        <th class="weekly-time-head">@Localizer["Time"]</th>
                         @foreach (var day in days)
                         {
                             <th>@Localizer[day.ToString()]</th>
@@ -127,7 +127,7 @@ else
             </table>
         </div>
         <div class="weekly-schedule-footer">
-            Click a lesson card to open details, edit or delete it.
+            @Localizer["Click a lesson card to open details, edit or delete it."]
         </div>
     </div>
 }

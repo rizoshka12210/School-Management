@@ -2,6 +2,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
@@ -14,10 +16,14 @@ public class NotificationService
     public const string SeenCookieName = "school-notifications-seen";
 
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public NotificationService(AppDbContext context)
+    public NotificationService(
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
+        _localizer = localizer;
     }
 
     public async Task<List<NotificationItemViewModel>> GetForUserAsync(
@@ -112,7 +118,10 @@ public class NotificationService
         {
             Icon = "👤",
             Title = "Student joined",
-            Message = $"{s.FirstName} {s.LastName} joined {(s.Group?.Name ?? "school")}",
+            Message = _localizer[
+                "{0} joined {1}",
+                $"{s.FirstName} {s.LastName}",
+                s.Group?.Name ?? _localizer["School"].Value].Value,
             Url = $"/Admin/Students/Details/{s.Id}",
             Kind = "success"
         }));
@@ -123,8 +132,8 @@ public class NotificationService
         items.Insert(0, new NotificationItemViewModel
         {
             Icon = "📚",
-            Title = "Today's lessons",
-            Message = $"{lessonsToday} lesson(s) scheduled today",
+            Title = "Today's Lessons",
+            Message = _localizer["{0} lesson(s) scheduled today", lessonsToday].Value,
             Url = "/Admin/Lessons",
             Kind = "info"
         });
@@ -144,7 +153,7 @@ public class NotificationService
             {
                 Icon = "⚠️",
                 Title = "Absence alert",
-                Message = $"{absentToday} student(s) are absent today",
+                Message = _localizer["{0} student(s) are absent today", absentToday].Value,
                 Url = "/Admin/Attendance",
                 Kind = "warning"
             });
@@ -260,7 +269,7 @@ public class NotificationService
         {
             Icon = "⚠️",
             Title = "Missed lesson",
-            Message = $"{a.Student.FirstName} missed {a.Lesson.Subject.Name}",
+            Message = _localizer["{0} missed {1}", a.Student.FirstName, a.Lesson.Subject.Name].Value,
             Url = $"/Parent/Attendance?studentId={a.StudentId}",
             OccurredAt = a.Lesson.StartTime,
             Kind = "danger"

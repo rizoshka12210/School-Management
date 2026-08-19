@@ -1,15 +1,15 @@
 @model List<SchoolManagementSystem.Web.ViewModels.Notifications.NotificationItemViewModel>
 
 @{
-    ViewData["Title"] = "Notifications";
+    ViewData["Title"] = Localizer["Notifications"];
 }
 
 <div class="page-header">
     <div>
-        <h1 class="page-title">🔔 Notifications</h1>
-        <p class="page-subtitle">Role-based updates from your school activity.</p>
+        <h1 class="page-title">🔔 @Localizer["Notifications"]</h1>
+        <p class="page-subtitle">@Localizer["Role-based updates from your school activity."]</p>
     </div>
-    <div class="teacher-count-label">@Model.Count notification(s)</div>
+    <div class="teacher-count-label">@Localizer["{0} notification(s)", Model.Count]</div>
 </div>
 
 <div class="card border-0 shadow-sm">
@@ -18,8 +18,8 @@
         {
             <div class="management-empty">
                 <div class="management-empty-icon">🔔</div>
-                <h5>No notifications</h5>
-                <p>There is nothing new for your account right now.</p>
+                <h5>@Localizer["No notifications"]</h5>
+                <p>@Localizer["There is nothing new for your account right now."]</p>
             </div>
         }
         else
@@ -32,7 +32,7 @@
                         <a href="@item.Url" class="notification-item notification-@item.Kind">
                             <div class="notification-icon">@item.Icon</div>
                             <div class="notification-content">
-                                <strong>@item.Title</strong>
+                                <strong>@Localizer[item.Title]</strong>
                                 <span>@item.Message</span>
                                 @if (item.OccurredAt.HasValue)
                                 {
@@ -47,7 +47,7 @@
                         <div class="notification-item notification-@item.Kind">
                             <div class="notification-icon">@item.Icon</div>
                             <div class="notification-content">
-                                <strong>@item.Title</strong>
+                                <strong>@Localizer[item.Title]</strong>
                                 <span>@item.Message</span>
                             </div>
                         </div>

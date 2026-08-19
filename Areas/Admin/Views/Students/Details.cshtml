@@ -2,7 +2,7 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.StudentProfile360ViewModel
 
 @{
-    ViewData["Title"] = "Student Profile 360°";
+    ViewData["Title"] = Localizer["Student Profile 360°"];
     var student = Model.Student;
 }
 
@@ -14,45 +14,45 @@
         <div>
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <h1 class="page-title mb-0">@student.FirstName @student.LastName</h1>
-                <span class="risk-badge @Model.Risk.CssClass">@Model.Risk.Icon @Model.Risk.Label</span>
+                <span class="risk-badge @Model.Risk.CssClass">@Model.Risk.Icon @Localizer[Model.Risk.Label]</span>
             </div>
-            <p class="page-subtitle mb-0">Student Profile 360° · @(student.Group?.Name ?? "No group")</p>
+            <p class="page-subtitle mb-0">@Localizer["Student Profile 360°"] · @(student.Group?.Name ?? Localizer["No group"].Value)</p>
         </div>
     </div>
 
     <div class="d-flex gap-2">
-        <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-primary">Edit profile</a>
-        <a asp-action="Index" class="btn btn-light">Back</a>
+        <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-primary">@Localizer["Edit profile"]</a>
+        <a asp-action="Index" class="btn btn-light">@Localizer["Back"]</a>
     </div>
 </div>
 
 <div class="profile360-kpis">
     <div class="profile360-kpi">
-        <span>Average Grade</span>
+        <span>@Localizer["Average Grade"]</span>
         <strong>@Model.AverageGrade.ToString("0.00")</strong>
-        <small>Across @student.Grades.Count grade(s)</small>
+        <small>@Localizer["Across {0} grade(s)", student.Grades.Count]</small>
     </div>
     <div class="profile360-kpi">
-        <span>Attendance</span>
+        <span>@Localizer["Attendance"]</span>
         <strong>@Model.AttendanceRate.ToString("0.0")%</strong>
-        <small>@student.Attendances.Count attendance record(s)</small>
+        <small>@Localizer["{0} attendance record(s)", student.Attendances.Count]</small>
     </div>
     <div class="profile360-kpi">
-        <span>Group</span>
+        <span>@Localizer["Group"]</span>
         <strong>@(student.Group?.Name ?? "—")</strong>
-        <small>Current school group</small>
+        <small>@Localizer["Current school group"]</small>
     </div>
     <div class="profile360-kpi">
-        <span>Parents</span>
+        <span>@Localizer["Parents"]</span>
         <strong>@student.Parents.Count</strong>
-        <small>Connected parent account(s)</small>
+        <small>@Localizer["Connected parent account(s)"]</small>
     </div>
 </div>
 
 <div class="form-card mb-4">
     <div class="form-card-header">
         <h5>@Localizer["Achievements"]</h5>
-        <p>Earned and upcoming student badges</p>
+        <p>@Localizer["Earned and upcoming student badges"]</p>
     </div>
     <div class="form-card-body">
         <partial name="_AchievementBadges" model="ViewBag.Achievements" />
@@ -65,32 +65,32 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">Early Warning System</h5>
-                        <p class="section-subtitle">Automatic risk status from grades + attendance</p>
+                        <h5 class="section-title">@Localizer["Early Warning System"]</h5>
+                        <p class="section-subtitle">@Localizer["Automatic risk status from grades + attendance"]</p>
                     </div>
                 </div>
 
                 <div class="risk-profile-card @Model.Risk.CssClass">
-                    <div class="risk-profile-status">@Model.Risk.Icon @Model.Risk.Label</div>
+                    <div class="risk-profile-status">@Model.Risk.Icon @Localizer[Model.Risk.Label]</div>
                     <div class="risk-profile-metrics">
-                        <div><span>Average grade</span><strong>@Model.Risk.AverageGrade.ToString("0.00")</strong></div>
-                        <div><span>Attendance</span><strong>@Model.Risk.AttendanceRate.ToString("0.0")%</strong></div>
+                        <div><span>@Localizer["Average Grade"]</span><strong>@Model.Risk.AverageGrade.ToString("0.00")</strong></div>
+                        <div><span>@Localizer["Attendance"]</span><strong>@Model.Risk.AttendanceRate.ToString("0.0")%</strong></div>
                     </div>
                     @if (Model.Risk.Reasons.Any())
                     {
                         <div class="risk-profile-reasons">
-                            <strong>Reasons</strong>
+                            <strong>@Localizer["Reasons"]</strong>
                             <ul>
                                 @foreach (var reason in Model.Risk.Reasons)
                                 {
-                                    <li>@reason</li>
+                                    <li>@Localizer[reason]</li>
                                 }
                             </ul>
                         </div>
                     }
                     else
                     {
-                        <p class="mb-0">No active risk signals detected.</p>
+                        <p class="mb-0">@Localizer["No active risk signals detected."]</p>
                     }
                 </div>
             </div>
@@ -102,16 +102,16 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">Student Information</h5>
-                        <p class="section-subtitle">Personal and family information</p>
+                        <h5 class="section-title">@Localizer["Student Information"]</h5>
+                        <p class="section-subtitle">@Localizer["Personal and family information"]</p>
                     </div>
                 </div>
                 <div class="profile-info-grid">
-                    <div><span>Student ID</span><strong>#@student.Id</strong></div>
-                    <div><span>Date of Birth</span><strong>@student.DateOfBirth.ToString("dd MMMM yyyy")</strong></div>
-                    <div><span>Group</span><strong>@(student.Group?.Name ?? "No group")</strong></div>
+                    <div><span>@Localizer["Student ID"]</span><strong>#@student.Id</strong></div>
+                    <div><span>@Localizer["Date of Birth"]</span><strong>@student.DateOfBirth.ToString("dd MMMM yyyy")</strong></div>
+                    <div><span>@Localizer["Group"]</span><strong>@(student.Group?.Name ?? Localizer["No group"].Value)</strong></div>
                     <div>
-                        <span>Parent</span>
+                        <span>@Localizer["Parent"]</span>
                         <strong>
                             @if (student.Parents.Any())
                             {
@@ -119,7 +119,7 @@
                             }
                             else
                             {
-                                <text>Not assigned</text>
+                                <text>@Localizer["Not assigned"]</text>
                             }
                         </strong>
                     </div>
@@ -135,20 +135,20 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">Recent Grades</h5>
-                        <p class="section-subtitle">Latest academic results</p>
+                        <h5 class="section-title">@Localizer["Recent Grades"]</h5>
+                        <p class="section-subtitle">@Localizer["Latest academic results"]</p>
                     </div>
                 </div>
 
                 @if (!Model.RecentGrades.Any())
                 {
-                    <div class="dashboard-empty"><p>No grades recorded yet.</p></div>
+                    <div class="dashboard-empty"><p>@Localizer["No grades recorded yet."]</p></div>
                 }
                 else
                 {
                     <div class="table-responsive">
                         <table class="table align-middle management-table">
-                            <thead><tr><th>Date</th><th>Subject</th><th>Teacher</th><th>Grade</th></tr></thead>
+                            <thead><tr><th>@Localizer["Date"]</th><th>@Localizer["Subject"]</th><th>@Localizer["Teacher"]</th><th>@Localizer["Grade"]</th></tr></thead>
                             <tbody>
                                 @foreach (var grade in Model.RecentGrades)
                                 {
@@ -172,14 +172,14 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">Attendance Calendar</h5>
-                        <p class="section-subtitle">Last @Model.RecentAttendance.Count attendance records</p>
+                        <h5 class="section-title">@Localizer["Attendance Calendar"]</h5>
+                        <p class="section-subtitle">@Localizer["Last {0} attendance records", Model.RecentAttendance.Count]</p>
                     </div>
                 </div>
 
                 @if (!Model.RecentAttendance.Any())
                 {
-                    <div class="dashboard-empty"><p>No attendance data yet.</p></div>
+                    <div class="dashboard-empty"><p>@Localizer["No attendance data yet."]</p></div>
                 }
                 else
                 {
@@ -194,14 +194,14 @@
                                 AttendanceStatus.Excused => "🔵",
                                 _ => "⚪"
                             };
-                            <div class="attendance-calendar-day" title="@item.Lesson.StartTime.ToString("dd MMM") · @item.Lesson.Subject.Name · @item.Status">
+                            <div class="attendance-calendar-day" title="@item.Lesson.StartTime.ToString("dd MMM") · @item.Lesson.Subject.Name · @Localizer[item.Status.ToString()]">
                                 <span>@icon</span>
                                 <small>@item.Lesson.StartTime.ToString("dd")</small>
                             </div>
                         }
                     </div>
                     <div class="attendance-legend mt-3">
-                        <span>🟢 Present</span><span>🟡 Late</span><span>🔴 Absent</span><span>🔵 Excused</span>
+                        <span>🟢 @Localizer["Present"]</span><span>🟡 @Localizer["Late"]</span><span>🔴 @Localizer["Absent"]</span><span>🔵 @Localizer["Excused"]</span>
                     </div>
                 }
             </div>

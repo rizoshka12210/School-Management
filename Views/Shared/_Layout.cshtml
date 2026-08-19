@@ -101,7 +101,7 @@
         <div class="topbar-user">
         @if (User.Identity?.IsAuthenticated == true)
         {
-            <a id="notificationBell" asp-area="" asp-controller="Notifications" asp-action="Index" class="notification-bell" title="Notifications">
+            <a id="notificationBell" asp-area="" asp-controller="Notifications" asp-action="Index" class="notification-bell" title="@Localizer["Notifications"]">
                 <span>🔔</span>
                 @if (notificationCount > 0)
                 {
@@ -133,7 +133,7 @@
                     <button type="submit" class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
                 </form>
             </div>
-            <button type="button" id="themeToggle" class="btn-theme" aria-label="Toggle dark mode"><span id="themeIcon">🌙</span></button>
+            <button type="button" id="themeToggle" class="btn-theme" aria-label="@Localizer["Toggle dark mode"]"><span id="themeIcon">🌙</span></button>
             <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post"><button type="submit" class="btn-logout">@Localizer["Logout"]</button></form>
         }
         else

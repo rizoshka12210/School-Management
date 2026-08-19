@@ -226,7 +226,13 @@ public class ScheduleController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.StartTime),
-                $"Teacher {teacherConflict.Teacher.ApplicationUser.FullName} already has {teacherConflict.Subject.Name} with {teacherConflict.Group.Name} at {teacherConflict.StartTime:HH:mm}–{teacherConflict.EndTime:HH:mm}.");
+                _localizer[
+                    "Teacher {0} already has {1} with {2} at {3}–{4}.",
+                    teacherConflict.Teacher.ApplicationUser.FullName,
+                    teacherConflict.Subject.Name,
+                    teacherConflict.Group.Name,
+                    teacherConflict.StartTime.ToString("HH:mm"),
+                    teacherConflict.EndTime.ToString("HH:mm")].Value);
         }
 
         var groupConflict = await _context.Schedules
@@ -246,7 +252,13 @@ public class ScheduleController : Controller
         {
             ModelState.AddModelError(
                 nameof(model.StartTime),
-                $"Group {groupConflict.Group.Name} already has {groupConflict.Subject.Name} with {groupConflict.Teacher.ApplicationUser.FullName} at {groupConflict.StartTime:HH:mm}–{groupConflict.EndTime:HH:mm}.");
+                _localizer[
+                    "Group {0} already has {1} with {2} at {3}–{4}.",
+                    groupConflict.Group.Name,
+                    groupConflict.Subject.Name,
+                    groupConflict.Teacher.ApplicationUser.FullName,
+                    groupConflict.StartTime.ToString("HH:mm"),
+                    groupConflict.EndTime.ToString("HH:mm")].Value);
         }
     }
 
