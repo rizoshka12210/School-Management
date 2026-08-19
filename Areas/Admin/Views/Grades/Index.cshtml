@@ -1,7 +1,7 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Grade>
 
 @{
-    ViewData["Title"] = "Grades";
+    ViewData["Title"] = Localizer["Grades"];
 
     var average = Model.Any()
         ? Model.Average(g => g.Value)
@@ -13,11 +13,11 @@
     <div>
 
         <h1 class="page-title">
-            Grades
+            @Localizer["Grades"]
         </h1>
 
         <p class="page-subtitle">
-            View and correct grades recorded by teachers
+            @Localizer["View and correct grades recorded by teachers"]
         </p>
 
     </div>
@@ -33,7 +33,7 @@
         </div>
 
         <div class="grade-stat-label">
-            Total Grades
+            @Localizer["Total Grades"]
         </div>
 
     </div>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="grade-stat-label">
-            Average Grade
+            @Localizer["Average Grade"]
         </div>
 
     </div>
@@ -57,7 +57,7 @@
         </div>
 
         <div class="grade-stat-label">
-            Highest Grade
+            @Localizer["Highest Grade"]
         </div>
 
     </div>
@@ -69,7 +69,7 @@
         </div>
 
         <div class="grade-stat-label">
-            Students Graded
+            @Localizer["Students Graded"]
         </div>
 
     </div>
@@ -90,7 +90,7 @@
                        name="search"
                        value="@ViewBag.Search"
                        class="form-control"
-                       placeholder="Search student, subject or teacher..." />
+                       placeholder="@Localizer["Search student, subject or teacher..."]" />
 
             </div>
 
@@ -100,7 +100,7 @@
                         class="form-select">
 
                     <option value="">
-                        All subjects
+                        @Localizer["All subjects"]
                     </option>
 
                     @foreach (var subject in ViewBag.Subjects)
@@ -126,12 +126,12 @@
 
             <button type="submit"
                     class="btn btn-primary">
-                Filter
+                @Localizer["Filter"]
             </button>
 
             <a asp-action="Index"
                class="btn btn-light">
-                Clear
+                @Localizer["Clear"]
             </a>
 
         </form>
@@ -145,11 +145,11 @@
                 </div>
 
                 <h5>
-                    No grades found
+                    @Localizer["No grades found"]
                 </h5>
 
                 <p>
-                    There are no grades matching the selected filters.
+                    @Localizer["There are no grades matching the selected filters."]
                 </p>
 
             </div>
@@ -162,13 +162,13 @@
 
                     <thead>
                         <tr>
-                            <th>Date</th>
-                            <th>Student</th>
-                            <th>Subject</th>
-                            <th>Teacher</th>
-                            <th>Grade</th>
-                            <th>Comment</th>
-                            <th class="text-end">Actions</th>
+                            <th>@Localizer["Date"]</th>
+                            <th>@Localizer["Student"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Teacher"]</th>
+                            <th>@Localizer["Grade"]</th>
+                            <th>@Localizer["Comment"]</th>
+                            <th class="text-end">@Localizer["Actions"]</th>
                         </tr>
                     </thead>
 
@@ -202,7 +202,7 @@
                                             </div>
 
                                             <div class="person-id">
-                                                Student #@grade.StudentId
+                                                @Localizer["Student #{0}", grade.StudentId]
                                             </div>
 
                                         </div>
@@ -269,15 +269,15 @@
                                         <a asp-action="Edit"
                                            asp-route-id="@grade.Id"
                                            class="action-btn action-edit"
-                                           title="Edit">
-                                            Edit
+                                           title="@Localizer["Edit"]">
+                                            @Localizer["Edit"]
                                         </a>
 
                                         <a asp-action="Delete"
                                            asp-route-id="@grade.Id"
                                            class="action-btn action-delete"
-                                           title="Delete">
-                                            Delete
+                                           title="@Localizer["Delete"]">
+                                            @Localizer["Delete"]
                                         </a>
 
                                     </div>
@@ -294,7 +294,7 @@
             </div>
 
             <div class="table-footer">
-                Showing @Model.Count() grade(s)
+                @Localizer["Showing {0} grade(s)", Model.Count()]
             </div>
         }
 
