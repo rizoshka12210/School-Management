@@ -4,9 +4,9 @@
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var seenNotificationFingerprint = Context.Request.Cookies[
         SchoolManagementSystem.Web.Services.NotificationService.SeenCookieName];
-    var isNotificationsPage = string.Equals(
-        controller,
-        "Notifications",
+    var requestPath = Context.Request.Path.Value ?? string.Empty;
+    var isNotificationsPage = requestPath.StartsWith(
+        "/Notifications",
         StringComparison.OrdinalIgnoreCase);
     var notificationCount = User.Identity?.IsAuthenticated == true
         ? (isNotificationsPage
@@ -94,11 +94,11 @@
         <div class="topbar-user">
         @if (User.Identity?.IsAuthenticated == true)
         {
-            <a asp-area="" asp-controller="Notifications" asp-action="Index" class="notification-bell" title="Notifications">
+            <a id="notificationBell" asp-area="" asp-controller="Notifications" asp-action="Index" class="notification-bell" title="Notifications">
                 <span>🔔</span>
                 @if (notificationCount > 0)
                 {
-                    <span class="notification-count">@(notificationCount > 99 ? "99+" : notificationCount)</span>
+                    <span id="notificationCountBadge" class="notification-count">@(notificationCount > 99 ? "99+" : notificationCount)</span>
                 }
             </a>
 
@@ -163,6 +163,17 @@
     }
     applyTheme(localStorage.getItem("school-theme") || "light");
     if (themeToggle) themeToggle.onclick = () => applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+
+    const notificationBell = document.getElementById("notificationBell");
+    if (notificationBell) {
+        notificationBell.addEventListener("click", () => {
+            document.getElementById("notificationCountBadge")?.remove();
+        });
+    }
+
+    if (window.location.pathname.toLowerCase().startsWith("/notifications")) {
+        document.getElementById("notificationCountBadge")?.remove();
+    }
 </script>
 </body>
 </html>
