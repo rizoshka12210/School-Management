@@ -3,20 +3,12 @@
 @{
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
 
-    double attendanceRate =
-        Convert.ToDouble(ViewBag.AttendanceRate);
-
-    double averageGrade =
-        Convert.ToDouble(ViewBag.AverageGrade);
-
-    int presentCount =
-        Convert.ToInt32(ViewBag.PresentCount);
-
-    int totalLessons =
-        Convert.ToInt32(ViewBag.TotalLessons);
+    double attendanceRate = Convert.ToDouble(ViewBag.AttendanceRate);
+    double averageGrade = Convert.ToDouble(ViewBag.AverageGrade);
+    int presentCount = Convert.ToInt32(ViewBag.PresentCount);
+    int totalLessons = Convert.ToInt32(ViewBag.TotalLessons);
 
     var age = DateTime.UtcNow.Year - Model.DateOfBirth.Year;
-
     if (Model.DateOfBirth.Date > DateTime.UtcNow.AddYears(-age).Date)
     {
         age--;
@@ -24,411 +16,140 @@
 }
 
 <div class="parent-child-details-header">
-
-    <a asp-area="Parent"
-       asp-controller="Dashboard"
-       asp-action="Index"
-       class="back-link">
-        ← Dashboard
-    </a>
+    <a asp-area="Parent" asp-controller="Dashboard" asp-action="Index" class="back-link">← @Localizer["Dashboard"]</a>
 
     <div class="parent-student-profile">
-
         <div class="parent-student-avatar">
-
             @(string.IsNullOrWhiteSpace(Model.FirstName)
                 ? "S"
                 : Model.FirstName.Substring(0, 1).ToUpper())
-
         </div>
 
         <div>
-
-            <h1 class="page-title mb-1">
-                @Model.FirstName @Model.LastName
-            </h1>
-
+            <h1 class="page-title mb-1">@Model.FirstName @Model.LastName</h1>
             <div class="parent-student-meta">
-
                 @if (Model.Group != null)
                 {
-                    <span class="group-badge">
-                        @Model.Group.Name
-                    </span>
+                    <span class="group-badge">@Model.Group.Name</span>
                 }
-
-                <span>
-                    Student #@Model.Id
-                </span>
-
+                <span>@Localizer["Student #{0}", Model.Id]</span>
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 <div class="parent-student-stats">
-
     <div class="parent-student-stat">
-
-        <div class="parent-student-stat-icon parent-attendance-icon">
-            AT
-        </div>
-
+        <div class="parent-student-stat-icon parent-attendance-icon">AT</div>
         <div>
-
-            <span>
-                Attendance
-            </span>
-
-            <strong>
-                @attendanceRate.ToString("0.#")%
-            </strong>
-
-            <small>
-                @presentCount of @totalLessons present
-            </small>
-
+            <span>@Localizer["Attendance"]</span>
+            <strong>@attendanceRate.ToString("0.#")%</strong>
+            <small>@Localizer["{0} of {1} present", presentCount, totalLessons]</small>
         </div>
-
     </div>
 
     <div class="parent-student-stat">
-
-        <div class="parent-student-stat-icon parent-grade-icon">
-            GD
-        </div>
-
+        <div class="parent-student-stat-icon parent-grade-icon">GD</div>
         <div>
-
-            <span>
-                Average Grade
-            </span>
-
-            <strong>
-                @averageGrade.ToString("0.##")
-            </strong>
-
-            <small>
-                Overall average
-            </small>
-
+            <span>@Localizer["Average Grade"]</span>
+            <strong>@averageGrade.ToString("0.##")</strong>
+            <small>@Localizer["Overall average"]</small>
         </div>
-
     </div>
 
     <div class="parent-student-stat">
-
-        <div class="parent-student-stat-icon parent-lessons-icon">
-            LS
-        </div>
-
+        <div class="parent-student-stat-icon parent-lessons-icon">LS</div>
         <div>
-
-            <span>
-                Lessons
-            </span>
-
-            <strong>
-                @totalLessons
-            </strong>
-
-            <small>
-                Attendance records
-            </small>
-
+            <span>@Localizer["Lessons"]</span>
+            <strong>@totalLessons</strong>
+            <small>@Localizer["Attendance records"]</small>
         </div>
-
     </div>
 
     <div class="parent-student-stat">
-
-        <div class="parent-student-stat-icon parent-age-icon">
-            AG
-        </div>
-
+        <div class="parent-student-stat-icon parent-age-icon">AG</div>
         <div>
-
-            <span>
-                Age
-            </span>
-
-            <strong>
-                @age
-            </strong>
-
-            <small>
-                years old
-            </small>
-
+            <span>@Localizer["Age"]</span>
+            <strong>@age</strong>
+            <small>@Localizer["years old"]</small>
         </div>
-
     </div>
-
 </div>
 
 <div class="parent-details-grid">
-
     <div class="form-card">
-
         <div class="form-card-header">
-
-            <h5>
-                Student Information
-            </h5>
-
-            <p>
-                General information about your child
-            </p>
-
+            <h5>@Localizer["Student Information"]</h5>
+            <p>@Localizer["General information about your child"]</p>
         </div>
 
         <div class="form-card-body">
-
             <div class="parent-info-row">
-
-                <span>
-                    Full Name
-                </span>
-
-                <strong>
-                    @Model.FirstName @Model.LastName
-                </strong>
-
+                <span>@Localizer["Full Name"]</span>
+                <strong>@Model.FirstName @Model.LastName</strong>
             </div>
 
             <div class="parent-info-row">
-
-                <span>
-                    Group
-                </span>
-
-                <strong>
-                    @(Model.Group?.Name ?? "No group")
-                </strong>
-
+                <span>@Localizer["Group"]</span>
+                <strong>@(Model.Group != null ? Model.Group.Name : Localizer["No group"].Value)</strong>
             </div>
 
             <div class="parent-info-row">
-
-                <span>
-                    Date of Birth
-                </span>
-
-                <strong>
-                    @Model.DateOfBirth.ToString("dd MMMM yyyy")
-                </strong>
-
+                <span>@Localizer["Date of Birth"]</span>
+                <strong>@Model.DateOfBirth.ToString("dd MMMM yyyy")</strong>
             </div>
 
             <div class="parent-info-row">
-
-                <span>
-                    Student ID
-                </span>
-
-                <strong>
-                    #@Model.Id
-                </strong>
-
+                <span>@Localizer["Student ID"]</span>
+                <strong>#@Model.Id</strong>
             </div>
-
         </div>
-
     </div>
 
     <div class="form-card">
-
         <div class="form-card-header">
-
-            <h5>
-                Academic Access
-            </h5>
-
-            <p>
-                Quickly open your child's school information
-            </p>
-
+            <h5>@Localizer["Academic Access"]</h5>
+            <p>@Localizer["Quickly open your child's school information"]</p>
         </div>
 
         <div class="form-card-body">
-
             <div class="parent-access-grid">
-
-                <a asp-area="Parent"
-                   asp-controller="Schedule"
-                   asp-action="Index"
-                   asp-route-studentId="@Model.Id"
-                   class="parent-access-card">
-
-                    <div class="parent-access-icon parent-action-schedule">
-                        SC
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Schedule
-                        </strong>
-
-                        <span>
-                            Weekly timetable
-                        </span>
-
-                    </div>
-
-                    <div class="parent-access-arrow">
-                        →
-                    </div>
-
+                <a asp-area="Parent" asp-controller="Schedule" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
+                    <div class="parent-access-icon parent-action-schedule">SC</div>
+                    <div><strong>@Localizer["Schedule"]</strong><span>@Localizer["Weekly timetable"]</span></div>
+                    <div class="parent-access-arrow">→</div>
                 </a>
 
-                <a asp-area="Parent"
-                   asp-controller="Grades"
-                   asp-action="Index"
-                   asp-route-studentId="@Model.Id"
-                   class="parent-access-card">
-
-                    <div class="parent-access-icon parent-action-grades">
-                        GD
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Grades
-                        </strong>
-
-                        <span>
-                            Grade history
-                        </span>
-
-                    </div>
-
-                    <div class="parent-access-arrow">
-                        →
-                    </div>
-
+                <a asp-area="Parent" asp-controller="Grades" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
+                    <div class="parent-access-icon parent-action-grades">GD</div>
+                    <div><strong>@Localizer["Grades"]</strong><span>@Localizer["Grade history"]</span></div>
+                    <div class="parent-access-arrow">→</div>
                 </a>
 
-                <a asp-area="Parent"
-                   asp-controller="Attendance"
-                   asp-action="Index"
-                   asp-route-studentId="@Model.Id"
-                   class="parent-access-card">
-
-                    <div class="parent-access-icon parent-action-attendance">
-                        AT
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Attendance
-                        </strong>
-
-                        <span>
-                            Attendance history
-                        </span>
-
-                    </div>
-
-                    <div class="parent-access-arrow">
-                        →
-                    </div>
-
+                <a asp-area="Parent" asp-controller="Attendance" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
+                    <div class="parent-access-icon parent-action-attendance">AT</div>
+                    <div><strong>@Localizer["Attendance"]</strong><span>@Localizer["Attendance history"]</span></div>
+                    <div class="parent-access-arrow">→</div>
                 </a>
 
-                <a asp-area="Parent"
-                   asp-controller="Subjects"
-                   asp-action="Index"
-                   asp-route-studentId="@Model.Id"
-                   class="parent-access-card">
-
-                    <div class="parent-access-icon parent-action-subject">
-                        SB
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Subjects
-                        </strong>
-
-                        <span>
-                            School subjects
-                        </span>
-
-                    </div>
-
-                    <div class="parent-access-arrow">
-                        →
-                    </div>
-
+                <a asp-area="Parent" asp-controller="Subjects" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
+                    <div class="parent-access-icon parent-action-subject">SB</div>
+                    <div><strong>@Localizer["Subjects"]</strong><span>@Localizer["School subjects"]</span></div>
+                    <div class="parent-access-arrow">→</div>
                 </a>
 
-                <a asp-area="Parent"
-                   asp-controller="Topics"
-                   asp-action="Index"
-                   asp-route-studentId="@Model.Id"
-                   class="parent-access-card">
-
-                    <div class="parent-access-icon parent-action-topic">
-                        TP
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Topics
-                        </strong>
-
-                        <span>
-                            Lesson topics
-                        </span>
-
-                    </div>
-
-                    <div class="parent-access-arrow">
-                        →
-                    </div>
-
+                <a asp-area="Parent" asp-controller="Topics" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
+                    <div class="parent-access-icon parent-action-topic">TP</div>
+                    <div><strong>@Localizer["Topics"]</strong><span>@Localizer["Lesson topics"]</span></div>
+                    <div class="parent-access-arrow">→</div>
                 </a>
 
-                <a asp-area="Parent"
-                   asp-controller="Progress"
-                   asp-action="Index"
-                   asp-route-studentId="@Model.Id"
-                   class="parent-access-card">
-
-                    <div class="parent-access-icon parent-action-progress">
-                        PR
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Progress
-                        </strong>
-
-                        <span>
-                            Overall performance
-                        </span>
-
-                    </div>
-
-                    <div class="parent-access-arrow">
-                        →
-                    </div>
-
+                <a asp-area="Parent" asp-controller="Progress" asp-action="Index" asp-route-studentId="@Model.Id" class="parent-access-card">
+                    <div class="parent-access-icon parent-action-progress">PR</div>
+                    <div><strong>@Localizer["Progress"]</strong><span>@Localizer["Overall performance"]</span></div>
+                    <div class="parent-access-arrow">→</div>
                 </a>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
