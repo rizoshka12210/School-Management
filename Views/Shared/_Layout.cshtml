@@ -2,8 +2,10 @@
 @{
     var area = ViewContext.RouteData.Values["area"]?.ToString();
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var seenNotificationFingerprint = Context.Request.Cookies[
+        SchoolManagementSystem.Web.Services.NotificationService.SeenCookieName];
     var notificationCount = User.Identity?.IsAuthenticated == true
-        ? await NotificationService.GetCountAsync(User)
+        ? await NotificationService.GetUnreadCountAsync(User, seenNotificationFingerprint)
         : 0;
 
     string Active(string targetArea, string targetController)
