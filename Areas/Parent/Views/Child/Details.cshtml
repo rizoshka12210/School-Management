@@ -163,3 +163,38 @@
         </div>
     </div>
 </div>
+
+@{
+    var teacherComments = (List<SchoolManagementSystem.Web.ViewModels.Admin.TeacherCommentViewModel>)ViewBag.TeacherComments;
+}
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <div class="section-header">
+            <div>
+                <h5 class="section-title">@Localizer["Teacher Comments"]</h5>
+                <p class="section-subtitle">@Localizer["Comments attached to recent grades"]</p>
+            </div>
+        </div>
+
+        @if (!teacherComments.Any())
+        {
+            <div class="dashboard-empty"><p>@Localizer["No teacher comments yet."]</p></div>
+        }
+        else
+        {
+            <div class="teacher-comments-list">
+                @foreach (var comment in teacherComments)
+                {
+                    <div class="teacher-comment-card">
+                        <div class="teacher-comment-head">
+                            <strong>@comment.TeacherName</strong>
+                            <span>@comment.SubjectName · @comment.Date.ToString("dd MMM yyyy")</span>
+                        </div>
+                        <p>@comment.Comment</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

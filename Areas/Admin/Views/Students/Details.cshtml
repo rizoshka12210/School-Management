@@ -213,14 +213,14 @@
     <div class="card-body">
         <div class="section-header">
             <div>
-                <h5 class="section-title">Teacher Comments</h5>
-                <p class="section-subtitle">Comments attached to recent grades</p>
+                <h5 class="section-title">@Localizer["Teacher Comments"]</h5>
+                <p class="section-subtitle">@Localizer["Comments attached to recent grades"]</p>
             </div>
         </div>
 
         @if (!Model.TeacherComments.Any())
         {
-            <div class="dashboard-empty"><p>No teacher comments yet.</p></div>
+            <div class="dashboard-empty"><p>@Localizer["No teacher comments yet."]</p></div>
         }
         else
         {

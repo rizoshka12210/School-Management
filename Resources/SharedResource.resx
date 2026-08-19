@@ -1114,4 +1114,13 @@
   <data name="Check back after a few more grades or attendance records are added." xml:space="preserve">
     <value>Check back after a few more grades or attendance records are added.</value>
   </data>
+  <data name="Teacher Comments" xml:space="preserve">
+    <value>Teacher Comments</value>
+  </data>
+  <data name="Comments attached to recent grades" xml:space="preserve">
+    <value>Comments attached to recent grades</value>
+  </data>
+  <data name="No teacher comments yet." xml:space="preserve">
+    <value>No teacher comments yet.</value>
+  </data>
 </root>

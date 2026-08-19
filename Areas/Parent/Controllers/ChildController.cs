@@ -4,6 +4,7 @@ using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
 using SchoolManagementSystem.Web.Services;
+using SchoolManagementSystem.Web.ViewModels.Admin;
 
 namespace SchoolManagementSystem.Web.Areas.Parent.Controllers;
 
@@ -48,8 +49,24 @@ public class ChildController : ParentControllerBase
             .Count(a => a.Status == AttendanceStatus.Present);
 
         var grades = await Context.Grades
+            .Include(g => g.Subject)
+            .Include(g => g.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
             .Where(g => g.StudentId == resolvedId)
             .ToListAsync();
+
+        ViewBag.TeacherComments = grades
+            .Where(g => !string.IsNullOrWhiteSpace(g.Comment))
+            .OrderByDescending(g => g.Date)
+            .Take(6)
+            .Select(g => new TeacherCommentViewModel
+            {
+                TeacherName = g.Teacher.ApplicationUser.FullName,
+                SubjectName = g.Subject.Name,
+                Comment = g.Comment!,
+                Date = g.Date
+            })
+            .ToList();
 
         ViewBag.TotalLessons = total;
         ViewBag.PresentCount = present;

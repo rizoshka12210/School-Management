@@ -19,6 +19,4 @@ public class Student
     public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
     public ICollection<Grade> Grades { get; set; } = new List<Grade>();
-
-    public ICollection<StudentComment> Comments { get; set; } = new List<StudentComment>();
 }

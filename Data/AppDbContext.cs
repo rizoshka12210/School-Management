@@ -22,7 +22,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Grade> Grades => Set<Grade>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
-    public DbSet<StudentComment> StudentComments => Set<StudentComment>();
     public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
 
     protected override void OnModelCreating(ModelBuilder builder)
@@ -149,25 +148,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(g => g.Lesson)
             .WithMany(l => l.Grades)
             .HasForeignKey(g => g.LessonId)
-            .OnDelete(DeleteBehavior.SetNull);
-
-
-        builder.Entity<StudentComment>()
-            .HasOne(c => c.Student)
-            .WithMany(s => s.Comments)
-            .HasForeignKey(c => c.StudentId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Entity<StudentComment>()
-            .HasOne(c => c.Teacher)
-            .WithMany()
-            .HasForeignKey(c => c.TeacherId)
-            .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Entity<StudentComment>()
-            .HasOne(c => c.Subject)
-            .WithMany()
-            .HasForeignKey(c => c.SubjectId)
             .OnDelete(DeleteBehavior.SetNull);
     }
 }

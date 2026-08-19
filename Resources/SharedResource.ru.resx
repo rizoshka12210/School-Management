@@ -1111,4 +1111,13 @@
   <data name="Check back after a few more grades or attendance records are added." xml:space="preserve">
     <value>Загляните позже, когда появится больше оценок или отметок посещаемости.</value>
   </data>
+  <data name="Teacher Comments" xml:space="preserve">
+    <value>Комментарии учителя</value>
+  </data>
+  <data name="Comments attached to recent grades" xml:space="preserve">
+    <value>Комментарии к последним оценкам</value>
+  </data>
+  <data name="No teacher comments yet." xml:space="preserve">
+    <value>Пока нет комментариев учителя.</value>
+  </data>
 </root>
