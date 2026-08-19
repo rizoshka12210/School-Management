@@ -3261,6 +3261,14 @@ h1 {
     font-weight: 750;
 }
 
+.teacher-schedule-day-date,
+.parent-schedule-day-date {
+    margin-left: 8px;
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 500;
+}
+
 .teacher-schedule-day-count {
     margin-top: 2px;
     color: #9ca3af;
