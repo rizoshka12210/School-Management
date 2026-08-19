@@ -4,9 +4,21 @@
     ViewData["Title"] = Localizer["Schedule"];
 
     var totalLessons = Model.Count();
-    var subjectsCount = Model.Select(s => s.SubjectId).Distinct().Count();
-    var teachersCount = Model.Select(s => s.TeacherId).Distinct().Count();
-    var daysCount = Model.Select(s => s.DayOfWeek).Distinct().Count();
+
+    var subjectsCount = Model
+        .Select(s => s.SubjectId)
+        .Distinct()
+        .Count();
+
+    var teachersCount = Model
+        .Select(s => s.TeacherId)
+        .Distinct()
+        .Count();
+
+    var daysCount = Model
+        .Select(s => s.DayOfWeek)
+        .Distinct()
+        .Count();
 
     var orderedDays = new[]
     {
@@ -18,92 +30,222 @@
         DayOfWeek.Saturday,
         DayOfWeek.Sunday
     };
+
+    var today = DateTime.Today;
+    var daysSinceMonday = ((int)today.DayOfWeek + 6) % 7;
+    var weekStart = today.AddDays(-daysSinceMonday);
 }
 
 <div class="page-header">
+
     <div>
-        <h1 class="page-title">@Localizer["Schedule"]</h1>
-        <p class="page-subtitle">@Localizer["{0}'s weekly timetable", ViewBag.StudentName]</p>
+
+        <h1 class="page-title">
+            @Localizer["Schedule"]
+        </h1>
+
+        <p class="page-subtitle">
+            @Localizer["{0}'s weekly timetable", ViewBag.StudentName]
+        </p>
+
     </div>
-    <div class="teacher-count-label">@Localizer["{0} lesson(s)", totalLessons]</div>
+
+    <div class="teacher-count-label">
+        @Localizer["{0} lesson(s)", totalLessons]
+    </div>
+
 </div>
 
 <div class="parent-schedule-stats">
+
     <div class="parent-schedule-stat">
-        <div class="parent-schedule-stat-icon parent-schedule-lessons">LS</div>
-        <div><span>@Localizer["Weekly Lessons"]</span><strong>@totalLessons</strong></div>
+
+        <div class="parent-schedule-stat-icon parent-schedule-lessons">
+            LS
+        </div>
+
+        <div>
+            <span>@Localizer["Weekly Lessons"]</span>
+            <strong>@totalLessons</strong>
+        </div>
+
     </div>
+
     <div class="parent-schedule-stat">
-        <div class="parent-schedule-stat-icon parent-schedule-subjects">SB</div>
-        <div><span>@Localizer["Subjects"]</span><strong>@subjectsCount</strong></div>
+
+        <div class="parent-schedule-stat-icon parent-schedule-subjects">
+            SB
+        </div>
+
+        <div>
+            <span>@Localizer["Subjects"]</span>
+            <strong>@subjectsCount</strong>
+        </div>
+
     </div>
+
     <div class="parent-schedule-stat">
-        <div class="parent-schedule-stat-icon parent-schedule-teachers">TR</div>
-        <div><span>@Localizer["Teachers"]</span><strong>@teachersCount</strong></div>
+
+        <div class="parent-schedule-stat-icon parent-schedule-teachers">
+            TR
+        </div>
+
+        <div>
+            <span>@Localizer["Teachers"]</span>
+            <strong>@teachersCount</strong>
+        </div>
+
     </div>
+
     <div class="parent-schedule-stat">
-        <div class="parent-schedule-stat-icon parent-schedule-days">DY</div>
-        <div><span>@Localizer["School Days"]</span><strong>@daysCount</strong></div>
+
+        <div class="parent-schedule-stat-icon parent-schedule-days">
+            DY
+        </div>
+
+        <div>
+            <span>@Localizer["School Days"]</span>
+            <strong>@daysCount</strong>
+        </div>
+
     </div>
+
 </div>
 
 @if (!Model.Any())
 {
     <div class="card border-0 shadow-sm">
+
         <div class="parent-empty">
-            <div class="parent-empty-icon">SC</div>
-            <h5>@Localizer["No schedule yet"]</h5>
-            <p>@Localizer["The weekly schedule will appear here when it is created."]</p>
+
+            <div class="parent-empty-icon">
+                SC
+            </div>
+
+            <h5>
+                @Localizer["No schedule yet"]
+            </h5>
+
+            <p>
+                @Localizer["The weekly schedule will appear here when it is created."]
+            </p>
+
         </div>
+
     </div>
 }
 else
 {
     <div class="parent-week-schedule">
-        @foreach (var day in orderedDays)
+
+        @for (var dayIndex = 0; dayIndex < orderedDays.Length; dayIndex++)
         {
-            var lessons = Model.Where(s => s.DayOfWeek == day).OrderBy(s => s.StartTime).ToList();
+            var day = orderedDays[dayIndex];
+            var dayDate = weekStart.AddDays(dayIndex);
+
+            var lessons = Model
+                .Where(s => s.DayOfWeek == day)
+                .OrderBy(s => s.StartTime)
+                .ToList();
 
             if (lessons.Any())
             {
                 <div class="parent-schedule-day">
+
                     <div class="parent-schedule-day-header">
+
                         <div>
-                            <strong>@Localizer[day.ToString()]</strong>
-                            <span>@Localizer["{0} lesson(s)", lessons.Count]</span>
+
+                            <strong>
+                                @Localizer[day.ToString()]
+                            </strong>
+
+                            <span class="parent-schedule-day-date">
+                                @dayDate.ToString("d MMMM")
+                            </span>
+
+                            <span>
+                                @Localizer["{0} lesson(s)", lessons.Count]
+                            </span>
+
                         </div>
+
                     </div>
 
                     <div class="parent-schedule-day-body">
+
                         @foreach (var lesson in lessons)
                         {
                             <div class="parent-schedule-row">
+
                                 <div class="parent-schedule-time">
-                                    <strong>@lesson.StartTime.ToString("HH:mm")</strong>
-                                    <span>@lesson.EndTime.ToString("HH:mm")</span>
+
+                                    <strong>
+                                        @lesson.StartTime.ToString("HH:mm")
+                                    </strong>
+
+                                    <span>
+                                        @lesson.EndTime.ToString("HH:mm")
+                                    </span>
+
                                 </div>
-                                <div class="parent-schedule-marker"></div>
+
+                                <div class="parent-schedule-marker">
+                                </div>
+
                                 <div class="parent-schedule-info">
-                                    <strong>@lesson.Subject.Name</strong>
-                                    <span>@Localizer["School lesson"]</span>
+
+                                    <strong>
+                                        @lesson.Subject.Name
+                                    </strong>
+
+                                    <span>
+                                        @Localizer["School lesson"]
+                                    </span>
+
                                 </div>
-                                <div><span class="subject-badge">@lesson.Subject.Name</span></div>
+
+                                <div>
+
+                                    <span class="subject-badge">
+                                        @lesson.Subject.Name
+                                    </span>
+
+                                </div>
+
                                 <div class="parent-schedule-teacher">
+
                                     <div class="mini-avatar">
-                                        @(string.IsNullOrWhiteSpace(lesson.Teacher.ApplicationUser.FullName)
+
+                                        @(string.IsNullOrWhiteSpace(
+                                            lesson.Teacher.ApplicationUser.FullName)
                                             ? "T"
                                             : lesson.Teacher.ApplicationUser.FullName.Substring(0, 1).ToUpper())
+
                                     </div>
+
                                     <div>
-                                        <span>@Localizer["Teacher"]</span>
-                                        <strong>@lesson.Teacher.ApplicationUser.FullName</strong>
+
+                                        <span>
+                                            @Localizer["Teacher"]
+                                        </span>
+
+                                        <strong>
+                                            @lesson.Teacher.ApplicationUser.FullName
+                                        </strong>
+
                                     </div>
+
                                 </div>
+
                             </div>
                         }
+
                     </div>
+
                 </div>
             }
         }
+
     </div>
 }
