@@ -18,15 +18,18 @@ public class StudentsController : Controller
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly StudentRiskService _riskService;
+    private readonly AchievementService _achievements;
 
     public StudentsController(
         AppDbContext context,
         IStringLocalizer<SharedResource> localizer,
-        StudentRiskService riskService)
+        StudentRiskService riskService,
+        AchievementService achievements)
     {
         _context = context;
         _localizer = localizer;
         _riskService = riskService;
+        _achievements = achievements;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -107,6 +110,8 @@ public class StudentsController : Controller
                 })
                 .ToList()
         };
+
+        ViewBag.Achievements = await _achievements.GetBadgesAsync(student.Id);
 
         return View(model);
     }
