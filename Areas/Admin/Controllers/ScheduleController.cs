@@ -7,8 +7,7 @@ using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.ViewModels.Admin;
 
-using ScheduleEntity =
-    SchoolManagementSystem.Web.Models.Entities.Schedule;
+using ScheduleEntity = SchoolManagementSystem.Web.Models.Entities.Schedule;
 
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
@@ -27,9 +26,7 @@ public class ScheduleController : Controller
         _localizer = localizer;
     }
 
-    public async Task<IActionResult> Index(
-        string? day,
-        int? groupId)
+    public async Task<IActionResult> Index(string? day, int? groupId)
     {
         var query = _context.Schedules
             .Include(s => s.Group)
@@ -39,27 +36,19 @@ public class ScheduleController : Controller
             .AsQueryable();
 
         if (!string.IsNullOrWhiteSpace(day) &&
-            Enum.TryParse<DayOfWeek>(
-                day,
-                true,
-                out var selectedDay))
+            Enum.TryParse<DayOfWeek>(day, true, out var selectedDay))
         {
-            query = query.Where(s =>
-                s.DayOfWeek == selectedDay);
+            query = query.Where(s => s.DayOfWeek == selectedDay);
         }
 
         if (groupId.HasValue)
         {
-            query = query.Where(s =>
-                s.GroupId == groupId.Value);
+            query = query.Where(s => s.GroupId == groupId.Value);
         }
 
         ViewBag.Day = day;
         ViewBag.GroupId = groupId;
-
-        ViewBag.Groups = await _context.Groups
-            .OrderBy(g => g.Name)
-            .ToListAsync();
+        ViewBag.Groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
 
         var schedule = await query
             .OrderBy(s => s.DayOfWeek)
@@ -78,19 +67,13 @@ public class ScheduleController : Controller
                 .ThenInclude(t => t.ApplicationUser)
             .FirstOrDefaultAsync(s => s.Id == id);
 
-        if (schedule == null)
-        {
-            return NotFound();
-        }
-
-        return View(schedule);
+        return schedule == null ? NotFound() : View(schedule);
     }
 
     [HttpGet]
     public async Task<IActionResult> Create()
     {
         await LoadFormDataAsync();
-
         return View(new ScheduleFormViewModel
         {
             DayOfWeek = DayOfWeek.Monday,
@@ -101,15 +84,13 @@ public class ScheduleController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(
-        ScheduleFormViewModel model)
+    public async Task<IActionResult> Create(ScheduleFormViewModel model)
     {
         await ValidateAsync(model);
 
         if (!ModelState.IsValid)
         {
             await LoadFormDataAsync();
-
             return View(model);
         }
 
@@ -124,25 +105,17 @@ public class ScheduleController : Controller
         };
 
         _context.Schedules.Add(schedule);
-
         await _context.SaveChangesAsync();
 
-        TempData["Success"] =
-            _localizer["Schedule entry created successfully."].Value;
-
+        TempData["Success"] = _localizer["Schedule entry created successfully."].Value;
         return RedirectToAction(nameof(Index));
     }
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        var schedule = await _context.Schedules
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (schedule == null)
-        {
-            return NotFound();
-        }
+        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
+        if (schedule == null) return NotFound();
 
         var model = new ScheduleFormViewModel
         {
@@ -156,30 +129,21 @@ public class ScheduleController : Controller
         };
 
         await LoadFormDataAsync();
-
         return View(model);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(
-        ScheduleFormViewModel model)
+    public async Task<IActionResult> Edit(ScheduleFormViewModel model)
     {
-        var schedule = await _context.Schedules
-            .FirstOrDefaultAsync(s =>
-                s.Id == model.Id);
-
-        if (schedule == null)
-        {
-            return NotFound();
-        }
+        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == model.Id);
+        if (schedule == null) return NotFound();
 
         await ValidateAsync(model);
 
         if (!ModelState.IsValid)
         {
             await LoadFormDataAsync();
-
             return View(model);
         }
 
@@ -192,9 +156,7 @@ public class ScheduleController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] =
-            _localizer["Schedule updated successfully."].Value;
-
+        TempData["Success"] = _localizer["Schedule updated successfully."].Value;
         return RedirectToAction(nameof(Index));
     }
 
@@ -208,12 +170,7 @@ public class ScheduleController : Controller
                 .ThenInclude(t => t.ApplicationUser)
             .FirstOrDefaultAsync(s => s.Id == id);
 
-        if (schedule == null)
-        {
-            return NotFound();
-        }
-
-        return View(schedule);
+        return schedule == null ? NotFound() : View(schedule);
     }
 
     [HttpPost]
@@ -221,26 +178,17 @@ public class ScheduleController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var schedule = await _context.Schedules
-            .FirstOrDefaultAsync(s => s.Id == id);
-
-        if (schedule == null)
-        {
-            return NotFound();
-        }
+        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
+        if (schedule == null) return NotFound();
 
         _context.Schedules.Remove(schedule);
-
         await _context.SaveChangesAsync();
 
-        TempData["Success"] =
-            _localizer["Schedule entry deleted successfully."].Value;
-
+        TempData["Success"] = _localizer["Schedule entry deleted successfully."].Value;
         return RedirectToAction(nameof(Index));
     }
 
-    private async Task ValidateAsync(
-        ScheduleFormViewModel model)
+    private async Task ValidateAsync(ScheduleFormViewModel model)
     {
         if (model.EndTime <= model.StartTime)
         {
@@ -249,13 +197,10 @@ public class ScheduleController : Controller
                 _localizer["End time must be later than start time."].Value);
         }
 
-        var teacherMatches =
-            await _context.Teachers.AnyAsync(t =>
-                t.Id == model.TeacherId &&
-                t.Groups.Any(g =>
-                    g.Id == model.GroupId) &&
-                t.Subjects.Any(s =>
-                    s.Id == model.SubjectId));
+        var teacherMatches = await _context.Teachers.AnyAsync(t =>
+            t.Id == model.TeacherId &&
+            t.Groups.Any(g => g.Id == model.GroupId) &&
+            t.Subjects.Any(s => s.Id == model.SubjectId));
 
         if (!teacherMatches)
         {
@@ -264,50 +209,54 @@ public class ScheduleController : Controller
                 _localizer["Selected teacher must be assigned to this group and subject."].Value);
         }
 
-        var teacherOverlap =
-            await _context.Schedules.AnyAsync(s =>
+        var teacherConflict = await _context.Schedules
+            .Where(s =>
                 s.Id != model.Id &&
                 s.DayOfWeek == model.DayOfWeek &&
                 s.TeacherId == model.TeacherId &&
                 s.StartTime < model.EndTime &&
-                model.StartTime < s.EndTime);
+                model.StartTime < s.EndTime)
+            .Include(s => s.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .Include(s => s.Subject)
+            .Include(s => s.Group)
+            .FirstOrDefaultAsync();
 
-        if (teacherOverlap)
+        if (teacherConflict != null)
         {
             ModelState.AddModelError(
                 nameof(model.StartTime),
-                _localizer["This teacher already has another lesson during this time."].Value);
+                $"Teacher {teacherConflict.Teacher.ApplicationUser.FullName} already has {teacherConflict.Subject.Name} with {teacherConflict.Group.Name} at {teacherConflict.StartTime:HH:mm}–{teacherConflict.EndTime:HH:mm}.");
         }
 
-        var groupOverlap =
-            await _context.Schedules.AnyAsync(s =>
+        var groupConflict = await _context.Schedules
+            .Where(s =>
                 s.Id != model.Id &&
                 s.DayOfWeek == model.DayOfWeek &&
                 s.GroupId == model.GroupId &&
                 s.StartTime < model.EndTime &&
-                model.StartTime < s.EndTime);
+                model.StartTime < s.EndTime)
+            .Include(s => s.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .Include(s => s.Subject)
+            .Include(s => s.Group)
+            .FirstOrDefaultAsync();
 
-        if (groupOverlap)
+        if (groupConflict != null)
         {
             ModelState.AddModelError(
                 nameof(model.StartTime),
-                _localizer["This group already has another lesson during this time."].Value);
+                $"Group {groupConflict.Group.Name} already has {groupConflict.Subject.Name} with {groupConflict.Teacher.ApplicationUser.FullName} at {groupConflict.StartTime:HH:mm}–{groupConflict.EndTime:HH:mm}.");
         }
     }
 
     private async Task LoadFormDataAsync()
     {
-        ViewBag.Groups = await _context.Groups
-            .OrderBy(g => g.Name)
-            .ToListAsync();
-
+        ViewBag.Groups = await _context.Groups.OrderBy(g => g.Name).ToListAsync();
         ViewBag.Teachers = await _context.Teachers
             .Include(t => t.ApplicationUser)
             .OrderBy(t => t.ApplicationUser.FullName)
             .ToListAsync();
-
-        ViewBag.Subjects = await _context.Subjects
-            .OrderBy(s => s.Name)
-            .ToListAsync();
+        ViewBag.Subjects = await _context.Subjects.OrderBy(s => s.Name).ToListAsync();
     }
 }
