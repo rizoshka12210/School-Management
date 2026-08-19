@@ -2,7 +2,7 @@
 @model SchoolManagementSystem.Web.ViewModels.Shared.AttendanceJournalViewModel
 
 @{
-    ViewData["Title"] = "Attendance Journal";
+    ViewData["Title"] = Localizer["Attendance Journal"];
 
     string StatusAbbr(AttendanceStatus? status) => status switch
     {
@@ -27,17 +27,17 @@
 
     <div>
         <h1 class="page-title">
-            Attendance Journal
+            @Localizer["Attendance Journal"]
         </h1>
 
         <p class="page-subtitle">
-            Students &times; lesson dates, at a glance
+            @Localizer["Students × lesson dates, at a glance"]
         </p>
     </div>
 
     <a asp-action="Index"
        class="btn btn-light">
-        ← Flat list
+        ← @Localizer["Flat list"]
     </a>
 
 </div>
@@ -51,13 +51,13 @@
               class="journal-filters">
 
             <div>
-                <label class="form-label">Group</label>
+                <label class="form-label">@Localizer["Group"]</label>
 
                 <select name="groupId"
                         class="form-select"
                         required>
 
-                    <option value="">Select group</option>
+                    <option value="">@Localizer["Select group"]</option>
 
                     @foreach (var group in ViewBag.Groups)
                     {
@@ -80,12 +80,12 @@
             </div>
 
             <div>
-                <label class="form-label">Subject</label>
+                <label class="form-label">@Localizer["Subject"]</label>
 
                 <select name="subjectId"
                         class="form-select">
 
-                    <option value="">All subjects</option>
+                    <option value="">@Localizer["All subjects"]</option>
 
                     @foreach (var subject in ViewBag.Subjects)
                     {
@@ -108,7 +108,7 @@
             </div>
 
             <div>
-                <label class="form-label">From</label>
+                <label class="form-label">@Localizer["From"]</label>
 
                 <input type="date"
                        name="from"
@@ -117,7 +117,7 @@
             </div>
 
             <div>
-                <label class="form-label">To</label>
+                <label class="form-label">@Localizer["To"]</label>
 
                 <input type="date"
                        name="to"
@@ -127,7 +127,7 @@
 
             <button type="submit"
                     class="btn btn-primary">
-                Show
+                @Localizer["Show"]
             </button>
 
         </form>
@@ -141,11 +141,11 @@
                 </div>
 
                 <h5>
-                    Select a group
+                    @Localizer["Select a group"]
                 </h5>
 
                 <p>
-                    Choose a group above to view its attendance journal.
+                    @Localizer["Choose a group above to view its attendance journal."]
                 </p>
 
             </div>
@@ -159,11 +159,11 @@
                 </div>
 
                 <h5>
-                    No lessons in this range
+                    @Localizer["No lessons in this range"]
                 </h5>
 
                 <p>
-                    There are no lessons for @Model.GroupName in the selected date range.
+                    @Localizer["There are no lessons for {0} in the selected date range.", Model.GroupName]
                 </p>
 
             </div>
@@ -176,7 +176,7 @@
 
                     <thead>
                         <tr>
-                            <th class="journal-sticky-col">Student</th>
+                            <th class="journal-sticky-col">@Localizer["Student"]</th>
 
                             @foreach (var col in Model.Columns)
                             {
@@ -186,7 +186,7 @@
                                 </th>
                             }
 
-                            <th>Rate</th>
+                            <th>@Localizer["Rate"]</th>
                         </tr>
                     </thead>
 
@@ -209,7 +209,7 @@
                                             <a asp-action="Edit"
                                                asp-route-id="@cell.AttendanceId"
                                                class="status-badge journal-status-badge @StatusClass(cell.Status)"
-                                               title="Edit">
+                                               title="@Localizer["Edit"]">
                                                 @StatusAbbr(cell.Status)
                                             </a>
                                         }
