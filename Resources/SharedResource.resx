@@ -766,4 +766,85 @@
   <data name="Update subject information and assigned teachers" xml:space="preserve">
     <value>Update subject information and assigned teachers</value>
   </data>
+  <data name="All groups" xml:space="preserve">
+    <value>All groups</value>
+  </data>
+  <data name="Are you sure you want to delete this lesson?" xml:space="preserve">
+    <value>Are you sure you want to delete this lesson?</value>
+  </data>
+  <data name="Assignment" xml:space="preserve">
+    <value>Assignment</value>
+  </data>
+  <data name="Attendance records" xml:space="preserve">
+    <value>Attendance records</value>
+  </data>
+  <data name="Create a lesson and assign a teacher, group and subject" xml:space="preserve">
+    <value>Create a lesson and assign a teacher, group and subject</value>
+  </data>
+  <data name="Create Lesson" xml:space="preserve">
+    <value>Create Lesson</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="Date &amp; Time" xml:space="preserve">
+    <value>Date &amp; Time</value>
+  </data>
+  <data name="Delete Lesson" xml:space="preserve">
+    <value>Delete Lesson</value>
+  </data>
+  <data name="Edit Lesson" xml:space="preserve">
+    <value>Edit Lesson</value>
+  </data>
+  <data name="End Time" xml:space="preserve">
+    <value>End Time</value>
+  </data>
+  <data name="Example: Linear equations" xml:space="preserve">
+    <value>Example: Linear equations</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Lesson Details" xml:space="preserve">
+    <value>Lesson Details</value>
+  </data>
+  <data name="Lesson Information" xml:space="preserve">
+    <value>Lesson Information</value>
+  </data>
+  <data name="Manage lessons, teachers, subjects and lesson topics" xml:space="preserve">
+    <value>Manage lessons, teachers, subjects and lesson topics</value>
+  </data>
+  <data name="No lessons found" xml:space="preserve">
+    <value>No lessons found</value>
+  </data>
+  <data name="Search subject, teacher, group or topic..." xml:space="preserve">
+    <value>Search subject, teacher, group or topic...</value>
+  </data>
+  <data name="Select group" xml:space="preserve">
+    <value>Select group</value>
+  </data>
+  <data name="Select group, teacher and subject" xml:space="preserve">
+    <value>Select group, teacher and subject</value>
+  </data>
+  <data name="Select subject" xml:space="preserve">
+    <value>Select subject</value>
+  </data>
+  <data name="Select teacher" xml:space="preserve">
+    <value>Select teacher</value>
+  </data>
+  <data name="Set lesson date, time and topic" xml:space="preserve">
+    <value>Set lesson date, time and topic</value>
+  </data>
+  <data name="Start Time" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="There are no lessons matching the selected filters." xml:space="preserve">
+    <value>There are no lessons matching the selected filters.</value>
+  </data>
+  <data name="This lesson already contains attendance or grades and cannot be deleted." xml:space="preserve">
+    <value>This lesson already contains attendance or grades and cannot be deleted.</value>
+  </data>
+  <data name="Update lesson information" xml:space="preserve">
+    <value>Update lesson information</value>
+  </data>
 </root>

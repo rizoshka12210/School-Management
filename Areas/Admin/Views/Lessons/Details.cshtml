@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.Models.Entities.Lesson
 
 @{
-    ViewData["Title"] = "Lesson Details";
+    ViewData["Title"] = Localizer["Lesson Details"];
 }
 
 <div class="container mt-4">
@@ -15,18 +15,18 @@
                 <div class="card-body p-4">
 
                     <h2 class="fw-bold">
-                        Lesson Details
+                        @Localizer["Lesson Details"]
                     </h2>
 
                     <hr />
 
                     <p>
-                        <strong>Date:</strong>
+                        <strong>@Localizer["Date"]:</strong>
                         @Model.StartTime.ToString("dd.MM.yyyy")
                     </p>
 
                     <p>
-                        <strong>Time:</strong>
+                        <strong>@Localizer["Time"]:</strong>
 
                         @Model.StartTime.ToString("HH:mm")
                         -
@@ -34,46 +34,46 @@
                     </p>
 
                     <p>
-                        <strong>Group:</strong>
+                        <strong>@Localizer["Group"]:</strong>
                         @Model.Group.Name
                     </p>
 
                     <p>
-                        <strong>Subject:</strong>
+                        <strong>@Localizer["Subject"]:</strong>
                         @Model.Subject.Name
                     </p>
 
                     <p>
-                        <strong>Teacher:</strong>
+                        <strong>@Localizer["Teacher"]:</strong>
                         @Model.Teacher.ApplicationUser.FullName
                     </p>
 
                     <p>
-                        <strong>Topic:</strong>
-                        @(Model.Topic ?? "No topic")
+                        <strong>@Localizer["Topic"]:</strong>
+                        @(Model.Topic ?? Localizer["No topic"].Value)
                     </p>
 
                     <hr />
 
                     <p>
-                        <strong>Attendance records:</strong>
+                        <strong>@Localizer["Attendance records"]:</strong>
                         @Model.Attendances.Count
                     </p>
 
                     <p>
-                        <strong>Grades:</strong>
+                        <strong>@Localizer["Grades"]:</strong>
                         @Model.Grades.Count
                     </p>
 
                     <a asp-action="Edit"
                        asp-route-id="@Model.Id"
                        class="btn btn-primary">
-                        Edit
+                        @Localizer["Edit"]
                     </a>
 
                     <a asp-action="Index"
                        class="btn btn-outline-secondary">
-                        Back
+                        @Localizer["Back"]
                     </a>
 
                 </div>

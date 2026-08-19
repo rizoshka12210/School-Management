@@ -1,22 +1,22 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Lesson>
 
 @{
-    ViewData["Title"] = "Lessons";
+    ViewData["Title"] = Localizer["Lessons"];
 }
 
 <div class="page-header">
 
     <div>
-        <h1 class="page-title">Lessons</h1>
+        <h1 class="page-title">@Localizer["Lessons"]</h1>
 
         <p class="page-subtitle">
-            Manage lessons, teachers, subjects and lesson topics
+            @Localizer["Manage lessons, teachers, subjects and lesson topics"]
         </p>
     </div>
 
     <a asp-action="Create"
        class="btn btn-primary">
-        + Add Lesson
+        + @Localizer["Add Lesson"]
     </a>
 
 </div>
@@ -34,7 +34,7 @@
                        name="search"
                        value="@ViewBag.Search"
                        class="form-control"
-                       placeholder="Search subject, teacher, group or topic..." />
+                       placeholder="@Localizer["Search subject, teacher, group or topic..."]" />
             </div>
 
             <div>
@@ -49,7 +49,7 @@
                         class="form-select">
 
                     <option value="">
-                        All groups
+                        @Localizer["All groups"]
                     </option>
 
                     @foreach (var group in ViewBag.Groups)
@@ -74,12 +74,12 @@
 
             <button type="submit"
                     class="btn btn-primary">
-                Filter
+                @Localizer["Filter"]
             </button>
 
             <a asp-action="Index"
                class="btn btn-light">
-                Clear
+                @Localizer["Clear"]
             </a>
 
         </form>
@@ -92,15 +92,15 @@
                     LS
                 </div>
 
-                <h5>No lessons found</h5>
+                <h5>@Localizer["No lessons found"]</h5>
 
                 <p>
-                    There are no lessons matching the selected filters.
+                    @Localizer["There are no lessons matching the selected filters."]
                 </p>
 
                 <a asp-action="Create"
                    class="btn btn-primary">
-                    + Add Lesson
+                    + @Localizer["Add Lesson"]
                 </a>
 
             </div>
@@ -113,13 +113,13 @@
 
                     <thead>
                         <tr>
-                            <th>Date & Time</th>
-                            <th>Group</th>
-                            <th>Subject</th>
-                            <th>Teacher</th>
-                            <th>Topic</th>
+                            <th>@Localizer["Date & Time"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Teacher"]</th>
+                            <th>@Localizer["Topic"]</th>
                             <th class="text-end">
-                                Actions
+                                @Localizer["Actions"]
                             </th>
                         </tr>
                     </thead>
@@ -189,7 +189,7 @@
                                     else
                                     {
                                         <span class="text-muted">
-                                            No topic
+                                            @Localizer["No topic"]
                                         </span>
                                     }
 
@@ -202,19 +202,19 @@
                                         <a asp-action="Details"
                                            asp-route-id="@lesson.Id"
                                            class="action-btn action-details">
-                                            View
+                                            @Localizer["View"]
                                         </a>
 
                                         <a asp-action="Edit"
                                            asp-route-id="@lesson.Id"
                                            class="action-btn action-edit">
-                                            Edit
+                                            @Localizer["Edit"]
                                         </a>
 
                                         <a asp-action="Delete"
                                            asp-route-id="@lesson.Id"
                                            class="action-btn action-delete">
-                                            Delete
+                                            @Localizer["Delete"]
                                         </a>
 
                                     </div>
@@ -231,7 +231,7 @@
             </div>
 
             <div class="table-footer">
-                Showing @Model.Count() lesson(s)
+                @Localizer["Showing {0} lesson(s)", Model.Count()]
             </div>
         }
 

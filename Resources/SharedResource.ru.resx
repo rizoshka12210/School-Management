@@ -766,4 +766,85 @@
   <data name="Update subject information and assigned teachers" xml:space="preserve">
     <value>Обновите информацию о предмете и назначенных учителях</value>
   </data>
+  <data name="All groups" xml:space="preserve">
+    <value>Все группы</value>
+  </data>
+  <data name="Are you sure you want to delete this lesson?" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот урок?</value>
+  </data>
+  <data name="Assignment" xml:space="preserve">
+    <value>Назначение</value>
+  </data>
+  <data name="Attendance records" xml:space="preserve">
+    <value>Записи посещаемости</value>
+  </data>
+  <data name="Create a lesson and assign a teacher, group and subject" xml:space="preserve">
+    <value>Создайте урок и назначьте учителя, группу и предмет</value>
+  </data>
+  <data name="Create Lesson" xml:space="preserve">
+    <value>Создать урок</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Дата</value>
+  </data>
+  <data name="Date &amp; Time" xml:space="preserve">
+    <value>Дата и время</value>
+  </data>
+  <data name="Delete Lesson" xml:space="preserve">
+    <value>Удалить урок</value>
+  </data>
+  <data name="Edit Lesson" xml:space="preserve">
+    <value>Редактировать урок</value>
+  </data>
+  <data name="End Time" xml:space="preserve">
+    <value>Время окончания</value>
+  </data>
+  <data name="Example: Linear equations" xml:space="preserve">
+    <value>Например: Линейные уравнения</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="Lesson Details" xml:space="preserve">
+    <value>Информация об уроке</value>
+  </data>
+  <data name="Lesson Information" xml:space="preserve">
+    <value>Информация об уроке</value>
+  </data>
+  <data name="Manage lessons, teachers, subjects and lesson topics" xml:space="preserve">
+    <value>Управление уроками, учителями, предметами и темами уроков</value>
+  </data>
+  <data name="No lessons found" xml:space="preserve">
+    <value>Уроки не найдены</value>
+  </data>
+  <data name="Search subject, teacher, group or topic..." xml:space="preserve">
+    <value>Поиск по предмету, учителю, группе или теме...</value>
+  </data>
+  <data name="Select group" xml:space="preserve">
+    <value>Выберите группу</value>
+  </data>
+  <data name="Select group, teacher and subject" xml:space="preserve">
+    <value>Выберите группу, учителя и предмет</value>
+  </data>
+  <data name="Select subject" xml:space="preserve">
+    <value>Выберите предмет</value>
+  </data>
+  <data name="Select teacher" xml:space="preserve">
+    <value>Выберите учителя</value>
+  </data>
+  <data name="Set lesson date, time and topic" xml:space="preserve">
+    <value>Укажите дату, время и тему урока</value>
+  </data>
+  <data name="Start Time" xml:space="preserve">
+    <value>Время начала</value>
+  </data>
+  <data name="There are no lessons matching the selected filters." xml:space="preserve">
+    <value>Нет уроков, соответствующих выбранным фильтрам.</value>
+  </data>
+  <data name="This lesson already contains attendance or grades and cannot be deleted." xml:space="preserve">
+    <value>Этот урок уже содержит посещаемость или оценки и не может быть удалён.</value>
+  </data>
+  <data name="Update lesson information" xml:space="preserve">
+    <value>Обновите информацию об уроке</value>
+  </data>
 </root>
