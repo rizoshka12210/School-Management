@@ -6,42 +6,11 @@
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
+            <xsd:complexType><xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" /></xsd:sequence><xsd:attribute name="name" use="required" type="xsd:string" /><xsd:attribute name="type" type="xsd:string" /><xsd:attribute name="mimetype" type="xsd:string" /><xsd:attribute ref="xml:space" /></xsd:complexType>
           </xsd:element>
-          <xsd:element name="assembly">
-            <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="data">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
-              </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
-            </xsd:complexType>
-          </xsd:element>
-          <xsd:element name="resheader">
-            <xsd:complexType>
-              <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-              </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-            </xsd:complexType>
-          </xsd:element>
+          <xsd:element name="assembly"><xsd:complexType><xsd:attribute name="alias" type="xsd:string" /><xsd:attribute name="name" type="xsd:string" /></xsd:complexType></xsd:element>
+          <xsd:element name="data"><xsd:complexType><xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" /><xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" /></xsd:sequence><xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" /><xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" /><xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" /><xsd:attribute ref="xml:space" /></xsd:complexType></xsd:element>
+          <xsd:element name="resheader"><xsd:complexType><xsd:sequence><xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" /></xsd:sequence><xsd:attribute name="name" use="required" type="xsd:string" /></xsd:complexType></xsd:element>
         </xsd:choice>
       </xsd:complexType>
     </xsd:element>
@@ -161,7 +130,6 @@
   <data name="Mark and manage student attendance for your lessons" xml:space="preserve"><value>Отмечайте и управляйте посещаемостью учеников на своих уроках</value></data>
   <data name="{0} lesson(s)" xml:space="preserve"><value>Уроков: {0}</value></data>
   <data name="Total Lessons" xml:space="preserve"><value>Всего уроков</value></data>
-  <data name="Not Marked" xml:space="preserve"><value>Не отмечено</value></data>
   <data name="My Lessons" xml:space="preserve"><value>Мои уроки</value></data>
   <data name="Select a lesson to mark attendance" xml:space="preserve"><value>Выберите урок, чтобы отметить посещаемость</value></data>
   <data name="No lessons yet" xml:space="preserve"><value>Уроков пока нет</value></data>
@@ -212,7 +180,7 @@
   <data name="No topic" xml:space="preserve"><value>Без темы</value></data>
   <data name="Showing {0} lesson(s)" xml:space="preserve"><value>Показано уроков: {0}</value></data>
   <data name="Lesson Details" xml:space="preserve"><value>Детали урока</value></data>
-  <data name="Attendance Records" xml:space="preserve"><value>Записи посещаемости</value></data>
+  <data name="Attendance records" xml:space="preserve"><value>Записи посещаемости</value></data>
   <data name="{0} present" xml:space="preserve"><value>Присутствовали: {0}</value></data>
   <data name="{0} average" xml:space="preserve"><value>Среднее: {0}</value></data>
   <data name="Lesson Topic" xml:space="preserve"><value>Тема урока</value></data>
@@ -232,7 +200,6 @@
   <data name="{0} of {1} present" xml:space="preserve"><value>Присутствовали: {0} из {1}</value></data>
   <data name="In your subjects" xml:space="preserve"><value>По вашим предметам</value></data>
   <data name="Recorded Lessons" xml:space="preserve"><value>Учтённые уроки</value></data>
-  <data name="Attendance records" xml:space="preserve"><value>Записи посещаемости</value></data>
   <data name="Recorded grades" xml:space="preserve"><value>Записанные оценки</value></data>
   <data name="Grade History" xml:space="preserve"><value>История оценок</value></data>
   <data name="Grades recorded by you for this student" xml:space="preserve"><value>Оценки, выставленные вами этому ученику</value></data>
@@ -311,7 +278,6 @@
   <data name="Topics will appear here after teachers add them to lessons." xml:space="preserve"><value>Темы появятся здесь после того, как учителя добавят их к урокам.</value></data>
   <data name="Lesson at {0}" xml:space="preserve"><value>Урок в {0}</value></data>
 
-  <data name="Overall average" xml:space="preserve"><value>Общий средний балл</value></data>
   <data name="Age" xml:space="preserve"><value>Возраст</value></data>
   <data name="years old" xml:space="preserve"><value>лет</value></data>
   <data name="Student Information" xml:space="preserve"><value>Информация об ученике</value></data>
@@ -321,10 +287,7 @@
   <data name="Academic Access" xml:space="preserve"><value>Учебная информация</value></data>
   <data name="Quickly open your child's school information" xml:space="preserve"><value>Быстрый доступ к школьной информации вашего ребёнка</value></data>
   <data name="Weekly timetable" xml:space="preserve"><value>Недельное расписание</value></data>
-  <data name="Grade history" xml:space="preserve"><value>История оценок</value></data>
-  <data name="Attendance history" xml:space="preserve"><value>История посещаемости</value></data>
   <data name="School subjects" xml:space="preserve"><value>Школьные предметы</value></data>
-  <data name="Lesson topics" xml:space="preserve"><value>Темы уроков</value></data>
   <data name="Overall performance" xml:space="preserve"><value>Общая успеваемость</value></data>
 
   <data name="Student Progress" xml:space="preserve"><value>Успеваемость ученика</value></data>
@@ -359,7 +322,6 @@
   <data name="Friday" xml:space="preserve"><value>Пятница</value></data>
   <data name="Saturday" xml:space="preserve"><value>Суббота</value></data>
   <data name="Sunday" xml:space="preserve"><value>Воскресенье</value></data>
-
   <data name="January" xml:space="preserve"><value>Январь</value></data>
   <data name="February" xml:space="preserve"><value>Февраль</value></data>
   <data name="March" xml:space="preserve"><value>Март</value></data>
