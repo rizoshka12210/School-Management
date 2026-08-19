@@ -1,0 +1,84 @@
+@using SchoolManagementSystem.Web.Services
+
+@{
+    ViewData["Title"] = Localizer["Leaderboard"];
+
+    int year = ViewBag.Year;
+    int month = ViewBag.Month;
+
+    string[] monthNames =
+    {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">🏆 @Localizer["Leaderboard"]</h1>
+        <p class="page-subtitle">@Localizer["Top performing students this month"]</p>
+    </div>
+</div>
+
+<div class="salary-period">
+    <div>
+        <div class="salary-period-label">@Localizer["Selected period"]</div>
+        <div class="salary-period-value">@Localizer[monthNames[month - 1]] @year</div>
+    </div>
+
+    <form method="get" asp-action="Index" class="salary-filter">
+        <select name="month" class="form-select">
+            @for (int i = 1; i <= 12; i++)
+            {
+                <option value="@i" selected="@(i == month)">@Localizer[monthNames[i - 1]]</option>
+            }
+        </select>
+
+        <select name="year" class="form-select">
+            @for (int i = DateTime.UtcNow.Year - 3; i <= DateTime.UtcNow.Year + 1; i++)
+            {
+                <option value="@i" selected="@(i == year)">@i</option>
+            }
+        </select>
+
+        <button type="submit" class="btn btn-primary">@Localizer["Apply"]</button>
+    </form>
+</div>
+
+<div class="leaderboard-grid">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="section-header">
+                <div>
+                    <h5 class="section-title">🏆 @Localizer["Top Grades"]</h5>
+                    <p class="section-subtitle">@Localizer["Highest average grade this month"]</p>
+                </div>
+            </div>
+            <partial name="_LeaderboardTable" model='(Suffix: "", Entries: (List<LeaderboardEntry>)ViewBag.TopGrades)' />
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="section-header">
+                <div>
+                    <h5 class="section-title">✅ @Localizer["Best Attendance"]</h5>
+                    <p class="section-subtitle">@Localizer["Highest attendance rate this month"]</p>
+                </div>
+            </div>
+            <partial name="_LeaderboardTable" model='(Suffix: "%", Entries: (List<LeaderboardEntry>)ViewBag.TopAttendance)' />
+        </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="section-header">
+                <div>
+                    <h5 class="section-title">📈 @Localizer["Most Improved"]</h5>
+                    <p class="section-subtitle">@Localizer["Biggest grade improvement vs last month"]</p>
+                </div>
+            </div>
+            <partial name="_LeaderboardTable" model='(Suffix: "", Entries: (List<LeaderboardEntry>)ViewBag.MostImproved)' />
+        </div>
+    </div>
+</div>

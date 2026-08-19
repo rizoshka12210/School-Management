@@ -163,6 +163,13 @@
                        asp-action="Index">
                         @Localizer["Salary"]
                     </a>
+
+                    <a class="sidebar-link @Active("Admin", "Leaderboard")"
+                       asp-area="Admin"
+                       asp-controller="Leaderboard"
+                       asp-action="Index">
+                        @Localizer["Leaderboard"]
+                    </a>
                 }
 
                 @if (User.IsInRole("Teacher"))
@@ -233,6 +240,13 @@
                        asp-action="Index">
                         @Localizer["My Salary"]
                     </a>
+
+                    <a class="sidebar-link @Active("Teacher", "Leaderboard")"
+                       asp-area="Teacher"
+                       asp-controller="Leaderboard"
+                       asp-action="Index">
+                        @Localizer["Leaderboard"]
+                    </a>
                 }
 
                 @if (User.IsInRole("Parent"))
@@ -295,6 +309,13 @@
                        asp-controller="Progress"
                        asp-action="Index">
                         @Localizer["Progress"]
+                    </a>
+
+                    <a class="sidebar-link @Active("Parent", "Leaderboard")"
+                       asp-area="Parent"
+                       asp-controller="Leaderboard"
+                       asp-action="Index">
+                        @Localizer["Leaderboard"]
                     </a>
                 }
 

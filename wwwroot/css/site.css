@@ -6221,3 +6221,61 @@ html[data-theme="dark"] .achievement-badge-earned {
     background: #422006;
     border-color: #92400e;
 }
+
+.leaderboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.leaderboard-rank-cell {
+    width: 44px;
+}
+
+.leaderboard-rank {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 800;
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.leaderboard-rank-1 {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.leaderboard-rank-2 {
+    background: #e2e8f0;
+    color: #475569;
+}
+
+.leaderboard-rank-3 {
+    background: #fed7aa;
+    color: #9a3412;
+}
+
+html[data-theme="dark"] .leaderboard-rank {
+    background: #1e293b;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .leaderboard-rank-1 {
+    background: #422006;
+    color: #fbbf24;
+}
+
+html[data-theme="dark"] .leaderboard-rank-2 {
+    background: #334155;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .leaderboard-rank-3 {
+    background: #431407;
+    color: #fb923c;
+}

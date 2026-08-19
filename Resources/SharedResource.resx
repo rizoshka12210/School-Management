@@ -1084,4 +1084,34 @@
   <data name="Achievements" xml:space="preserve">
     <value>Achievements</value>
   </data>
+  <data name="Leaderboard" xml:space="preserve">
+    <value>Leaderboard</value>
+  </data>
+  <data name="Top performing students this month" xml:space="preserve">
+    <value>Top performing students this month</value>
+  </data>
+  <data name="Top Grades" xml:space="preserve">
+    <value>Top Grades</value>
+  </data>
+  <data name="Highest average grade this month" xml:space="preserve">
+    <value>Highest average grade this month</value>
+  </data>
+  <data name="Best Attendance" xml:space="preserve">
+    <value>Best Attendance</value>
+  </data>
+  <data name="Highest attendance rate this month" xml:space="preserve">
+    <value>Highest attendance rate this month</value>
+  </data>
+  <data name="Most Improved" xml:space="preserve">
+    <value>Most Improved</value>
+  </data>
+  <data name="Biggest grade improvement vs last month" xml:space="preserve">
+    <value>Biggest grade improvement vs last month</value>
+  </data>
+  <data name="Not enough data yet" xml:space="preserve">
+    <value>Not enough data yet</value>
+  </data>
+  <data name="Check back after a few more grades or attendance records are added." xml:space="preserve">
+    <value>Check back after a few more grades or attendance records are added.</value>
+  </data>
 </root>

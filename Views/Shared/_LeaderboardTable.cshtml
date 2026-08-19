@@ -1,0 +1,50 @@
+@using SchoolManagementSystem.Web.Services
+@model (string Suffix, List<LeaderboardEntry> Entries)
+
+@{
+    var entries = Model.Entries;
+    var suffix = Model.Suffix;
+}
+
+@if (!entries.Any())
+{
+    <div class="management-empty">
+        <div class="management-empty-icon">LB</div>
+        <h5>@Localizer["Not enough data yet"]</h5>
+        <p>@Localizer["Check back after a few more grades or attendance records are added."]</p>
+    </div>
+}
+else
+{
+    <table class="table management-table">
+        <tbody>
+            @{ var rank = 1; }
+            @foreach (var entry in entries)
+            {
+                <tr>
+                    <td class="leaderboard-rank-cell">
+                        <span class="leaderboard-rank leaderboard-rank-@(rank <= 3 ? rank.ToString() : "other")">
+                            @rank
+                        </span>
+                    </td>
+                    <td>
+                        <div class="person-cell">
+                            <div class="person-avatar">
+                                @(string.IsNullOrWhiteSpace(entry.Name) ? "S" : entry.Name.Substring(0, 1).ToUpper())
+                            </div>
+                            <div>
+                                <div class="person-name">@entry.Name</div>
+                                <div class="person-id">@entry.GroupName</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-end">
+                        <strong>@entry.Score.ToString("0.##")@suffix</strong>
+                    </td>
+                </tr>
+
+                rank++;
+            }
+        </tbody>
+    </table>
+}
