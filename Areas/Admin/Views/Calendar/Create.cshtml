@@ -1,0 +1,28 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.CalendarEventFormViewModel
+
+@{
+    ViewData["Title"] = Localizer["Add Event"];
+}
+
+<div class="form-page-header">
+    <a asp-action="Index" class="back-link">← @Localizer["School Calendar"]</a>
+
+    <h1 class="page-title mt-2">@Localizer["Add Event"]</h1>
+    <p class="page-subtitle">@Localizer["Create a new calendar event"]</p>
+</div>
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <partial name="_Form" model="Model" />
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">@Localizer["Cancel"]</a>
+        <button type="submit" class="btn btn-primary">@Localizer["Add Event"]</button>
+    </div>
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

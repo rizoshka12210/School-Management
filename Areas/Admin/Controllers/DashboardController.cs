@@ -154,7 +154,12 @@ public class DashboardController : Controller
                 .ThenBy(p => p.AttendanceRate)
                 .Take(8)
                 .ToList(),
-            AttendanceTrend = trend
+            AttendanceTrend = trend,
+            UpcomingEvents = await _context.CalendarEvents
+                .Where(e => e.Date >= today)
+                .OrderBy(e => e.Date)
+                .Take(5)
+                .ToListAsync()
         };
 
         return View(model);

@@ -81,7 +81,12 @@ public class DashboardController : TeacherControllerBase
             StudentsCount = studentsCount,
             TodayLessons = todayLessons,
             CurrentMonthWorkedHours = salary?.WorkedHours ?? 0,
-            CurrentMonthSalary = salary?.TotalSalary ?? 0
+            CurrentMonthSalary = salary?.TotalSalary ?? 0,
+            UpcomingEvents = await Context.CalendarEvents
+                .Where(e => e.Date >= today)
+                .OrderBy(e => e.Date)
+                .Take(5)
+                .ToListAsync()
         };
 
         return View(model);

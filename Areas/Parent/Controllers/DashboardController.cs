@@ -32,7 +32,16 @@ public class DashboardController : ParentControllerBase
             .OrderBy(s => s.Id)
             .ToListAsync();
 
-        var model = new ParentDashboardViewModel();
+        var today = DateTime.UtcNow.Date;
+
+        var model = new ParentDashboardViewModel
+        {
+            UpcomingEvents = await Context.CalendarEvents
+                .Where(e => e.Date >= today)
+                .OrderBy(e => e.Date)
+                .Take(5)
+                .ToListAsync()
+        };
 
         foreach (var student in students)
         {

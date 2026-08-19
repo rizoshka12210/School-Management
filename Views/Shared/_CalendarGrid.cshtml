@@ -1,0 +1,70 @@
+@using SchoolManagementSystem.Web.ViewModels.Shared
+@model CalendarGridViewModel
+
+@{
+    var firstOfMonth = new DateTime(Model.Year, Model.Month, 1);
+    var daysInMonth = DateTime.DaysInMonth(Model.Year, Model.Month);
+    var leadingBlanks = ((int)firstOfMonth.DayOfWeek + 6) % 7;
+
+    var eventsByDay = Model.Events
+        .GroupBy(e => e.Date.Day)
+        .ToDictionary(g => g.Key, g => g.ToList());
+
+    var today = DateTime.UtcNow.Date;
+
+    var weekDays = new[]
+    {
+        DayOfWeek.Monday, DayOfWeek.Tuesday, DayOfWeek.Wednesday,
+        DayOfWeek.Thursday, DayOfWeek.Friday, DayOfWeek.Saturday, DayOfWeek.Sunday
+    };
+}
+
+<div class="calendar-grid">
+    <div class="calendar-grid-head">
+        @foreach (var day in weekDays)
+        {
+            <div class="calendar-grid-head-cell">@Localizer[day.ToString()]</div>
+        }
+    </div>
+
+    <div class="calendar-grid-body">
+        @for (int i = 0; i < leadingBlanks; i++)
+        {
+            <div class="calendar-grid-cell calendar-grid-cell-blank"></div>
+        }
+
+        @for (int day = 1; day <= daysInMonth; day++)
+        {
+            var isToday = new DateTime(Model.Year, Model.Month, day) == today;
+            var dayEvents = eventsByDay.TryGetValue(day, out var list) ? list : new();
+
+            <div class="calendar-grid-cell @(isToday ? "calendar-grid-cell-today" : "")">
+                <div class="calendar-grid-day-number">@day</div>
+
+                @foreach (var evt in dayEvents)
+                {
+                    <div class="calendar-event-chip" title="@evt.Description">
+                        <span class="calendar-event-title">@evt.Title</span>
+
+                        @if (Model.CanManage)
+                        {
+                            <span class="calendar-event-actions">
+                                <a asp-action="Edit" asp-route-id="@evt.Id" title="@Localizer["Edit"]">✎</a>
+                                <a asp-action="Delete" asp-route-id="@evt.Id" title="@Localizer["Delete"]">✕</a>
+                            </span>
+                        }
+                    </div>
+                }
+
+                @if (Model.CanManage)
+                {
+                    <a class="calendar-add-event"
+                       asp-action="Create"
+                       asp-route-date="@(new DateTime(Model.Year, Model.Month, day).ToString("yyyy-MM-dd"))">
+                        + @Localizer["Add"]
+                    </a>
+                }
+            </div>
+        }
+    </div>
+</div>

@@ -1123,4 +1123,61 @@
   <data name="No teacher comments yet." xml:space="preserve">
     <value>No teacher comments yet.</value>
   </data>
+  <data name="Upcoming Events" xml:space="preserve">
+    <value>Upcoming Events</value>
+  </data>
+  <data name="From the school calendar" xml:space="preserve">
+    <value>From the school calendar</value>
+  </data>
+  <data name="No upcoming events." xml:space="preserve">
+    <value>No upcoming events.</value>
+  </data>
+  <data name="School Calendar" xml:space="preserve">
+    <value>School Calendar</value>
+  </data>
+  <data name="Admin creates events, everyone else can view them" xml:space="preserve">
+    <value>Admin creates events, everyone else can view them</value>
+  </data>
+  <data name="Add Event" xml:space="preserve">
+    <value>Add Event</value>
+  </data>
+  <data name="Edit Event" xml:space="preserve">
+    <value>Edit Event</value>
+  </data>
+  <data name="Delete Event" xml:space="preserve">
+    <value>Delete Event</value>
+  </data>
+  <data name="Event Information" xml:space="preserve">
+    <value>Event Information</value>
+  </data>
+  <data name="Enter the event title, date and an optional description" xml:space="preserve">
+    <value>Enter the event title, date and an optional description</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Create a new calendar event" xml:space="preserve">
+    <value>Create a new calendar event</value>
+  </data>
+  <data name="Upcoming school events" xml:space="preserve">
+    <value>Upcoming school events</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Example: Parent Meeting" xml:space="preserve">
+    <value>Example: Parent Meeting</value>
+  </data>
+  <data name="Event created successfully." xml:space="preserve">
+    <value>Event created successfully.</value>
+  </data>
+  <data name="Event updated successfully." xml:space="preserve">
+    <value>Event updated successfully.</value>
+  </data>
+  <data name="Event deleted successfully." xml:space="preserve">
+    <value>Event deleted successfully.</value>
+  </data>
 </root>

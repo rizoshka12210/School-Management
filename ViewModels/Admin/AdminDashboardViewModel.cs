@@ -20,6 +20,7 @@ public class AdminDashboardViewModel
     public List<StudentPerformanceViewModel> TopStudents { get; set; } = new();
     public List<StudentPerformanceViewModel> StudentsNeedingAttention { get; set; } = new();
     public List<AttendanceTrendPointViewModel> AttendanceTrend { get; set; } = new();
+    public List<CalendarEvent> UpcomingEvents { get; set; } = new();
 }
 
 public class StudentPerformanceViewModel

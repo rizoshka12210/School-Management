@@ -1,0 +1,32 @@
+@model SchoolManagementSystem.Web.Models.Entities.CalendarEvent
+
+@{
+    ViewData["Title"] = Localizer["Delete Event"];
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card border-danger shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="text-danger fw-bold">@Localizer["Delete Event"]</h2>
+
+                    <p class="mt-3">
+                        @Localizer["Are you sure you want to delete"]
+                        <strong>@Model.Title</strong>?
+                    </p>
+
+                    <p>
+                        @Localizer["Date"]:
+                        <strong>@Model.Date.ToString("dd MMMM yyyy")</strong>
+                    </p>
+
+                    <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                        <button type="submit" class="btn btn-danger">@Localizer["Yes, Delete"]</button>
+                        <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["Cancel"]</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

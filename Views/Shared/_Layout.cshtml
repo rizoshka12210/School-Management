@@ -60,6 +60,7 @@
             <a class="sidebar-link @Active("Admin", "Grades")" asp-area="Admin" asp-controller="Grades" asp-action="Index">@Localizer["Grades"]</a>
             <a class="sidebar-link @Active("Admin", "Salary")" asp-area="Admin" asp-controller="Salary" asp-action="Index">@Localizer["Salary"]</a>
             <a class="sidebar-link @Active("Admin", "Leaderboard")" asp-area="Admin" asp-controller="Leaderboard" asp-action="Index">@Localizer["Leaderboard"]</a>
+            <a class="sidebar-link @Active("Admin", "Calendar")" asp-area="Admin" asp-controller="Calendar" asp-action="Index">@Localizer["School Calendar"]</a>
         }
         @if (User.IsInRole("Teacher"))
         {
@@ -74,6 +75,7 @@
             <a class="sidebar-link @Active("Teacher", "Schedule")" asp-area="Teacher" asp-controller="Schedule" asp-action="Index">@Localizer["Schedule"]</a>
             <a class="sidebar-link @Active("Teacher", "Salary")" asp-area="Teacher" asp-controller="Salary" asp-action="Index">@Localizer["My Salary"]</a>
             <a class="sidebar-link @Active("Teacher", "Leaderboard")" asp-area="Teacher" asp-controller="Leaderboard" asp-action="Index">@Localizer["Leaderboard"]</a>
+            <a class="sidebar-link @Active("Teacher", "Calendar")" asp-area="Teacher" asp-controller="Calendar" asp-action="Index">@Localizer["School Calendar"]</a>
         }
         @if (User.IsInRole("Parent"))
         {
@@ -87,6 +89,7 @@
             <a class="sidebar-link @Active("Parent", "Topics")" asp-area="Parent" asp-controller="Topics" asp-action="Index">@Localizer["Topics"]</a>
             <a class="sidebar-link @Active("Parent", "Progress")" asp-area="Parent" asp-controller="Progress" asp-action="Index">@Localizer["Progress"]</a>
             <a class="sidebar-link @Active("Parent", "Leaderboard")" asp-area="Parent" asp-controller="Leaderboard" asp-action="Index">@Localizer["Leaderboard"]</a>
+            <a class="sidebar-link @Active("Parent", "Calendar")" asp-area="Parent" asp-controller="Calendar" asp-action="Index">@Localizer["School Calendar"]</a>
         }
         </nav>
     </aside>

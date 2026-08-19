@@ -1,0 +1,24 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.CalendarEventFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h5>@Localizer["Event Information"]</h5>
+        <p>@Localizer["Enter the event title, date and an optional description"]</p>
+    </div>
+
+    <div class="form-card-body">
+        <label asp-for="Title" class="form-label">@Localizer["Title"]</label>
+        <input asp-for="Title" class="form-control" placeholder="@Localizer["Example: Parent Meeting"]" />
+        <span asp-validation-for="Title" class="text-danger small"></span>
+
+        <label asp-for="Date" class="form-label mt-3">@Localizer["Date"]</label>
+        <input asp-for="Date" type="date" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger small"></span>
+
+        <label asp-for="Description" class="form-label mt-3">@Localizer["Description"]</label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger small"></span>
+    </div>
+</div>

@@ -1,3 +1,5 @@
+using SchoolManagementSystem.Web.Models.Entities;
+
 namespace SchoolManagementSystem.Web.ViewModels.Teacher;
 
 public class TeacherDashboardViewModel
@@ -13,6 +15,8 @@ public class TeacherDashboardViewModel
     public decimal CurrentMonthWorkedHours { get; set; }
 
     public decimal CurrentMonthSalary { get; set; }
+
+    public List<CalendarEvent> UpcomingEvents { get; set; } = new();
 }
 
 public class TeacherLessonSummary

@@ -241,3 +241,39 @@
         </div>
     </div>
 </div>
+
+<div class="row g-4 mt-0">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="section-header">
+                    <div><h5 class="section-title">📅 Upcoming Events</h5><p class="section-subtitle">From the school calendar</p></div>
+                    <a asp-area="Admin" asp-controller="Calendar" asp-action="Index" class="btn btn-sm btn-outline-primary">View all</a>
+                </div>
+
+                @if (!Model.UpcomingEvents.Any())
+                {
+                    <div class="dashboard-empty"><p>No upcoming events.</p></div>
+                }
+                else
+                {
+                    <div class="performance-list">
+                        @foreach (var evt in Model.UpcomingEvents)
+                        {
+                            <div class="performance-item">
+                                <span class="performance-rank">@evt.Date.ToString("dd MMM")</span>
+                                <div class="performance-main">
+                                    <strong>@evt.Title</strong>
+                                    @if (!string.IsNullOrWhiteSpace(evt.Description))
+                                    {
+                                        <small>@evt.Description</small>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

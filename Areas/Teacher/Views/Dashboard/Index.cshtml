@@ -400,3 +400,50 @@
     </div>
 
 </div>
+
+<div class="card border-0 shadow-sm mt-4">
+
+    <div class="card-body">
+
+        <div class="section-header">
+
+            <div>
+                <h5 class="section-title">📅 @Localizer["Upcoming Events"]</h5>
+                <p class="section-subtitle">@Localizer["From the school calendar"]</p>
+            </div>
+
+            <a asp-area="Teacher"
+               asp-controller="Calendar"
+               asp-action="Index"
+               class="btn btn-sm btn-outline-primary">
+                @Localizer["View All"]
+            </a>
+
+        </div>
+
+        @if (!Model.UpcomingEvents.Any())
+        {
+            <div class="dashboard-empty"><p>@Localizer["No upcoming events."]</p></div>
+        }
+        else
+        {
+            <div class="performance-list">
+                @foreach (var evt in Model.UpcomingEvents)
+                {
+                    <div class="performance-item">
+                        <span class="performance-rank">@evt.Date.ToString("dd MMM")</span>
+                        <div class="performance-main">
+                            <strong>@evt.Title</strong>
+                            @if (!string.IsNullOrWhiteSpace(evt.Description))
+                            {
+                                <small>@evt.Description</small>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+    </div>
+
+</div>

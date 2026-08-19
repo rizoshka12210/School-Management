@@ -1,8 +1,12 @@
+using SchoolManagementSystem.Web.Models.Entities;
+
 namespace SchoolManagementSystem.Web.ViewModels.Parent;
 
 public class ParentDashboardViewModel
 {
     public List<ChildSummary> Children { get; set; } = new();
+
+    public List<CalendarEvent> UpcomingEvents { get; set; } = new();
 }
 
 public class ChildSummary

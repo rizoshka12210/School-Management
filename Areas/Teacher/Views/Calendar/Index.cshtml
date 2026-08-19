@@ -1,0 +1,32 @@
+@using SchoolManagementSystem.Web.ViewModels.Shared
+@model CalendarGridViewModel
+
+@{
+    ViewData["Title"] = Localizer["School Calendar"];
+
+    string[] monthNames =
+    {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+
+    var prevMonth = Model.Month == 1 ? 12 : Model.Month - 1;
+    var prevYear = Model.Month == 1 ? Model.Year - 1 : Model.Year;
+    var nextMonth = Model.Month == 12 ? 1 : Model.Month + 1;
+    var nextYear = Model.Month == 12 ? Model.Year + 1 : Model.Year;
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">📅 @Localizer["School Calendar"]</h1>
+        <p class="page-subtitle">@Localizer["Upcoming school events"]</p>
+    </div>
+</div>
+
+<div class="calendar-month-nav">
+    <a class="btn btn-light" asp-action="Index" asp-route-year="@prevYear" asp-route-month="@prevMonth">←</a>
+    <div class="calendar-month-label">@Localizer[monthNames[Model.Month - 1]] @Model.Year</div>
+    <a class="btn btn-light" asp-action="Index" asp-route-year="@nextYear" asp-route-month="@nextMonth">→</a>
+</div>
+
+<partial name="_CalendarGrid" model="Model" />
