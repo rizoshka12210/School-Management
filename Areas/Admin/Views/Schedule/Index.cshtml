@@ -2,231 +2,132 @@
 
 @{
     ViewData["Title"] = Localizer["Schedule"];
+    var days = new[]
+    {
+        DayOfWeek.Monday,
+        DayOfWeek.Tuesday,
+        DayOfWeek.Wednesday,
+        DayOfWeek.Thursday,
+        DayOfWeek.Friday,
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday
+    };
+
+    var slots = Model
+        .Select(s => s.StartTime)
+        .Distinct()
+        .OrderBy(t => t)
+        .ToList();
 }
 
 <div class="page-header">
-
     <div>
-        <h1 class="page-title">
-            @Localizer["Schedule"]
-        </h1>
-
-        <p class="page-subtitle">
-            @Localizer["Manage the weekly school timetable"]
-        </p>
+        <h1 class="page-title">Interactive Weekly Schedule</h1>
+        <p class="page-subtitle">Visual timetable with teacher, group and subject cards.</p>
     </div>
-
-    <a asp-action="Create"
-       class="btn btn-primary">
-        + @Localizer["Add Schedule"]
-    </a>
-
+    <a asp-action="Create" class="btn btn-primary">+ Add Schedule</a>
 </div>
 
-<div class="card border-0 shadow-sm">
-
+<div class="card border-0 shadow-sm mb-4">
     <div class="card-body">
-
-        <form method="get"
-              asp-action="Index"
-              class="schedule-filters">
-
+        <form method="get" asp-action="Index" class="schedule-filters">
             <div>
-
-                <select name="day"
-                        class="form-select">
-
-                    <option value="">
-                        @Localizer["All days"]
-                    </option>
-
+                <select name="day" class="form-select">
+                    <option value="">All days</option>
                     @foreach (var day in Enum.GetValues<DayOfWeek>())
                     {
                         if ((ViewBag.Day as string) == day.ToString())
                         {
-                            <option value="@day" selected>
-                                @Localizer[day.ToString()]
-                            </option>
+                            <option value="@day" selected>@Localizer[day.ToString()]</option>
                         }
                         else
                         {
-                            <option value="@day">
-                                @Localizer[day.ToString()]
-                            </option>
+                            <option value="@day">@Localizer[day.ToString()]</option>
                         }
                     }
-
                 </select>
-
             </div>
-
             <div>
-
-                <select name="groupId"
-                        class="form-select">
-
-                    <option value="">
-                        @Localizer["All groups"]
-                    </option>
-
+                <select name="groupId" class="form-select">
+                    <option value="">All groups</option>
                     @foreach (var group in ViewBag.Groups)
                     {
-                        if (ViewBag.GroupId != null &&
-                            (int)ViewBag.GroupId == group.Id)
+                        if (ViewBag.GroupId != null && (int)ViewBag.GroupId == group.Id)
                         {
-                            <option value="@group.Id" selected>
-                                @group.Name
-                            </option>
+                            <option value="@group.Id" selected>@group.Name</option>
                         }
                         else
                         {
-                            <option value="@group.Id">
-                                @group.Name
-                            </option>
+                            <option value="@group.Id">@group.Name</option>
                         }
                     }
-
                 </select>
-
             </div>
-
-            <button type="submit"
-                    class="btn btn-primary">
-                @Localizer["Filter"]
-            </button>
-
-            <a asp-action="Index"
-               class="btn btn-light">
-                @Localizer["Clear"]
-            </a>
-
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a asp-action="Index" class="btn btn-light">Clear</a>
         </form>
-
-        @if (!Model.Any())
-        {
-            <div class="management-empty">
-
-                <div class="management-empty-icon">
-                    SC
-                </div>
-
-                <h5>
-                    @Localizer["No schedule entries found"]
-                </h5>
-
-                <p>
-                    @Localizer["Create a schedule entry or change the filters."]
-                </p>
-
-                <a asp-action="Create"
-                   class="btn btn-primary">
-                    + @Localizer["Add Schedule"]
-                </a>
-
-            </div>
-        }
-        else
-        {
-            <div class="schedule-list">
-
-                @foreach (var dayGroup in
-                    Model.GroupBy(s => s.DayOfWeek))
-                {
-                    <div class="schedule-day">
-
-                        <div class="schedule-day-header">
-
-                            <div>
-                                <span class="schedule-day-name">
-                                    @Localizer[dayGroup.Key.ToString()]
-                                </span>
-
-                                <span class="schedule-day-count">
-                                    @Localizer["{0} lesson(s)", dayGroup.Count()]
-                                </span>
-                            </div>
-
-                        </div>
-
-                        @foreach (var item in
-                            dayGroup.OrderBy(s => s.StartTime))
-                        {
-                            <div class="schedule-row">
-
-                                <div class="schedule-time">
-
-                                    <strong>
-                                        @item.StartTime.ToString("HH:mm")
-                                    </strong>
-
-                                    <span>
-                                        @item.EndTime.ToString("HH:mm")
-                                    </span>
-
-                                </div>
-
-                                <div class="schedule-subject">
-
-                                    <strong>
-                                        @item.Subject.Name
-                                    </strong>
-
-                                    <span>
-                                        @item.Group.Name
-                                    </span>
-
-                                </div>
-
-                                <div class="schedule-teacher">
-
-                                    <div class="mini-avatar">
-
-                                        @(string.IsNullOrWhiteSpace(
-                                            item.Teacher.ApplicationUser.FullName)
-                                            ? "T"
-                                            : item.Teacher.ApplicationUser.FullName
-                                                .Substring(0, 1)
-                                                .ToUpper())
-
-                                    </div>
-
-                                    <span>
-                                        @item.Teacher.ApplicationUser.FullName
-                                    </span>
-
-                                </div>
-
-                                <div class="action-buttons">
-
-                                    <a asp-action="Details"
-                                       asp-route-id="@item.Id"
-                                       class="action-btn action-details">
-                                        @Localizer["View"]
-                                    </a>
-
-                                    <a asp-action="Edit"
-                                       asp-route-id="@item.Id"
-                                       class="action-btn action-edit">
-                                        @Localizer["Edit"]
-                                    </a>
-
-                                    <a asp-action="Delete"
-                                       asp-route-id="@item.Id"
-                                       class="action-btn action-delete">
-                                        @Localizer["Delete"]
-                                    </a>
-
-                                </div>
-
-                            </div>
-                        }
-
-                    </div>
-                }
-
-            </div>
-        }
-
     </div>
-
 </div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+        <div class="management-empty">
+            <div class="management-empty-icon">SC</div>
+            <h5>No schedule entries found</h5>
+            <p>Create a schedule entry or change the filters.</p>
+            <a asp-action="Create" class="btn btn-primary">+ Add Schedule</a>
+        </div>
+    </div>
+}
+else
+{
+    <div class="weekly-schedule-wrap card border-0 shadow-sm">
+        <div class="table-responsive">
+            <table class="weekly-schedule-table">
+                <thead>
+                    <tr>
+                        <th class="weekly-time-head">Time</th>
+                        @foreach (var day in days)
+                        {
+                            <th>@Localizer[day.ToString()]</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var slot in slots)
+                    {
+                        <tr>
+                            <td class="weekly-time-cell">
+                                <strong>@slot.ToString("HH:mm")</strong>
+                            </td>
+                            @foreach (var day in days)
+                            {
+                                var lessons = Model
+                                    .Where(s => s.DayOfWeek == day && s.StartTime == slot)
+                                    .OrderBy(s => s.EndTime)
+                                    .ToList();
+
+                                <td class="weekly-schedule-cell">
+                                    @foreach (var item in lessons)
+                                    {
+                                        var colorClass = $"schedule-subject-{Math.Abs(item.SubjectId) % 6}";
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="weekly-lesson-card @colorClass">
+                                            <div class="weekly-lesson-time">@item.StartTime.ToString("HH:mm")–@item.EndTime.ToString("HH:mm")</div>
+                                            <strong>@item.Subject.Name</strong>
+                                            <span>@item.Group.Name</span>
+                                            <small>@item.Teacher.ApplicationUser.FullName</small>
+                                        </a>
+                                    }
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="weekly-schedule-footer">
+            Click a lesson card to open details, edit or delete it.
+        </div>
+    </div>
+}
