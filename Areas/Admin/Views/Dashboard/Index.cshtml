@@ -5,458 +5,239 @@
 }
 
 <div class="dashboard-header">
-
     <div>
-        <h1 class="dashboard-title">
-            @Localizer["Admin Dashboard"]
-        </h1>
+        <h1 class="dashboard-title">Smart School Dashboard</h1>
+        <p class="dashboard-subtitle">Live academic performance, attendance and student risk analytics.</p>
+    </div>
+    <div class="dashboard-date">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</div>
+</div>
 
-        <p class="dashboard-subtitle">
-            @Localizer["Welcome back. Here's what's happening at school today."]
-        </p>
+<div class="analytics-grid mb-4">
+    <div class="analytics-card">
+        <div class="analytics-icon">⭐</div>
+        <div>
+            <span>Average Grade</span>
+            <strong>@Model.AverageGrade.ToString("0.00")</strong>
+            <small>School-wide average</small>
+        </div>
     </div>
 
-    <div class="dashboard-date">
-        @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+    <div class="analytics-card">
+        <div class="analytics-icon">✅</div>
+        <div>
+            <span>Attendance</span>
+            <strong>@Model.AttendanceRate.ToString("0.0")%</strong>
+            <small>All attendance records</small>
+        </div>
     </div>
 
+    <div class="analytics-card analytics-danger">
+        <div class="analytics-icon">⚠️</div>
+        <div>
+            <span>Students Absent Today</span>
+            <strong>@Model.StudentsAbsentToday</strong>
+            <small>Unique students</small>
+        </div>
+    </div>
+
+    <div class="analytics-card">
+        <div class="analytics-icon">📚</div>
+        <div>
+            <span>Lessons Today</span>
+            <strong>@Model.TodayLessonsCount</strong>
+            <small>Scheduled lessons</small>
+        </div>
+    </div>
 </div>
 
 <div class="row g-4 mb-4">
-
-    <div class="col-sm-6 col-xl-3">
-
-        <a asp-area="Admin"
-           asp-controller="Students"
-           asp-action="Index"
-           class="text-decoration-none">
-
-            <div class="stat-card">
-
-                <div class="stat-icon stat-students">
-                    ST
+    <div class="col-xl-8">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">Attendance Trend</h5>
+                        <p class="section-subtitle">Daily attendance percentage</p>
+                    </div>
+                    <div class="btn-group btn-group-sm">
+                        <a asp-action="Index" asp-route-period="week"
+                           class="btn @(Model.TrendPeriod == "week" ? "btn-primary" : "btn-outline-primary")">Week</a>
+                        <a asp-action="Index" asp-route-period="month"
+                           class="btn @(Model.TrendPeriod == "month" ? "btn-primary" : "btn-outline-primary")">Month</a>
+                    </div>
                 </div>
 
-                <div>
-
-                    <div class="stat-label">
-                        @Localizer["Students"]
-                    </div>
-
-                    <div class="stat-number">
-                        @Model.StudentsCount
-                    </div>
-
-                    <div class="stat-link">
-                        @Localizer["View students →"]
-                    </div>
-
+                <div class="attendance-chart">
+                    @foreach (var point in Model.AttendanceTrend)
+                    {
+                        <div class="attendance-bar-column" title="@point.Label: @point.Rate.ToString("0.0")%">
+                            <div class="attendance-bar-value">@point.Rate.ToString("0")%</div>
+                            <div class="attendance-bar-track">
+                                <div class="attendance-bar" style="height:@Math.Max(3, point.Rate).ToString("0", System.Globalization.CultureInfo.InvariantCulture)%"></div>
+                            </div>
+                            <div class="attendance-bar-label">@point.Label</div>
+                        </div>
+                    }
                 </div>
-
             </div>
-
-        </a>
-
+        </div>
     </div>
 
-    <div class="col-sm-6 col-xl-3">
-
-        <a asp-area="Admin"
-           asp-controller="Teachers"
-           asp-action="Index"
-           class="text-decoration-none">
-
-            <div class="stat-card">
-
-                <div class="stat-icon stat-teachers">
-                    TR
+    <div class="col-xl-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">School Overview</h5>
+                        <p class="section-subtitle">Current system totals</p>
+                    </div>
                 </div>
-
-                <div>
-
-                    <div class="stat-label">
-                        @Localizer["Teachers"]
-                    </div>
-
-                    <div class="stat-number">
-                        @Model.TeachersCount
-                    </div>
-
-                    <div class="stat-link">
-                        @Localizer["View teachers →"]
-                    </div>
-
+                <div class="overview-mini-grid">
+                    <div><span>Students</span><strong>@Model.StudentsCount</strong></div>
+                    <div><span>Teachers</span><strong>@Model.TeachersCount</strong></div>
+                    <div><span>Groups</span><strong>@Model.GroupsCount</strong></div>
+                    <div><span>Subjects</span><strong>@Model.SubjectsCount</strong></div>
                 </div>
-
             </div>
-
-        </a>
-
+        </div>
     </div>
-
-    <div class="col-sm-6 col-xl-3">
-
-        <a asp-area="Admin"
-           asp-controller="Groups"
-           asp-action="Index"
-           class="text-decoration-none">
-
-            <div class="stat-card">
-
-                <div class="stat-icon stat-groups">
-                    GR
-                </div>
-
-                <div>
-
-                    <div class="stat-label">
-                        @Localizer["Groups"]
-                    </div>
-
-                    <div class="stat-number">
-                        @Model.GroupsCount
-                    </div>
-
-                    <div class="stat-link">
-                        @Localizer["View groups →"]
-                    </div>
-
-                </div>
-
-            </div>
-
-        </a>
-
-    </div>
-
-    <div class="col-sm-6 col-xl-3">
-
-        <a asp-area="Admin"
-           asp-controller="Subjects"
-           asp-action="Index"
-           class="text-decoration-none">
-
-            <div class="stat-card">
-
-                <div class="stat-icon stat-subjects">
-                    SB
-                </div>
-
-                <div>
-
-                    <div class="stat-label">
-                        @Localizer["Subjects"]
-                    </div>
-
-                    <div class="stat-number">
-                        @Model.SubjectsCount
-                    </div>
-
-                    <div class="stat-link">
-                        @Localizer["View subjects →"]
-                    </div>
-
-                </div>
-
-            </div>
-
-        </a>
-
-    </div>
-
 </div>
 
-<div class="card border-0 shadow-sm mb-4">
+<div class="row g-4 mb-4">
+    <div class="col-xl-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">🏆 Top 5 Students</h5>
+                        <p class="section-subtitle">Best average grades with attendance as tie-breaker</p>
+                    </div>
+                </div>
 
-    <div class="card-body">
-
-        <div class="section-header">
-
-            <div>
-                <h5 class="section-title">
-                    @Localizer["Quick Actions"]
-                </h5>
-
-                <p class="section-subtitle">
-                    @Localizer["Common administrative actions"]
-                </p>
+                @if (!Model.TopStudents.Any())
+                {
+                    <div class="dashboard-empty"><p>No grade data yet.</p></div>
+                }
+                else
+                {
+                    <div class="performance-list">
+                        @for (var i = 0; i < Model.TopStudents.Count; i++)
+                        {
+                            var student = Model.TopStudents[i];
+                            <a asp-area="Admin" asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId" class="performance-item">
+                                <span class="performance-rank">#@(i + 1)</span>
+                                <div class="performance-main">
+                                    <strong>@student.FullName</strong>
+                                    <small>@student.GroupName</small>
+                                </div>
+                                <div class="performance-score">
+                                    <strong>@student.AverageGrade.ToString("0.00")</strong>
+                                    <small>@student.AttendanceRate.ToString("0")% att.</small>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
             </div>
-
         </div>
-
-        <div class="quick-actions">
-
-            <a asp-area="Admin"
-               asp-controller="Students"
-               asp-action="Create"
-               class="quick-action">
-
-                <div class="quick-action-icon">
-                    +
-                </div>
-
-                <div>
-                    <strong>@Localizer["Add Student"]</strong>
-                    <span>@Localizer["Create a new student"]</span>
-                </div>
-
-            </a>
-
-            <a asp-area="Admin"
-               asp-controller="Teachers"
-               asp-action="Create"
-               class="quick-action">
-
-                <div class="quick-action-icon">
-                    +
-                </div>
-
-                <div>
-                    <strong>@Localizer["Add Teacher"]</strong>
-                    <span>@Localizer["Create teacher account"]</span>
-                </div>
-
-            </a>
-
-            <a asp-area="Admin"
-               asp-controller="Lessons"
-               asp-action="Create"
-               class="quick-action">
-
-                <div class="quick-action-icon">
-                    +
-                </div>
-
-                <div>
-                    <strong>@Localizer["Add Lesson"]</strong>
-                    <span>@Localizer["Create a lesson"]</span>
-                </div>
-
-            </a>
-
-            <a asp-area="Admin"
-               asp-controller="Schedule"
-               asp-action="Create"
-               class="quick-action">
-
-                <div class="quick-action-icon">
-                    +
-                </div>
-
-                <div>
-                    <strong>@Localizer["Add Schedule"]</strong>
-                    <span>@Localizer["Create schedule entry"]</span>
-                </div>
-
-            </a>
-
-        </div>
-
     </div>
 
+    <div class="col-xl-6">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">🚨 Early Warning System</h5>
+                        <p class="section-subtitle">Students who need attention right now</p>
+                    </div>
+                </div>
+
+                @if (!Model.StudentsNeedingAttention.Any())
+                {
+                    <div class="dashboard-empty"><p>All students are currently in the good zone.</p></div>
+                }
+                else
+                {
+                    <div class="risk-list">
+                        @foreach (var student in Model.StudentsNeedingAttention)
+                        {
+                            <a asp-area="Admin" asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId" class="risk-item @student.RiskCssClass">
+                                <div class="risk-icon">@student.RiskIcon</div>
+                                <div class="risk-main">
+                                    <strong>@student.FullName</strong>
+                                    <span>@student.RiskLabel</span>
+                                    <small>@string.Join(" · ", student.RiskReasons.Take(2))</small>
+                                </div>
+                                <div class="risk-metrics">
+                                    <span>Grade @student.AverageGrade.ToString("0.0")</span>
+                                    <span>Attendance @student.AttendanceRate.ToString("0")%</span>
+                                </div>
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="row g-4">
-
     <div class="col-xl-8">
-
         <div class="card border-0 shadow-sm h-100">
-
             <div class="card-body">
-
                 <div class="section-header">
-
                     <div>
-
-                        <h5 class="section-title">
-                            @Localizer["Today's Lessons"]
-                        </h5>
-
-                        <p class="section-subtitle">
-                            @Localizer["{0} lessons today", Model.TodayLessonsCount]
-                        </p>
-
+                        <h5 class="section-title">Today's Lessons</h5>
+                        <p class="section-subtitle">@Model.TodayLessonsCount lesson(s) today</p>
                     </div>
-
-                    <a asp-area="Admin"
-                       asp-controller="Lessons"
-                       asp-action="Index"
-                       class="btn btn-sm btn-outline-primary">
-                        @Localizer["View All"]
-                    </a>
-
+                    <a asp-area="Admin" asp-controller="Lessons" asp-action="Index" class="btn btn-sm btn-outline-primary">View all</a>
                 </div>
 
                 @if (!Model.TodayLessons.Any())
                 {
-                    <div class="dashboard-empty">
-
-                        <div class="dashboard-empty-icon">
-                            —
-                        </div>
-
-                        <h6>
-                            @Localizer["No lessons today"]
-                        </h6>
-
-                        <p>
-                            @Localizer["There are no lessons scheduled for today."]
-                        </p>
-
-                    </div>
+                    <div class="dashboard-empty"><p>No lessons today.</p></div>
                 }
                 else
                 {
                     <div class="table-responsive">
-
                         <table class="table align-middle dashboard-table">
-
-                            <thead>
-                                <tr>
-                                    <th>@Localizer["Time"]</th>
-                                    <th>@Localizer["Group"]</th>
-                                    <th>@Localizer["Subject"]</th>
-                                    <th>@Localizer["Teacher"]</th>
-                                    <th>@Localizer["Topic"]</th>
-                                </tr>
-                            </thead>
-
+                            <thead><tr><th>Time</th><th>Group</th><th>Subject</th><th>Teacher</th><th>Topic</th></tr></thead>
                             <tbody>
-
-                                @foreach (var lesson in Model.TodayLessons)
-                                {
-                                    <tr>
-
-                                        <td>
-                                            <span class="lesson-time">
-                                                @lesson.StartTime.ToString("HH:mm")
-                                            </span>
-
-                                            <span class="text-muted">
-                                                -
-                                                @lesson.EndTime.ToString("HH:mm")
-                                            </span>
-                                        </td>
-
-                                        <td>
-                                            <span class="dashboard-badge">
-                                                @lesson.Group.Name
-                                            </span>
-                                        </td>
-
-                                        <td class="fw-semibold">
-                                            @lesson.Subject.Name
-                                        </td>
-
-                                        <td>
-                                            @lesson.Teacher.ApplicationUser.FullName
-                                        </td>
-
-                                        <td>
-
-                                            @if (!string.IsNullOrWhiteSpace(lesson.Topic))
-                                            {
-                                                @lesson.Topic
-                                            }
-                                            else
-                                            {
-                                                <span class="text-muted">
-                                                    @Localizer["No topic"]
-                                                </span>
-                                            }
-
-                                        </td>
-
-                                    </tr>
-                                }
-
+                            @foreach (var lesson in Model.TodayLessons)
+                            {
+                                <tr>
+                                    <td><strong>@lesson.StartTime.ToString("HH:mm")</strong> <span class="text-muted">- @lesson.EndTime.ToString("HH:mm")</span></td>
+                                    <td><span class="dashboard-badge">@lesson.Group.Name</span></td>
+                                    <td class="fw-semibold">@lesson.Subject.Name</td>
+                                    <td>@lesson.Teacher.ApplicationUser.FullName</td>
+                                    <td>@(string.IsNullOrWhiteSpace(lesson.Topic) ? "—" : lesson.Topic)</td>
+                                </tr>
+                            }
                             </tbody>
-
                         </table>
-
                     </div>
                 }
-
             </div>
-
         </div>
-
     </div>
 
     <div class="col-xl-4">
-
         <div class="card border-0 shadow-sm h-100">
-
             <div class="card-body">
-
                 <div class="section-header">
-
-                    <div>
-
-                        <h5 class="section-title">
-                            @Localizer["Recent Students"]
-                        </h5>
-
-                        <p class="section-subtitle">
-                            @Localizer["Recently added students"]
-                        </p>
-
-                    </div>
-
+                    <div><h5 class="section-title">Recent Students</h5><p class="section-subtitle">Recently added students</p></div>
                 </div>
-
-                @if (!Model.RecentStudents.Any())
-                {
-                    <div class="dashboard-empty">
-
-                        <p>
-                            @Localizer["No students yet."]
-                        </p>
-
-                    </div>
-                }
-                else
-                {
-                    <div class="recent-list">
-
-                        @foreach (var student in Model.RecentStudents)
-                        {
-                            <a asp-area="Admin"
-                               asp-controller="Students"
-                               asp-action="Details"
-                               asp-route-id="@student.Id"
-                               class="recent-item">
-
-                                <div class="recent-avatar">
-                                    @(student.FirstName.Substring(0, 1).ToUpper())
-                                </div>
-
-                                <div class="recent-info">
-
-                                    <strong>
-                                        @student.FirstName @student.LastName
-                                    </strong>
-
-                                    <span>
-                                        @(student.Group?.Name ?? Localizer["No group"].Value)
-                                    </span>
-
-                                </div>
-
-                                <div class="recent-arrow">
-                                    →
-                                </div>
-
-                            </a>
-                        }
-
-                    </div>
-                }
-
+                <div class="recent-list">
+                    @foreach (var student in Model.RecentStudents)
+                    {
+                        <a asp-area="Admin" asp-controller="Students" asp-action="Details" asp-route-id="@student.Id" class="recent-item">
+                            <div class="recent-avatar">@(student.FirstName.Substring(0, 1).ToUpper())</div>
+                            <div class="recent-info"><strong>@student.FirstName @student.LastName</strong><span>@(student.Group?.Name ?? "No group")</span></div>
+                            <div class="recent-arrow">→</div>
+                        </a>
+                    }
+                </div>
             </div>
-
         </div>
-
     </div>
-
 </div>
