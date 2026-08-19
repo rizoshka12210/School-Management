@@ -1,19 +1,28 @@
 # Remaining localization work — split for 2 developers
 
+## ✅ Part A is DONE (pushed to main)
+
+Admin Groups/Students/Parents/Teachers/Subjects/Lessons/Schedule — all views,
+all TempData messages, all validation messages — are fully localized and
+verified live in both languages. **Only Part B remains.**
+
 ## Current state
 
 Localization infrastructure is fully built and working (EN/RU, cookie-based
 switcher in `_Layout.cshtml`, `IStringLocalizer<SharedResource>` injected
-globally via both `_ViewImports.cshtml` files). **196 keys** already exist in
-`Resources/SharedResource.resx` / `Resources/SharedResource.ru.resx`.
+globally via both `_ViewImports.cshtml` files). **~300+ keys** now exist in
+`Resources/SharedResource.resx` / `Resources/SharedResource.ru.resx` (grew
+from 196 as Part A was completed) — very likely most of what Part B needs
+for shared vocabulary (Edit/Delete/Cancel/Save/View/Details/Group/Subject/
+Teacher/Student/"Are you sure..."/etc.) already exists. **Grep before adding.**
 
 Already localized (do not touch, already done and pushed):
 - `Views/Auth/*`, `Views/Home/*`
 - `Areas/Admin/Views/Dashboard`, `Areas/Teacher/Views/Dashboard`, `Areas/Parent/Views/Dashboard`
-- `Areas/Admin/Views/Groups`, `Areas/Admin/Views/Students`, `Areas/Admin/Views/Parents` (views only — their controllers' TempData messages are NOT done yet, see Part A)
+- `Areas/Admin/Views/{Groups,Students,Parents,Teachers,Subjects,Lessons,Schedule}` — views AND their controllers' TempData/validation messages
 
-**Remaining: 74 files** — 55 views + 12 controllers (TempData) + 7 ViewModels
-(validation messages). Split below into two independent, low-conflict parts.
+**Remaining (Part B only): 39 files** — 31 views + 5 controllers + 3
+ViewModels.
 
 ## Before you start — read this
 
@@ -60,12 +69,13 @@ don't discard either side. Recommended flow:
 
 ---
 
-## Part A — Admin core entities (~35 files)
+## Part A — ✅ DONE — Admin core entities
 
-**Scope: Teachers, Subjects, Lessons, Schedule views, plus the TempData
+**Scope was: Teachers, Subjects, Lessons, Schedule views, plus the TempData
 messages for Groups/Parents/Students/Teachers/Subjects/Lessons/Schedule
-controllers (their views are already localized, only the controller messages
-remain).**
+controllers. All of it is complete, tested, and pushed** (commits `d3dcbf3`,
+`dc3735d`, `760a4c6`, `a3eaae4`, `3e7189f`). Kept below for reference only —
+nothing left to do here.
 
 ### Views (24 files) — use `Areas/Admin/Views/Students/*` as your template
 
