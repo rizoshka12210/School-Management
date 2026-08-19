@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Services;
@@ -14,13 +16,16 @@ public class GradesController : Controller
 {
     private readonly GradeService _gradeService;
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public GradesController(
         GradeService gradeService,
-        AppDbContext context)
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _gradeService = gradeService;
         _context = context;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index(
@@ -133,7 +138,7 @@ public class GradesController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Grade updated successfully.";
+        TempData["Success"] = _localizer["Grade updated successfully."];
 
         return RedirectToAction(nameof(Index));
     }
@@ -173,7 +178,7 @@ public class GradesController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Grade deleted successfully.";
+        TempData["Success"] = _localizer["Grade deleted successfully."];
 
         return RedirectToAction(nameof(Index));
     }
