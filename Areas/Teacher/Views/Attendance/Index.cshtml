@@ -1,7 +1,7 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Lesson>
 
 @{
-    ViewData["Title"] = "Attendance";
+    ViewData["Title"] = Localizer["Attendance"];
 
     var totalLessons = Model.Count();
     var completedLessons = Model.Count(l =>
@@ -21,22 +21,22 @@
     <div>
 
         <h1 class="page-title">
-            Attendance
+            @Localizer["Attendance"]
         </h1>
 
         <p class="page-subtitle">
-            Mark and manage student attendance for your lessons
+            @Localizer["Mark and manage student attendance for your lessons"]
         </p>
 
     </div>
 
     <div class="teacher-count-label">
-        @totalLessons lesson(s)
+        @Localizer["{0} lesson(s)", totalLessons]
     </div>
 
     <a asp-action="Journal"
        class="btn btn-light">
-        Journal View
+        @Localizer["Journal View"]
     </a>
 
 </div>
@@ -44,247 +44,120 @@
 <div class="teacher-attendance-stats">
 
     <div class="teacher-attendance-stat">
-
-        <div class="teacher-attendance-stat-icon attendance-all">
-            LS
-        </div>
-
+        <div class="teacher-attendance-stat-icon attendance-all">LS</div>
         <div>
-
-            <span>
-                Total Lessons
-            </span>
-
-            <strong>
-                @totalLessons
-            </strong>
-
+            <span>@Localizer["Total Lessons"]</span>
+            <strong>@totalLessons</strong>
         </div>
-
     </div>
 
     <div class="teacher-attendance-stat">
-
-        <div class="teacher-attendance-stat-icon attendance-complete">
-            ✓
-        </div>
-
+        <div class="teacher-attendance-stat-icon attendance-complete">✓</div>
         <div>
-
-            <span>
-                Completed
-            </span>
-
-            <strong>
-                @completedLessons
-            </strong>
-
+            <span>@Localizer["Completed"]</span>
+            <strong>@completedLessons</strong>
         </div>
-
     </div>
 
     <div class="teacher-attendance-stat">
-
-        <div class="teacher-attendance-stat-icon attendance-partial">
-            ~
-        </div>
-
+        <div class="teacher-attendance-stat-icon attendance-partial">~</div>
         <div>
-
-            <span>
-                Partial
-            </span>
-
-            <strong>
-                @partialLessons
-            </strong>
-
+            <span>@Localizer["Partial"]</span>
+            <strong>@partialLessons</strong>
         </div>
-
     </div>
 
     <div class="teacher-attendance-stat">
-
-        <div class="teacher-attendance-stat-icon attendance-pending">
-            !
-        </div>
-
+        <div class="teacher-attendance-stat-icon attendance-pending">!</div>
         <div>
-
-            <span>
-                Not Marked
-            </span>
-
-            <strong>
-                @notMarkedLessons
-            </strong>
-
+            <span>@Localizer["Not Marked"]</span>
+            <strong>@notMarkedLessons</strong>
         </div>
-
     </div>
 
 </div>
 
 <div class="card border-0 shadow-sm">
-
     <div class="card-body">
-
         <div class="section-header">
-
             <div>
-
-                <h5 class="section-title">
-                    My Lessons
-                </h5>
-
-                <p class="section-subtitle">
-                    Select a lesson to mark attendance
-                </p>
-
+                <h5 class="section-title">@Localizer["My Lessons"]</h5>
+                <p class="section-subtitle">@Localizer["Select a lesson to mark attendance"]</p>
             </div>
-
         </div>
 
         @if (!Model.Any())
         {
             <div class="teacher-empty">
-
-                <div class="teacher-empty-icon">
-                    AT
-                </div>
-
-                <h5>
-                    No lessons yet
-                </h5>
-
-                <p>
-                    Your lessons will appear here when they are scheduled.
-                </p>
-
+                <div class="teacher-empty-icon">AT</div>
+                <h5>@Localizer["No lessons yet"]</h5>
+                <p>@Localizer["Your lessons will appear here when they are scheduled."]</p>
             </div>
         }
         else
         {
             <div class="table-responsive">
-
                 <table class="table table-hover management-table">
-
                     <thead>
-
                         <tr>
-                            <th>Date & Time</th>
-                            <th>Group</th>
-                            <th>Subject</th>
-                            <th>Students</th>
-                            <th>Status</th>
-                            <th class="text-end">
-                                Action
-                            </th>
+                            <th>@Localizer["Date & Time"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Students"]</th>
+                            <th>@Localizer["Status"]</th>
+                            <th class="text-end">@Localizer["Action"]</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         @foreach (var lesson in Model)
                         {
                             var marked = lesson.Attendances.Count;
                             var total = lesson.Group.Students.Count;
 
                             <tr>
-
                                 <td>
-
-                                    <div class="record-date">
-                                        @lesson.StartTime.ToString("dd MMM yyyy")
-                                    </div>
-
-                                    <div class="record-time">
-                                        @lesson.StartTime.ToString("HH:mm")
-                                    </div>
-
+                                    <div class="record-date">@lesson.StartTime.ToString("dd MMM yyyy")</div>
+                                    <div class="record-time">@lesson.StartTime.ToString("HH:mm")</div>
                                 </td>
-
+                                <td><span class="group-badge">@lesson.Group.Name</span></td>
+                                <td><span class="subject-badge">@lesson.Subject.Name</span></td>
                                 <td>
-
-                                    <span class="group-badge">
-                                        @lesson.Group.Name
-                                    </span>
-
+                                    <span class="teacher-student-count">@total</span>
+                                    <span class="text-muted small">@Localizer["students"]</span>
                                 </td>
-
                                 <td>
-
-                                    <span class="subject-badge">
-                                        @lesson.Subject.Name
-                                    </span>
-
-                                </td>
-
-                                <td>
-
-                                    <span class="teacher-student-count">
-                                        @total
-                                    </span>
-
-                                    <span class="text-muted small">
-                                        students
-                                    </span>
-
-                                </td>
-
-                                <td>
-
                                     @if (marked == 0)
                                     {
-                                        <span class="status-badge teacher-status-pending">
-                                            Not marked
-                                        </span>
+                                        <span class="status-badge teacher-status-pending">@Localizer["Not marked"]</span>
                                     }
                                     else if (marked < total)
                                     {
-                                        <span class="status-badge status-late">
-                                            @marked / @total marked
-                                        </span>
+                                        <span class="status-badge status-late">@Localizer["{0} / {1} marked", marked, total]</span>
                                     }
                                     else
                                     {
-                                        <span class="status-badge status-present">
-                                            @marked / @total completed
-                                        </span>
+                                        <span class="status-badge status-present">@Localizer["{0} / {1} completed", marked, total]</span>
                                     }
-
                                 </td>
-
                                 <td class="text-end">
-
                                     <a asp-action="Mark"
                                        asp-route-lessonId="@lesson.Id"
                                        class="action-btn action-edit">
-
                                         @if (marked == 0)
                                         {
-                                            <text>Mark Attendance</text>
+                                            @Localizer["Mark Attendance"]
                                         }
                                         else
                                         {
-                                            <text>Edit Attendance</text>
+                                            @Localizer["Edit Attendance"]
                                         }
-
                                     </a>
-
                                 </td>
-
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
         }
-
     </div>
-
 </div>
