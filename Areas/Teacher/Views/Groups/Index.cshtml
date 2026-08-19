@@ -1,101 +1,50 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Group>
 
 @{
-    ViewData["Title"] = "My Groups";
+    ViewData["Title"] = Localizer["My Groups"];
 }
 
 <div class="page-header">
-
     <div>
-        <h1 class="page-title">
-            My Groups
-        </h1>
-
-        <p class="page-subtitle">
-            Groups assigned to you
-        </p>
+        <h1 class="page-title">@Localizer["My Groups"]</h1>
+        <p class="page-subtitle">@Localizer["Groups assigned to you"]</p>
     </div>
 
-    <div class="teacher-count-label">
-        @Model.Count() group(s)
-    </div>
-
+    <div class="teacher-count-label">@Localizer["{0} group(s)", Model.Count()]</div>
 </div>
 
 @if (!Model.Any())
 {
     <div class="card border-0 shadow-sm">
-
         <div class="teacher-empty">
-
-            <div class="teacher-empty-icon">
-                GR
-            </div>
-
-            <h5>
-                No groups assigned
-            </h5>
-
-            <p>
-                Your assigned groups will appear here.
-            </p>
-
+            <div class="teacher-empty-icon">GR</div>
+            <h5>@Localizer["No groups assigned"]</h5>
+            <p>@Localizer["Your assigned groups will appear here."]</p>
         </div>
-
     </div>
 }
 else
 {
     <div class="teacher-groups-grid">
-
         @foreach (var group in Model)
         {
-            <a asp-action="Details"
-               asp-route-id="@group.Id"
-               class="teacher-group-card">
-
+            <a asp-action="Details" asp-route-id="@group.Id" class="teacher-group-card">
                 <div class="teacher-group-top">
-
-                    <div class="teacher-group-icon">
-                        GR
-                    </div>
-
-                    <div class="teacher-group-arrow">
-                        →
-                    </div>
-
+                    <div class="teacher-group-icon">GR</div>
+                    <div class="teacher-group-arrow">→</div>
                 </div>
 
-                <div class="teacher-group-name">
-                    @group.Name
-                </div>
-
-                <div class="teacher-group-subtitle">
-                    School Group
-                </div>
+                <div class="teacher-group-name">@group.Name</div>
+                <div class="teacher-group-subtitle">@Localizer["School Group"]</div>
 
                 <div class="teacher-group-bottom">
-
                     <div>
-
-                        <strong>
-                            @group.Students.Count
-                        </strong>
-
-                        <span>
-                            Students
-                        </span>
-
+                        <strong>@group.Students.Count</strong>
+                        <span>@Localizer["Students"]</span>
                     </div>
-
-                    <span class="teacher-open-label">
-                        Open group
-                    </span>
-
+                    <span class="teacher-open-label">@Localizer["Open group"]</span>
                 </div>
-
             </a>
         }
-
     </div>
 }
