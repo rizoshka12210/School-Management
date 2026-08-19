@@ -16,16 +16,19 @@ public class AttendanceController : TeacherControllerBase
 {
     private readonly AttendanceService _attendanceService;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ActivityLogService _activityLog;
 
     public AttendanceController(
         AppDbContext context,
         OwnershipHelper ownership,
         AttendanceService attendanceService,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        ActivityLogService activityLog)
         : base(context, ownership)
     {
         _attendanceService = attendanceService;
         _localizer = localizer;
+        _activityLog = activityLog;
     }
 
     public async Task<IActionResult> Index()
@@ -191,6 +194,12 @@ public class AttendanceController : TeacherControllerBase
             .Select(s => s.Id)
             .ToHashSet();
 
+        var teacherId = await GetTeacherIdAsync();
+
+        var teacher = await Context.Teachers
+            .Include(t => t.ApplicationUser)
+            .FirstAsync(t => t.Id == teacherId);
+
         foreach (var row in model.Students)
         {
             if (!validStudentIds.Contains(row.StudentId))
@@ -213,6 +222,12 @@ public class AttendanceController : TeacherControllerBase
                     StudentId = row.StudentId,
                     Status = row.Status
                 });
+            }
+
+            if (row.Status == AttendanceStatus.Absent)
+            {
+                await _activityLog.LogAsync(
+                    $"Teacher {teacher.ApplicationUser.FullName} marked {row.StudentName} absent");
             }
         }
 

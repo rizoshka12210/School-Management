@@ -61,6 +61,7 @@
             <a class="sidebar-link @Active("Admin", "Salary")" asp-area="Admin" asp-controller="Salary" asp-action="Index">@Localizer["Salary"]</a>
             <a class="sidebar-link @Active("Admin", "Leaderboard")" asp-area="Admin" asp-controller="Leaderboard" asp-action="Index">@Localizer["Leaderboard"]</a>
             <a class="sidebar-link @Active("Admin", "Calendar")" asp-area="Admin" asp-controller="Calendar" asp-action="Index">@Localizer["School Calendar"]</a>
+            <a class="sidebar-link @Active("Admin", "ActivityLog")" asp-area="Admin" asp-controller="ActivityLog" asp-action="Index">@Localizer["Activity Log"]</a>
         }
         @if (User.IsInRole("Teacher"))
         {

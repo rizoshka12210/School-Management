@@ -19,17 +19,20 @@ public class StudentsController : Controller
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly StudentRiskService _riskService;
     private readonly AchievementService _achievements;
+    private readonly ActivityLogService _activityLog;
 
     public StudentsController(
         AppDbContext context,
         IStringLocalizer<SharedResource> localizer,
         StudentRiskService riskService,
-        AchievementService achievements)
+        AchievementService achievements,
+        ActivityLogService activityLog)
     {
         _context = context;
         _localizer = localizer;
         _riskService = riskService;
         _achievements = achievements;
+        _activityLog = activityLog;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -163,6 +166,8 @@ public class StudentsController : Controller
 
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync($"Admin created student \"{student.FirstName} {student.LastName}\"");
 
         TempData["Success"] =
             _localizer["Student created successfully."].Value;

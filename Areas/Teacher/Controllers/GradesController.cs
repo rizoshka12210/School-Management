@@ -4,6 +4,7 @@ using Microsoft.Extensions.Localization;
 using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Teacher;
 
 using GradeEntity = SchoolManagementSystem.Web.Models.Entities.Grade;
@@ -13,14 +14,17 @@ namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 public class GradesController : TeacherControllerBase
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ActivityLogService _activityLog;
 
     public GradesController(
         AppDbContext context,
         OwnershipHelper ownership,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        ActivityLogService activityLog)
         : base(context, ownership)
     {
         _localizer = localizer;
+        _activityLog = activityLog;
     }
 
     public async Task<IActionResult> Index()
@@ -139,6 +143,10 @@ public class GradesController : TeacherControllerBase
             lesson.StartTime.Date,
             DateTimeKind.Utc);
 
+        var teacher = await Context.Teachers
+            .Include(t => t.ApplicationUser)
+            .FirstAsync(t => t.Id == teacherId);
+
         foreach (var row in model.Students)
         {
             if (!validStudentIds.Contains(row.StudentId))
@@ -172,6 +180,9 @@ public class GradesController : TeacherControllerBase
                     Comment = row.Comment
                 });
             }
+
+            await _activityLog.LogAsync(
+                $"Teacher {teacher.ApplicationUser.FullName} added grade {row.Value.Value} to {row.StudentName}");
         }
 
         await Context.SaveChangesAsync();

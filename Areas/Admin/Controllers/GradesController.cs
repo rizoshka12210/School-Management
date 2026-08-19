@@ -17,15 +17,18 @@ public class GradesController : Controller
     private readonly GradeService _gradeService;
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ActivityLogService _activityLog;
 
     public GradesController(
         GradeService gradeService,
         AppDbContext context,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        ActivityLogService activityLog)
     {
         _gradeService = gradeService;
         _context = context;
         _localizer = localizer;
+        _activityLog = activityLog;
     }
 
     public async Task<IActionResult> Index(
@@ -137,6 +140,9 @@ public class GradesController : Controller
             : model.Comment.Trim();
 
         await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync(
+            $"Admin updated grade {grade.Value} for {grade.Student.FirstName} {grade.Student.LastName}");
 
         TempData["Success"] = _localizer["Grade updated successfully."].Value;
 

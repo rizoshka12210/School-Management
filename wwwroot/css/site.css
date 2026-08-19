@@ -6473,3 +6473,49 @@ html[data-theme="dark"] .calendar-event-chip {
     background: #312e81;
     color: #c7d2fe;
 }
+
+.activity-log-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-log-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 4px;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 13px;
+}
+
+.activity-log-row:last-child {
+    border-bottom: none;
+}
+
+.activity-log-time {
+    font-weight: 700;
+    color: #111827;
+    min-width: 42px;
+}
+
+.activity-log-date {
+    color: #9ca3af;
+    font-size: 11px;
+    min-width: 50px;
+}
+
+.activity-log-message {
+    color: #374151;
+}
+
+html[data-theme="dark"] .activity-log-row {
+    border-color: #253047;
+}
+
+html[data-theme="dark"] .activity-log-time {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .activity-log-message {
+    color: #cbd5e1;
+}

@@ -7,6 +7,7 @@ using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Identity;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Admin;
 
 using TeacherEntity =
@@ -21,15 +22,18 @@ public class TeachersController : Controller
     private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ActivityLogService _activityLog;
 
     public TeachersController(
         AppDbContext context,
         UserManager<ApplicationUser> userManager,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        ActivityLogService activityLog)
     {
         _context = context;
         _userManager = userManager;
         _localizer = localizer;
+        _activityLog = activityLog;
     }
 
 
@@ -373,6 +377,8 @@ public class TeachersController : Controller
         }
 
 
+        var previousHourlyRate = teacher.HourlyRate;
+
         teacher.HourlyRate =
             model.HourlyRate;
 
@@ -417,6 +423,11 @@ public class TeachersController : Controller
 
         await _context.SaveChangesAsync();
 
+        if (previousHourlyRate != teacher.HourlyRate)
+        {
+            await _activityLog.LogAsync(
+                $"Admin changed {teacher.ApplicationUser.FullName}'s salary rate");
+        }
 
         TempData["Success"] =
             _localizer["Teacher updated successfully."].Value;

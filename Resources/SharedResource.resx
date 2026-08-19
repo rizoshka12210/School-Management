@@ -1204,4 +1204,13 @@
   <data name="Attendance Not Completed" xml:space="preserve">
     <value>Attendance Not Completed</value>
   </data>
+  <data name="Activity Log" xml:space="preserve">
+    <value>Activity Log</value>
+  </data>
+  <data name="Most recent 100 actions across the school" xml:space="preserve">
+    <value>Most recent 100 actions across the school</value>
+  </data>
+  <data name="No activity recorded yet." xml:space="preserve">
+    <value>No activity recorded yet.</value>
+  </data>
 </root>

@@ -18,15 +18,18 @@ public class AttendanceController : Controller
     private readonly AttendanceService _attendanceService;
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ActivityLogService _activityLog;
 
     public AttendanceController(
         AttendanceService attendanceService,
         AppDbContext context,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        ActivityLogService activityLog)
     {
         _attendanceService = attendanceService;
         _context = context;
         _localizer = localizer;
+        _activityLog = activityLog;
     }
 
     public async Task<IActionResult> Index(
@@ -199,6 +202,12 @@ public class AttendanceController : Controller
             : model.Note.Trim();
 
         await _context.SaveChangesAsync();
+
+        if (attendance.Status == AttendanceStatus.Absent)
+        {
+            await _activityLog.LogAsync(
+                $"Admin marked {attendance.Student.FirstName} {attendance.Student.LastName} absent");
+        }
 
         TempData["Success"] = _localizer["Attendance record updated successfully."].Value;
 
