@@ -45,13 +45,13 @@
                         if ((ViewBag.Day as string) == day.ToString())
                         {
                             <option value="@day" selected>
-                                @day
+                                @Localizer[day.ToString()]
                             </option>
                         }
                         else
                         {
                             <option value="@day">
-                                @day
+                                @Localizer[day.ToString()]
                             </option>
                         }
                     }
@@ -138,7 +138,7 @@
 
                             <div>
                                 <span class="schedule-day-name">
-                                    @dayGroup.Key
+                                    @Localizer[dayGroup.Key.ToString()]
                                 </span>
 
                                 <span class="schedule-day-count">

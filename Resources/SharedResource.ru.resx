@@ -994,4 +994,58 @@
   <data name="This group already has another lesson during this time." xml:space="preserve">
     <value>У этой группы уже есть другой урок в это время.</value>
   </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Понедельник</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Вторник</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Среда</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Четверг</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Пятница</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Суббота</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Воскресенье</value>
+  </data>
+  <data name="My Schedule" xml:space="preserve">
+    <value>Моё расписание</value>
+  </data>
+  <data name="No schedule entries" xml:space="preserve">
+    <value>Записей расписания нет</value>
+  </data>
+  <data name="No schedule yet" xml:space="preserve">
+    <value>Расписания пока нет</value>
+  </data>
+  <data name="School Days" xml:space="preserve">
+    <value>Учебных дней</value>
+  </data>
+  <data name="School lesson" xml:space="preserve">
+    <value>Школьный урок</value>
+  </data>
+  <data name="Teaching Days" xml:space="preserve">
+    <value>Дней преподавания</value>
+  </data>
+  <data name="The weekly schedule will appear here when it is created." xml:space="preserve">
+    <value>Недельное расписание появится здесь после создания.</value>
+  </data>
+  <data name="Weekly Lessons" xml:space="preserve">
+    <value>Уроков в неделю</value>
+  </data>
+  <data name="Your weekly schedule will appear here." xml:space="preserve">
+    <value>Ваше недельное расписание появится здесь.</value>
+  </data>
+  <data name="Your weekly teaching timetable" xml:space="preserve">
+    <value>Ваше недельное расписание преподавания</value>
+  </data>
+  <data name="{0}'s weekly timetable" xml:space="preserve">
+    <value>Недельное расписание — {0}</value>
+  </data>
 </root>

@@ -30,8 +30,24 @@
                 </label>
 
                 <select asp-for="DayOfWeek"
-                        asp-items="Html.GetEnumSelectList<DayOfWeek>()"
                         class="form-select">
+
+                    @foreach (var day in Enum.GetValues<DayOfWeek>())
+                    {
+                        if (day == Model.DayOfWeek)
+                        {
+                            <option value="@((int)day)" selected>
+                                @Localizer[day.ToString()]
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@((int)day)">
+                                @Localizer[day.ToString()]
+                            </option>
+                        }
+                    }
+
                 </select>
 
                 <span asp-validation-for="DayOfWeek"

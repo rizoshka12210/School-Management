@@ -994,4 +994,58 @@
   <data name="This group already has another lesson during this time." xml:space="preserve">
     <value>This group already has another lesson during this time.</value>
   </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Monday</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Tuesday</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Wednesday</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Thursday</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Friday</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Saturday</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Sunday</value>
+  </data>
+  <data name="My Schedule" xml:space="preserve">
+    <value>My Schedule</value>
+  </data>
+  <data name="No schedule entries" xml:space="preserve">
+    <value>No schedule entries</value>
+  </data>
+  <data name="No schedule yet" xml:space="preserve">
+    <value>No schedule yet</value>
+  </data>
+  <data name="School Days" xml:space="preserve">
+    <value>School Days</value>
+  </data>
+  <data name="School lesson" xml:space="preserve">
+    <value>School lesson</value>
+  </data>
+  <data name="Teaching Days" xml:space="preserve">
+    <value>Teaching Days</value>
+  </data>
+  <data name="The weekly schedule will appear here when it is created." xml:space="preserve">
+    <value>The weekly schedule will appear here when it is created.</value>
+  </data>
+  <data name="Weekly Lessons" xml:space="preserve">
+    <value>Weekly Lessons</value>
+  </data>
+  <data name="Your weekly schedule will appear here." xml:space="preserve">
+    <value>Your weekly schedule will appear here.</value>
+  </data>
+  <data name="Your weekly teaching timetable" xml:space="preserve">
+    <value>Your weekly teaching timetable</value>
+  </data>
+  <data name="{0}'s weekly timetable" xml:space="preserve">
+    <value>{0}'s weekly timetable</value>
+  </data>
 </root>

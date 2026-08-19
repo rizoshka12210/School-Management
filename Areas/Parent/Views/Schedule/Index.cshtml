@@ -1,7 +1,7 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Schedule>
 
 @{
-    ViewData["Title"] = "Schedule";
+    ViewData["Title"] = Localizer["Schedule"];
 
     var totalLessons = Model.Count();
 
@@ -30,6 +30,10 @@
         DayOfWeek.Saturday,
         DayOfWeek.Sunday
     };
+
+    var today = DateTime.Today;
+    var daysSinceMonday = ((int)today.DayOfWeek + 6) % 7;
+    var weekStart = today.AddDays(-daysSinceMonday);
 }
 
 <div class="page-header">
@@ -37,17 +41,17 @@
     <div>
 
         <h1 class="page-title">
-            Schedule
+            @Localizer["Schedule"]
         </h1>
 
         <p class="page-subtitle">
-            @ViewBag.StudentName's weekly timetable
+            @Localizer["{0}'s weekly timetable", ViewBag.StudentName]
         </p>
 
     </div>
 
     <div class="teacher-count-label">
-        @totalLessons lesson(s)
+        @Localizer["{0} lesson(s)", totalLessons]
     </div>
 
 </div>
@@ -61,7 +65,7 @@
         </div>
 
         <div>
-            <span>Weekly Lessons</span>
+            <span>@Localizer["Weekly Lessons"]</span>
             <strong>@totalLessons</strong>
         </div>
 
@@ -74,7 +78,7 @@
         </div>
 
         <div>
-            <span>Subjects</span>
+            <span>@Localizer["Subjects"]</span>
             <strong>@subjectsCount</strong>
         </div>
 
@@ -87,7 +91,7 @@
         </div>
 
         <div>
-            <span>Teachers</span>
+            <span>@Localizer["Teachers"]</span>
             <strong>@teachersCount</strong>
         </div>
 
@@ -100,7 +104,7 @@
         </div>
 
         <div>
-            <span>School Days</span>
+            <span>@Localizer["School Days"]</span>
             <strong>@daysCount</strong>
         </div>
 
@@ -119,11 +123,11 @@
             </div>
 
             <h5>
-                No schedule yet
+                @Localizer["No schedule yet"]
             </h5>
 
             <p>
-                The weekly schedule will appear here when it is created.
+                @Localizer["The weekly schedule will appear here when it is created."]
             </p>
 
         </div>
@@ -134,8 +138,11 @@ else
 {
     <div class="parent-week-schedule">
 
-        @foreach (var day in orderedDays)
+        @for (var dayIndex = 0; dayIndex < orderedDays.Length; dayIndex++)
         {
+            var day = orderedDays[dayIndex];
+            var dayDate = weekStart.AddDays(dayIndex);
+
             var lessons = Model
                 .Where(s => s.DayOfWeek == day)
                 .OrderBy(s => s.StartTime)
@@ -150,11 +157,15 @@ else
                         <div>
 
                             <strong>
-                                @day
+                                @Localizer[day.ToString()]
                             </strong>
 
+                            <span class="parent-schedule-day-date">
+                                @dayDate.ToString("d MMMM")
+                            </span>
+
                             <span>
-                                @lessons.Count lesson(s)
+                                @Localizer["{0} lesson(s)", lessons.Count]
                             </span>
 
                         </div>
@@ -189,7 +200,7 @@ else
                                     </strong>
 
                                     <span>
-                                        School lesson
+                                        @Localizer["School lesson"]
                                     </span>
 
                                 </div>
@@ -216,7 +227,7 @@ else
                                     <div>
 
                                         <span>
-                                            Teacher
+                                            @Localizer["Teacher"]
                                         </span>
 
                                         <strong>
