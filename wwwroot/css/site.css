@@ -5269,6 +5269,10 @@ html[data-theme="dark"] .salary-stat-label {
     color: #94a3b8;
 }
 
+html[data-theme="dark"] .form-card-header h5 {
+    color: #f8fafc;
+}
+
 html[data-theme="dark"] .teacher-stat-card {
     border-color: #253047;
     background: #111827;
@@ -6143,4 +6147,77 @@ html[data-theme="dark"] .line-chart-legend {
 html[data-theme="dark"] .border-bottom,
 html[data-theme="dark"] .border-top {
     border-color: #334155 !important;
+}
+
+.achievement-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.achievement-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 18px 12px;
+    border-radius: 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.achievement-badge-icon {
+    font-size: 32px;
+    line-height: 1;
+    margin-bottom: 10px;
+}
+
+.achievement-badge-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #334155;
+}
+
+.achievement-badge-desc {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.achievement-badge-earned {
+    background: #fffbeb;
+    border-color: #fde68a;
+}
+
+.achievement-badge-earned:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(217, 119, 6, 0.15);
+}
+
+.achievement-badge-locked {
+    opacity: 0.5;
+}
+
+.achievement-badge-locked .achievement-badge-icon {
+    filter: grayscale(1);
+}
+
+html[data-theme="dark"] .achievement-badge {
+    background: #1e293b;
+    border-color: #334155;
+}
+
+html[data-theme="dark"] .achievement-badge-name {
+    color: #e2e8f0;
+}
+
+html[data-theme="dark"] .achievement-badge-desc {
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .achievement-badge-earned {
+    background: #422006;
+    border-color: #92400e;
 }

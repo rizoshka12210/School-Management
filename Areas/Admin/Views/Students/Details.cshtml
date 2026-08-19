@@ -57,6 +57,11 @@
 
                     </div>
 
+                    <div class="mb-4">
+                        <strong>@Localizer["Achievements"]</strong>
+                        <partial name="_AchievementBadges" model="ViewBag.Achievements" />
+                    </div>
+
                     <a asp-action="Edit"
                        asp-route-id="@Model.Id"
                        class="btn btn-primary">

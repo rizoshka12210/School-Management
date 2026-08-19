@@ -1078,4 +1078,7 @@
   <data name="Never marked absent" xml:space="preserve">
     <value>Никогда не отмечен отсутствующим</value>
   </data>
+  <data name="Achievements" xml:space="preserve">
+    <value>Достижения</value>
+  </data>
 </root>

@@ -6,6 +6,7 @@ using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Entities;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Admin;
 
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
@@ -16,13 +17,16 @@ public class StudentsController : Controller
 {
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly AchievementService _achievements;
 
     public StudentsController(
         AppDbContext context,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        AchievementService achievements)
     {
         _context = context;
         _localizer = localizer;
+        _achievements = achievements;
     }
 
 
@@ -71,6 +75,8 @@ public class StudentsController : Controller
         {
             return NotFound();
         }
+
+        ViewBag.Achievements = await _achievements.GetBadgesAsync(student.Id);
 
         return View(student);
     }

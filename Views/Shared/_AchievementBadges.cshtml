@@ -1,0 +1,14 @@
+@using SchoolManagementSystem.Web.Services
+@model List<AchievementBadge>
+
+<div class="achievement-badges-grid">
+    @foreach (var badge in Model)
+    {
+        <div class="achievement-badge @(badge.Earned ? "achievement-badge-earned" : "achievement-badge-locked")"
+             title="@Localizer[badge.DescriptionKey]">
+            <div class="achievement-badge-icon">@badge.Icon</div>
+            <div class="achievement-badge-name">@Localizer[badge.NameKey]</div>
+            <div class="achievement-badge-desc">@Localizer[badge.DescriptionKey]</div>
+        </div>
+    }
+</div>
