@@ -4,8 +4,14 @@
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
     var seenNotificationFingerprint = Context.Request.Cookies[
         SchoolManagementSystem.Web.Services.NotificationService.SeenCookieName];
+    var isNotificationsPage = string.Equals(
+        controller,
+        "Notifications",
+        StringComparison.OrdinalIgnoreCase);
     var notificationCount = User.Identity?.IsAuthenticated == true
-        ? await NotificationService.GetUnreadCountAsync(User, seenNotificationFingerprint)
+        ? (isNotificationsPage
+            ? 0
+            : await NotificationService.GetUnreadCountAsync(User, seenNotificationFingerprint))
         : 0;
 
     string Active(string targetArea, string targetController)
