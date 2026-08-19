@@ -22,6 +22,10 @@ public class ChildSummary
     public double AverageGrade { get; set; }
 
     public List<RecentGrade> RecentGrades { get; set; } = new();
+
+    public int LessonsTodayCount { get; set; }
+
+    public MissedLesson? RecentMissedLesson { get; set; }
 }
 
 public class RecentGrade
@@ -29,6 +33,13 @@ public class RecentGrade
     public string SubjectName { get; set; } = string.Empty;
 
     public int Value { get; set; }
+
+    public DateTime Date { get; set; }
+}
+
+public class MissedLesson
+{
+    public string SubjectName { get; set; } = string.Empty;
 
     public DateTime Date { get; set; }
 }

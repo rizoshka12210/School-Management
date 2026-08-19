@@ -1177,4 +1177,10 @@
   <data name="Event deleted successfully." xml:space="preserve">
     <value>Событие успешно удалено.</value>
   </data>
+  <data name="Lessons Today" xml:space="preserve">
+    <value>Уроков сегодня</value>
+  </data>
+  <data name="Missed {0} — {1}" xml:space="preserve">
+    <value>Пропущено: {0} — {1}</value>
+  </data>
 </root>

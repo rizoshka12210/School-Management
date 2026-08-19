@@ -3643,7 +3643,7 @@ h1 {
 
 .parent-child-stats {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     padding: 18px 20px;
 }
@@ -3713,6 +3713,20 @@ h1 {
 .parent-age-icon {
     background: #fdf2f8;
     color: #db2777;
+}
+
+.parent-missed-alert {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 20px 18px;
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    color: #92400e;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .parent-card-section {
@@ -5425,6 +5439,12 @@ html[data-theme="dark"] .parent-child-stat strong {
 
 html[data-theme="dark"] .parent-card-section-header > span {
     color: #94a3b8;
+}
+
+html[data-theme="dark"] .parent-missed-alert {
+    background: #422006;
+    color: #fcd34d;
+    border-color: #92400e;
 }
 
 html[data-theme="dark"] .parent-recent-grade {

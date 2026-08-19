@@ -1180,4 +1180,10 @@
   <data name="Event deleted successfully." xml:space="preserve">
     <value>Event deleted successfully.</value>
   </data>
+  <data name="Lessons Today" xml:space="preserve">
+    <value>Lessons Today</value>
+  </data>
+  <data name="Missed {0} — {1}" xml:space="preserve">
+    <value>Missed {0} — {1}</value>
+  </data>
 </root>

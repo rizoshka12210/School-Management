@@ -174,7 +174,35 @@ else
 
                     </div>
 
+                    <div class="parent-child-stat">
+
+                        <div class="parent-child-stat-icon parent-lessons-icon">
+                            LS
+                        </div>
+
+                        <div>
+
+                            <span>
+                                @Localizer["Lessons Today"]
+                            </span>
+
+                            <strong>
+                                @child.LessonsTodayCount
+                            </strong>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
+                @if (child.RecentMissedLesson != null)
+                {
+                    <div class="parent-missed-alert">
+                        ⚠️
+                        @Localizer["Missed {0} — {1}", child.RecentMissedLesson.SubjectName, child.RecentMissedLesson.Date.ToString("dd MMM")]
+                    </div>
+                }
 
                 <div class="parent-card-section">
 

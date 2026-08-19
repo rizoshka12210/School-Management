@@ -33,6 +33,8 @@ public class DashboardController : ParentControllerBase
             .ToListAsync();
 
         var today = DateTime.UtcNow.Date;
+        var tomorrow = today.AddDays(1);
+        var sevenDaysAgo = today.AddDays(-7);
 
         var model = new ParentDashboardViewModel
         {
@@ -46,6 +48,8 @@ public class DashboardController : ParentControllerBase
         foreach (var student in students)
         {
             var attendances = await Context.Attendances
+                .Include(a => a.Lesson)
+                    .ThenInclude(l => l.Subject)
                 .Where(a => a.StudentId == student.Id)
                 .ToListAsync();
 
@@ -59,6 +63,27 @@ public class DashboardController : ParentControllerBase
                 .Include(g => g.Subject)
                 .OrderByDescending(g => g.Date)
                 .ToListAsync();
+
+            var lessonsTodayCount = student.GroupId == null
+                ? 0
+                : await Context.Lessons
+                    .Where(l =>
+                        l.GroupId == student.GroupId &&
+                        l.StartTime >= today &&
+                        l.StartTime < tomorrow)
+                    .CountAsync();
+
+            var recentMissed = attendances
+                .Where(a =>
+                    a.Status == AttendanceStatus.Absent &&
+                    a.Lesson.StartTime >= sevenDaysAgo)
+                .OrderByDescending(a => a.Lesson.StartTime)
+                .Select(a => new MissedLesson
+                {
+                    SubjectName = a.Lesson.Subject.Name,
+                    Date = a.Lesson.StartTime
+                })
+                .FirstOrDefault();
 
             model.Children.Add(new ChildSummary
             {
@@ -82,7 +107,10 @@ public class DashboardController : ParentControllerBase
                         Value = g.Value,
                         Date = g.Date
                     })
-                    .ToList()
+                    .ToList(),
+
+                LessonsTodayCount = lessonsTodayCount,
+                RecentMissedLesson = recentMissed
             });
         }
 
