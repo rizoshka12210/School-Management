@@ -1,539 +1,182 @@
-﻿@{
+@inject SchoolManagementSystem.Web.Services.NotificationService NotificationService
+@{
     var area = ViewContext.RouteData.Values["area"]?.ToString();
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var seenNotificationFingerprint = Context.Request.Cookies[
+        SchoolManagementSystem.Web.Services.NotificationService.SeenCookieName];
+    var requestPath = Context.Request.Path.Value ?? string.Empty;
+    var isNotificationsPage = requestPath.StartsWith(
+        "/Notifications",
+        StringComparison.OrdinalIgnoreCase);
+    var notificationCount = User.Identity?.IsAuthenticated == true
+        ? (isNotificationsPage
+            ? 0
+            : await NotificationService.GetUnreadCountAsync(User, seenNotificationFingerprint))
+        : 0;
 
     string Active(string targetArea, string targetController)
-    {
-        return area == targetArea && controller == targetController
-            ? "active"
-            : "";
-    }
+        => area == targetArea && controller == targetController ? "active" : "";
 }
-
 <!DOCTYPE html>
 <html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
-
 <head>
     <meta charset="utf-8" />
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0" />
-
-    <title>
-        @ViewData["Title"] - School Management
-    </title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - School Management</title>
     <script>
         (() => {
             const savedTheme = localStorage.getItem("school-theme");
-
-            if (savedTheme === "dark") {
-                document.documentElement.setAttribute("data-theme", "dark");
-            } else {
-                document.documentElement.setAttribute("data-theme", "light");
-            }
+            document.documentElement.setAttribute("data-theme", savedTheme === "dark" ? "dark" : "light");
         })();
     </script>
-
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-
-    <link rel="stylesheet"
-          href="~/css/site.css"
-          asp-append-version="true" />
-
-    <link rel="stylesheet"
-          href="~/SchoolManagementSystem.Web.styles.css"
-          asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/features.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SchoolManagementSystem.Web.styles.css" asp-append-version="true" />
 </head>
-
 <body>
-
 <div class="app">
+@if (User.Identity?.IsAuthenticated == true)
+{
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-logo">S</div>
+            <div><div class="brand-title">@Localizer["School"]</div><div class="brand-subtitle">@Localizer["Management"]</div></div>
+        </div>
+        <nav class="sidebar-nav">
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="sidebar-section">@Localizer["NavSectionAdmin"]</div>
+            <a class="sidebar-link @Active("Admin", "Dashboard")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">@Localizer["Dashboard"]</a>
+            <a class="sidebar-link @Active("Admin", "Students")" asp-area="Admin" asp-controller="Students" asp-action="Index">@Localizer["Students"]</a>
+            <a class="sidebar-link @Active("Admin", "Parents")" asp-area="Admin" asp-controller="Parents" asp-action="Index">@Localizer["Parents"]</a>
+            <a class="sidebar-link @Active("Admin", "Teachers")" asp-area="Admin" asp-controller="Teachers" asp-action="Index">@Localizer["Teachers"]</a>
+            <a class="sidebar-link @Active("Admin", "Groups")" asp-area="Admin" asp-controller="Groups" asp-action="Index">@Localizer["Groups"]</a>
+            <a class="sidebar-link @Active("Admin", "Subjects")" asp-area="Admin" asp-controller="Subjects" asp-action="Index">@Localizer["Subjects"]</a>
+            <div class="sidebar-section">@Localizer["NavSectionEducation"]</div>
+            <a class="sidebar-link @Active("Admin", "Lessons")" asp-area="Admin" asp-controller="Lessons" asp-action="Index">@Localizer["Lessons"]</a>
+            <a class="sidebar-link @Active("Admin", "Schedule")" asp-area="Admin" asp-controller="Schedule" asp-action="Index">@Localizer["Schedule"]</a>
+            <a class="sidebar-link @Active("Admin", "Attendance")" asp-area="Admin" asp-controller="Attendance" asp-action="Index">@Localizer["Attendance"]</a>
+            <a class="sidebar-link @Active("Admin", "Grades")" asp-area="Admin" asp-controller="Grades" asp-action="Index">@Localizer["Grades"]</a>
+            <a class="sidebar-link @Active("Admin", "Salary")" asp-area="Admin" asp-controller="Salary" asp-action="Index">@Localizer["Salary"]</a>
+            <a class="sidebar-link @Active("Admin", "Leaderboard")" asp-area="Admin" asp-controller="Leaderboard" asp-action="Index">@Localizer["Leaderboard"]</a>
+        }
+        @if (User.IsInRole("Teacher"))
+        {
+            <div class="sidebar-section">@Localizer["NavSectionTeacher"]</div>
+            <a class="sidebar-link @Active("Teacher", "Dashboard")" asp-area="Teacher" asp-controller="Dashboard" asp-action="Index">@Localizer["Dashboard"]</a>
+            <a class="sidebar-link @Active("Teacher", "Groups")" asp-area="Teacher" asp-controller="Groups" asp-action="Index">@Localizer["My Groups"]</a>
+            <a class="sidebar-link @Active("Teacher", "Students")" asp-area="Teacher" asp-controller="Students" asp-action="Index">@Localizer["Students"]</a>
+            <a class="sidebar-link @Active("Teacher", "Lessons")" asp-area="Teacher" asp-controller="Lessons" asp-action="Index">@Localizer["Lessons"]</a>
+            <a class="sidebar-link @Active("Teacher", "Attendance")" asp-area="Teacher" asp-controller="Attendance" asp-action="Index">@Localizer["Attendance"]</a>
+            <a class="sidebar-link @Active("Teacher", "Grades")" asp-area="Teacher" asp-controller="Grades" asp-action="Index">@Localizer["Grades"]</a>
+            <a class="sidebar-link @Active("Teacher", "Topics")" asp-area="Teacher" asp-controller="Topics" asp-action="Index">@Localizer["Topics"]</a>
+            <a class="sidebar-link @Active("Teacher", "Schedule")" asp-area="Teacher" asp-controller="Schedule" asp-action="Index">@Localizer["Schedule"]</a>
+            <a class="sidebar-link @Active("Teacher", "Salary")" asp-area="Teacher" asp-controller="Salary" asp-action="Index">@Localizer["My Salary"]</a>
+            <a class="sidebar-link @Active("Teacher", "Leaderboard")" asp-area="Teacher" asp-controller="Leaderboard" asp-action="Index">@Localizer["Leaderboard"]</a>
+        }
+        @if (User.IsInRole("Parent"))
+        {
+            <div class="sidebar-section">@Localizer["NavSectionParent"]</div>
+            <a class="sidebar-link @Active("Parent", "Dashboard")" asp-area="Parent" asp-controller="Dashboard" asp-action="Index">@Localizer["Dashboard"]</a>
+            <a class="sidebar-link @Active("Parent", "Child")" asp-area="Parent" asp-controller="Child" asp-action="Details">@Localizer["My Child"]</a>
+            <a class="sidebar-link @Active("Parent", "Schedule")" asp-area="Parent" asp-controller="Schedule" asp-action="Index">@Localizer["Schedule"]</a>
+            <a class="sidebar-link @Active("Parent", "Grades")" asp-area="Parent" asp-controller="Grades" asp-action="Index">@Localizer["Grades"]</a>
+            <a class="sidebar-link @Active("Parent", "Attendance")" asp-area="Parent" asp-controller="Attendance" asp-action="Index">@Localizer["Attendance"]</a>
+            <a class="sidebar-link @Active("Parent", "Subjects")" asp-area="Parent" asp-controller="Subjects" asp-action="Index">@Localizer["Subjects"]</a>
+            <a class="sidebar-link @Active("Parent", "Topics")" asp-area="Parent" asp-controller="Topics" asp-action="Index">@Localizer["Topics"]</a>
+            <a class="sidebar-link @Active("Parent", "Progress")" asp-area="Parent" asp-controller="Progress" asp-action="Index">@Localizer["Progress"]</a>
+            <a class="sidebar-link @Active("Parent", "Leaderboard")" asp-area="Parent" asp-controller="Leaderboard" asp-action="Index">@Localizer["Leaderboard"]</a>
+        }
+        </nav>
+    </aside>
+}
+<div class="main-wrapper">
+    <header class="topbar">
+        <div><h5 class="topbar-title">@ViewData["Title"]</h5></div>
+        <div class="topbar-user">
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <a id="notificationBell" asp-area="" asp-controller="Notifications" asp-action="Index" class="notification-bell" title="Notifications">
+                <span>🔔</span>
+                @if (notificationCount > 0)
+                {
+                    <span id="notificationCountBadge" class="notification-count">@(notificationCount > 99 ? "99+" : notificationCount)</span>
+                }
+            </a>
 
-    @if (User.Identity?.IsAuthenticated == true)
-    {
-        <aside class="sidebar">
-
-            <div class="sidebar-brand">
-
-                <div class="brand-logo">
-                    S
+            <div class="user-info">
+                <div class="user-avatar">@(User.Identity.Name?.Substring(0, 1).ToUpper())</div>
+                <div class="user-details">
+                    <span class="user-email">@User.Identity.Name</span>
+                    <span class="user-role">
+                        @if (User.IsInRole("Admin")) { <text>@Localizer["Administrator"]</text> }
+                        else if (User.IsInRole("Teacher")) { <text>@Localizer["Teacher"]</text> }
+                        else if (User.IsInRole("Parent")) { <text>@Localizer["Parent"]</text> }
+                    </span>
                 </div>
-
-                <div>
-
-                    <div class="brand-title">
-                        @Localizer["School"]
-                    </div>
-
-                    <div class="brand-subtitle">
-                        @Localizer["Management"]
-                    </div>
-
-                </div>
-
             </div>
 
-            <nav class="sidebar-nav">
-
-                @if (User.IsInRole("Admin"))
-                {
-                    <div class="sidebar-section">
-                        @Localizer["NavSectionAdmin"]
-                    </div>
-
-                    <a class="sidebar-link @Active("Admin", "Dashboard")"
-                       asp-area="Admin"
-                       asp-controller="Dashboard"
-                       asp-action="Index">
-                        @Localizer["Dashboard"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Students")"
-                       asp-area="Admin"
-                       asp-controller="Students"
-                       asp-action="Index">
-                        @Localizer["Students"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Parents")"
-                       asp-area="Admin"
-                       asp-controller="Parents"
-                       asp-action="Index">
-                        @Localizer["Parents"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Teachers")"
-                       asp-area="Admin"
-                       asp-controller="Teachers"
-                       asp-action="Index">
-                        @Localizer["Teachers"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Groups")"
-                       asp-area="Admin"
-                       asp-controller="Groups"
-                       asp-action="Index">
-                        @Localizer["Groups"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Subjects")"
-                       asp-area="Admin"
-                       asp-controller="Subjects"
-                       asp-action="Index">
-                        @Localizer["Subjects"]
-                    </a>
-
-                    <div class="sidebar-section">
-                        @Localizer["NavSectionEducation"]
-                    </div>
-
-                    <a class="sidebar-link @Active("Admin", "Lessons")"
-                       asp-area="Admin"
-                       asp-controller="Lessons"
-                       asp-action="Index">
-                        @Localizer["Lessons"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Schedule")"
-                       asp-area="Admin"
-                       asp-controller="Schedule"
-                       asp-action="Index">
-                        @Localizer["Schedule"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Attendance")"
-                       asp-area="Admin"
-                       asp-controller="Attendance"
-                       asp-action="Index">
-                        @Localizer["Attendance"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Grades")"
-                       asp-area="Admin"
-                       asp-controller="Grades"
-                       asp-action="Index">
-                        @Localizer["Grades"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Salary")"
-                       asp-area="Admin"
-                       asp-controller="Salary"
-                       asp-action="Index">
-                        @Localizer["Salary"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Admin", "Leaderboard")"
-                       asp-area="Admin"
-                       asp-controller="Leaderboard"
-                       asp-action="Index">
-                        @Localizer["Leaderboard"]
-                    </a>
-                }
-
-                @if (User.IsInRole("Teacher"))
-                {
-                    <div class="sidebar-section">
-                        @Localizer["NavSectionTeacher"]
-                    </div>
-
-                    <a class="sidebar-link @Active("Teacher", "Dashboard")"
-                       asp-area="Teacher"
-                       asp-controller="Dashboard"
-                       asp-action="Index">
-                        @Localizer["Dashboard"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Groups")"
-                       asp-area="Teacher"
-                       asp-controller="Groups"
-                       asp-action="Index">
-                        @Localizer["My Groups"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Students")"
-                       asp-area="Teacher"
-                       asp-controller="Students"
-                       asp-action="Index">
-                        @Localizer["Students"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Lessons")"
-                       asp-area="Teacher"
-                       asp-controller="Lessons"
-                       asp-action="Index">
-                        @Localizer["Lessons"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Attendance")"
-                       asp-area="Teacher"
-                       asp-controller="Attendance"
-                       asp-action="Index">
-                        @Localizer["Attendance"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Grades")"
-                       asp-area="Teacher"
-                       asp-controller="Grades"
-                       asp-action="Index">
-                        @Localizer["Grades"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Topics")"
-                       asp-area="Teacher"
-                       asp-controller="Topics"
-                       asp-action="Index">
-                        @Localizer["Topics"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Schedule")"
-                       asp-area="Teacher"
-                       asp-controller="Schedule"
-                       asp-action="Index">
-                        @Localizer["Schedule"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Salary")"
-                       asp-area="Teacher"
-                       asp-controller="Salary"
-                       asp-action="Index">
-                        @Localizer["My Salary"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Teacher", "Leaderboard")"
-                       asp-area="Teacher"
-                       asp-controller="Leaderboard"
-                       asp-action="Index">
-                        @Localizer["Leaderboard"]
-                    </a>
-                }
-
-                @if (User.IsInRole("Parent"))
-                {
-                    <div class="sidebar-section">
-                        @Localizer["NavSectionParent"]
-                    </div>
-
-                    <a class="sidebar-link @Active("Parent", "Dashboard")"
-                       asp-area="Parent"
-                       asp-controller="Dashboard"
-                       asp-action="Index">
-                        @Localizer["Dashboard"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Child")"
-                       asp-area="Parent"
-                       asp-controller="Child"
-                       asp-action="Details">
-                        @Localizer["My Child"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Schedule")"
-                       asp-area="Parent"
-                       asp-controller="Schedule"
-                       asp-action="Index">
-                        @Localizer["Schedule"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Grades")"
-                       asp-area="Parent"
-                       asp-controller="Grades"
-                       asp-action="Index">
-                        @Localizer["Grades"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Attendance")"
-                       asp-area="Parent"
-                       asp-controller="Attendance"
-                       asp-action="Index">
-                        @Localizer["Attendance"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Subjects")"
-                       asp-area="Parent"
-                       asp-controller="Subjects"
-                       asp-action="Index">
-                        @Localizer["Subjects"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Topics")"
-                       asp-area="Parent"
-                       asp-controller="Topics"
-                       asp-action="Index">
-                        @Localizer["Topics"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Progress")"
-                       asp-area="Parent"
-                       asp-controller="Progress"
-                       asp-action="Index">
-                        @Localizer["Progress"]
-                    </a>
-
-                    <a class="sidebar-link @Active("Parent", "Leaderboard")"
-                       asp-area="Parent"
-                       asp-controller="Leaderboard"
-                       asp-action="Index">
-                        @Localizer["Leaderboard"]
-                    </a>
-                }
-
-            </nav>
-
-        </aside>
-    }
-
-    <div class="main-wrapper">
-
-        <header class="topbar">
-
-            <div>
-
-                <h5 class="topbar-title">
-                    @ViewData["Title"]
-                </h5>
-
+            var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+            var returnUrl = Context.Request.Path + Context.Request.QueryString;
+            <div class="lang-switcher">
+                <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                    <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                    <button type="submit" class="btn-lang @(currentCulture == "en-US" ? "active" : "")">EN</button>
+                </form>
+                <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                    <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                    <button type="submit" class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
+                </form>
             </div>
+            <button type="button" id="themeToggle" class="btn-theme" aria-label="Toggle dark mode"><span id="themeIcon">🌙</span></button>
+            <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post"><button type="submit" class="btn-logout">@Localizer["Logout"]</button></form>
+        }
+        else
+        {
+            <a asp-area="" asp-controller="Auth" asp-action="Login" class="btn btn-primary">@Localizer["Login"]</a>
+        }
+        </div>
+    </header>
 
-            <div class="topbar-user">
-
-                @if (User.Identity?.IsAuthenticated == true)
-                {
-                    <div class="user-info">
-
-                        <div class="user-avatar">
-                            @(User.Identity.Name?.Substring(0, 1).ToUpper())
-                        </div>
-
-                        <div class="user-details">
-
-                            <span class="user-email">
-                                @User.Identity.Name
-                            </span>
-
-                            <span class="user-role">
-
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <text>@Localizer["Administrator"]</text>
-                                }
-                                else if (User.IsInRole("Teacher"))
-                                {
-                                    <text>@Localizer["Teacher"]</text>
-                                }
-                                else if (User.IsInRole("Parent"))
-                                {
-                                    <text>@Localizer["Parent"]</text>
-                                }
-
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    var currentCulture =
-                        System.Globalization.CultureInfo.CurrentUICulture.Name;
-
-                    var returnUrl =
-                        Context.Request.Path + Context.Request.QueryString;
-
-                    <div class="lang-switcher">
-
-                        <form asp-area=""
-                              asp-controller="Home"
-                              asp-action="SetCulture"
-                              method="post">
-
-                            <input type="hidden" name="culture" value="en-US" />
-                            <input type="hidden" name="returnUrl" value="@returnUrl" />
-
-                            <button type="submit"
-                                    class="btn-lang @(currentCulture == "en-US" ? "active" : "")"
-                                    title="@Localizer["Switch to English"]">
-                                EN
-                            </button>
-
-                        </form>
-
-                        <form asp-area=""
-                              asp-controller="Home"
-                              asp-action="SetCulture"
-                              method="post">
-
-                            <input type="hidden" name="culture" value="ru-RU" />
-                            <input type="hidden" name="returnUrl" value="@returnUrl" />
-
-                            <button type="submit"
-                                    class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")"
-                                    title="@Localizer["Switch to Russian"]">
-                                RU
-                            </button>
-
-                        </form>
-
-                    </div>
-
-                    <button type="button"
-                            id="themeToggle"
-                            class="btn-theme"
-                            aria-label="@Localizer["Toggle dark mode"]"
-                            title="@Localizer["Change theme"]">
-
-                        <span id="themeIcon">
-                            🌙
-                        </span>
-
-                    </button>
-
-                    <form asp-area=""
-                          asp-controller="Auth"
-                          asp-action="Logout"
-                          method="post">
-
-                        <button type="submit"
-                                class="btn-logout">
-                            @Localizer["Logout"]
-                        </button>
-
-                    </form>
-                }
-                else
-                {
-                    <a asp-area=""
-                       asp-controller="Auth"
-                       asp-action="Login"
-                       class="btn btn-primary">
-                        @Localizer["Login"]
-                    </a>
-                }
-
-            </div>
-
-        </header>
-
-        <main class="page-content">
-
-            @if (TempData["Success"] != null)
-            {
-                <div class="alert alert-success alert-dismissible fade show shadow-sm">
-
-                    @TempData["Success"]
-
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert">
-                    </button>
-
-                </div>
-            }
-
-            @if (TempData["Error"] != null)
-            {
-                <div class="alert alert-danger alert-dismissible fade show shadow-sm">
-
-                    @TempData["Error"]
-
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="alert">
-                    </button>
-
-                </div>
-            }
-
-            @RenderBody()
-
-        </main>
-
-    </div>
-
+    <main class="page-content">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show shadow-sm">@TempData["Success"]<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm">@TempData["Error"]<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
+        }
+        @RenderBody()
+    </main>
 </div>
-
+</div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-<script src="~/js/site.js"
-        asp-append-version="true">
-</script>
-
+<script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
-
 <script>
     const themeToggle = document.getElementById("themeToggle");
     const themeIcon = document.getElementById("themeIcon");
-
     function applyTheme(theme) {
         document.documentElement.setAttribute("data-theme", theme);
-
         localStorage.setItem("school-theme", theme);
+        if (themeIcon) themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
+    }
+    applyTheme(localStorage.getItem("school-theme") || "light");
+    if (themeToggle) themeToggle.onclick = () => applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
 
-        if (themeIcon) {
-            themeIcon.textContent =
-                theme === "dark" ? "☀️" : "🌙";
-        }
+    const notificationBell = document.getElementById("notificationBell");
+    if (notificationBell) {
+        notificationBell.addEventListener("click", () => {
+            document.getElementById("notificationCountBadge")?.remove();
+        });
     }
 
-    const savedTheme =
-        localStorage.getItem("school-theme") || "light";
-
-    applyTheme(savedTheme);
-
-    if (themeToggle) {
-        themeToggle.onclick = function () {
-            const currentTheme =
-                document.documentElement.getAttribute("data-theme");
-
-            if (currentTheme === "dark") {
-                applyTheme("light");
-            } else {
-                applyTheme("dark");
-            }
-        };
+    if (window.location.pathname.toLowerCase().startsWith("/notifications")) {
+        document.getElementById("notificationCountBadge")?.remove();
     }
 </script>
-
 </body>
 </html>

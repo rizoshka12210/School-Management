@@ -77,6 +77,8 @@ builder.Services.AddScoped<TopicCalendarService>();
 builder.Services.AddScoped<AchievementService>();
 builder.Services.AddScoped<LeaderboardService>();
 builder.Services.AddScoped<ActivityLogService>();
+builder.Services.AddScoped<StudentRiskService>();
+builder.Services.AddScoped<NotificationService>();
 
 var app = builder.Build();
 

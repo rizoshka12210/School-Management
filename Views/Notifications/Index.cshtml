@@ -1,0 +1,59 @@
+@model List<SchoolManagementSystem.Web.ViewModels.Notifications.NotificationItemViewModel>
+
+@{
+    ViewData["Title"] = "Notifications";
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">🔔 Notifications</h1>
+        <p class="page-subtitle">Role-based updates from your school activity.</p>
+    </div>
+    <div class="teacher-count-label">@Model.Count notification(s)</div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+                <div class="management-empty-icon">🔔</div>
+                <h5>No notifications</h5>
+                <p>There is nothing new for your account right now.</p>
+            </div>
+        }
+        else
+        {
+            <div class="notification-list">
+                @foreach (var item in Model)
+                {
+                    if (!string.IsNullOrWhiteSpace(item.Url))
+                    {
+                        <a href="@item.Url" class="notification-item notification-@item.Kind">
+                            <div class="notification-icon">@item.Icon</div>
+                            <div class="notification-content">
+                                <strong>@item.Title</strong>
+                                <span>@item.Message</span>
+                                @if (item.OccurredAt.HasValue)
+                                {
+                                    <small>@item.OccurredAt.Value.ToString("dd MMM yyyy HH:mm")</small>
+                                }
+                            </div>
+                            <div class="notification-arrow">→</div>
+                        </a>
+                    }
+                    else
+                    {
+                        <div class="notification-item notification-@item.Kind">
+                            <div class="notification-icon">@item.Icon</div>
+                            <div class="notification-content">
+                                <strong>@item.Title</strong>
+                                <span>@item.Message</span>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+</div>

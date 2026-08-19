@@ -1,84 +1,241 @@
-@model SchoolManagementSystem.Web.Models.Entities.Student
+@using SchoolManagementSystem.Web.Models.Enums
+@model SchoolManagementSystem.Web.ViewModels.Admin.StudentProfile360ViewModel
 
 @{
-    ViewData["Title"] = Localizer["Student Details"];
+    ViewData["Title"] = "Student Profile 360°";
+    var student = Model.Student;
 }
 
-<div class="container mt-4">
-
-    <div class="row justify-content-center">
-
-        <div class="col-lg-7">
-
-            <div class="card border-0 shadow-sm">
-
-                <div class="card-body p-4">
-
-                    <h2 class="fw-bold">
-                        @Model.FirstName @Model.LastName
-                    </h2>
-
-                    <hr />
-
-                    <p>
-                        <strong>@Localizer["Date of Birth"]:</strong>
-                        @Model.DateOfBirth.ToString("dd.MM.yyyy")
-                    </p>
-
-                    <p>
-                        <strong>@Localizer["Group"]:</strong>
-
-                        @(Model.Group?.Name ?? Localizer["No group"].Value)
-                    </p>
-
-                    <div class="mb-4">
-
-                        <strong>@Localizer["Parents"]:</strong>
-
-                        @if (Model.Parents.Any())
-                        {
-                            <ul class="mt-2">
-
-                                @foreach (var parent in Model.Parents)
-                                {
-                                    <li>
-                                        @parent.ApplicationUser.FullName
-                                        -
-                                        @parent.ApplicationUser.Email
-                                    </li>
-                                }
-
-                            </ul>
-                        }
-                        else
-                        {
-                            <span>@Localizer["No parents assigned."]</span>
-                        }
-
-                    </div>
-
-                    <div class="mb-4">
-                        <strong>@Localizer["Achievements"]</strong>
-                        <partial name="_AchievementBadges" model="ViewBag.Achievements" />
-                    </div>
-
-                    <a asp-action="Edit"
-                       asp-route-id="@Model.Id"
-                       class="btn btn-primary">
-                        @Localizer["Edit"]
-                    </a>
-
-                    <a asp-action="Index"
-                       class="btn btn-outline-secondary">
-                        @Localizer["Back"]
-                    </a>
-
-                </div>
-
-            </div>
-
+<div class="profile360-header">
+    <div class="profile360-identity">
+        <div class="profile360-avatar">
+            @(string.IsNullOrWhiteSpace(student.FirstName) ? "S" : student.FirstName.Substring(0, 1).ToUpper())
         </div>
-
+        <div>
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+                <h1 class="page-title mb-0">@student.FirstName @student.LastName</h1>
+                <span class="risk-badge @Model.Risk.CssClass">@Model.Risk.Icon @Model.Risk.Label</span>
+            </div>
+            <p class="page-subtitle mb-0">Student Profile 360° · @(student.Group?.Name ?? "No group")</p>
+        </div>
     </div>
 
+    <div class="d-flex gap-2">
+        <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-primary">Edit profile</a>
+        <a asp-action="Index" class="btn btn-light">Back</a>
+    </div>
+</div>
+
+<div class="profile360-kpis">
+    <div class="profile360-kpi">
+        <span>Average Grade</span>
+        <strong>@Model.AverageGrade.ToString("0.00")</strong>
+        <small>Across @student.Grades.Count grade(s)</small>
+    </div>
+    <div class="profile360-kpi">
+        <span>Attendance</span>
+        <strong>@Model.AttendanceRate.ToString("0.0")%</strong>
+        <small>@student.Attendances.Count attendance record(s)</small>
+    </div>
+    <div class="profile360-kpi">
+        <span>Group</span>
+        <strong>@(student.Group?.Name ?? "—")</strong>
+        <small>Current school group</small>
+    </div>
+    <div class="profile360-kpi">
+        <span>Parents</span>
+        <strong>@student.Parents.Count</strong>
+        <small>Connected parent account(s)</small>
+    </div>
+</div>
+
+<div class="form-card mb-4">
+    <div class="form-card-header">
+        <h5>@Localizer["Achievements"]</h5>
+        <p>Earned and upcoming student badges</p>
+    </div>
+    <div class="form-card-body">
+        <partial name="_AchievementBadges" model="ViewBag.Achievements" />
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-xl-5">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">Early Warning System</h5>
+                        <p class="section-subtitle">Automatic risk status from grades + attendance</p>
+                    </div>
+                </div>
+
+                <div class="risk-profile-card @Model.Risk.CssClass">
+                    <div class="risk-profile-status">@Model.Risk.Icon @Model.Risk.Label</div>
+                    <div class="risk-profile-metrics">
+                        <div><span>Average grade</span><strong>@Model.Risk.AverageGrade.ToString("0.00")</strong></div>
+                        <div><span>Attendance</span><strong>@Model.Risk.AttendanceRate.ToString("0.0")%</strong></div>
+                    </div>
+                    @if (Model.Risk.Reasons.Any())
+                    {
+                        <div class="risk-profile-reasons">
+                            <strong>Reasons</strong>
+                            <ul>
+                                @foreach (var reason in Model.Risk.Reasons)
+                                {
+                                    <li>@reason</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <p class="mb-0">No active risk signals detected.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-7">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">Student Information</h5>
+                        <p class="section-subtitle">Personal and family information</p>
+                    </div>
+                </div>
+                <div class="profile-info-grid">
+                    <div><span>Student ID</span><strong>#@student.Id</strong></div>
+                    <div><span>Date of Birth</span><strong>@student.DateOfBirth.ToString("dd MMMM yyyy")</strong></div>
+                    <div><span>Group</span><strong>@(student.Group?.Name ?? "No group")</strong></div>
+                    <div>
+                        <span>Parent</span>
+                        <strong>
+                            @if (student.Parents.Any())
+                            {
+                                @string.Join(", ", student.Parents.Select(p => p.ApplicationUser.FullName))
+                            }
+                            else
+                            {
+                                <text>Not assigned</text>
+                            }
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-xl-7">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">Recent Grades</h5>
+                        <p class="section-subtitle">Latest academic results</p>
+                    </div>
+                </div>
+
+                @if (!Model.RecentGrades.Any())
+                {
+                    <div class="dashboard-empty"><p>No grades recorded yet.</p></div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table align-middle management-table">
+                            <thead><tr><th>Date</th><th>Subject</th><th>Teacher</th><th>Grade</th></tr></thead>
+                            <tbody>
+                                @foreach (var grade in Model.RecentGrades)
+                                {
+                                    <tr>
+                                        <td>@grade.Date.ToString("dd MMM")</td>
+                                        <td><span class="subject-badge">@grade.Subject.Name</span></td>
+                                        <td>@grade.Teacher.ApplicationUser.FullName</td>
+                                        <td><span class="grade-badge @(grade.Value >= 5 ? "grade-high" : grade.Value >= 4 ? "grade-good" : "grade-low")">@grade.Value</span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-5">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">Attendance Calendar</h5>
+                        <p class="section-subtitle">Last @Model.RecentAttendance.Count attendance records</p>
+                    </div>
+                </div>
+
+                @if (!Model.RecentAttendance.Any())
+                {
+                    <div class="dashboard-empty"><p>No attendance data yet.</p></div>
+                }
+                else
+                {
+                    <div class="attendance-calendar">
+                        @foreach (var item in Model.RecentAttendance.OrderBy(a => a.Lesson.StartTime))
+                        {
+                            var icon = item.Status switch
+                            {
+                                AttendanceStatus.Present => "🟢",
+                                AttendanceStatus.Absent => "🔴",
+                                AttendanceStatus.Late => "🟡",
+                                AttendanceStatus.Excused => "🔵",
+                                _ => "⚪"
+                            };
+                            <div class="attendance-calendar-day" title="@item.Lesson.StartTime.ToString("dd MMM") · @item.Lesson.Subject.Name · @item.Status">
+                                <span>@icon</span>
+                                <small>@item.Lesson.StartTime.ToString("dd")</small>
+                            </div>
+                        }
+                    </div>
+                    <div class="attendance-legend mt-3">
+                        <span>🟢 Present</span><span>🟡 Late</span><span>🔴 Absent</span><span>🔵 Excused</span>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <div class="section-header">
+            <div>
+                <h5 class="section-title">Teacher Comments</h5>
+                <p class="section-subtitle">Comments attached to recent grades</p>
+            </div>
+        </div>
+
+        @if (!Model.TeacherComments.Any())
+        {
+            <div class="dashboard-empty"><p>No teacher comments yet.</p></div>
+        }
+        else
+        {
+            <div class="teacher-comments-list">
+                @foreach (var comment in Model.TeacherComments)
+                {
+                    <div class="teacher-comment-card">
+                        <div class="teacher-comment-head">
+                            <strong>@comment.TeacherName</strong>
+                            <span>@comment.SubjectName · @comment.Date.ToString("dd MMM yyyy")</span>
+                        </div>
+                        <p>@comment.Comment</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
 </div>

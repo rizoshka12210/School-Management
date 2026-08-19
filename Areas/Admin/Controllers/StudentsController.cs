@@ -17,19 +17,20 @@ public class StudentsController : Controller
 {
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly StudentRiskService _riskService;
     private readonly AchievementService _achievements;
 
     public StudentsController(
         AppDbContext context,
         IStringLocalizer<SharedResource> localizer,
+        StudentRiskService riskService,
         AchievementService achievements)
     {
         _context = context;
         _localizer = localizer;
+        _riskService = riskService;
         _achievements = achievements;
     }
-
-
 
     public async Task<IActionResult> Index(string? search)
     {
@@ -46,10 +47,7 @@ public class StudentsController : Controller
             query = query.Where(s =>
                 s.FirstName.ToLower().Contains(value) ||
                 s.LastName.ToLower().Contains(value) ||
-                (
-                    s.Group != null &&
-                    s.Group.Name.ToLower().Contains(value)
-                ));
+                (s.Group != null && s.Group.Name.ToLower().Contains(value)));
         }
 
         ViewBag.Search = search;
@@ -62,13 +60,20 @@ public class StudentsController : Controller
         return View(students);
     }
 
-
     public async Task<IActionResult> Details(int id)
     {
         var student = await _context.Students
             .Include(s => s.Group)
             .Include(s => s.Parents)
                 .ThenInclude(p => p.ApplicationUser)
+            .Include(s => s.Grades)
+                .ThenInclude(g => g.Subject)
+            .Include(s => s.Grades)
+                .ThenInclude(g => g.Teacher)
+                    .ThenInclude(t => t.ApplicationUser)
+            .Include(s => s.Attendances)
+                .ThenInclude(a => a.Lesson)
+                    .ThenInclude(l => l.Subject)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         if (student == null)
@@ -76,11 +81,40 @@ public class StudentsController : Controller
             return NotFound();
         }
 
+        var risk = _riskService.Evaluate(student);
+
+        var model = new StudentProfile360ViewModel
+        {
+            Student = student,
+            AverageGrade = risk.AverageGrade,
+            AttendanceRate = risk.AttendanceRate,
+            Risk = risk,
+            RecentGrades = student.Grades
+                .OrderByDescending(g => g.Date)
+                .Take(8)
+                .ToList(),
+            RecentAttendance = student.Attendances
+                .OrderByDescending(a => a.Lesson.StartTime)
+                .Take(14)
+                .ToList(),
+            TeacherComments = student.Grades
+                .Where(g => !string.IsNullOrWhiteSpace(g.Comment))
+                .OrderByDescending(g => g.Date)
+                .Take(6)
+                .Select(g => new TeacherCommentViewModel
+                {
+                    TeacherName = g.Teacher.ApplicationUser.FullName,
+                    SubjectName = g.Subject.Name,
+                    Comment = g.Comment!,
+                    Date = g.Date
+                })
+                .ToList()
+        };
+
         ViewBag.Achievements = await _achievements.GetBadgesAsync(student.Id);
 
-        return View(student);
+        return View(model);
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Create()
@@ -89,50 +123,36 @@ public class StudentsController : Controller
 
         var model = new StudentFormViewModel
         {
-            DateOfBirth = DateOnly.FromDateTime(
-                DateTime.UtcNow.AddYears(-10))
+            DateOfBirth = DateOnly.FromDateTime(DateTime.UtcNow.AddYears(-10))
         };
 
         return View(model);
     }
 
-
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(
-        StudentFormViewModel model)
+    public async Task<IActionResult> Create(StudentFormViewModel model)
     {
         if (!ModelState.IsValid)
         {
             await LoadFormDataAsync();
-
             return View(model);
         }
 
         var student = new Student
         {
             FirstName = model.FirstName.Trim(),
-
             LastName = model.LastName.Trim(),
-
             DateOfBirth = DateTime.SpecifyKind(
-                model.DateOfBirth.ToDateTime(
-                    TimeOnly.MinValue),
+                model.DateOfBirth.ToDateTime(TimeOnly.MinValue),
                 DateTimeKind.Utc),
-
             GroupId = model.GroupId
         };
 
-
-  
-
-        if (model.ParentIds != null &&
-            model.ParentIds.Count > 0)
+        if (model.ParentIds != null && model.ParentIds.Count > 0)
         {
             var parents = await _context.Parents
-                .Where(p =>
-                    model.ParentIds.Contains(p.Id))
+                .Where(p => model.ParentIds.Contains(p.Id))
                 .ToListAsync();
 
             foreach (var parent in parents)
@@ -141,19 +161,14 @@ public class StudentsController : Controller
             }
         }
 
-
         _context.Students.Add(student);
-
         await _context.SaveChangesAsync();
-
 
         TempData["Success"] =
             _localizer["Student created successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
-
-
 
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
@@ -167,87 +182,52 @@ public class StudentsController : Controller
             return NotFound();
         }
 
-
         var model = new StudentFormViewModel
         {
             Id = student.Id,
-
             FirstName = student.FirstName,
-
             LastName = student.LastName,
-
-            DateOfBirth =
-                DateOnly.FromDateTime(
-                    student.DateOfBirth),
-
+            DateOfBirth = DateOnly.FromDateTime(student.DateOfBirth),
             GroupId = student.GroupId,
-
-            ParentIds = student.Parents
-                .Select(p => p.Id)
-                .ToList()
+            ParentIds = student.Parents.Select(p => p.Id).ToList()
         };
 
-
         await LoadFormDataAsync();
-
         return View(model);
     }
 
-
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(
-        StudentFormViewModel model)
+    public async Task<IActionResult> Edit(StudentFormViewModel model)
     {
         if (!ModelState.IsValid)
         {
             await LoadFormDataAsync();
-
             return View(model);
         }
 
-
         var student = await _context.Students
             .Include(s => s.Parents)
-            .FirstOrDefaultAsync(
-                s => s.Id == model.Id);
+            .FirstOrDefaultAsync(s => s.Id == model.Id);
 
         if (student == null)
         {
             return NotFound();
         }
 
-
-        student.FirstName =
-            model.FirstName.Trim();
-
-        student.LastName =
-            model.LastName.Trim();
-
-        student.DateOfBirth =
-            DateTime.SpecifyKind(
-                model.DateOfBirth.ToDateTime(
-                    TimeOnly.MinValue),
-                DateTimeKind.Utc);
-
-        student.GroupId =
-            model.GroupId;
-
-
-     
+        student.FirstName = model.FirstName.Trim();
+        student.LastName = model.LastName.Trim();
+        student.DateOfBirth = DateTime.SpecifyKind(
+            model.DateOfBirth.ToDateTime(TimeOnly.MinValue),
+            DateTimeKind.Utc);
+        student.GroupId = model.GroupId;
 
         student.Parents.Clear();
 
-
-  
-
-        if (model.ParentIds != null &&
-            model.ParentIds.Count > 0)
+        if (model.ParentIds != null && model.ParentIds.Count > 0)
         {
             var parents = await _context.Parents
-                .Where(p =>
-                    model.ParentIds.Contains(p.Id))
+                .Where(p => model.ParentIds.Contains(p.Id))
                 .ToListAsync();
 
             foreach (var parent in parents)
@@ -256,16 +236,13 @@ public class StudentsController : Controller
             }
         }
 
-
         await _context.SaveChangesAsync();
-
 
         TempData["Success"] =
             _localizer["Student updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
-
 
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
@@ -274,8 +251,7 @@ public class StudentsController : Controller
             .Include(s => s.Group)
             .Include(s => s.Parents)
                 .ThenInclude(p => p.ApplicationUser)
-            .FirstOrDefaultAsync(
-                s => s.Id == id);
+            .FirstOrDefaultAsync(s => s.Id == id);
 
         if (student == null)
         {
@@ -285,27 +261,21 @@ public class StudentsController : Controller
         return View(student);
     }
 
-
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(
-        int id)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var student = await _context.Students
-            .FirstOrDefaultAsync(
-                s => s.Id == id);
+            .FirstOrDefaultAsync(s => s.Id == id);
 
         if (student == null)
         {
             return NotFound();
         }
 
-
         _context.Students.Remove(student);
-
         await _context.SaveChangesAsync();
-
 
         TempData["Success"] =
             _localizer["Student deleted successfully."].Value;
@@ -313,19 +283,15 @@ public class StudentsController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-
-
     private async Task LoadFormDataAsync()
     {
         ViewBag.Groups = await _context.Groups
             .OrderBy(g => g.Name)
             .ToListAsync();
 
-
         ViewBag.Parents = await _context.Parents
             .Include(p => p.ApplicationUser)
-            .OrderBy(p =>
-                p.ApplicationUser.FullName)
+            .OrderBy(p => p.ApplicationUser.FullName)
             .ToListAsync();
     }
 }
