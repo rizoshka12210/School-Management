@@ -1,96 +1,37 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Lesson>
 
 @{
-    ViewData["Title"] = "Topics";
+    ViewData["Title"] = Localizer["Topics"];
 
     var totalTopics = Model.Count();
-
-    var subjectsCount = Model
-        .Select(l => l.SubjectId)
-        .Distinct()
-        .Count();
-
-    var latestLesson = Model
-        .OrderByDescending(l => l.StartTime)
-        .FirstOrDefault();
+    var subjectsCount = Model.Select(l => l.SubjectId).Distinct().Count();
+    var latestLesson = Model.OrderByDescending(l => l.StartTime).FirstOrDefault();
 }
 
 <div class="page-header">
-
     <div>
-
-        <h1 class="page-title">
-            Topics Covered
-        </h1>
-
-        <p class="page-subtitle">
-            Topics already covered by @ViewBag.StudentName's group
-        </p>
-
+        <h1 class="page-title">@Localizer["Topics Covered"]</h1>
+        <p class="page-subtitle">@Localizer["Topics already covered by {0}'s group", ViewBag.StudentName]</p>
     </div>
-
-    <div class="teacher-count-label">
-        @totalTopics topic(s)
-    </div>
-
+    <div class="teacher-count-label">@Localizer["{0} topic(s)", totalTopics]</div>
 </div>
 
 <div class="parent-topic-stats">
-
     <div class="parent-topic-stat">
-
-        <div class="parent-topic-stat-icon parent-topic-total">
-            TP
-        </div>
-
-        <div>
-
-            <span>
-                Topics Covered
-            </span>
-
-            <strong>
-                @totalTopics
-            </strong>
-
-        </div>
-
+        <div class="parent-topic-stat-icon parent-topic-total">TP</div>
+        <div><span>@Localizer["Topics Covered"]</span><strong>@totalTopics</strong></div>
     </div>
 
     <div class="parent-topic-stat">
-
-        <div class="parent-topic-stat-icon parent-topic-subject">
-            SB
-        </div>
-
-        <div>
-
-            <span>
-                Subjects
-            </span>
-
-            <strong>
-                @subjectsCount
-            </strong>
-
-        </div>
-
+        <div class="parent-topic-stat-icon parent-topic-subject">SB</div>
+        <div><span>@Localizer["Subjects"]</span><strong>@subjectsCount</strong></div>
     </div>
 
     <div class="parent-topic-stat parent-topic-latest">
-
-        <div class="parent-topic-stat-icon parent-topic-date">
-            DT
-        </div>
-
+        <div class="parent-topic-stat-icon parent-topic-date">DT</div>
         <div>
-
-            <span>
-                Latest Topic
-            </span>
-
+            <span>@Localizer["Latest Topic"]</span>
             <strong class="parent-topic-latest-text">
-
                 @if (latestLesson != null)
                 {
                     @latestLesson.StartTime.ToString("dd MMM yyyy")
@@ -99,110 +40,52 @@
                 {
                     <text>—</text>
                 }
-
             </strong>
-
         </div>
-
     </div>
-
 </div>
 
 <div class="card border-0 shadow-sm">
-
     <div class="card-body">
-
         <div class="section-header">
-
             <div>
-
-                <h5 class="section-title">
-                    Learning History
-                </h5>
-
-                <p class="section-subtitle">
-                    Topics recorded by teachers after lessons
-                </p>
-
+                <h5 class="section-title">@Localizer["Learning History"]</h5>
+                <p class="section-subtitle">@Localizer["Topics recorded by teachers after lessons"]</p>
             </div>
-
         </div>
 
         @if (!Model.Any())
         {
             <div class="parent-empty">
-
-                <div class="parent-empty-icon">
-                    TP
-                </div>
-
-                <h5>
-                    No topics recorded
-                </h5>
-
-                <p>
-                    Topics will appear here after teachers add them to lessons.
-                </p>
-
+                <div class="parent-empty-icon">TP</div>
+                <h5>@Localizer["No topics recorded"]</h5>
+                <p>@Localizer["Topics will appear here after teachers add them to lessons."]</p>
             </div>
         }
         else
         {
             <div class="parent-topic-timeline">
-
                 @foreach (var lesson in Model.OrderByDescending(l => l.StartTime))
                 {
                     <div class="parent-topic-row">
-
                         <div class="parent-topic-date-box">
-
-                            <strong>
-                                @lesson.StartTime.ToString("dd")
-                            </strong>
-
-                            <span>
-                                @lesson.StartTime.ToString("MMM")
-                            </span>
-
+                            <strong>@lesson.StartTime.ToString("dd")</strong>
+                            <span>@lesson.StartTime.ToString("MMM")</span>
                         </div>
 
-                        <div class="parent-topic-line">
-
-                            <div class="parent-topic-dot">
-                            </div>
-
-                        </div>
+                        <div class="parent-topic-line"><div class="parent-topic-dot"></div></div>
 
                         <div class="parent-topic-content">
-
                             <div class="parent-topic-content-header">
-
-                                <span class="subject-badge">
-                                    @lesson.Subject.Name
-                                </span>
-
-                                <span class="parent-topic-full-date">
-                                    @lesson.StartTime.ToString("dd MMM yyyy")
-                                </span>
-
+                                <span class="subject-badge">@lesson.Subject.Name</span>
+                                <span class="parent-topic-full-date">@lesson.StartTime.ToString("dd MMM yyyy")</span>
                             </div>
-
-                            <h5>
-                                @lesson.Topic
-                            </h5>
-
-                            <span class="parent-topic-time">
-                                Lesson at @lesson.StartTime.ToString("HH:mm")
-                            </span>
-
+                            <h5>@lesson.Topic</h5>
+                            <span class="parent-topic-time">@Localizer["Lesson at {0}", lesson.StartTime.ToString("HH:mm")]</span>
                         </div>
-
                     </div>
                 }
-
             </div>
         }
-
     </div>
-
 </div>

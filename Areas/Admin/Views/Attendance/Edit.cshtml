@@ -2,22 +2,22 @@
 @using SchoolManagementSystem.Web.Models.Enums
 
 @{
-    ViewData["Title"] = "Edit Attendance";
+    ViewData["Title"] = Localizer["Edit Attendance"];
 }
 
 <div class="form-page-header">
 
     <a asp-action="Index"
        class="back-link">
-        ← Attendance
+        ← @Localizer["Attendance"]
     </a>
 
     <h1 class="page-title mt-2">
-        Edit Attendance
+        @Localizer["Edit Attendance"]
     </h1>
 
     <p class="page-subtitle">
-        Correct the attendance record for @Model.StudentName
+        @Localizer["Correct the attendance record for {0}", Model.StudentName]
     </p>
 
 </div>
@@ -38,7 +38,7 @@
 
         <div class="form-card-header">
 
-            <h5>Lesson</h5>
+            <h5>@Localizer["Lesson"]</h5>
 
             <p>
                 @Model.SubjectName • @Model.GroupName •
@@ -55,7 +55,7 @@
 
                     <label asp-for="Status"
                            class="form-label">
-                        Status
+                        @Localizer["Status"]
                     </label>
 
                     <select asp-for="Status"
@@ -73,12 +73,12 @@
 
                     <label asp-for="Note"
                            class="form-label">
-                        Note
+                        @Localizer["Note"]
                     </label>
 
                     <input asp-for="Note"
                            class="form-control"
-                           placeholder="Optional note" />
+                           placeholder="@Localizer["Optional note"]" />
 
                     <span asp-validation-for="Note"
                           class="text-danger small">
@@ -96,12 +96,12 @@
 
         <a asp-action="Index"
            class="btn btn-light">
-            Cancel
+            @Localizer["Cancel"]
         </a>
 
         <button type="submit"
                 class="btn btn-primary">
-            Save Changes
+            @Localizer["Save Changes"]
         </button>
 
     </div>

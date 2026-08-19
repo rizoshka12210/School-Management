@@ -3,310 +3,124 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Attendance>
 
 @{
-    ViewData["Title"] = "Attendance";
+    ViewData["Title"] = Localizer["Attendance"];
 
-    double attendanceRate =
-        Convert.ToDouble(ViewBag.AttendanceRate);
+    double attendanceRate = Convert.ToDouble(ViewBag.AttendanceRate);
+    int totalLessons = Convert.ToInt32(ViewBag.TotalLessons);
+    int presentCount = Convert.ToInt32(ViewBag.PresentCount);
 
-    int totalLessons =
-        Convert.ToInt32(ViewBag.TotalLessons);
-
-    int presentCount =
-        Convert.ToInt32(ViewBag.PresentCount);
-
-    var absentCount =
-        Model.Count(a =>
-            a.Status == AttendanceStatus.Absent);
-
-    var lateCount =
-        Model.Count(a =>
-            a.Status == AttendanceStatus.Late);
-
-    var excusedCount =
-        Model.Count(a =>
-            a.Status == AttendanceStatus.Excused);
+    var absentCount = Model.Count(a => a.Status == AttendanceStatus.Absent);
+    var lateCount = Model.Count(a => a.Status == AttendanceStatus.Late);
+    var excusedCount = Model.Count(a => a.Status == AttendanceStatus.Excused);
 }
 
 <div class="page-header">
-
     <div>
-
-        <h1 class="page-title">
-            Attendance
-        </h1>
-
-        <p class="page-subtitle">
-            @ViewBag.StudentName's attendance history
-        </p>
-
+        <h1 class="page-title">@Localizer["Attendance"]</h1>
+        <p class="page-subtitle">@Localizer["{0}'s attendance history", ViewBag.StudentName]</p>
     </div>
 
-    <a asp-area="Parent"
-       asp-controller="Progress"
-       asp-action="Index"
-       class="btn btn-outline-primary">
-        View Progress
+    <a asp-area="Parent" asp-controller="Progress" asp-action="Index" class="btn btn-outline-primary">
+        @Localizer["View Progress"]
     </a>
-
 </div>
 
 <div class="parent-attendance-overview">
-
     <div class="parent-attendance-main-card">
-
         <div class="parent-attendance-circle">
-
             <div>
-
-                <strong>
-                    @attendanceRate.ToString("0.#")%
-                </strong>
-
-                <span>
-                    Attendance
-                </span>
-
+                <strong>@attendanceRate.ToString("0.#")%</strong>
+                <span>@Localizer["Attendance"]</span>
             </div>
-
         </div>
 
         <div class="parent-attendance-main-info">
-
-            <span>
-                Overall Attendance Rate
-            </span>
-
-            <strong>
-                @attendanceRate.ToString("0.#")%
-            </strong>
-
-            <small>
-                @presentCount present out of @totalLessons attendance records
-            </small>
-
+            <span>@Localizer["Overall Attendance Rate"]</span>
+            <strong>@attendanceRate.ToString("0.#")%</strong>
+            <small>@Localizer["{0} present out of {1} attendance records", presentCount, totalLessons]</small>
         </div>
-
     </div>
 
     <div class="parent-attendance-mini-grid">
-
         <div class="parent-attendance-mini">
-
-            <div class="parent-attendance-mini-icon status-present">
-                PR
-            </div>
-
-            <div>
-
-                <span>
-                    Present
-                </span>
-
-                <strong>
-                    @presentCount
-                </strong>
-
-            </div>
-
+            <div class="parent-attendance-mini-icon status-present">PR</div>
+            <div><span>@Localizer["Present"]</span><strong>@presentCount</strong></div>
         </div>
-
         <div class="parent-attendance-mini">
-
-            <div class="parent-attendance-mini-icon status-absent">
-                AB
-            </div>
-
-            <div>
-
-                <span>
-                    Absent
-                </span>
-
-                <strong>
-                    @absentCount
-                </strong>
-
-            </div>
-
+            <div class="parent-attendance-mini-icon status-absent">AB</div>
+            <div><span>@Localizer["Absent"]</span><strong>@absentCount</strong></div>
         </div>
-
         <div class="parent-attendance-mini">
-
-            <div class="parent-attendance-mini-icon status-late">
-                LT
-            </div>
-
-            <div>
-
-                <span>
-                    Late
-                </span>
-
-                <strong>
-                    @lateCount
-                </strong>
-
-            </div>
-
+            <div class="parent-attendance-mini-icon status-late">LT</div>
+            <div><span>@Localizer["Late"]</span><strong>@lateCount</strong></div>
         </div>
-
         <div class="parent-attendance-mini">
-
-            <div class="parent-attendance-mini-icon status-excused">
-                EX
-            </div>
-
-            <div>
-
-                <span>
-                    Excused
-                </span>
-
-                <strong>
-                    @excusedCount
-                </strong>
-
-            </div>
-
+            <div class="parent-attendance-mini-icon status-excused">EX</div>
+            <div><span>@Localizer["Excused"]</span><strong>@excusedCount</strong></div>
         </div>
-
     </div>
-
 </div>
 
 <div class="card border-0 shadow-sm">
-
     <div class="card-body">
-
         <div class="section-header">
-
             <div>
-
-                <h5 class="section-title">
-                    Attendance History
-                </h5>
-
-                <p class="section-subtitle">
-                    Detailed attendance records
-                </p>
-
+                <h5 class="section-title">@Localizer["Attendance History"]</h5>
+                <p class="section-subtitle">@Localizer["Detailed attendance records"]</p>
             </div>
-
-            <div class="teacher-count-label">
-                @Model.Count() record(s)
-            </div>
-
+            <div class="teacher-count-label">@Localizer["{0} record(s)", Model.Count()]</div>
         </div>
 
         @if (!Model.Any())
         {
             <div class="parent-empty">
-
-                <div class="parent-empty-icon">
-                    AT
-                </div>
-
-                <h5>
-                    No attendance records
-                </h5>
-
-                <p>
-                    Attendance records will appear here after lessons.
-                </p>
-
+                <div class="parent-empty-icon">AT</div>
+                <h5>@Localizer["No attendance records"]</h5>
+                <p>@Localizer["Attendance records will appear here after lessons."]</p>
             </div>
         }
         else
         {
             <div class="table-responsive">
-
                 <table class="table table-hover management-table">
-
                     <thead>
-
                         <tr>
-                            <th>Date & Time</th>
-                            <th>Subject</th>
-                            <th>Status</th>
+                            <th>@Localizer["Date & Time"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Status"]</th>
                         </tr>
-
                     </thead>
-
                     <tbody>
-
                         @foreach (var attendance in Model)
                         {
                             <tr>
-
                                 <td>
-
-                                    <div class="record-date">
-                                        @attendance.Lesson.StartTime.ToString("dd MMM yyyy")
-                                    </div>
-
-                                    <div class="record-time">
-                                        @attendance.Lesson.StartTime.ToString("HH:mm")
-                                    </div>
-
+                                    <div class="record-date">@attendance.Lesson.StartTime.ToString("dd MMM yyyy")</div>
+                                    <div class="record-time">@attendance.Lesson.StartTime.ToString("HH:mm")</div>
                                 </td>
-
+                                <td><span class="subject-badge">@attendance.Lesson.Subject.Name</span></td>
                                 <td>
-
-                                    <span class="subject-badge">
-                                        @attendance.Lesson.Subject.Name
-                                    </span>
-
-                                </td>
-
-                                <td>
-
                                     @switch (attendance.Status)
                                     {
                                         case AttendanceStatus.Present:
-
-                                            <span class="status-badge status-present">
-                                                Present
-                                            </span>
-
+                                            <span class="status-badge status-present">@Localizer["Present"]</span>
                                             break;
-
                                         case AttendanceStatus.Absent:
-
-                                            <span class="status-badge status-absent">
-                                                Absent
-                                            </span>
-
+                                            <span class="status-badge status-absent">@Localizer["Absent"]</span>
                                             break;
-
                                         case AttendanceStatus.Late:
-
-                                            <span class="status-badge status-late">
-                                                Late
-                                            </span>
-
+                                            <span class="status-badge status-late">@Localizer["Late"]</span>
                                             break;
-
                                         case AttendanceStatus.Excused:
-
-                                            <span class="status-badge status-excused">
-                                                Excused
-                                            </span>
-
+                                            <span class="status-badge status-excused">@Localizer["Excused"]</span>
                                             break;
                                     }
-
                                 </td>
-
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
         }
-
     </div>
-
 </div>

@@ -2,227 +2,108 @@
 @using SchoolManagementSystem.Web.Models.Enums
 
 @{
-    ViewData["Title"] = "Mark Attendance";
+    ViewData["Title"] = Localizer["Mark Attendance"];
 }
 
 <div class="form-page-header">
 
-    <a asp-action="Index"
-       class="back-link">
-        ← Attendance
-    </a>
+    <a asp-action="Index" class="back-link">← @Localizer["Attendance"]</a>
 
     <div class="teacher-lesson-form-header mt-3">
-
-        <div class="teacher-lesson-form-icon">
-            AT
-        </div>
-
+        <div class="teacher-lesson-form-icon">AT</div>
         <div>
-
-            <h1 class="page-title mb-1">
-                Mark Attendance
-            </h1>
-
+            <h1 class="page-title mb-1">@Localizer["Mark Attendance"]</h1>
             <div class="teacher-lesson-meta">
-
-                <span class="subject-badge">
-                    @Model.SubjectName
-                </span>
-
-                <span class="group-badge">
-                    @Model.GroupName
-                </span>
-
-                <span>
-                    @Model.LessonDate.ToString("dd MMM yyyy")
-                </span>
-
-                <span>
-                    @Model.LessonDate.ToString("HH:mm")
-                </span>
-
+                <span class="subject-badge">@Model.SubjectName</span>
+                <span class="group-badge">@Model.GroupName</span>
+                <span>@Model.LessonDate.ToString("dd MMM yyyy")</span>
+                <span>@Model.LessonDate.ToString("HH:mm")</span>
             </div>
-
         </div>
-
     </div>
 
 </div>
 
-<form asp-action="Mark"
-      method="post">
-
+<form asp-action="Mark" method="post">
     @Html.AntiForgeryToken()
 
-    <input type="hidden"
-           asp-for="LessonId" />
-
-    <input type="hidden"
-           asp-for="GroupName" />
-
-    <input type="hidden"
-           asp-for="SubjectName" />
-
-    <input type="hidden"
-           asp-for="LessonDate" />
+    <input type="hidden" asp-for="LessonId" />
+    <input type="hidden" asp-for="GroupName" />
+    <input type="hidden" asp-for="SubjectName" />
+    <input type="hidden" asp-for="LessonDate" />
 
     <div class="card border-0 shadow-sm">
-
         <div class="card-body">
-
             <div class="section-header">
-
                 <div>
-
-                    <h5 class="section-title">
-                        Students
-                    </h5>
-
-                    <p class="section-subtitle">
-                        Select attendance status for each student
-                    </p>
-
+                    <h5 class="section-title">@Localizer["Students"]</h5>
+                    <p class="section-subtitle">@Localizer["Select attendance status for each student"]</p>
                 </div>
-
-                <div class="teacher-count-label">
-                    @Model.Students.Count student(s)
-                </div>
-
+                <div class="teacher-count-label">@Localizer["{0} student(s)", Model.Students.Count]</div>
             </div>
 
             @if (!Model.Students.Any())
             {
                 <div class="teacher-empty">
-
-                    <div class="teacher-empty-icon">
-                        ST
-                    </div>
-
-                    <h5>
-                        No students
-                    </h5>
-
-                    <p>
-                        This group does not have any students.
-                    </p>
-
+                    <div class="teacher-empty-icon">ST</div>
+                    <h5>@Localizer["No students"]</h5>
+                    <p>@Localizer["This group does not have any students."]</p>
                 </div>
             }
             else
             {
                 <div class="teacher-attendance-list">
-
                     @for (var i = 0; i < Model.Students.Count; i++)
                     {
-                        <input type="hidden"
-                               asp-for="Students[i].StudentId" />
-
-                        <input type="hidden"
-                               asp-for="Students[i].StudentName" />
+                        <input type="hidden" asp-for="Students[i].StudentId" />
+                        <input type="hidden" asp-for="Students[i].StudentName" />
 
                         <div class="teacher-attendance-row">
-
                             <div class="teacher-attendance-student">
-
                                 <div class="person-avatar">
-
                                     @(string.IsNullOrWhiteSpace(Model.Students[i].StudentName)
                                         ? "S"
                                         : Model.Students[i].StudentName.Substring(0, 1).ToUpper())
-
                                 </div>
-
                                 <div>
-
-                                    <strong>
-                                        @Model.Students[i].StudentName
-                                    </strong>
-
-                                    <span>
-                                        Student
-                                    </span>
-
+                                    <strong>@Model.Students[i].StudentName</strong>
+                                    <span>@Localizer["Student"]</span>
                                 </div>
-
                             </div>
 
                             <div class="teacher-status-selector">
-
                                 <label class="teacher-status-option status-option-present">
-
-                                    <input asp-for="Students[i].Status"
-                                           type="radio"
-                                           value="@AttendanceStatus.Present" />
-
-                                    <span>
-                                        Present
-                                    </span>
-
+                                    <input asp-for="Students[i].Status" type="radio" value="@AttendanceStatus.Present" />
+                                    <span>@Localizer["Present"]</span>
                                 </label>
 
                                 <label class="teacher-status-option status-option-absent">
-
-                                    <input asp-for="Students[i].Status"
-                                           type="radio"
-                                           value="@AttendanceStatus.Absent" />
-
-                                    <span>
-                                        Absent
-                                    </span>
-
+                                    <input asp-for="Students[i].Status" type="radio" value="@AttendanceStatus.Absent" />
+                                    <span>@Localizer["Absent"]</span>
                                 </label>
 
                                 <label class="teacher-status-option status-option-late">
-
-                                    <input asp-for="Students[i].Status"
-                                           type="radio"
-                                           value="@AttendanceStatus.Late" />
-
-                                    <span>
-                                        Late
-                                    </span>
-
+                                    <input asp-for="Students[i].Status" type="radio" value="@AttendanceStatus.Late" />
+                                    <span>@Localizer["Late"]</span>
                                 </label>
 
                                 <label class="teacher-status-option status-option-excused">
-
-                                    <input asp-for="Students[i].Status"
-                                           type="radio"
-                                           value="@AttendanceStatus.Excused" />
-
-                                    <span>
-                                        Excused
-                                    </span>
-
+                                    <input asp-for="Students[i].Status" type="radio" value="@AttendanceStatus.Excused" />
+                                    <span>@Localizer["Excused"]</span>
                                 </label>
-
                             </div>
-
                         </div>
                     }
-
                 </div>
             }
-
         </div>
-
     </div>
 
     @if (Model.Students.Any())
     {
         <div class="form-actions">
-
-            <a asp-action="Index"
-               class="btn btn-light">
-                Cancel
-            </a>
-
-            <button type="submit"
-                    class="btn btn-primary">
-                Save Attendance
-            </button>
-
+            <a asp-action="Index" class="btn btn-light">@Localizer["Cancel"]</a>
+            <button type="submit" class="btn btn-primary">@Localizer["Save Attendance"]</button>
         </div>
     }
 

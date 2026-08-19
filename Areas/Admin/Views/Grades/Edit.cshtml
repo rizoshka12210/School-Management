@@ -1,22 +1,22 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.GradeFormViewModel
 
 @{
-    ViewData["Title"] = "Edit Grade";
+    ViewData["Title"] = Localizer["Edit Grade"];
 }
 
 <div class="form-page-header">
 
     <a asp-action="Index"
        class="back-link">
-        ← Grades
+        ← @Localizer["Grades"]
     </a>
 
     <h1 class="page-title mt-2">
-        Edit Grade
+        @Localizer["Edit Grade"]
     </h1>
 
     <p class="page-subtitle">
-        Correct the grade for @Model.StudentName
+        @Localizer["Correct the grade for {0}", Model.StudentName]
     </p>
 
 </div>
@@ -37,7 +37,7 @@
 
         <div class="form-card-header">
 
-            <h5>Grade</h5>
+            <h5>@Localizer["Grade"]</h5>
 
             <p>
                 @Model.SubjectName • @Model.TeacherName •
@@ -54,7 +54,7 @@
 
                     <label asp-for="Value"
                            class="form-label">
-                        Grade
+                        @Localizer["Grade"]
                     </label>
 
                     <input asp-for="Value"
@@ -73,12 +73,12 @@
 
                     <label asp-for="Comment"
                            class="form-label">
-                        Comment
+                        @Localizer["Comment"]
                     </label>
 
                     <input asp-for="Comment"
                            class="form-control"
-                           placeholder="Optional comment" />
+                           placeholder="@Localizer["Optional comment"]" />
 
                     <span asp-validation-for="Comment"
                           class="text-danger small">
@@ -96,12 +96,12 @@
 
         <a asp-action="Index"
            class="btn btn-light">
-            Cancel
+            @Localizer["Cancel"]
         </a>
 
         <button type="submit"
                 class="btn btn-primary">
-            Save Changes
+            @Localizer["Save Changes"]
         </button>
 
     </div>

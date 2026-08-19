@@ -1,317 +1,140 @@
 @model SchoolManagementSystem.Web.ViewModels.Parent.ProgressViewModel
 
 @{
-    ViewData["Title"] = "Progress";
+    ViewData["Title"] = Localizer["Progress"];
 }
 
 <div class="page-header">
-
     <div>
-
-        <h1 class="page-title">
-            Student Progress
-        </h1>
+        <h1 class="page-title">@Localizer["Student Progress"]</h1>
 
         <div class="parent-progress-student">
-
-            <strong>
-                @Model.StudentName
-            </strong>
-
+            <strong>@Model.StudentName</strong>
             @if (!string.IsNullOrWhiteSpace(Model.GroupName))
             {
-                <span class="group-badge">
-                    @Model.GroupName
-                </span>
+                <span class="group-badge">@Model.GroupName</span>
             }
-
         </div>
-
     </div>
-
 </div>
 
 <div class="parent-progress-hero">
+    <div class="parent-progress-score">
+        <div class="parent-progress-score-label">@Localizer["Overall Average"]</div>
+        <div class="parent-progress-score-value">@Model.AverageGrade.ToString("0.##")</div>
+        <div class="parent-progress-score-detail">@Localizer["Based on {0} grade(s)", Model.GradesCount]</div>
+    </div>
+
+    <div class="parent-progress-divider"></div>
 
     <div class="parent-progress-score">
-
-        <div class="parent-progress-score-label">
-            Overall Average
-        </div>
-
-        <div class="parent-progress-score-value">
-            @Model.AverageGrade.ToString("0.##")
-        </div>
-
-        <div class="parent-progress-score-detail">
-            Based on @Model.GradesCount grade(s)
-        </div>
-
+        <div class="parent-progress-score-label">@Localizer["Attendance Rate"]</div>
+        <div class="parent-progress-score-value">@Model.AttendanceRate.ToString("0.#")%</div>
+        <div class="parent-progress-score-detail">@Localizer["{0} attendance record(s)", Model.TotalLessons]</div>
     </div>
-
-    <div class="parent-progress-divider">
-    </div>
-
-    <div class="parent-progress-score">
-
-        <div class="parent-progress-score-label">
-            Attendance Rate
-        </div>
-
-        <div class="parent-progress-score-value">
-            @Model.AttendanceRate.ToString("0.#")%
-        </div>
-
-        <div class="parent-progress-score-detail">
-            @Model.TotalLessons attendance record(s)
-        </div>
-
-    </div>
-
 </div>
 
 <div class="parent-progress-stats">
-
     <div class="parent-progress-stat">
-
-        <div class="parent-progress-stat-icon progress-present">
-            PR
-        </div>
-
-        <div>
-
-            <span>
-                Present
-            </span>
-
-            <strong>
-                @Model.PresentCount
-            </strong>
-
-        </div>
-
+        <div class="parent-progress-stat-icon progress-present">PR</div>
+        <div><span>@Localizer["Present"]</span><strong>@Model.PresentCount</strong></div>
     </div>
-
     <div class="parent-progress-stat">
-
-        <div class="parent-progress-stat-icon progress-late">
-            LT
-        </div>
-
-        <div>
-
-            <span>
-                Late
-            </span>
-
-            <strong>
-                @Model.LateCount
-            </strong>
-
-        </div>
-
+        <div class="parent-progress-stat-icon progress-late">LT</div>
+        <div><span>@Localizer["Late"]</span><strong>@Model.LateCount</strong></div>
     </div>
-
     <div class="parent-progress-stat">
-
-        <div class="parent-progress-stat-icon progress-absent">
-            AB
-        </div>
-
-        <div>
-
-            <span>
-                Absent
-            </span>
-
-            <strong>
-                @Model.AbsentCount
-            </strong>
-
-        </div>
-
+        <div class="parent-progress-stat-icon progress-absent">AB</div>
+        <div><span>@Localizer["Absent"]</span><strong>@Model.AbsentCount</strong></div>
     </div>
-
     <div class="parent-progress-stat">
-
-        <div class="parent-progress-stat-icon progress-excused">
-            EX
-        </div>
-
-        <div>
-
-            <span>
-                Excused
-            </span>
-
-            <strong>
-                @Model.ExcusedCount
-            </strong>
-
-        </div>
-
+        <div class="parent-progress-stat-icon progress-excused">EX</div>
+        <div><span>@Localizer["Excused"]</span><strong>@Model.ExcusedCount</strong></div>
     </div>
-
 </div>
 
 @if (Model.GroupComparison.Any())
 {
     <div class="card border-0 shadow-sm">
-
         <div class="card-body">
-
             <div class="section-header">
-
                 <div>
-
-                    <h5 class="section-title">
-                        Your Child vs. Group Average
-                    </h5>
-
-                    <p class="section-subtitle">
-                        @Model.ComparisonSubjectName grades by month
-                    </p>
-
+                    <h5 class="section-title">@Localizer["Your Child vs. Group Average"]</h5>
+                    <p class="section-subtitle">@Localizer["{0} grades by month", Model.ComparisonSubjectName]</p>
                 </div>
 
                 @if (Model.Subjects.Count > 1)
                 {
-                    <form method="get"
-                          asp-action="Index">
-
-                        <input type="hidden"
-                               name="studentId"
-                               value="@Model.StudentId" />
-
-                        <select name="subjectId"
-                                class="form-select"
-                                onchange="this.form.submit()">
-
+                    <form method="get" asp-action="Index">
+                        <input type="hidden" name="studentId" value="@Model.StudentId" />
+                        <select name="subjectId" class="form-select" onchange="this.form.submit()">
                             @foreach (var subject in Model.Subjects)
                             {
                                 if (subject.SubjectId == Model.ComparisonSubjectId)
                                 {
-                                    <option value="@subject.SubjectId" selected>
-                                        @subject.SubjectName
-                                    </option>
+                                    <option value="@subject.SubjectId" selected>@subject.SubjectName</option>
                                 }
                                 else
                                 {
-                                    <option value="@subject.SubjectId">
-                                        @subject.SubjectName
-                                    </option>
+                                    <option value="@subject.SubjectId">@subject.SubjectName</option>
                                 }
                             }
-
                         </select>
-
                     </form>
                 }
-
             </div>
 
             <partial name="_LineChart" model="Model.GroupComparison" />
-
         </div>
-
     </div>
 }
 
 <div class="card border-0 shadow-sm">
-
     <div class="card-body">
-
         <div class="section-header">
-
             <div>
-
-                <h5 class="section-title">
-                    Progress by Subject
-                </h5>
-
-                <p class="section-subtitle">
-                    Academic performance across subjects
-                </p>
-
+                <h5 class="section-title">@Localizer["Progress by Subject"]</h5>
+                <p class="section-subtitle">@Localizer["Academic performance across subjects"]</p>
             </div>
-
-            <div class="teacher-count-label">
-                @Model.Subjects.Count subject(s)
-            </div>
-
+            <div class="teacher-count-label">@Localizer["{0} subject(s)", Model.Subjects.Count]</div>
         </div>
 
         @if (!Model.Subjects.Any())
         {
             <div class="parent-empty">
-
-                <div class="parent-empty-icon">
-                    PR
-                </div>
-
-                <h5>
-                    No progress data
-                </h5>
-
-                <p>
-                    Subject progress will appear after grades are recorded.
-                </p>
-
+                <div class="parent-empty-icon">PR</div>
+                <h5>@Localizer["No progress data"]</h5>
+                <p>@Localizer["Subject progress will appear after grades are recorded."]</p>
             </div>
         }
         else
         {
             <div class="parent-progress-subjects">
-
                 @foreach (var subject in Model.Subjects)
                 {
-                    var progressWidth =
-                        Math.Min(
-                            subject.AverageGrade / 5.0 * 100.0,
-                            100.0);
+                    var progressWidth = Math.Min(subject.AverageGrade / 5.0 * 100.0, 100.0);
 
                     <div class="parent-progress-subject">
-
                         <div class="parent-progress-subject-header">
-
                             <div>
-
-                                <strong>
-                                    @subject.SubjectName
-                                </strong>
-
-                                <span>
-                                    @subject.GradesCount grade(s)
-                                </span>
-
+                                <strong>@subject.SubjectName</strong>
+                                <span>@Localizer["{0} grade(s)", subject.GradesCount]</span>
                             </div>
 
                             <div class="parent-progress-subject-score">
-
                                 @subject.AverageGrade.ToString("0.##")
-
-                                <span>
-                                    / 5
-                                </span>
-
+                                <span>/ 5</span>
                             </div>
-
                         </div>
 
                         <div class="parent-progress-bar">
-
                             <div class="parent-progress-bar-value"
                                  style="width: @progressWidth.ToString("0", System.Globalization.CultureInfo.InvariantCulture)%">
                             </div>
-
                         </div>
-
                     </div>
                 }
-
             </div>
         }
-
     </div>
-
 </div>

@@ -1,7 +1,7 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Lesson>
 
 @{
-    ViewData["Title"] = "Topics";
+    ViewData["Title"] = Localizer["Topics"];
 
     var totalLessons = Model.Count();
     var withTopic = Model.Count(l => !string.IsNullOrWhiteSpace(l.Topic));
@@ -14,227 +14,113 @@
 }
 
 <div class="page-header">
-
     <div>
-        <h1 class="page-title">
-            Topic Calendar
-        </h1>
-
-        <p class="page-subtitle">
-            Manage topics covered in your lessons
-        </p>
+        <h1 class="page-title">@Localizer["Topic Calendar"]</h1>
+        <p class="page-subtitle">@Localizer["Manage topics covered in your lessons"]</p>
     </div>
-
-    <div class="teacher-count-label">
-        @totalLessons lesson(s)
-    </div>
-
+    <div class="teacher-count-label">@Localizer["{0} lesson(s)", totalLessons]</div>
 </div>
 
 <div class="teacher-topic-stats">
-
     <div class="teacher-topic-stat">
-
-        <div class="teacher-topic-stat-icon topic-total">
-            LS
-        </div>
-
-        <div>
-            <span>Total Lessons</span>
-            <strong>@totalLessons</strong>
-        </div>
-
+        <div class="teacher-topic-stat-icon topic-total">LS</div>
+        <div><span>@Localizer["Total Lessons"]</span><strong>@totalLessons</strong></div>
     </div>
 
     <div class="teacher-topic-stat">
-
-        <div class="teacher-topic-stat-icon topic-complete">
-            ✓
-        </div>
-
-        <div>
-            <span>Topics Added</span>
-            <strong>@withTopic</strong>
-        </div>
-
+        <div class="teacher-topic-stat-icon topic-complete">✓</div>
+        <div><span>@Localizer["Topics Added"]</span><strong>@withTopic</strong></div>
     </div>
 
     <div class="teacher-topic-stat">
-
-        <div class="teacher-topic-stat-icon topic-pending">
-            !
-        </div>
-
-        <div>
-            <span>Missing Topics</span>
-            <strong>@withoutTopic</strong>
-        </div>
-
+        <div class="teacher-topic-stat-icon topic-pending">!</div>
+        <div><span>@Localizer["Missing Topics"]</span><strong>@withoutTopic</strong></div>
     </div>
 
     <div class="teacher-topic-stat">
-
-        <div class="teacher-topic-stat-icon topic-subjects">
-            SB
-        </div>
-
-        <div>
-            <span>Subjects</span>
-            <strong>@subjectsCount</strong>
-        </div>
-
+        <div class="teacher-topic-stat-icon topic-subjects">SB</div>
+        <div><span>@Localizer["Subjects"]</span><strong>@subjectsCount</strong></div>
     </div>
-
 </div>
 
 <div class="card border-0 shadow-sm">
-
     <div class="card-body">
-
         <div class="section-header">
-
             <div>
-                <h5 class="section-title">
-                    Lesson Topics
-                </h5>
-
-                <p class="section-subtitle">
-                    Add or update the topic for each lesson
-                </p>
+                <h5 class="section-title">@Localizer["Lesson Topics"]</h5>
+                <p class="section-subtitle">@Localizer["Add or update the topic for each lesson"]</p>
             </div>
-
         </div>
 
         @if (!Model.Any())
         {
             <div class="teacher-empty">
-
-                <div class="teacher-empty-icon">
-                    TP
-                </div>
-
-                <h5>
-                    No lessons
-                </h5>
-
-                <p>
-                    Your lessons will appear here.
-                </p>
-
+                <div class="teacher-empty-icon">TP</div>
+                <h5>@Localizer["No lessons"]</h5>
+                <p>@Localizer["Your lessons will appear here."]</p>
             </div>
         }
         else
         {
             <div class="table-responsive">
-
                 <table class="table table-hover management-table">
-
                     <thead>
                         <tr>
-                            <th>Date & Time</th>
-                            <th>Group</th>
-                            <th>Subject</th>
-                            <th>Topic</th>
-                            <th>Status</th>
-                            <th class="text-end">
-                                Action
-                            </th>
+                            <th>@Localizer["Date & Time"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Topic"]</th>
+                            <th>@Localizer["Status"]</th>
+                            <th class="text-end">@Localizer["Action"]</th>
                         </tr>
                     </thead>
-
                     <tbody>
-
                         @foreach (var lesson in Model)
                         {
                             <tr>
-
                                 <td>
-
-                                    <div class="record-date">
-                                        @lesson.StartTime.ToString("dd MMM yyyy")
-                                    </div>
-
-                                    <div class="record-time">
-                                        @lesson.StartTime.ToString("HH:mm")
-                                    </div>
-
+                                    <div class="record-date">@lesson.StartTime.ToString("dd MMM yyyy")</div>
+                                    <div class="record-time">@lesson.StartTime.ToString("HH:mm")</div>
                                 </td>
-
+                                <td><span class="group-badge">@lesson.Group.Name</span></td>
+                                <td><span class="subject-badge">@lesson.Subject.Name</span></td>
                                 <td>
-                                    <span class="group-badge">
-                                        @lesson.Group.Name
-                                    </span>
-                                </td>
-
-                                <td>
-                                    <span class="subject-badge">
-                                        @lesson.Subject.Name
-                                    </span>
-                                </td>
-
-                                <td>
-
                                     @if (!string.IsNullOrWhiteSpace(lesson.Topic))
                                     {
-                                        <div class="teacher-topic-text">
-                                            @lesson.Topic
-                                        </div>
+                                        <div class="teacher-topic-text">@lesson.Topic</div>
                                     }
                                     else
                                     {
-                                        <span class="text-muted">
-                                            No topic yet
-                                        </span>
+                                        <span class="text-muted">@Localizer["No topic yet"]</span>
                                     }
-
                                 </td>
-
                                 <td>
-
                                     @if (!string.IsNullOrWhiteSpace(lesson.Topic))
                                     {
-                                        <span class="status-badge status-present">
-                                            Added
-                                        </span>
+                                        <span class="status-badge status-present">@Localizer["Added"]</span>
                                     }
                                     else
                                     {
-                                        <span class="status-badge teacher-status-pending">
-                                            Missing
-                                        </span>
+                                        <span class="status-badge teacher-status-pending">@Localizer["Missing"]</span>
                                     }
-
                                 </td>
-
                                 <td class="text-end">
-
-                                    <a asp-action="Edit"
-                                       asp-route-id="@lesson.Id"
-                                       class="action-btn action-edit">
-
+                                    <a asp-action="Edit" asp-route-id="@lesson.Id" class="action-btn action-edit">
                                         @if (string.IsNullOrWhiteSpace(lesson.Topic))
                                         {
-                                            <text>Add Topic</text>
+                                            @Localizer["Add Topic"]
                                         }
                                         else
                                         {
-                                            <text>Edit Topic</text>
+                                            @Localizer["Edit Topic"]
                                         }
-
                                     </a>
-
                                 </td>
-
                             </tr>
                         }
-
                     </tbody>
-
                 </table>
-
             </div>
         }
-
     </div>
-
 </div>

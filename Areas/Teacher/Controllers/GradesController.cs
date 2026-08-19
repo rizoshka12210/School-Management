@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.ViewModels.Teacher;
@@ -10,11 +12,15 @@ namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
 public class GradesController : TeacherControllerBase
 {
+    private readonly IStringLocalizer<SharedResource> _localizer;
+
     public GradesController(
         AppDbContext context,
-        OwnershipHelper ownership)
+        OwnershipHelper ownership,
+        IStringLocalizer<SharedResource> localizer)
         : base(context, ownership)
     {
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index()
@@ -140,8 +146,6 @@ public class GradesController : TeacherControllerBase
                 continue;
             }
 
-            // Blank input means "no grade entered this time",
-            // not "erase the previous grade".
             if (!row.Value.HasValue)
             {
                 continue;
@@ -172,7 +176,7 @@ public class GradesController : TeacherControllerBase
 
         await Context.SaveChangesAsync();
 
-        TempData["Success"] = "Grades saved.";
+        TempData["Success"] = _localizer["Grades saved."];
 
         return RedirectToAction(
             nameof(Add),

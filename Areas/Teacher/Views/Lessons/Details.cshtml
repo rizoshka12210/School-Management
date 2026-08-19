@@ -1,527 +1,230 @@
 @model SchoolManagementSystem.Web.Models.Entities.Lesson
-
 @using SchoolManagementSystem.Web.Models.Enums
 
 @{
-    ViewData["Title"] = "Lesson Details";
+    ViewData["Title"] = Localizer["Lesson Details"];
 
-    var totalAttendance =
-        Model.Attendances.Count;
-
-    var present =
-        Model.Attendances.Count(a =>
-            a.Status == AttendanceStatus.Present);
-
-    var absent =
-        Model.Attendances.Count(a =>
-            a.Status == AttendanceStatus.Absent);
-
-    var late =
-        Model.Attendances.Count(a =>
-            a.Status == AttendanceStatus.Late);
-
-    var averageGrade =
-        Model.Grades.Any()
-            ? Model.Grades.Average(g => g.Value)
-            : 0;
+    var totalAttendance = Model.Attendances.Count;
+    var present = Model.Attendances.Count(a => a.Status == AttendanceStatus.Present);
+    var absent = Model.Attendances.Count(a => a.Status == AttendanceStatus.Absent);
+    var late = Model.Attendances.Count(a => a.Status == AttendanceStatus.Late);
+    var averageGrade = Model.Grades.Any() ? Model.Grades.Average(g => g.Value) : 0;
 }
 
 <div class="form-page-header">
-
-    <a asp-action="Index"
-       class="back-link">
-        ← My Lessons
-    </a>
+    <a asp-action="Index" class="back-link">← @Localizer["My Lessons"]</a>
 
     <div class="teacher-lesson-form-header mt-3">
-
-        <div class="teacher-lesson-form-icon">
-            LS
-        </div>
-
+        <div class="teacher-lesson-form-icon">LS</div>
         <div>
-
-            <h1 class="page-title mb-1">
-                @Model.Subject.Name
-            </h1>
-
+            <h1 class="page-title mb-1">@Model.Subject.Name</h1>
             <div class="teacher-lesson-meta">
-
-                <span class="group-badge">
-                    @Model.Group.Name
-                </span>
-
-                <span class="subject-badge">
-                    @Model.Subject.Name
-                </span>
-
-                <span>
-                    @Model.StartTime.ToString("dd MMM yyyy")
-                </span>
-
-                <span>
-                    @Model.StartTime.ToString("HH:mm")
-                    -
-                    @Model.EndTime.ToString("HH:mm")
-                </span>
-
+                <span class="group-badge">@Model.Group.Name</span>
+                <span class="subject-badge">@Model.Subject.Name</span>
+                <span>@Model.StartTime.ToString("dd MMM yyyy")</span>
+                <span>@Model.StartTime.ToString("HH:mm") - @Model.EndTime.ToString("HH:mm")</span>
             </div>
-
         </div>
-
     </div>
-
 </div>
 
 <div class="teacher-student-stat-grid">
-
     <div class="teacher-student-stat">
-
-        <div class="teacher-student-stat-icon attendance-color">
-            AT
-        </div>
-
+        <div class="teacher-student-stat-icon attendance-color">AT</div>
         <div>
-
-            <span>
-                Attendance Records
-            </span>
-
-            <strong>
-                @totalAttendance
-            </strong>
-
-            <small>
-                @present present
-            </small>
-
+            <span>@Localizer["Attendance records"]</span>
+            <strong>@totalAttendance</strong>
+            <small>@Localizer["{0} present", present]</small>
         </div>
-
     </div>
 
     <div class="teacher-student-stat">
-
-        <div class="teacher-student-stat-icon grade-color">
-            GD
-        </div>
-
+        <div class="teacher-student-stat-icon grade-color">GD</div>
         <div>
-
-            <span>
-                Grades
-            </span>
-
-            <strong>
-                @Model.Grades.Count
-            </strong>
-
-            <small>
-                @averageGrade.ToString("0.##") average
-            </small>
-
+            <span>@Localizer["Grades"]</span>
+            <strong>@Model.Grades.Count</strong>
+            <small>@Localizer["{0} average", averageGrade.ToString("0.##")]</small>
         </div>
-
     </div>
 
     <div class="teacher-student-stat">
-
-        <div class="teacher-student-stat-icon lessons-color">
-            AB
-        </div>
-
+        <div class="teacher-student-stat-icon lessons-color">AB</div>
         <div>
-
-            <span>
-                Absent
-            </span>
-
-            <strong>
-                @absent
-            </strong>
-
-            <small>
-                students
-            </small>
-
+            <span>@Localizer["Absent"]</span>
+            <strong>@absent</strong>
+            <small>@Localizer["students"]</small>
         </div>
-
     </div>
 
     <div class="teacher-student-stat">
-
-        <div class="teacher-student-stat-icon subject-color">
-            LT
-        </div>
-
+        <div class="teacher-student-stat-icon subject-color">LT</div>
         <div>
-
-            <span>
-                Late
-            </span>
-
-            <strong>
-                @late
-            </strong>
-
-            <small>
-                students
-            </small>
-
+            <span>@Localizer["Late"]</span>
+            <strong>@late</strong>
+            <small>@Localizer["students"]</small>
         </div>
-
     </div>
-
 </div>
 
 <div class="card border-0 shadow-sm mb-4">
-
     <div class="card-body">
-
         <div class="section-header">
-
             <div>
-
-                <h5 class="section-title">
-                    Lesson Topic
-                </h5>
-
-                <p class="section-subtitle">
-                    Topic covered during this lesson
-                </p>
-
+                <h5 class="section-title">@Localizer["Lesson Topic"]</h5>
+                <p class="section-subtitle">@Localizer["Topic covered during this lesson"]</p>
             </div>
 
-            <a asp-area="Teacher"
-               asp-controller="Topics"
-               asp-action="Edit"
-               asp-route-id="@Model.Id"
-               class="btn btn-sm btn-outline-primary">
-                Edit Topic
+            <a asp-area="Teacher" asp-controller="Topics" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-sm btn-outline-primary">
+                @Localizer["Edit Topic"]
             </a>
-
         </div>
 
         @if (!string.IsNullOrWhiteSpace(Model.Topic))
         {
-            <div class="p-3 bg-light rounded">
-                @Model.Topic
-            </div>
+            <div class="p-3 bg-light rounded">@Model.Topic</div>
         }
         else
         {
-            <div class="teacher-simple-empty">
-                No topic has been recorded for this lesson.
-            </div>
+            <div class="teacher-simple-empty">@Localizer["No topic has been recorded for this lesson."]</div>
         }
-
     </div>
-
 </div>
 
 <div class="d-flex flex-wrap gap-2 mb-4">
-
-    <a asp-area="Teacher"
-       asp-controller="Attendance"
-       asp-action="Mark"
-       asp-route-lessonId="@Model.Id"
-       class="btn btn-primary">
-        Attendance
-    </a>
-
-    <a asp-area="Teacher"
-       asp-controller="Grades"
-       asp-action="Add"
-       asp-route-lessonId="@Model.Id"
-       class="btn btn-outline-primary">
-        Grades
-    </a>
-
-    <a asp-area="Teacher"
-       asp-controller="Topics"
-       asp-action="Edit"
-       asp-route-id="@Model.Id"
-       class="btn btn-outline-secondary">
-        Edit Topic
-    </a>
-
+    <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark" asp-route-lessonId="@Model.Id" class="btn btn-primary">@Localizer["Attendance"]</a>
+    <a asp-area="Teacher" asp-controller="Grades" asp-action="Add" asp-route-lessonId="@Model.Id" class="btn btn-outline-primary">@Localizer["Grades"]</a>
+    <a asp-area="Teacher" asp-controller="Topics" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-secondary">@Localizer["Edit Topic"]</a>
 </div>
 
 <div class="row g-4">
-
     <div class="col-xl-6">
-
         <div class="card border-0 shadow-sm h-100">
-
             <div class="card-body">
-
                 <div class="section-header">
-
                     <div>
-
-                        <h5 class="section-title">
-                            Attendance
-                        </h5>
-
-                        <p class="section-subtitle">
-                            Student attendance for this lesson
-                        </p>
-
+                        <h5 class="section-title">@Localizer["Attendance"]</h5>
+                        <p class="section-subtitle">@Localizer["Student attendance for this lesson"]</p>
                     </div>
 
                     @if (Model.Attendances.Any())
                     {
-                        <span class="status-badge status-present">
-                            Marked
-                        </span>
+                        <span class="status-badge status-present">@Localizer["Marked"]</span>
                     }
                     else
                     {
-                        <span class="status-badge teacher-status-pending">
-                            Not marked
-                        </span>
+                        <span class="status-badge teacher-status-pending">@Localizer["Not marked"]</span>
                     }
-
                 </div>
 
                 @if (!Model.Attendances.Any())
                 {
                     <div class="teacher-empty">
-
-                        <div class="teacher-empty-icon">
-                            AT
-                        </div>
-
-                        <h5>
-                            Attendance not marked
-                        </h5>
-
-                        <p>
-                            Mark attendance for students in this lesson.
-                        </p>
-
-                        <a asp-area="Teacher"
-                           asp-controller="Attendance"
-                           asp-action="Mark"
-                           asp-route-lessonId="@Model.Id"
-                           class="btn btn-sm btn-primary">
-                            Mark Attendance
-                        </a>
-
+                        <div class="teacher-empty-icon">AT</div>
+                        <h5>@Localizer["Attendance not marked"]</h5>
+                        <p>@Localizer["Mark attendance for students in this lesson."]</p>
+                        <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark" asp-route-lessonId="@Model.Id" class="btn btn-sm btn-primary">@Localizer["Mark Attendance"]</a>
                     </div>
                 }
                 else
                 {
                     <div>
-
-                        @foreach (var attendance in
-                            Model.Attendances
-                                .OrderBy(a => a.Student.FirstName)
-                                .ThenBy(a => a.Student.LastName))
+                        @foreach (var attendance in Model.Attendances.OrderBy(a => a.Student.FirstName).ThenBy(a => a.Student.LastName))
                         {
                             <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
-
                                 <div class="person-cell">
-
                                     <div class="mini-avatar">
-
-                                        @(string.IsNullOrWhiteSpace(
-                                            attendance.Student.FirstName)
+                                        @(string.IsNullOrWhiteSpace(attendance.Student.FirstName)
                                             ? "S"
-                                            : attendance.Student.FirstName
-                                                .Substring(0, 1)
-                                                .ToUpper())
-
+                                            : attendance.Student.FirstName.Substring(0, 1).ToUpper())
                                     </div>
-
-                                    <div>
-
-                                        <div class="person-name">
-                                            @attendance.Student.FirstName
-                                            @attendance.Student.LastName
-                                        </div>
-
-                                    </div>
-
+                                    <div><div class="person-name">@attendance.Student.FirstName @attendance.Student.LastName</div></div>
                                 </div>
 
                                 <div>
-
                                     @switch (attendance.Status)
                                     {
                                         case AttendanceStatus.Present:
-
-                                            <span class="status-badge status-present">
-                                                Present
-                                            </span>
-
+                                            <span class="status-badge status-present">@Localizer["Present"]</span>
                                             break;
-
                                         case AttendanceStatus.Absent:
-
-                                            <span class="status-badge status-absent">
-                                                Absent
-                                            </span>
-
+                                            <span class="status-badge status-absent">@Localizer["Absent"]</span>
                                             break;
-
                                         case AttendanceStatus.Late:
-
-                                            <span class="status-badge status-late">
-                                                Late
-                                            </span>
-
+                                            <span class="status-badge status-late">@Localizer["Late"]</span>
                                             break;
-
                                         case AttendanceStatus.Excused:
-
-                                            <span class="status-badge status-excused">
-                                                Excused
-                                            </span>
-
+                                            <span class="status-badge status-excused">@Localizer["Excused"]</span>
                                             break;
                                     }
-
                                 </div>
-
                             </div>
                         }
-
                     </div>
                 }
-
             </div>
-
         </div>
-
     </div>
 
     <div class="col-xl-6">
-
         <div class="card border-0 shadow-sm h-100">
-
             <div class="card-body">
-
                 <div class="section-header">
-
                     <div>
-
-                        <h5 class="section-title">
-                            Grades
-                        </h5>
-
-                        <p class="section-subtitle">
-                            Student grades for this lesson
-                        </p>
-
+                        <h5 class="section-title">@Localizer["Grades"]</h5>
+                        <p class="section-subtitle">@Localizer["Student grades for this lesson"]</p>
                     </div>
-
-                    <span class="teacher-count-label">
-                        @Model.Grades.Count
-                    </span>
-
+                    <span class="teacher-count-label">@Model.Grades.Count</span>
                 </div>
 
                 @if (!Model.Grades.Any())
                 {
                     <div class="teacher-empty">
-
-                        <div class="teacher-empty-icon">
-                            GD
-                        </div>
-
-                        <h5>
-                            No grades
-                        </h5>
-
-                        <p>
-                            No grades have been recorded for this lesson.
-                        </p>
-
-                        <a asp-area="Teacher"
-                           asp-controller="Grades"
-                           asp-action="Add"
-                           asp-route-lessonId="@Model.Id"
-                           class="btn btn-sm btn-primary">
-                            Enter Grades
-                        </a>
-
+                        <div class="teacher-empty-icon">GD</div>
+                        <h5>@Localizer["No grades"]</h5>
+                        <p>@Localizer["No grades have been recorded for this lesson."]</p>
+                        <a asp-area="Teacher" asp-controller="Grades" asp-action="Add" asp-route-lessonId="@Model.Id" class="btn btn-sm btn-primary">@Localizer["Enter Grades"]</a>
                     </div>
                 }
                 else
                 {
                     <div>
-
-                        @foreach (var grade in
-                            Model.Grades
-                                .OrderBy(g => g.Student.FirstName)
-                                .ThenBy(g => g.Student.LastName))
+                        @foreach (var grade in Model.Grades.OrderBy(g => g.Student.FirstName).ThenBy(g => g.Student.LastName))
                         {
                             <div class="d-flex align-items-center justify-content-between py-3 border-bottom">
-
                                 <div class="person-cell">
-
                                     <div class="mini-avatar">
-
-                                        @(string.IsNullOrWhiteSpace(
-                                            grade.Student.FirstName)
+                                        @(string.IsNullOrWhiteSpace(grade.Student.FirstName)
                                             ? "S"
-                                            : grade.Student.FirstName
-                                                .Substring(0, 1)
-                                                .ToUpper())
-
+                                            : grade.Student.FirstName.Substring(0, 1).ToUpper())
                                     </div>
-
                                     <div>
-
-                                        <div class="person-name">
-                                            @grade.Student.FirstName
-                                            @grade.Student.LastName
-                                        </div>
-
+                                        <div class="person-name">@grade.Student.FirstName @grade.Student.LastName</div>
                                         @if (!string.IsNullOrWhiteSpace(grade.Comment))
                                         {
-                                            <div class="person-id">
-                                                @grade.Comment
-                                            </div>
+                                            <div class="person-id">@grade.Comment</div>
                                         }
-
                                     </div>
-
                                 </div>
 
                                 <div>
-
                                     @if (grade.Value >= 5)
                                     {
-                                        <span class="grade-badge grade-high">
-                                            @grade.Value
-                                        </span>
+                                        <span class="grade-badge grade-high">@grade.Value</span>
                                     }
                                     else if (grade.Value >= 4)
                                     {
-                                        <span class="grade-badge grade-good">
-                                            @grade.Value
-                                        </span>
+                                        <span class="grade-badge grade-good">@grade.Value</span>
                                     }
                                     else
                                     {
-                                        <span class="grade-badge grade-low">
-                                            @grade.Value
-                                        </span>
+                                        <span class="grade-badge grade-low">@grade.Value</span>
                                     }
-
                                 </div>
-
                             </div>
                         }
-
                     </div>
                 }
-
             </div>
-
         </div>
-
     </div>
-
 </div>

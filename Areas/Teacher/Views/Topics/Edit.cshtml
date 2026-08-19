@@ -1,164 +1,79 @@
 @model SchoolManagementSystem.Web.ViewModels.Teacher.TopicEditViewModel
 
 @{
-    ViewData["Title"] = "Edit Topic";
+    ViewData["Title"] = Localizer["Edit Topic"];
 }
 
 <div class="form-page-header">
 
-    <a asp-action="Index"
-       class="back-link">
-        ← Topics
-    </a>
+    <a asp-action="Index" class="back-link">← @Localizer["Topics"]</a>
 
     <div class="teacher-lesson-form-header mt-3">
-
-        <div class="teacher-lesson-form-icon topic-form-icon">
-            TP
-        </div>
-
+        <div class="teacher-lesson-form-icon topic-form-icon">TP</div>
         <div>
-
-            <h1 class="page-title mb-1">
-                Edit Topic
-            </h1>
-
+            <h1 class="page-title mb-1">@Localizer["Edit Topic"]</h1>
             <div class="teacher-lesson-meta">
-
-                <span class="subject-badge">
-                    @Model.SubjectName
-                </span>
-
-                <span class="group-badge">
-                    @Model.GroupName
-                </span>
-
-                <span>
-                    @Model.LessonDate.ToString("dd MMM yyyy")
-                </span>
-
-                <span>
-                    @Model.LessonDate.ToString("HH:mm")
-                </span>
-
+                <span class="subject-badge">@Model.SubjectName</span>
+                <span class="group-badge">@Model.GroupName</span>
+                <span>@Model.LessonDate.ToString("dd MMM yyyy")</span>
+                <span>@Model.LessonDate.ToString("HH:mm")</span>
             </div>
-
         </div>
-
     </div>
 
 </div>
 
-<form asp-action="Edit"
-      method="post">
-
+<form asp-action="Edit" method="post">
     @Html.AntiForgeryToken()
+    <input asp-for="LessonId" type="hidden" />
 
-    <input asp-for="LessonId"
-           type="hidden" />
-
-    <div asp-validation-summary="ModelOnly"
-         class="alert alert-danger">
-    </div>
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
     <div class="topic-edit-layout">
-
         <div class="form-card">
-
             <div class="form-card-header">
-
-                <h5>
-                    Lesson Topic
-                </h5>
-
-                <p>
-                    Describe what was covered during this lesson
-                </p>
-
+                <h5>@Localizer["Lesson Topic"]</h5>
+                <p>@Localizer["Describe what was covered during this lesson"]</p>
             </div>
 
             <div class="form-card-body">
-
-                <label asp-for="Topic"
-                       class="form-label">
-                    Topic
-                </label>
-
+                <label asp-for="Topic" class="form-label">@Localizer["Topic"]</label>
                 <textarea asp-for="Topic"
                           class="form-control teacher-topic-textarea"
                           rows="6"
-                          placeholder="Example: Introduction to Newton's Laws"></textarea>
-
-                <span asp-validation-for="Topic"
-                      class="text-danger small">
-                </span>
-
+                          placeholder="@Localizer["Example: Introduction to Newton's Laws"]"></textarea>
+                <span asp-validation-for="Topic" class="text-danger small"></span>
             </div>
-
         </div>
 
         <div class="teacher-topic-info-card">
+            <div class="teacher-topic-info-title">@Localizer["Lesson Information"]</div>
 
-            <div class="teacher-topic-info-title">
-                Lesson Information
+            <div class="teacher-topic-info-row">
+                <span>@Localizer["Subject"]</span>
+                <strong>@Model.SubjectName</strong>
             </div>
 
             <div class="teacher-topic-info-row">
-
-                <span>Subject</span>
-
-                <strong>
-                    @Model.SubjectName
-                </strong>
-
+                <span>@Localizer["Group"]</span>
+                <strong>@Model.GroupName</strong>
             </div>
 
             <div class="teacher-topic-info-row">
-
-                <span>Group</span>
-
-                <strong>
-                    @Model.GroupName
-                </strong>
-
+                <span>@Localizer["Date"]</span>
+                <strong>@Model.LessonDate.ToString("dd MMM yyyy")</strong>
             </div>
 
             <div class="teacher-topic-info-row">
-
-                <span>Date</span>
-
-                <strong>
-                    @Model.LessonDate.ToString("dd MMM yyyy")
-                </strong>
-
+                <span>@Localizer["Time"]</span>
+                <strong>@Model.LessonDate.ToString("HH:mm")</strong>
             </div>
-
-            <div class="teacher-topic-info-row">
-
-                <span>Time</span>
-
-                <strong>
-                    @Model.LessonDate.ToString("HH:mm")
-                </strong>
-
-            </div>
-
         </div>
-
     </div>
 
     <div class="form-actions">
-
-        <a asp-action="Index"
-           class="btn btn-light">
-            Cancel
-        </a>
-
-        <button type="submit"
-                class="btn btn-primary">
-            Save Topic
-        </button>
-
+        <a asp-action="Index" class="btn btn-light">@Localizer["Cancel"]</a>
+        <button type="submit" class="btn btn-primary">@Localizer["Save Topic"]</button>
     </div>
 
 </form>

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
+using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
@@ -15,13 +17,16 @@ public class AttendanceController : Controller
 {
     private readonly AttendanceService _attendanceService;
     private readonly AppDbContext _context;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public AttendanceController(
         AttendanceService attendanceService,
-        AppDbContext context)
+        AppDbContext context,
+        IStringLocalizer<SharedResource> localizer)
     {
         _attendanceService = attendanceService;
         _context = context;
+        _localizer = localizer;
     }
 
     public async Task<IActionResult> Index(
@@ -195,7 +200,7 @@ public class AttendanceController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Attendance record updated successfully.";
+        TempData["Success"] = _localizer["Attendance record updated successfully."];
 
         return RedirectToAction(nameof(Index));
     }
@@ -236,7 +241,7 @@ public class AttendanceController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Attendance record deleted successfully.";
+        TempData["Success"] = _localizer["Attendance record deleted successfully."];
 
         return RedirectToAction(nameof(Index));
     }

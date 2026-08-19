@@ -1,7 +1,7 @@
 @model List<SchoolManagementSystem.Web.ViewModels.Parent.SubjectWithTeachers>
 
 @{
-    ViewData["Title"] = "Subjects";
+    ViewData["Title"] = Localizer["Subjects"];
 
     var teachersCount = Model
         .SelectMany(s => s.TeacherNames)
@@ -10,157 +10,72 @@
 }
 
 <div class="page-header">
-
     <div>
-
-        <h1 class="page-title">
-            Subjects
-        </h1>
-
-        <p class="page-subtitle">
-            @ViewBag.StudentName's subjects and teachers
-        </p>
-
+        <h1 class="page-title">@Localizer["Subjects"]</h1>
+        <p class="page-subtitle">@Localizer["{0}'s subjects and teachers", ViewBag.StudentName]</p>
     </div>
-
-    <div class="teacher-count-label">
-        @Model.Count subject(s)
-    </div>
-
+    <div class="teacher-count-label">@Localizer["{0} subject(s)", Model.Count]</div>
 </div>
 
 <div class="parent-subject-summary">
-
     <div>
-
-        <div class="parent-subject-summary-icon">
-            SB
-        </div>
-
-        <div>
-
-            <span>
-                Total Subjects
-            </span>
-
-            <strong>
-                @Model.Count
-            </strong>
-
-        </div>
-
+        <div class="parent-subject-summary-icon">SB</div>
+        <div><span>@Localizer["Total Subjects"]</span><strong>@Model.Count</strong></div>
     </div>
 
     <div>
-
-        <div class="parent-subject-summary-icon parent-subject-teacher-icon">
-            TR
-        </div>
-
-        <div>
-
-            <span>
-                Teachers
-            </span>
-
-            <strong>
-                @teachersCount
-            </strong>
-
-        </div>
-
+        <div class="parent-subject-summary-icon parent-subject-teacher-icon">TR</div>
+        <div><span>@Localizer["Teachers"]</span><strong>@teachersCount</strong></div>
     </div>
-
 </div>
 
 @if (!Model.Any())
 {
     <div class="card border-0 shadow-sm">
-
         <div class="parent-empty">
-
-            <div class="parent-empty-icon">
-                SB
-            </div>
-
-            <h5>
-                No subjects yet
-            </h5>
-
-            <p>
-                Subjects will appear here when the schedule is created.
-            </p>
-
+            <div class="parent-empty-icon">SB</div>
+            <h5>@Localizer["No subjects yet"]</h5>
+            <p>@Localizer["Subjects will appear here when the schedule is created."]</p>
         </div>
-
     </div>
 }
 else
 {
     <div class="parent-subject-grid">
-
         @foreach (var subject in Model)
         {
             <div class="parent-subject-card">
-
                 <div class="parent-subject-card-top">
-
-                    <div class="parent-subject-card-icon">
-                        SB
-                    </div>
-
-                    <div class="parent-subject-card-badge">
-                        Subject
-                    </div>
-
+                    <div class="parent-subject-card-icon">SB</div>
+                    <div class="parent-subject-card-badge">@Localizer["Subject"]</div>
                 </div>
 
-                <h4>
-                    @subject.SubjectName
-                </h4>
-
-                <p>
-                    @subject.TeacherNames.Count teacher(s)
-                </p>
+                <h4>@subject.SubjectName</h4>
+                <p>@Localizer["{0} teacher(s)", subject.TeacherNames.Count]</p>
 
                 <div class="parent-subject-teachers">
-
-                    <div class="parent-subject-teachers-title">
-                        Teachers
-                    </div>
+                    <div class="parent-subject-teachers-title">@Localizer["Teachers"]</div>
 
                     @if (!subject.TeacherNames.Any())
                     {
-                        <div class="text-muted small">
-                            No teachers assigned
-                        </div>
+                        <div class="text-muted small">@Localizer["No teachers assigned"]</div>
                     }
                     else
                     {
                         @foreach (var teacher in subject.TeacherNames)
                         {
                             <div class="parent-subject-teacher">
-
                                 <div class="mini-avatar">
-
                                     @(string.IsNullOrWhiteSpace(teacher)
                                         ? "T"
                                         : teacher.Substring(0, 1).ToUpper())
-
                                 </div>
-
-                                <span>
-                                    @teacher
-                                </span>
-
+                                <span>@teacher</span>
                             </div>
                         }
                     }
-
                 </div>
-
             </div>
         }
-
     </div>
 }
