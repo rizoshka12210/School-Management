@@ -74,6 +74,9 @@ builder.Services.AddScoped<AttendanceService>();
 builder.Services.AddScoped<GradeService>();
 builder.Services.AddScoped<SalaryService>();
 builder.Services.AddScoped<TopicCalendarService>();
+builder.Services.AddScoped<AchievementService>();
+builder.Services.AddScoped<LeaderboardService>();
+builder.Services.AddScoped<ActivityLogService>();
 
 var app = builder.Build();
 

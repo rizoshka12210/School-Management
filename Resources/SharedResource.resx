@@ -1048,4 +1048,34 @@
   <data name="{0}'s weekly timetable" xml:space="preserve">
     <value>{0}'s weekly timetable</value>
   </data>
+  <data name="Excellent Student" xml:space="preserve">
+    <value>Excellent Student</value>
+  </data>
+  <data name="Average grade of 4.5 or higher" xml:space="preserve">
+    <value>Average grade of 4.5 or higher</value>
+  </data>
+  <data name="10 Excellent Grades" xml:space="preserve">
+    <value>10 Excellent Grades</value>
+  </data>
+  <data name="Earned ten grades of 5" xml:space="preserve">
+    <value>Earned ten grades of 5</value>
+  </data>
+  <data name="30 Days Attendance Streak" xml:space="preserve">
+    <value>30 Days Attendance Streak</value>
+  </data>
+  <data name="No absences in the last 30 days" xml:space="preserve">
+    <value>No absences in the last 30 days</value>
+  </data>
+  <data name="Mathematics Master" xml:space="preserve">
+    <value>Mathematics Master</value>
+  </data>
+  <data name="Average grade of 4.5 or higher in Mathematics" xml:space="preserve">
+    <value>Average grade of 4.5 or higher in Mathematics</value>
+  </data>
+  <data name="100% Attendance" xml:space="preserve">
+    <value>100% Attendance</value>
+  </data>
+  <data name="Never marked absent" xml:space="preserve">
+    <value>Never marked absent</value>
+  </data>
 </root>

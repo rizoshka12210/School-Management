@@ -1048,4 +1048,34 @@
   <data name="{0}'s weekly timetable" xml:space="preserve">
     <value>Недельное расписание — {0}</value>
   </data>
+  <data name="Excellent Student" xml:space="preserve">
+    <value>Отличник</value>
+  </data>
+  <data name="Average grade of 4.5 or higher" xml:space="preserve">
+    <value>Средний балл 4.5 или выше</value>
+  </data>
+  <data name="10 Excellent Grades" xml:space="preserve">
+    <value>10 отличных оценок</value>
+  </data>
+  <data name="Earned ten grades of 5" xml:space="preserve">
+    <value>Получено десять пятёрок</value>
+  </data>
+  <data name="30 Days Attendance Streak" xml:space="preserve">
+    <value>30 дней без пропусков</value>
+  </data>
+  <data name="No absences in the last 30 days" xml:space="preserve">
+    <value>Нет пропусков за последние 30 дней</value>
+  </data>
+  <data name="Mathematics Master" xml:space="preserve">
+    <value>Мастер математики</value>
+  </data>
+  <data name="Average grade of 4.5 or higher in Mathematics" xml:space="preserve">
+    <value>Средний балл 4.5 или выше по математике</value>
+  </data>
+  <data name="100% Attendance" xml:space="preserve">
+    <value>100% посещаемость</value>
+  </data>
+  <data name="Never marked absent" xml:space="preserve">
+    <value>Никогда не отмечен отсутствующим</value>
+  </data>
 </root>
