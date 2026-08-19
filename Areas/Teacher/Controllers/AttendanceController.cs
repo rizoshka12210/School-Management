@@ -218,7 +218,7 @@ public class AttendanceController : TeacherControllerBase
 
         await Context.SaveChangesAsync();
 
-        TempData["Success"] = _localizer["Attendance saved."];
+        TempData["Success"] = _localizer["Attendance saved."].Value;
 
         return RedirectToAction(
             nameof(Mark),

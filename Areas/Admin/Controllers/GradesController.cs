@@ -138,7 +138,7 @@ public class GradesController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = _localizer["Grade updated successfully."];
+        TempData["Success"] = _localizer["Grade updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -178,7 +178,7 @@ public class GradesController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = _localizer["Grade deleted successfully."];
+        TempData["Success"] = _localizer["Grade deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }

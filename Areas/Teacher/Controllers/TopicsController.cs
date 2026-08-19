@@ -110,7 +110,7 @@ public class TopicsController : TeacherControllerBase
 
         await Context.SaveChangesAsync();
 
-        TempData["Success"] = _localizer["Topic saved."];
+        TempData["Success"] = _localizer["Topic saved."].Value;
 
         return RedirectToAction(nameof(Index));
     }

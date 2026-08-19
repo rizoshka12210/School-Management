@@ -176,7 +176,7 @@ public class GradesController : TeacherControllerBase
 
         await Context.SaveChangesAsync();
 
-        TempData["Success"] = _localizer["Grades saved."];
+        TempData["Success"] = _localizer["Grades saved."].Value;
 
         return RedirectToAction(
             nameof(Add),

@@ -200,7 +200,7 @@ public class AttendanceController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = _localizer["Attendance record updated successfully."];
+        TempData["Success"] = _localizer["Attendance record updated successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
@@ -241,7 +241,7 @@ public class AttendanceController : Controller
 
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = _localizer["Attendance record deleted successfully."];
+        TempData["Success"] = _localizer["Attendance record deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
     }
