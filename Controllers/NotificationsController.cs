@@ -30,12 +30,18 @@ public class NotificationsController : Controller
                     IsEssential = true,
                     SameSite = SameSiteMode.Lax,
                     Secure = Request.IsHttps,
+                    Path = "/",
                     Expires = DateTimeOffset.UtcNow.AddYears(1)
                 });
         }
         else
         {
-            Response.Cookies.Delete(NotificationService.SeenCookieName);
+            Response.Cookies.Delete(
+                NotificationService.SeenCookieName,
+                new CookieOptions
+                {
+                    Path = "/"
+                });
         }
 
         return View(notifications);
