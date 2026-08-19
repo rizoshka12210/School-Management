@@ -1,4 +1,6 @@
 using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
@@ -9,6 +11,8 @@ namespace SchoolManagementSystem.Web.Services;
 
 public class NotificationService
 {
+    public const string SeenCookieName = "school-notifications-seen";
+
     private readonly AppDbContext _context;
 
     public NotificationService(AppDbContext context)
@@ -43,10 +47,52 @@ public class NotificationService
         return new();
     }
 
-    public async Task<int> GetCountAsync(ClaimsPrincipal user)
+    public async Task<int> GetUnreadCountAsync(
+        ClaimsPrincipal user,
+        string? seenFingerprint)
     {
         var items = await GetForUserAsync(user, 20);
-        return items.Count;
+
+        if (items.Count == 0)
+        {
+            return 0;
+        }
+
+        var currentFingerprint = BuildFingerprint(user, items);
+
+        return string.Equals(
+            currentFingerprint,
+            seenFingerprint,
+            StringComparison.Ordinal)
+            ? 0
+            : items.Count;
+    }
+
+    public async Task<string?> GetCurrentFingerprintAsync(
+        ClaimsPrincipal user)
+    {
+        var items = await GetForUserAsync(user, 20);
+
+        return items.Count == 0
+            ? null
+            : BuildFingerprint(user, items);
+    }
+
+    private static string BuildFingerprint(
+        ClaimsPrincipal user,
+        IEnumerable<NotificationItemViewModel> items)
+    {
+        var userId = user.FindFirstValue(ClaimTypes.NameIdentifier)
+            ?? user.Identity?.Name
+            ?? "anonymous";
+
+        var payload = userId + "|" + string.Join(
+            "||",
+            items.Select(item =>
+                $"{item.Title}|{item.Message}|{item.Url}|{item.Kind}|{item.OccurredAt:O}"));
+
+        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(payload));
+        return Convert.ToHexString(bytes);
     }
 
     private async Task<List<NotificationItemViewModel>> GetAdminNotificationsAsync(int take)
