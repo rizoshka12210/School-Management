@@ -37,7 +37,7 @@ public class AssistantController : Controller
             });
         }
 
-        var reply = await _assistantService.AskAsync(
+        var (reply, navigateUrl) = await _assistantService.AskAsync(
             User,
             request.Message.Trim(),
             request.History ?? new List<ChatHistoryItem>());
@@ -45,7 +45,8 @@ public class AssistantController : Controller
         return Json(new ChatResponse
         {
             Success = true,
-            Reply = reply
+            Reply = reply,
+            NavigateUrl = navigateUrl
         });
     }
 }

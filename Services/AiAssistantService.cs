@@ -39,16 +39,21 @@ public class AiAssistantService
         _configuration = configuration;
     }
 
-    public async Task<string> AskAsync(
+    public async Task<(string Reply, string? NavigateUrl)> AskAsync(
         ClaimsPrincipal user,
         string message,
         List<ChatHistoryItem> history)
     {
+        var role = user.IsInRole(Roles.Admin) ? "Admin"
+            : user.IsInRole(Roles.Teacher) ? "Teacher"
+            : user.IsInRole(Roles.Parent) ? "Parent"
+            : string.Empty;
+
         var apiKey = _configuration["Gemini:ApiKey"];
 
         if (string.IsNullOrWhiteSpace(apiKey) || apiKey == "CHANGE_ME")
         {
-            return "Ассистент пока не настроен: не указан ключ Gemini API.";
+            return ("Ассистент пока не настроен: не указан ключ Gemini API.", null);
         }
 
         var model = _configuration["Gemini:Model"];
@@ -64,11 +69,11 @@ public class AiAssistantService
 
         foreach (var item in history.TakeLast(12))
         {
-            var role = item.Role == "assistant" ? "model" : "user";
+            var geminiRole = item.Role == "assistant" ? "model" : "user";
 
             contents.Add(new
             {
-                role,
+                role = geminiRole,
                 parts = new object[] { new { text = item.Text } }
             });
         }
@@ -106,7 +111,7 @@ public class AiAssistantService
 
             if (!response.IsSuccessStatusCode)
             {
-                return "Не удалось получить ответ от ассистента. Попробуйте ещё раз чуть позже.";
+                return ("Не удалось получить ответ от ассистента. Попробуйте ещё раз чуть позже.", null);
             }
 
             using var doc = JsonDocument.Parse(raw);
@@ -118,13 +123,16 @@ public class AiAssistantService
                 .GetProperty("text")
                 .GetString();
 
-            return string.IsNullOrWhiteSpace(text)
-                ? "Не удалось получить ответ от ассистента. Попробуйте переформулировать вопрос."
-                : text;
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                return ("Не удалось получить ответ от ассистента. Попробуйте переформулировать вопрос.", null);
+            }
+
+            return ExtractNavigation(role, text);
         }
         catch
         {
-            return "Не удалось связаться с ассистентом. Проверьте подключение и попробуйте снова.";
+            return ("Не удалось связаться с ассистентом. Проверьте подключение и попробуйте снова.", null);
         }
     }
 
@@ -199,27 +207,120 @@ public class AiAssistantService
         return sb.ToString();
     }
 
-    private static string NavHelpFor(string role)
+    /// <summary>
+    /// Exact in-app routes the assistant is allowed to send the user to,
+    /// keyed by the same section names shown in the sidebar. Kept as a
+    /// whitelist so a NAVIGATE directive from the model can only ever
+    /// point at a real, role-appropriate page - never an arbitrary or
+    /// hallucinated URL.
+    /// </summary>
+    private static Dictionary<string, string> GetRoutes(string role)
     {
         return role switch
         {
-            "Admin" =>
-                "Разделы для администратора: Панель управления, Ученики, Родители, " +
-                "Учителя, Группы, Предметы, Уроки, Расписание, Посещаемость, Оценки, " +
-                "Зарплата, Рейтинг, Школьный календарь, Журнал действий. Все разделы " +
-                "доступны через меню слева.",
-            "Teacher" =>
-                "Разделы для учителя: Панель управления, Мои группы, Ученики, Уроки, " +
-                "Посещаемость (отметить и посмотреть журнал), Оценки, Темы уроков, " +
-                "Расписание, Моя зарплата, Рейтинг, Школьный календарь. Все разделы " +
-                "доступны через меню слева.",
-            "Parent" =>
-                "Разделы для родителя: Панель управления, Мой ребёнок (профиль, " +
-                "достижения, комментарии учителя), Расписание, Оценки, Посещаемость, " +
-                "Предметы, Темы уроков, Успеваемость, Рейтинг, Школьный календарь. " +
-                "Все разделы доступны через меню слева.",
-            _ => string.Empty
+            "Admin" => new Dictionary<string, string>
+            {
+                ["Панель управления"] = "/Admin",
+                ["Ученики"] = "/Admin/Students",
+                ["Родители"] = "/Admin/Parents",
+                ["Учителя"] = "/Admin/Teachers",
+                ["Группы"] = "/Admin/Groups",
+                ["Предметы"] = "/Admin/Subjects",
+                ["Уроки"] = "/Admin/Lessons",
+                ["Расписание"] = "/Admin/Schedule",
+                ["Посещаемость"] = "/Admin/Attendance",
+                ["Оценки"] = "/Admin/Grades",
+                ["Зарплата"] = "/Admin/Salary",
+                ["Рейтинг"] = "/Admin/Leaderboard",
+                ["Школьный календарь"] = "/Admin/Calendar",
+                ["Журнал действий"] = "/Admin/ActivityLog"
+            },
+            "Teacher" => new Dictionary<string, string>
+            {
+                ["Панель управления"] = "/Teacher",
+                ["Мои группы"] = "/Teacher/Groups",
+                ["Ученики"] = "/Teacher/Students",
+                ["Уроки"] = "/Teacher/Lessons",
+                ["Посещаемость"] = "/Teacher/Attendance",
+                ["Оценки"] = "/Teacher/Grades",
+                ["Темы уроков"] = "/Teacher/Topics",
+                ["Расписание"] = "/Teacher/Schedule",
+                ["Моя зарплата"] = "/Teacher/Salary",
+                ["Рейтинг"] = "/Teacher/Leaderboard",
+                ["Школьный календарь"] = "/Teacher/Calendar"
+            },
+            "Parent" => new Dictionary<string, string>
+            {
+                ["Панель управления"] = "/Parent",
+                ["Мой ребёнок"] = "/Parent/Child/Details",
+                ["Расписание"] = "/Parent/Schedule",
+                ["Оценки"] = "/Parent/Grades",
+                ["Посещаемость"] = "/Parent/Attendance",
+                ["Предметы"] = "/Parent/Subjects",
+                ["Темы уроков"] = "/Parent/Topics",
+                ["Успеваемость"] = "/Parent/Progress",
+                ["Рейтинг"] = "/Parent/Leaderboard",
+                ["Школьный календарь"] = "/Parent/Calendar"
+            },
+            _ => new Dictionary<string, string>()
         };
+    }
+
+    private static string NavHelpFor(string role)
+    {
+        var routes = GetRoutes(role);
+
+        if (routes.Count == 0)
+        {
+            return string.Empty;
+        }
+
+        var sb = new StringBuilder();
+        sb.AppendLine("Доступные разделы и точные ссылки на них:");
+
+        foreach (var (name, url) in routes)
+        {
+            sb.AppendLine($"  - {name}: {url}");
+        }
+
+        sb.AppendLine(
+            "Если пользователь просит открыть, показать или перейти в какой-то " +
+            "раздел (например 'покажи оценки', 'открой посещаемость', 'перейди в " +
+            "календарь') - в конце своего ответа добавь ОТДЕЛЬНОЙ строкой ровно " +
+            "'NAVIGATE:' и точную ссылку из списка выше, например 'NAVIGATE:/Admin/Grades'. " +
+            "Используй ТОЛЬКО ссылки из списка выше, никогда не придумывай свои. " +
+            "Если пользователь не просит открыть раздел (просто задаёт вопрос) - " +
+            "не добавляй эту строку вообще.");
+
+        return sb.ToString();
+    }
+
+    /// <summary>
+    /// Pulls a trailing "NAVIGATE:&lt;url&gt;" directive out of the model's
+    /// raw reply and strips it from the text shown to the user. The URL is
+    /// only honored if it exactly matches one of this role's whitelisted
+    /// routes, so the model can never redirect the user somewhere outside
+    /// the app or to a page their role can't see.
+    /// </summary>
+    private static (string Text, string? NavigateUrl) ExtractNavigation(string role, string rawText)
+    {
+        var match = System.Text.RegularExpressions.Regex.Match(
+            rawText,
+            @"\n?NAVIGATE:\s*(\S+)\s*$",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+
+        if (!match.Success)
+        {
+            return (rawText, null);
+        }
+
+        var candidate = match.Groups[1].Value.TrimEnd('.', ',', ')');
+        var text = rawText.Substring(0, match.Index).TrimEnd();
+
+        var isAllowed = GetRoutes(role).Values
+            .Any(url => string.Equals(url, candidate, StringComparison.OrdinalIgnoreCase));
+
+        return (text, isAllowed ? candidate : null);
     }
 
     private async Task<string> BuildAdminContextAsync()
