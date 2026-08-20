@@ -3,6 +3,9 @@
 @{
     Layout = null;
     ViewData["Title"] = "Login";
+
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
 }
 
 <!DOCTYPE html>
@@ -313,6 +316,38 @@
             text-align: center;
         }
 
+        .login-lang-switcher {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            z-index: 5;
+            display: flex;
+            gap: 4px;
+            padding: 4px;
+            border-radius: 10px;
+            background: #eef0f3;
+        }
+
+        .login-lang-switcher form {
+            margin: 0;
+        }
+
+        .login-lang-btn {
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .login-lang-btn.active {
+            background: #4f46e5;
+            color: white;
+        }
+
         html[data-theme="dark"] {
             color-scheme: dark;
         }
@@ -363,6 +398,14 @@
             color: #fca5a5;
         }
 
+        html[data-theme="dark"] .login-lang-switcher {
+            background: #172033;
+        }
+
+        html[data-theme="dark"] .login-lang-btn {
+            color: #94a3b8;
+        }
+
         @@media (max-width: 900px) {
             .login-page {
                 grid-template-columns: 1fr;
@@ -409,6 +452,16 @@
     </style>
 </head>
 <body>
+<div class="login-lang-switcher">
+    <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+        <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+        <button type="submit" class="login-lang-btn @(currentCulture == "en-US" ? "active" : "")">EN</button>
+    </form>
+    <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+        <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+        <button type="submit" class="login-lang-btn @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
+    </form>
+</div>
 <div class="login-page">
     <section class="login-brand">
         <div class="login-brand-content">
