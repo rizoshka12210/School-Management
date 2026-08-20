@@ -160,6 +160,42 @@ public class AiAssistantService
             sb.AppendLine(await BuildParentContextAsync(user));
         }
 
+        sb.AppendLine();
+        sb.AppendLine(await BuildUpcomingEventsContextAsync());
+
+        return sb.ToString();
+    }
+
+    private async Task<string> BuildUpcomingEventsContextAsync()
+    {
+        var today = DateTime.UtcNow.Date;
+
+        var events = await _context.CalendarEvents
+            .Where(e => e.Date >= today)
+            .OrderBy(e => e.Date)
+            .Take(15)
+            .ToListAsync();
+
+        if (!events.Any())
+        {
+            return "Ближайшие события школьного календаря: пока не запланировано.";
+        }
+
+        var sb = new StringBuilder();
+        sb.AppendLine("Ближайшие события школьного календаря (видны всем ролям):");
+
+        foreach (var evt in events)
+        {
+            var line = $"  - {evt.Date:dd.MM.yyyy}: {evt.Title}";
+
+            if (!string.IsNullOrWhiteSpace(evt.Description))
+            {
+                line += $" ({evt.Description})";
+            }
+
+            sb.AppendLine(line);
+        }
+
         return sb.ToString();
     }
 
