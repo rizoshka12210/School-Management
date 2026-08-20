@@ -102,7 +102,10 @@
 }
 <div class="main-wrapper">
     <header class="topbar">
-        <div><h5 class="topbar-title">@ViewData["Title"]</h5></div>
+        <div class="topbar-title-group">
+            <button type="button" id="backButton" class="btn-back" aria-label="@Localizer["Back"]" title="@Localizer["Back"]"><i class="bi bi-arrow-left"></i></button>
+            <h5 class="topbar-title">@ViewData["Title"]</h5>
+        </div>
         <div class="topbar-user">
         @if (User.Identity?.IsAuthenticated == true)
         {
@@ -185,6 +188,9 @@
     }
     applyTheme(localStorage.getItem("school-theme") || "dark");
     if (themeToggle) themeToggle.onclick = () => applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+
+    const backButton = document.getElementById("backButton");
+    if (backButton) backButton.onclick = () => history.back();
 
     const notificationBell = document.getElementById("notificationBell");
     if (notificationBell) {
