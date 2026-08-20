@@ -17,7 +17,7 @@
 
     <div>
         <h1 class="page-title">
-            @Localizer[greetingKey], @Model.TeacherName 👋
+            @Localizer[greetingKey], @Model.TeacherName <i class="bi bi-stars dashboard-greeting-icon"></i>
         </h1>
 
         <p class="page-subtitle">
@@ -26,7 +26,7 @@
     </div>
 
     <div class="dashboard-date">
-        @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+        <i class="bi bi-calendar3 me-2"></i>@DateTime.Now.ToString("dddd, dd MMMM yyyy")
     </div>
 
 </div>
@@ -39,7 +39,7 @@
        class="teacher-stat-card">
 
         <div class="teacher-stat-icon teacher-stat-groups">
-            GR
+            <i class="bi bi-collection-fill"></i>
         </div>
 
         <div class="teacher-stat-content">
@@ -66,7 +66,7 @@
        class="teacher-stat-card">
 
         <div class="teacher-stat-icon teacher-stat-students">
-            ST
+            <i class="bi bi-people-fill"></i>
         </div>
 
         <div class="teacher-stat-content">
@@ -93,7 +93,7 @@
        class="teacher-stat-card">
 
         <div class="teacher-stat-icon teacher-stat-lessons">
-            LS
+            <i class="bi bi-easel2-fill"></i>
         </div>
 
         <div class="teacher-stat-content">
@@ -120,7 +120,7 @@
        class="teacher-stat-card">
 
         <div class="teacher-stat-icon teacher-stat-salary">
-            SA
+            <i class="bi bi-cash-stack"></i>
         </div>
 
         <div class="teacher-stat-content">
@@ -146,7 +146,7 @@
 <div class="teacher-today-stats">
 
     <div class="teacher-info-stat">
-        <div class="teacher-info-stat-icon">ST</div>
+        <div class="teacher-info-stat-icon"><i class="bi bi-people-fill"></i></div>
         <div>
             <span>@Localizer["Students Today"]</span>
             <strong>@Model.StudentsTodayCount</strong>
@@ -154,7 +154,7 @@
     </div>
 
     <div class="teacher-info-stat">
-        <div class="teacher-info-stat-icon subject-color">GD</div>
+        <div class="teacher-info-stat-icon subject-color"><i class="bi bi-journal-x"></i></div>
         <div>
             <span>@Localizer["Missing Grades"]</span>
             <strong>@Model.MissingGradesCount</strong>
@@ -162,7 +162,7 @@
     </div>
 
     <div class="teacher-info-stat">
-        <div class="teacher-info-stat-icon lessons-color">AT</div>
+        <div class="teacher-info-stat-icon lessons-color"><i class="bi bi-clipboard2-x-fill"></i></div>
         <div>
             <span>@Localizer["Attendance Not Completed"]</span>
             <strong>@Model.AttendanceNotCompletedCount</strong>
@@ -177,7 +177,7 @@
 
         <div>
             <h5 class="section-title">
-                @Localizer["Quick Actions"]
+                <i class="bi bi-lightning-charge-fill section-title-icon"></i>@Localizer["Quick Actions"]
             </h5>
 
             <p class="section-subtitle">
@@ -195,7 +195,7 @@
            class="teacher-quick-action">
 
             <div class="teacher-quick-icon">
-                AT
+                <i class="bi bi-clipboard2-check-fill"></i>
             </div>
 
             <div>
@@ -204,7 +204,7 @@
             </div>
 
             <div class="teacher-quick-arrow">
-                →
+                <i class="bi bi-arrow-right"></i>
             </div>
 
         </a>
@@ -215,7 +215,7 @@
            class="teacher-quick-action">
 
             <div class="teacher-quick-icon teacher-quick-grade">
-                GD
+                <i class="bi bi-journal-check"></i>
             </div>
 
             <div>
@@ -224,7 +224,7 @@
             </div>
 
             <div class="teacher-quick-arrow">
-                →
+                <i class="bi bi-arrow-right"></i>
             </div>
 
         </a>
@@ -235,7 +235,7 @@
            class="teacher-quick-action">
 
             <div class="teacher-quick-icon teacher-quick-topic">
-                TP
+                <i class="bi bi-book-half"></i>
             </div>
 
             <div>
@@ -244,7 +244,7 @@
             </div>
 
             <div class="teacher-quick-arrow">
-                →
+                <i class="bi bi-arrow-right"></i>
             </div>
 
         </a>
@@ -255,7 +255,7 @@
            class="teacher-quick-action">
 
             <div class="teacher-quick-icon teacher-quick-schedule">
-                SC
+                <i class="bi bi-calendar3-week-fill"></i>
             </div>
 
             <div>
@@ -264,7 +264,7 @@
             </div>
 
             <div class="teacher-quick-arrow">
-                →
+                <i class="bi bi-arrow-right"></i>
             </div>
 
         </a>
@@ -282,7 +282,7 @@
             <div>
 
                 <h5 class="section-title">
-                    @Localizer["Today's Schedule"]
+                    <i class="bi bi-calendar2-week-fill section-title-icon"></i>@Localizer["Today's Schedule"]
                 </h5>
 
                 <p class="section-subtitle">
@@ -314,7 +314,7 @@
             <div class="teacher-empty">
 
                 <div class="teacher-empty-icon">
-                    ✓
+                    <i class="bi bi-check2-circle"></i>
                 </div>
 
                 <h5>
@@ -392,13 +392,13 @@
                             @if (lesson.AttendanceMarked)
                             {
                                 <span class="status-badge status-present">
-                                    @Localizer["Attendance marked"]
+                                    <i class="bi bi-check-circle-fill me-1"></i>@Localizer["Attendance marked"]
                                 </span>
                             }
                             else
                             {
                                 <span class="status-badge teacher-status-pending">
-                                    @Localizer["Not marked"]
+                                    <i class="bi bi-clock-fill me-1"></i>@Localizer["Not marked"]
                                 </span>
                             }
 
@@ -411,7 +411,7 @@
                                asp-action="Mark"
                                asp-route-lessonId="@lesson.LessonId"
                                class="action-btn action-edit">
-                                @Localizer["Attendance"]
+                                <i class="bi bi-clipboard2-check me-1"></i>@Localizer["Attendance"]
                             </a>
 
                             <a asp-area="Teacher"
@@ -419,7 +419,7 @@
                                asp-action="Add"
                                asp-route-lessonId="@lesson.LessonId"
                                class="action-btn teacher-grade-button">
-                                @Localizer["Grades"]
+                                <i class="bi bi-journal-plus me-1"></i>@Localizer["Grades"]
                             </a>
 
                         </div>
@@ -441,7 +441,7 @@
         <div class="section-header">
 
             <div>
-                <h5 class="section-title">📅 @Localizer["Upcoming Events"]</h5>
+                <h5 class="section-title"><i class="bi bi-calendar-event-fill section-title-icon"></i>@Localizer["Upcoming Events"]</h5>
                 <p class="section-subtitle">@Localizer["From the school calendar"]</p>
             </div>
 
