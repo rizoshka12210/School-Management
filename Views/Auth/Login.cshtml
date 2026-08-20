@@ -6,25 +6,25 @@
 }
 
 <!DOCTYPE html>
-
 <html lang="@System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName">
-
 <head>
-
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@Localizer["Login"] - @Localizer["School Management"]</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0" />
+    <script>
+        (() => {
+            const savedTheme = localStorage.getItem("school-theme");
+            document.documentElement.setAttribute(
+                "data-theme",
+                savedTheme === "light" ? "light" : "dark"
+            );
+        })();
+    </script>
 
-    <title>
-        @Localizer["Login"] - @Localizer["School Management"]
-    </title>
-
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -36,6 +36,10 @@
             margin: 0;
         }
 
+        html {
+            color-scheme: light;
+        }
+
         body {
             font-family:
                 -apple-system,
@@ -45,7 +49,6 @@
                 Helvetica,
                 Arial,
                 sans-serif;
-
             background: #f5f7fb;
         }
 
@@ -103,46 +106,31 @@
         .login-logo {
             width: 58px;
             height: 58px;
-
             display: flex;
             align-items: center;
             justify-content: center;
-
             margin-bottom: 28px;
-
             border-radius: 16px;
-
             background: #4f46e5;
-
             color: white;
-
             font-size: 27px;
             font-weight: 800;
-
-            box-shadow:
-                0 15px 35px
-                rgba(79, 70, 229, .35);
+            box-shadow: 0 15px 35px rgba(79, 70, 229, .35);
         }
 
         .login-brand-label {
             margin-bottom: 10px;
-
             color: #a5b4fc;
-
             font-size: 12px;
             font-weight: 700;
-
             text-transform: uppercase;
             letter-spacing: .12em;
         }
 
         .login-brand h1 {
             max-width: 450px;
-
             margin: 0;
-
             color: white;
-
             font-size: 44px;
             line-height: 1.12;
             font-weight: 750;
@@ -150,11 +138,8 @@
 
         .login-brand-description {
             max-width: 470px;
-
             margin-top: 20px;
-
             color: #cbd5e1;
-
             font-size: 15px;
             line-height: 1.7;
         }
@@ -163,24 +148,15 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-
             margin-top: 35px;
         }
 
         .login-role {
             padding: 9px 14px;
-
-            border:
-                1px solid
-                rgba(255,255,255,.12);
-
+            border: 1px solid rgba(255,255,255,.12);
             border-radius: 9px;
-
-            background:
-                rgba(255,255,255,.06);
-
+            background: rgba(255,255,255,.06);
             color: #e2e8f0;
-
             font-size: 12px;
             font-weight: 600;
         }
@@ -189,10 +165,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-
             padding: 50px;
-
             background: #f8fafc;
+            transition: background .2s ease;
         }
 
         .login-form-container {
@@ -206,41 +181,33 @@
 
         .login-title {
             margin: 0 0 8px;
-
             color: #111827;
-
             font-size: 31px;
             font-weight: 750;
         }
 
         .login-subtitle {
             margin: 0 0 32px;
-
             color: #94a3b8;
-
             font-size: 13px;
         }
 
         .login-card {
             padding: 30px;
-
             border: 1px solid #e5e7eb;
             border-radius: 18px;
-
             background: white;
-
-            box-shadow:
-                0 15px 45px
-                rgba(15, 23, 42, .07);
+            box-shadow: 0 15px 45px rgba(15, 23, 42, .07);
+            transition:
+                background .2s ease,
+                border-color .2s ease,
+                box-shadow .2s ease;
         }
 
         .login-label {
             display: block;
-
             margin-bottom: 7px;
-
             color: #374151;
-
             font-size: 12px;
             font-weight: 650;
         }
@@ -248,29 +215,23 @@
         .login-input {
             width: 100%;
             height: 48px;
-
             padding: 0 14px;
-
             border: 1px solid #d1d5db;
             border-radius: 10px;
-
             background: #fff;
-
             color: #111827;
-
             font-size: 13px;
-
             outline: none;
-
-            transition: .15s;
+            transition:
+                background .15s,
+                border-color .15s,
+                color .15s,
+                box-shadow .15s;
         }
 
         .login-input:focus {
             border-color: #6366f1;
-
-            box-shadow:
-                0 0 0 4px
-                rgba(99, 102, 241, .10);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, .10);
         }
 
         .login-input::placeholder {
@@ -285,7 +246,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-
             margin: 4px 0 23px;
         }
 
@@ -293,11 +253,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-
             margin: 0;
-
             color: #4b5563;
-
             font-size: 12px;
             cursor: pointer;
         }
@@ -305,28 +262,20 @@
         .login-remember input {
             width: 16px;
             height: 16px;
-
             margin: 0;
-
             cursor: pointer;
-
             accent-color: #4f46e5;
         }
 
         .login-button {
             width: 100%;
             min-height: 48px;
-
             border: 0;
             border-radius: 10px;
-
             background: #4f46e5;
-
             color: white;
-
             font-size: 13px;
             font-weight: 700;
-
             transition:
                 transform .15s,
                 background .15s,
@@ -335,19 +284,13 @@
 
         .login-button:hover {
             background: #4338ca;
-
             transform: translateY(-1px);
-
-            box-shadow:
-                0 10px 22px
-                rgba(79, 70, 229, .20);
+            box-shadow: 0 10px 22px rgba(79, 70, 229, .20);
         }
 
         .login-validation {
             margin-bottom: 18px;
-
             color: #dc2626;
-
             font-size: 12px;
         }
 
@@ -358,25 +301,69 @@
 
         .field-validation-error {
             display: block;
-
             margin-top: 5px;
-
             color: #dc2626;
-
             font-size: 10px;
         }
 
         .login-footer {
             margin-top: 22px;
-
             color: #94a3b8;
-
             font-size: 10px;
             text-align: center;
         }
 
-        @@media (max-width: 900px) {
+        html[data-theme="dark"] {
+            color-scheme: dark;
+        }
 
+        html[data-theme="dark"] body,
+        html[data-theme="dark"] .login-form-side {
+            background: #0b1120;
+        }
+
+        html[data-theme="dark"] .login-title {
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] .login-subtitle,
+        html[data-theme="dark"] .login-footer {
+            color: #94a3b8;
+        }
+
+        html[data-theme="dark"] .login-card {
+            background: #111827;
+            border-color: #2f3d55;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, .28);
+        }
+
+        html[data-theme="dark"] .login-label,
+        html[data-theme="dark"] .login-remember {
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .login-input {
+            background: #172033;
+            border-color: #3b4b65;
+            color: #f8fafc;
+        }
+
+        html[data-theme="dark"] .login-input::placeholder {
+            color: #64748b;
+        }
+
+        html[data-theme="dark"] .login-input:focus {
+            background: #172033;
+            border-color: #6366f1;
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, .16);
+        }
+
+        html[data-theme="dark"] .login-validation,
+        html[data-theme="dark"] .field-validation-error {
+            color: #fca5a5;
+        }
+
+        @@media (max-width: 900px) {
             .login-page {
                 grid-template-columns: 1fr;
             }
@@ -393,27 +380,19 @@
             .login-mobile-logo {
                 width: 50px;
                 height: 50px;
-
                 display: flex;
                 align-items: center;
                 justify-content: center;
-
                 margin-bottom: 22px;
-
                 border-radius: 14px;
-
                 background: #4f46e5;
-
                 color: white;
-
                 font-size: 23px;
                 font-weight: 800;
             }
-
         }
 
         @@media (max-width: 500px) {
-
             .login-form-side {
                 align-items: flex-start;
                 padding-top: 55px;
@@ -426,24 +405,14 @@
             .login-title {
                 font-size: 27px;
             }
-
         }
-
     </style>
-
 </head>
-
 <body>
-
 <div class="login-page">
-
     <section class="login-brand">
-
         <div class="login-brand-content">
-
-            <div class="login-logo">
-                S
-            </div>
+            <div class="login-logo">S</div>
 
             <div class="login-brand-label">
                 @Localizer["School Management"]
@@ -458,32 +427,16 @@
             </p>
 
             <div class="login-role-list">
-
-                <div class="login-role">
-                    @Localizer["Administrator"]
-                </div>
-
-                <div class="login-role">
-                    @Localizer["Teacher"]
-                </div>
-
-                <div class="login-role">
-                    @Localizer["Parent"]
-                </div>
-
+                <div class="login-role">@Localizer["Administrator"]</div>
+                <div class="login-role">@Localizer["Teacher"]</div>
+                <div class="login-role">@Localizer["Parent"]</div>
             </div>
-
         </div>
-
     </section>
 
     <section class="login-form-side">
-
         <div class="login-form-container">
-
-            <div class="login-mobile-logo">
-                S
-            </div>
+            <div class="login-mobile-logo">S</div>
 
             <h2 class="login-title">
                 @Localizer["Welcome back"]
@@ -494,21 +447,13 @@
             </p>
 
             <div class="login-card">
-
-                <form asp-controller="Auth"
-                      asp-action="Login"
-                      method="post">
-
+                <form asp-controller="Auth" asp-action="Login" method="post">
                     @Html.AntiForgeryToken()
 
-                    <div asp-validation-summary="ModelOnly"
-                         class="login-validation">
-                    </div>
+                    <div asp-validation-summary="ModelOnly" class="login-validation"></div>
 
                     <div class="login-field">
-
-                        <label asp-for="Email"
-                               class="login-label">
+                        <label asp-for="Email" class="login-label">
                             @Localizer["Email"]
                         </label>
 
@@ -517,15 +462,11 @@
                                placeholder="@Localizer["Enter your email"]"
                                autocomplete="email" />
 
-                        <span asp-validation-for="Email">
-                        </span>
-
+                        <span asp-validation-for="Email"></span>
                     </div>
 
                     <div class="login-field">
-
-                        <label asp-for="Password"
-                               class="login-label">
+                        <label asp-for="Password" class="login-label">
                             @Localizer["Password"]
                         </label>
 
@@ -534,48 +475,31 @@
                                placeholder="@Localizer["Enter your password"]"
                                autocomplete="current-password" />
 
-                        <span asp-validation-for="Password">
-                        </span>
-
+                        <span asp-validation-for="Password"></span>
                     </div>
 
                     <div class="login-options">
-
                         <label class="login-remember">
-
                             <input asp-for="RememberMe" />
-
-                            <span>
-                                @Localizer["Remember me"]
-                            </span>
-
+                            <span>@Localizer["Remember me"]</span>
                         </label>
-
                     </div>
 
-                    <button type="submit"
-                            class="login-button">
+                    <button type="submit" class="login-button">
                         @Localizer["Sign In"]
                     </button>
-
                 </form>
-
             </div>
 
             <div class="login-footer">
                 @Localizer["School Management System"]
             </div>
-
         </div>
-
     </section>
-
 </div>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
 </body>
-
 </html>
