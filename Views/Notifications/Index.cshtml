@@ -6,10 +6,10 @@
 
 <div class="page-header">
     <div>
-        <h1 class="page-title">🔔 @Localizer["Notifications"]</h1>
+        <h1 class="page-title"><i class="bi bi-bell-fill page-title-icon"></i>@Localizer["Notifications"]</h1>
         <p class="page-subtitle">@Localizer["Role-based updates from your school activity."]</p>
     </div>
-    <div class="teacher-count-label">@Localizer["{0} notification(s)", Model.Count]</div>
+    <div class="teacher-count-label"><i class="bi bi-inbox-fill me-1"></i>@Localizer["{0} notification(s)", Model.Count]</div>
 </div>
 
 <div class="card border-0 shadow-sm">
@@ -17,7 +17,7 @@
         @if (!Model.Any())
         {
             <div class="management-empty">
-                <div class="management-empty-icon">🔔</div>
+                <div class="management-empty-icon"><i class="bi bi-bell-slash-fill"></i></div>
                 <h5>@Localizer["No notifications"]</h5>
                 <p>@Localizer["There is nothing new for your account right now."]</p>
             </div>
@@ -27,10 +27,18 @@
             <div class="notification-list">
                 @foreach (var item in Model)
                 {
+                    var iconClass = item.Kind switch
+                    {
+                        "success" => "bi-check-circle-fill",
+                        "warning" => "bi-exclamation-triangle-fill",
+                        "danger" => "bi-exclamation-octagon-fill",
+                        _ => "bi-info-circle-fill"
+                    };
+
                     if (!string.IsNullOrWhiteSpace(item.Url))
                     {
                         <a href="@item.Url" class="notification-item notification-@item.Kind">
-                            <div class="notification-icon">@item.Icon</div>
+                            <div class="notification-icon"><i class="bi @iconClass"></i></div>
                             <div class="notification-content">
                                 <strong>@Localizer[item.Title]</strong>
                                 <span>@item.Message</span>
@@ -39,13 +47,13 @@
                                     <small>@item.OccurredAt.Value.ToString("dd MMM yyyy HH:mm")</small>
                                 }
                             </div>
-                            <div class="notification-arrow">→</div>
+                            <div class="notification-arrow"><i class="bi bi-chevron-right"></i></div>
                         </a>
                     }
                     else
                     {
                         <div class="notification-item notification-@item.Kind">
-                            <div class="notification-icon">@item.Icon</div>
+                            <div class="notification-icon"><i class="bi @iconClass"></i></div>
                             <div class="notification-content">
                                 <strong>@Localizer[item.Title]</strong>
                                 <span>@item.Message</span>

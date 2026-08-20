@@ -1,0 +1,337 @@
+/* Unified icon system for School Management */
+
+.brand-logo i {
+    font-size: 21px;
+    line-height: 1;
+}
+
+.sidebar-link {
+    gap: 12px;
+}
+
+.sidebar-link-icon {
+    width: 20px;
+    flex: 0 0 20px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 1;
+    opacity: .82;
+    transition: transform .18s ease, opacity .18s ease;
+}
+
+.sidebar-link:hover .sidebar-link-icon,
+.sidebar-link.active .sidebar-link-icon {
+    opacity: 1;
+    transform: translateY(-1px);
+}
+
+.notification-bell,
+.btn-theme {
+    display: inline-grid;
+    place-items: center;
+}
+
+.notification-bell i,
+.btn-theme i {
+    font-size: 16px;
+    line-height: 1;
+}
+
+.btn-logout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.btn-logout i {
+    font-size: 14px;
+}
+
+.dashboard-date {
+    display: inline-flex;
+    align-items: center;
+}
+
+.dashboard-date i {
+    color: #6366f1;
+    font-size: 14px;
+}
+
+.analytics-icon {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 15px;
+    font-size: 21px;
+    line-height: 1;
+}
+
+.analytics-icon-grade {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.analytics-icon-attendance {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.analytics-icon-absent {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.analytics-icon-lessons {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+}
+
+.section-title-icon {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    display: inline-grid;
+    place-items: center;
+    margin-right: 9px;
+    border-radius: 9px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-size: 14px;
+    line-height: 1;
+}
+
+.section-title-icon-gold {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.section-title-icon-danger {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.page-title-icon {
+    display: inline-block;
+    margin-right: 10px;
+    color: #6366f1;
+    font-size: .8em;
+    vertical-align: .04em;
+}
+
+.dashboard-greeting-icon {
+    margin-left: 5px;
+    color: #6366f1;
+    font-size: .82em;
+    vertical-align: .08em;
+}
+
+.teacher-stat-icon,
+.teacher-info-stat-icon,
+.teacher-quick-icon,
+.parent-child-stat-icon,
+.parent-action-icon,
+.parent-empty-icon,
+.teacher-empty-icon,
+.management-empty-icon {
+    font-weight: 400 !important;
+}
+
+.teacher-stat-icon i,
+.teacher-info-stat-icon i,
+.teacher-quick-icon i,
+.parent-child-stat-icon i,
+.parent-action-icon i,
+.parent-empty-icon i,
+.teacher-empty-icon i,
+.management-empty-icon i {
+    display: block;
+    line-height: 1;
+}
+
+.teacher-stat-icon i {
+    font-size: 21px;
+}
+
+.teacher-info-stat-icon i {
+    font-size: 18px;
+}
+
+.teacher-quick-icon i {
+    font-size: 17px;
+}
+
+.teacher-quick-arrow i {
+    font-size: 15px;
+}
+
+.parent-child-stat-icon i {
+    font-size: 18px;
+}
+
+.parent-action-icon i {
+    font-size: 16px;
+}
+
+.parent-empty-icon i,
+.teacher-empty-icon i,
+.management-empty-icon i {
+    font-size: 23px;
+}
+
+.risk-icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+.risk-danger .risk-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.risk-attention .risk-icon {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.risk-good .risk-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.overview-mini-grid span i,
+.parent-summary-bar span i {
+    color: #6366f1;
+}
+
+.recent-arrow i,
+.notification-arrow i {
+    font-size: 13px;
+}
+
+.notification-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    font-size: 16px !important;
+}
+
+.notification-success .notification-icon {
+    background: #dcfce7;
+    color: #16a34a;
+}
+
+.notification-warning .notification-icon {
+    background: #fef3c7;
+    color: #d97706;
+}
+
+.notification-danger .notification-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.notification-info .notification-icon {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.status-badge i,
+.action-btn i,
+.parent-missed-alert i {
+    vertical-align: -.08em;
+}
+
+html[data-theme="dark"] .analytics-icon-grade {
+    background: rgba(245, 158, 11, .15);
+    color: #fbbf24;
+}
+
+html[data-theme="dark"] .analytics-icon-attendance {
+    background: rgba(34, 197, 94, .15);
+    color: #4ade80;
+}
+
+html[data-theme="dark"] .analytics-icon-absent {
+    background: rgba(239, 68, 68, .15);
+    color: #f87171;
+}
+
+html[data-theme="dark"] .analytics-icon-lessons {
+    background: rgba(59, 130, 246, .15);
+    color: #60a5fa;
+}
+
+html[data-theme="dark"] .section-title-icon {
+    background: rgba(99, 102, 241, .16);
+    color: #a5b4fc;
+}
+
+html[data-theme="dark"] .section-title-icon-gold {
+    background: rgba(245, 158, 11, .15);
+    color: #fbbf24;
+}
+
+html[data-theme="dark"] .section-title-icon-danger {
+    background: rgba(239, 68, 68, .15);
+    color: #f87171;
+}
+
+html[data-theme="dark"] .page-title-icon,
+html[data-theme="dark"] .dashboard-date i,
+html[data-theme="dark"] .dashboard-greeting-icon,
+html[data-theme="dark"] .overview-mini-grid span i,
+html[data-theme="dark"] .parent-summary-bar span i {
+    color: #a5b4fc;
+}
+
+html[data-theme="dark"] .risk-danger .risk-icon,
+html[data-theme="dark"] .notification-danger .notification-icon {
+    background: rgba(239, 68, 68, .14);
+    color: #f87171;
+}
+
+html[data-theme="dark"] .risk-attention .risk-icon,
+html[data-theme="dark"] .notification-warning .notification-icon {
+    background: rgba(245, 158, 11, .14);
+    color: #fbbf24;
+}
+
+html[data-theme="dark"] .risk-good .risk-icon,
+html[data-theme="dark"] .notification-success .notification-icon {
+    background: rgba(34, 197, 94, .14);
+    color: #4ade80;
+}
+
+html[data-theme="dark"] .notification-info .notification-icon {
+    background: rgba(59, 130, 246, .14);
+    color: #60a5fa;
+}
+
+@media (max-width: 768px) {
+    .sidebar-link-icon {
+        font-size: 15px;
+    }
+
+    .analytics-icon {
+        width: 46px;
+        height: 46px;
+        flex-basis: 46px;
+        font-size: 19px;
+    }
+}

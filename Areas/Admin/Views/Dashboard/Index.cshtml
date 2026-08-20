@@ -9,12 +9,12 @@
         <h1 class="dashboard-title">@Localizer["Smart School Dashboard"]</h1>
         <p class="dashboard-subtitle">@Localizer["Live academic performance, attendance and student risk analytics."]</p>
     </div>
-    <div class="dashboard-date">@DateTime.Now.ToString("dddd, dd MMMM yyyy")</div>
+    <div class="dashboard-date"><i class="bi bi-calendar3 me-2"></i>@DateTime.Now.ToString("dddd, dd MMMM yyyy")</div>
 </div>
 
 <div class="analytics-grid mb-4">
     <div class="analytics-card">
-        <div class="analytics-icon">⭐</div>
+        <div class="analytics-icon analytics-icon-grade"><i class="bi bi-award-fill"></i></div>
         <div>
             <span>@Localizer["Average Grade"]</span>
             <strong>@Model.AverageGrade.ToString("0.00")</strong>
@@ -23,7 +23,7 @@
     </div>
 
     <div class="analytics-card">
-        <div class="analytics-icon">✅</div>
+        <div class="analytics-icon analytics-icon-attendance"><i class="bi bi-clipboard2-check-fill"></i></div>
         <div>
             <span>@Localizer["Attendance"]</span>
             <strong>@Model.AttendanceRate.ToString("0.0")%</strong>
@@ -32,7 +32,7 @@
     </div>
 
     <div class="analytics-card analytics-danger">
-        <div class="analytics-icon">⚠️</div>
+        <div class="analytics-icon analytics-icon-absent"><i class="bi bi-person-fill-x"></i></div>
         <div>
             <span>@Localizer["Students Absent Today"]</span>
             <strong>@Model.StudentsAbsentToday</strong>
@@ -41,7 +41,7 @@
     </div>
 
     <div class="analytics-card">
-        <div class="analytics-icon">📚</div>
+        <div class="analytics-icon analytics-icon-lessons"><i class="bi bi-journal-bookmark-fill"></i></div>
         <div>
             <span>@Localizer["Lessons Today"]</span>
             <strong>@Model.TodayLessonsCount</strong>
@@ -56,7 +56,7 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">@Localizer["Attendance Trend"]</h5>
+                        <h5 class="section-title"><i class="bi bi-graph-up-arrow section-title-icon"></i>@Localizer["Attendance Trend"]</h5>
                         <p class="section-subtitle">@Localizer["Daily attendance percentage"]</p>
                     </div>
                     <div class="btn-group btn-group-sm">
@@ -88,15 +88,15 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">@Localizer["School Overview"]</h5>
+                        <h5 class="section-title"><i class="bi bi-building section-title-icon"></i>@Localizer["School Overview"]</h5>
                         <p class="section-subtitle">@Localizer["Current system totals"]</p>
                     </div>
                 </div>
                 <div class="overview-mini-grid">
-                    <div><span>@Localizer["Students"]</span><strong>@Model.StudentsCount</strong></div>
-                    <div><span>@Localizer["Teachers"]</span><strong>@Model.TeachersCount</strong></div>
-                    <div><span>@Localizer["Groups"]</span><strong>@Model.GroupsCount</strong></div>
-                    <div><span>@Localizer["Subjects"]</span><strong>@Model.SubjectsCount</strong></div>
+                    <div><span><i class="bi bi-people-fill me-1"></i>@Localizer["Students"]</span><strong>@Model.StudentsCount</strong></div>
+                    <div><span><i class="bi bi-person-workspace me-1"></i>@Localizer["Teachers"]</span><strong>@Model.TeachersCount</strong></div>
+                    <div><span><i class="bi bi-collection-fill me-1"></i>@Localizer["Groups"]</span><strong>@Model.GroupsCount</strong></div>
+                    <div><span><i class="bi bi-book-fill me-1"></i>@Localizer["Subjects"]</span><strong>@Model.SubjectsCount</strong></div>
                 </div>
             </div>
         </div>
@@ -109,7 +109,7 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">🏆 @Localizer["Top 5 Students"]</h5>
+                        <h5 class="section-title"><i class="bi bi-trophy-fill section-title-icon section-title-icon-gold"></i>@Localizer["Top 5 Students"]</h5>
                         <p class="section-subtitle">@Localizer["Best average grades with attendance as tie-breaker"]</p>
                     </div>
                 </div>
@@ -147,7 +147,7 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">🚨 @Localizer["Early Warning System"]</h5>
+                        <h5 class="section-title"><i class="bi bi-shield-fill-exclamation section-title-icon section-title-icon-danger"></i>@Localizer["Early Warning System"]</h5>
                         <p class="section-subtitle">@Localizer["Students who need attention right now"]</p>
                     </div>
                 </div>
@@ -161,8 +161,11 @@
                     <div class="risk-list">
                         @foreach (var student in Model.StudentsNeedingAttention)
                         {
+                            var riskIcon = student.RiskCssClass == "risk-danger"
+                                ? "bi-exclamation-octagon-fill"
+                                : "bi-exclamation-triangle-fill";
                             <a asp-area="Admin" asp-controller="Students" asp-action="Details" asp-route-id="@student.StudentId" class="risk-item @student.RiskCssClass">
-                                <div class="risk-icon">@student.RiskIcon</div>
+                                <div class="risk-icon"><i class="bi @riskIcon"></i></div>
                                 <div class="risk-main">
                                     <strong>@student.FullName</strong>
                                     <span>@Localizer[student.RiskLabel]</span>
@@ -187,7 +190,7 @@
             <div class="card-body">
                 <div class="section-header">
                     <div>
-                        <h5 class="section-title">@Localizer["Today's Lessons"]</h5>
+                        <h5 class="section-title"><i class="bi bi-easel2-fill section-title-icon"></i>@Localizer["Today's Lessons"]</h5>
                         <p class="section-subtitle">@Localizer["{0} lesson(s) today", Model.TodayLessonsCount]</p>
                     </div>
                     <a asp-area="Admin" asp-controller="Lessons" asp-action="Index" class="btn btn-sm btn-outline-primary">@Localizer["View All"]</a>
@@ -225,7 +228,7 @@
         <div class="card border-0 shadow-sm h-100">
             <div class="card-body">
                 <div class="section-header">
-                    <div><h5 class="section-title">@Localizer["Recent Students"]</h5><p class="section-subtitle">@Localizer["Recently added students"]</p></div>
+                    <div><h5 class="section-title"><i class="bi bi-person-plus-fill section-title-icon"></i>@Localizer["Recent Students"]</h5><p class="section-subtitle">@Localizer["Recently added students"]</p></div>
                 </div>
                 <div class="recent-list">
                     @foreach (var student in Model.RecentStudents)
@@ -233,7 +236,7 @@
                         <a asp-area="Admin" asp-controller="Students" asp-action="Details" asp-route-id="@student.Id" class="recent-item">
                             <div class="recent-avatar">@(student.FirstName.Substring(0, 1).ToUpper())</div>
                             <div class="recent-info"><strong>@student.FirstName @student.LastName</strong><span>@(student.Group?.Name ?? Localizer["No group"].Value)</span></div>
-                            <div class="recent-arrow">→</div>
+                            <div class="recent-arrow"><i class="bi bi-chevron-right"></i></div>
                         </a>
                     }
                 </div>
@@ -247,7 +250,7 @@
         <div class="card border-0 shadow-sm">
             <div class="card-body">
                 <div class="section-header">
-                    <div><h5 class="section-title">📅 @Localizer["Upcoming Events"]</h5><p class="section-subtitle">@Localizer["From the school calendar"]</p></div>
+                    <div><h5 class="section-title"><i class="bi bi-calendar-event-fill section-title-icon"></i>@Localizer["Upcoming Events"]</h5><p class="section-subtitle">@Localizer["From the school calendar"]</p></div>
                     <a asp-area="Admin" asp-controller="Calendar" asp-action="Index" class="btn btn-sm btn-outline-primary">@Localizer["View All"]</a>
                 </div>
 

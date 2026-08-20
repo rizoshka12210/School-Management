@@ -21,7 +21,7 @@
     </div>
 
     <div class="dashboard-date">
-        @DateTime.Now.ToString("dddd, dd MMMM yyyy")
+        <i class="bi bi-calendar3 me-2"></i>@DateTime.Now.ToString("dddd, dd MMMM yyyy")
     </div>
 
 </div>
@@ -33,7 +33,7 @@
         <div class="parent-empty">
 
             <div class="parent-empty-icon">
-                CH
+                <i class="bi bi-person-hearts"></i>
             </div>
 
             <h5>
@@ -55,7 +55,7 @@ else
         <div>
 
             <span>
-                @Localizer["Children"]
+                <i class="bi bi-people-fill me-1"></i>@Localizer["Children"]
             </span>
 
             <strong>
@@ -67,7 +67,7 @@ else
         <div>
 
             <span>
-                @Localizer["Average Attendance"]
+                <i class="bi bi-clipboard2-check-fill me-1"></i>@Localizer["Average Attendance"]
             </span>
 
             <strong>
@@ -79,7 +79,7 @@ else
         <div>
 
             <span>
-                @Localizer["Average Grade"]
+                <i class="bi bi-award-fill me-1"></i>@Localizer["Average Grade"]
             </span>
 
             <strong>
@@ -137,7 +137,7 @@ else
                     <div class="parent-child-stat">
 
                         <div class="parent-child-stat-icon parent-attendance-icon">
-                            AT
+                            <i class="bi bi-clipboard2-check-fill"></i>
                         </div>
 
                         <div>
@@ -157,7 +157,7 @@ else
                     <div class="parent-child-stat">
 
                         <div class="parent-child-stat-icon parent-grade-icon">
-                            GD
+                            <i class="bi bi-journal-check"></i>
                         </div>
 
                         <div>
@@ -177,7 +177,7 @@ else
                     <div class="parent-child-stat">
 
                         <div class="parent-child-stat-icon parent-lessons-icon">
-                            LS
+                            <i class="bi bi-easel2-fill"></i>
                         </div>
 
                         <div>
@@ -199,7 +199,7 @@ else
                 @if (child.RecentMissedLesson != null)
                 {
                     <div class="parent-missed-alert">
-                        ⚠️
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i>
                         @Localizer["Missed {0} — {1}", child.RecentMissedLesson.SubjectName, child.RecentMissedLesson.Date.ToString("dd MMM")]
                     </div>
                 }
@@ -282,7 +282,7 @@ else
                        asp-route-studentId="@child.StudentId"
                        class="parent-child-action">
                         <span class="parent-action-icon parent-action-schedule">
-                            SC
+                            <i class="bi bi-calendar3-week-fill"></i>
                         </span>
                         @Localizer["Schedule"]
                     </a>
@@ -293,7 +293,7 @@ else
                        asp-route-studentId="@child.StudentId"
                        class="parent-child-action">
                         <span class="parent-action-icon parent-action-grades">
-                            GD
+                            <i class="bi bi-journal-check"></i>
                         </span>
                         @Localizer["Grades"]
                     </a>
@@ -304,7 +304,7 @@ else
                        asp-route-studentId="@child.StudentId"
                        class="parent-child-action">
                         <span class="parent-action-icon parent-action-attendance">
-                            AT
+                            <i class="bi bi-clipboard2-check-fill"></i>
                         </span>
                         @Localizer["Attendance"]
                     </a>
@@ -315,7 +315,7 @@ else
                        asp-route-studentId="@child.StudentId"
                        class="parent-child-action">
                         <span class="parent-action-icon parent-action-progress">
-                            PR
+                            <i class="bi bi-graph-up-arrow"></i>
                         </span>
                         @Localizer["Progress"]
                     </a>
@@ -335,7 +335,7 @@ else
         <div class="section-header">
 
             <div>
-                <h5 class="section-title">📅 @Localizer["Upcoming Events"]</h5>
+                <h5 class="section-title"><i class="bi bi-calendar-event-fill section-title-icon"></i>@Localizer["Upcoming Events"]</h5>
                 <p class="section-subtitle">@Localizer["From the school calendar"]</p>
             </div>
 
