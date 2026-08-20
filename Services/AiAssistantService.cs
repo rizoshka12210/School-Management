@@ -288,6 +288,49 @@ public class AiAssistantService
             }
         }
 
+        var students = await _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.Groups)
+            .SelectMany(g => g.Students)
+            .Include(s => s.Group)
+            .Distinct()
+            .ToListAsync();
+
+        if (students.Any())
+        {
+            sb.AppendLine("Ученики учителя (успеваемость и посещаемость по всем предметам):");
+
+            foreach (var student in students.OrderBy(s => s.FirstName).ThenBy(s => s.LastName))
+            {
+                var studentGrades = await _context.Grades
+                    .Where(g => g.StudentId == student.Id)
+                    .Select(g => g.Value)
+                    .ToListAsync();
+
+                var studentAttendances = await _context.Attendances
+                    .Where(a => a.StudentId == student.Id)
+                    .Select(a => a.Status)
+                    .ToListAsync();
+
+                var avgGrade = studentGrades.Any()
+                    ? Math.Round(studentGrades.Average(), 2)
+                    : (double?)null;
+
+                var attRate = studentAttendances.Any()
+                    ? Math.Round(
+                        studentAttendances.Count(s => s == AttendanceStatus.Present) * 100.0
+                            / studentAttendances.Count,
+                        1)
+                    : (double?)null;
+
+                sb.AppendLine(
+                    $"  - {student.FirstName} {student.LastName} " +
+                    $"(группа {student.Group?.Name ?? "-"}): " +
+                    $"средний балл {(avgGrade.HasValue ? avgGrade.Value.ToString() : "нет оценок")}, " +
+                    $"посещаемость {(attRate.HasValue ? attRate.Value + "%" : "нет данных")}");
+            }
+        }
+
         return sb.ToString();
     }
 
