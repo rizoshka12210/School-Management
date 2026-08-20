@@ -26,9 +26,12 @@
     <script>
         (() => {
             const savedTheme = localStorage.getItem("school-theme");
-            document.documentElement.setAttribute("data-theme", savedTheme === "dark" ? "dark" : "light");
+            document.documentElement.setAttribute("data-theme", savedTheme === "light" ? "light" : "dark");
         })();
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&display=swap" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/features.css" asp-append-version="true" />
@@ -168,7 +171,7 @@
         localStorage.setItem("school-theme", theme);
         if (themeIcon) themeIcon.textContent = theme === "dark" ? "☀️" : "🌙";
     }
-    applyTheme(localStorage.getItem("school-theme") || "light");
+    applyTheme(localStorage.getItem("school-theme") || "dark");
     if (themeToggle) themeToggle.onclick = () => applyTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
 
     const notificationBell = document.getElementById("notificationBell");
