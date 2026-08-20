@@ -196,12 +196,40 @@ h1, h2, h3, h4, h5, h6,
     z-index: 900;
 }
 
+.topbar-title-group {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
 .topbar-title {
     margin: 0;
 
     font-weight: 700;
 
     color: #111827;
+}
+
+.btn-back {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #4b5563;
+    cursor: pointer;
+    font-size: 15px;
+    transition: .2s ease;
+}
+
+.btn-back:hover {
+    background: #f8fafc;
+    transform: translateX(-2px);
 }
 
 .topbar-user {
@@ -5445,6 +5473,10 @@ html[data-theme="dark"] .salary-period-value {
     color: #f8fafc;
 }
 
+html[data-theme="dark"] .salary-total {
+    color: #a5b4fc;
+}
+
 html[data-theme="dark"] .parent-summary-bar {
     border-color: #253047;
     background: #253047;
@@ -5593,6 +5625,86 @@ html[data-theme="dark"] .table tbody td {
 html[data-theme="dark"] .management-table tfoot td {
     border-color: #334155;
     background: #172033;
+}
+
+html[data-theme="dark"] .lesson-date {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .student-mini {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .teacher-info-stat strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .btn-outline-primary {
+    color: #a5b4fc;
+    border-color: #6366f1;
+}
+
+html[data-theme="dark"] .btn-outline-primary:hover {
+    color: #fff;
+    background: #6366f1;
+    border-color: #6366f1;
+}
+
+html[data-theme="dark"] .performance-rank {
+    color: #a5b4fc;
+}
+
+html[data-theme="dark"] .parent-card-section-header a,
+html[data-theme="dark"] .parent-profile-link,
+html[data-theme="dark"] .parent-progress-subject-score,
+html[data-theme="dark"] .teacher-lesson-group,
+html[data-theme="dark"] .teacher-welcome-label {
+    color: #a5b4fc;
+}
+
+html[data-theme="dark"] .teacher-group-bottom strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-open-label {
+    color: #a5b4fc !important;
+}
+
+html[data-theme="dark"] .teacher-group-card:hover {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .teacher-student-stat strong,
+html[data-theme="dark"] .teacher-grade-stat strong,
+html[data-theme="dark"] .teacher-attendance-stat strong,
+html[data-theme="dark"] .teacher-schedule-stat strong,
+html[data-theme="dark"] .teacher-topic-stat strong,
+html[data-theme="dark"] .teacher-salary-card strong,
+html[data-theme="dark"] .teacher-schedule-time strong,
+html[data-theme="dark"] .parent-student-stat strong,
+html[data-theme="dark"] .parent-grade-stat strong,
+html[data-theme="dark"] .parent-attendance-mini strong,
+html[data-theme="dark"] .parent-progress-stat strong,
+html[data-theme="dark"] .parent-schedule-stat strong,
+html[data-theme="dark"] .parent-schedule-time strong,
+html[data-theme="dark"] .parent-schedule-info strong,
+html[data-theme="dark"] .parent-topic-stat strong,
+html[data-theme="dark"] .parent-topic-date-box strong,
+html[data-theme="dark"] .parent-progress-student strong,
+html[data-theme="dark"] .parent-schedule-teacher strong {
+    color: #f8fafc;
+}
+
+html[data-theme="dark"] .dashboard-empty h6,
+html[data-theme="dark"] .schedule-teacher,
+html[data-theme="dark"] .teacher-topic-text {
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] .teacher-salary-period,
+html[data-theme="dark"] .teacher-salary-calculation-title,
+html[data-theme="dark"] .parent-empty h5 {
+    color: #f8fafc;
 }
 
 html[data-theme="dark"] .record-date {
@@ -5821,6 +5933,16 @@ html[data-theme="dark"] .btn-theme {
 }
 
 html[data-theme="dark"] .btn-theme:hover {
+    background: #334155;
+}
+
+html[data-theme="dark"] .btn-back {
+    border-color: #334155;
+    background: #1e293b;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .btn-back:hover {
     background: #334155;
 }
 

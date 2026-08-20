@@ -348,6 +348,24 @@
             color: white;
         }
 
+        .login-back-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 10px;
+            background: #eef0f3;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
         html[data-theme="dark"] {
             color-scheme: dark;
         }
@@ -406,6 +424,11 @@
             color: #94a3b8;
         }
 
+        html[data-theme="dark"] .login-back-btn {
+            background: #172033;
+            color: #94a3b8;
+        }
+
         @@media (max-width: 900px) {
             .login-page {
                 grid-template-columns: 1fr;
@@ -452,6 +475,7 @@
     </style>
 </head>
 <body>
+<button type="button" id="loginBackBtn" class="login-back-btn" aria-label="@Localizer["Back"]">← @Localizer["Back"]</button>
 <div class="login-lang-switcher">
     <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
         <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
@@ -554,5 +578,8 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script>
+    document.getElementById("loginBackBtn").onclick = () => history.back();
+</script>
 </body>
 </html>
