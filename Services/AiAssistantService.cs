@@ -21,17 +21,20 @@ public class AiAssistantService
 {
     private readonly AppDbContext _context;
     private readonly OwnershipHelper _ownership;
+    private readonly AchievementService _achievements;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IConfiguration _configuration;
 
     public AiAssistantService(
         AppDbContext context,
         OwnershipHelper ownership,
+        AchievementService achievements,
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration)
     {
         _context = context;
         _ownership = ownership;
+        _achievements = achievements;
         _httpClientFactory = httpClientFactory;
         _configuration = configuration;
     }
@@ -52,7 +55,7 @@ public class AiAssistantService
 
         if (string.IsNullOrWhiteSpace(model))
         {
-            model = "gemini-2.0-flash";
+            model = "gemini-flash-lite-latest";
         }
 
         var systemPrompt = await BuildSystemPromptAsync(user);
@@ -155,6 +158,42 @@ public class AiAssistantService
             sb.AppendLine(NavHelpFor("Parent"));
             sb.AppendLine();
             sb.AppendLine(await BuildParentContextAsync(user));
+        }
+
+        sb.AppendLine();
+        sb.AppendLine(await BuildUpcomingEventsContextAsync());
+
+        return sb.ToString();
+    }
+
+    private async Task<string> BuildUpcomingEventsContextAsync()
+    {
+        var today = DateTime.UtcNow.Date;
+
+        var events = await _context.CalendarEvents
+            .Where(e => e.Date >= today)
+            .OrderBy(e => e.Date)
+            .Take(15)
+            .ToListAsync();
+
+        if (!events.Any())
+        {
+            return "Ближайшие события школьного календаря: пока не запланировано.";
+        }
+
+        var sb = new StringBuilder();
+        sb.AppendLine("Ближайшие события школьного календаря (видны всем ролям):");
+
+        foreach (var evt in events)
+        {
+            var line = $"  - {evt.Date:dd.MM.yyyy}: {evt.Title}";
+
+            if (!string.IsNullOrWhiteSpace(evt.Description))
+            {
+                line += $" ({evt.Description})";
+            }
+
+            sb.AppendLine(line);
         }
 
         return sb.ToString();
@@ -285,6 +324,49 @@ public class AiAssistantService
             }
         }
 
+        var students = await _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.Groups)
+            .SelectMany(g => g.Students)
+            .Include(s => s.Group)
+            .Distinct()
+            .ToListAsync();
+
+        if (students.Any())
+        {
+            sb.AppendLine("Ученики учителя (успеваемость и посещаемость по всем предметам):");
+
+            foreach (var student in students.OrderBy(s => s.FirstName).ThenBy(s => s.LastName))
+            {
+                var studentGrades = await _context.Grades
+                    .Where(g => g.StudentId == student.Id)
+                    .Select(g => g.Value)
+                    .ToListAsync();
+
+                var studentAttendances = await _context.Attendances
+                    .Where(a => a.StudentId == student.Id)
+                    .Select(a => a.Status)
+                    .ToListAsync();
+
+                var avgGrade = studentGrades.Any()
+                    ? Math.Round(studentGrades.Average(), 2)
+                    : (double?)null;
+
+                var attRate = studentAttendances.Any()
+                    ? Math.Round(
+                        studentAttendances.Count(s => s == AttendanceStatus.Present) * 100.0
+                            / studentAttendances.Count,
+                        1)
+                    : (double?)null;
+
+                sb.AppendLine(
+                    $"  - {student.FirstName} {student.LastName} " +
+                    $"(группа {student.Group?.Name ?? "-"}): " +
+                    $"средний балл {(avgGrade.HasValue ? avgGrade.Value.ToString() : "нет оценок")}, " +
+                    $"посещаемость {(attRate.HasValue ? attRate.Value + "%" : "нет данных")}");
+            }
+        }
+
         return sb.ToString();
     }
 
@@ -308,12 +390,18 @@ public class AiAssistantService
             return "К аккаунту родителя не привязано ни одного ребёнка.";
         }
 
+        var today = DateTime.UtcNow.Date;
+        var tomorrow = today.AddDays(1);
+        var sevenDaysAgo = today.AddDays(-7);
+
         var sb = new StringBuilder();
         sb.AppendLine("Данные о детях:");
 
         foreach (var student in students)
         {
             var attendances = await _context.Attendances
+                .Include(a => a.Lesson)
+                    .ThenInclude(l => l.Subject)
                 .Where(a => a.StudentId == student.Id)
                 .ToListAsync();
 
@@ -335,10 +423,19 @@ public class AiAssistantService
                 ? Math.Round(grades.Average(g => g.Value), 2)
                 : 0;
 
+            var lessonsToday = student.GroupId == null
+                ? 0
+                : await _context.Lessons
+                    .CountAsync(l =>
+                        l.GroupId == student.GroupId &&
+                        l.StartTime >= today &&
+                        l.StartTime < tomorrow);
+
             sb.AppendLine(
                 $"- {student.FirstName} {student.LastName} " +
                 $"(группа {student.Group?.Name ?? "не назначена"}): " +
-                $"средний балл {averageGrade}, посещаемость {attendanceRate}%");
+                $"средний балл {averageGrade}, посещаемость {attendanceRate}%, " +
+                $"уроков сегодня {lessonsToday}");
 
             if (grades.Any())
             {
@@ -347,6 +444,28 @@ public class AiAssistantService
 
                 sb.AppendLine($"  Последние оценки: {string.Join(", ", recent)}");
             }
+
+            var recentMissed = attendances
+                .Where(a =>
+                    a.Status == AttendanceStatus.Absent &&
+                    a.Lesson.StartTime >= sevenDaysAgo)
+                .OrderByDescending(a => a.Lesson.StartTime)
+                .FirstOrDefault();
+
+            if (recentMissed != null)
+            {
+                sb.AppendLine(
+                    $"  Недавний пропуск: {recentMissed.Lesson.Subject.Name} " +
+                    $"({recentMissed.Lesson.StartTime:dd.MM})");
+            }
+
+            var badges = await _achievements.GetBadgesAsync(student.Id);
+            var earned = badges.Where(b => b.Earned).Select(b => b.NameKey).ToList();
+
+            sb.AppendLine(
+                earned.Any()
+                    ? $"  Достижения: {string.Join(", ", earned)}"
+                    : "  Достижения: пока нет заработанных");
         }
 
         return sb.ToString();
