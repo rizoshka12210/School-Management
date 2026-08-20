@@ -1414,4 +1414,25 @@
   <data name="Last {0} attendance records" xml:space="preserve">
     <value>Last {0} attendance records</value>
   </data>
+  <data name="AI Assistant" xml:space="preserve">
+    <value>AI Assistant</value>
+  </data>
+  <data name="Ask about your data or how to use the portal" xml:space="preserve">
+    <value>Ask about your data or how to use the portal</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Type your question..." xml:space="preserve">
+    <value>Type your question...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="Hi! I can answer questions about your data or help you find your way around the portal. What would you like to know?" xml:space="preserve">
+    <value>Hi! I can answer questions about your data or help you find your way around the portal. What would you like to know?</value>
+  </data>
+  <data name="Something went wrong. Please try again." xml:space="preserve">
+    <value>Something went wrong. Please try again.</value>
+  </data>
 </root>

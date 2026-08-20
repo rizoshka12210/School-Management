@@ -1411,4 +1411,25 @@
   <data name="Last {0} attendance records" xml:space="preserve">
     <value>Последние {0} записей посещаемости</value>
   </data>
+  <data name="AI Assistant" xml:space="preserve">
+    <value>ИИ-ассистент</value>
+  </data>
+  <data name="Ask about your data or how to use the portal" xml:space="preserve">
+    <value>Спросите о своих данных или как пользоваться порталом</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Type your question..." xml:space="preserve">
+    <value>Введите вопрос...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="Hi! I can answer questions about your data or help you find your way around the portal. What would you like to know?" xml:space="preserve">
+    <value>Здравствуйте! Я могу ответить на вопросы о ваших данных или помочь разобраться в портале. Что вас интересует?</value>
+  </data>
+  <data name="Something went wrong. Please try again." xml:space="preserve">
+    <value>Что-то пошло не так. Попробуйте ещё раз.</value>
+  </data>
 </root>

@@ -68,6 +68,9 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
+builder.Services.AddAntiforgery(options =>
+    options.HeaderName = "X-CSRF-TOKEN");
+
 builder.Services.AddScoped<OwnershipHelper>();
 
 builder.Services.AddScoped<AttendanceService>();
@@ -79,6 +82,9 @@ builder.Services.AddScoped<LeaderboardService>();
 builder.Services.AddScoped<ActivityLogService>();
 builder.Services.AddScoped<StudentRiskService>();
 builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<AiAssistantService>();
+
+builder.Services.AddHttpClient("Gemini");
 
 var app = builder.Build();
 
