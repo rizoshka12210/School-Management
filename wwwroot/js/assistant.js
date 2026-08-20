@@ -187,6 +187,12 @@
             renderMessage("assistant", reply);
             history.push({ role: "assistant", text: reply });
             saveHistory(history);
+
+            if (data && data.navigateUrl) {
+                setTimeout(() => {
+                    window.location.href = data.navigateUrl;
+                }, 900);
+            }
         } catch {
             thinkingRow.remove();
             renderMessage("assistant", errorText);
