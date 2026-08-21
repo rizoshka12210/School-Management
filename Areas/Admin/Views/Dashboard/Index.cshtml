@@ -5,13 +5,27 @@
 }
 
 <style>
+    .main-wrapper {
+        width: calc(100% - 250px);
+        max-width: calc(100% - 250px);
+        min-width: 0;
+    }
+
+    .page-content {
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
     .attendance-trend-column,
     .attendance-trend-column > .card,
     .attendance-trend-column > .card > .card-body {
         min-width: 0;
+        max-width: 100%;
     }
 
     .attendance-chart-viewport {
+        display: block;
         width: 100%;
         max-width: 100%;
         min-width: 0;
@@ -70,6 +84,20 @@
 
     html[data-theme="dark"] .attendance-chart-viewport::-webkit-scrollbar-thumb {
         background: rgba(129, 140, 248, .65);
+    }
+
+    @media (max-width: 992px) {
+        .main-wrapper {
+            width: calc(100% - 210px);
+            max-width: calc(100% - 210px);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .main-wrapper {
+            width: 100%;
+            max-width: 100%;
+        }
     }
 </style>
 
