@@ -1,27 +1,29 @@
 @{
     var shouldAutoOpen = TempData["OpenAiAssistant"]?.ToString() == "1";
+    var isRussian = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName
+        .Equals("ru", StringComparison.OrdinalIgnoreCase);
 
-    var suggestion1 = Localizer["Give me a quick overview"].Value;
-    var suggestion2 = Localizer["What should I check today?"].Value;
-    var suggestion3 = Localizer["Help me with this page"].Value;
+    var suggestion1 = isRussian ? "Дайте краткий обзор" : "Give me a quick overview";
+    var suggestion2 = isRussian ? "Что мне проверить сегодня?" : "What should I check today?";
+    var suggestion3 = isRussian ? "Помоги мне с этой страницей" : "Help me with this page";
 
     if (User.IsInRole("Admin"))
     {
-        suggestion1 = Localizer["Show me today's school overview"].Value;
-        suggestion2 = Localizer["Which students need attention?"].Value;
-        suggestion3 = Localizer["What should I check first?"].Value;
+        suggestion1 = isRussian ? "Покажи обзор школы на сегодня" : "Show me today's school overview";
+        suggestion2 = isRussian ? "Каким ученикам нужно внимание?" : "Which students need attention?";
+        suggestion3 = isRussian ? "Что мне проверить в первую очередь?" : "What should I check first?";
     }
     else if (User.IsInRole("Teacher"))
     {
-        suggestion1 = Localizer["Show me my lessons today"].Value;
-        suggestion2 = Localizer["Which students need attention?"].Value;
-        suggestion3 = Localizer["Help me with this page"].Value;
+        suggestion1 = isRussian ? "Покажи мои уроки на сегодня" : "Show me my lessons today";
+        suggestion2 = isRussian ? "Каким ученикам нужно внимание?" : "Which students need attention?";
+        suggestion3 = isRussian ? "Помоги мне с этой страницей" : "Help me with this page";
     }
     else if (User.IsInRole("Parent"))
     {
-        suggestion1 = Localizer["How is my child doing?"].Value;
-        suggestion2 = Localizer["Show me attendance summary"].Value;
-        suggestion3 = Localizer["What should I check today?"].Value;
+        suggestion1 = isRussian ? "Как дела у моего ребёнка?" : "How is my child doing?";
+        suggestion2 = isRussian ? "Покажи сводку по посещаемости" : "Show me attendance summary";
+        suggestion3 = isRussian ? "Что мне проверить сегодня?" : "What should I check today?";
     }
 }
 
