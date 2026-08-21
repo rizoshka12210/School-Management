@@ -113,6 +113,7 @@ public class DashboardController : Controller
                     Label = period == "month"
                         ? date.ToString("dd MMM")
                         : date.ToString("ddd"),
+                    FullLabel = date.ToString("dd MMM"),
                     Rate = rate,
                     Total = total,
                     Absent = absent

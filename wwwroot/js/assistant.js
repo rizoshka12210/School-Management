@@ -23,6 +23,7 @@
     ].filter(Boolean);
 
     const HISTORY_KEY = "ai-assistant-history";
+    const REOPEN_KEY = "ai-assistant-reopen";
 
     function loadHistory() {
         try {
@@ -139,6 +140,9 @@
 
     if (shouldAutoOpen) {
         window.setTimeout(openPanel, 450);
+    } else if (sessionStorage.getItem(REOPEN_KEY)) {
+        sessionStorage.removeItem(REOPEN_KEY);
+        openPanel();
     }
 
     let sending = false;
@@ -189,6 +193,7 @@
             saveHistory(history);
 
             if (data && data.navigateUrl) {
+                sessionStorage.setItem(REOPEN_KEY, "1");
                 setTimeout(() => {
                     window.location.href = data.navigateUrl;
                 }, 900);

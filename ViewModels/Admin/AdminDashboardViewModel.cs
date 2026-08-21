@@ -40,6 +40,7 @@ public class StudentPerformanceViewModel
 public class AttendanceTrendPointViewModel
 {
     public string Label { get; set; } = string.Empty;
+    public string FullLabel { get; set; } = string.Empty;
     public double Rate { get; set; }
     public int Total { get; set; }
     public int Absent { get; set; }

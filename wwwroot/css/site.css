@@ -6908,3 +6908,17 @@ html[data-theme="dark"] .ai-assistant-input {
 html[data-theme="dark"] .ai-assistant-badge {
     border-color: #0b1120;
 }
+
+.attendance-chart.attendance-chart-month {
+    gap: 3px;
+    overflow-x: auto;
+}
+
+.attendance-chart-month .attendance-bar-column {
+    min-width: 8px;
+}
+
+.attendance-chart-month .attendance-bar-label {
+    font-size: 9px;
+    white-space: nowrap;
+}
