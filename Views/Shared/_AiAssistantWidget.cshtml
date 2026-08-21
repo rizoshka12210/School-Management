@@ -1,8 +1,83 @@
+<style>
+    .ai-assistant-toggle {
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, .28);
+        background:
+            radial-gradient(circle at 28% 20%, rgba(255, 255, 255, .24), transparent 34%),
+            linear-gradient(145deg, #4f46e5 0%, #6d28d9 52%, #8b5cf6 100%);
+        box-shadow:
+            0 14px 34px rgba(79, 70, 229, .38),
+            inset 0 1px 0 rgba(255, 255, 255, .22);
+        overflow: visible;
+        transition:
+            transform .22s ease,
+            box-shadow .22s ease,
+            filter .22s ease;
+    }
+
+    .ai-assistant-toggle::before {
+        content: "";
+        position: absolute;
+        inset: 5px;
+        border: 1px solid rgba(255, 255, 255, .14);
+        border-radius: 14px;
+        pointer-events: none;
+    }
+
+    .ai-assistant-toggle:hover {
+        filter: none;
+        transform: translateY(-3px) scale(1.04);
+        box-shadow:
+            0 18px 40px rgba(79, 70, 229, .46),
+            inset 0 1px 0 rgba(255, 255, 255, .28);
+    }
+
+    .ai-assistant-toggle:active {
+        transform: translateY(-1px) scale(.98);
+    }
+
+    .ai-assistant-toggle:focus-visible {
+        outline: 3px solid rgba(129, 140, 248, .35);
+        outline-offset: 4px;
+    }
+
+    .ai-assistant-toggle-icon {
+        width: 31px;
+        height: 31px;
+        position: relative;
+        z-index: 1;
+        filter: drop-shadow(0 3px 8px rgba(30, 27, 75, .28));
+        transition: transform .22s ease;
+    }
+
+    .ai-assistant-toggle:hover .ai-assistant-toggle-icon {
+        transform: rotate(-4deg) scale(1.08);
+    }
+
+    .ai-assistant-avatar.ai-assistant-avatar-modern {
+        display: grid;
+        place-items: center;
+        background:
+            radial-gradient(circle at 30% 20%, rgba(255, 255, 255, .22), transparent 35%),
+            linear-gradient(145deg, #4f46e5, #7c3aed);
+        color: #fff;
+        box-shadow: 0 6px 16px rgba(79, 70, 229, .22);
+    }
+
+    .ai-assistant-avatar-modern svg {
+        width: 20px;
+        height: 20px;
+    }
+</style>
+
 <div id="aiAssistant" class="ai-assistant">
     <button type="button" id="aiAssistantToggle" class="ai-assistant-toggle" aria-label="@Localizer["AI Assistant"]">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 2a4 4 0 0 1 4 4v2a4 4 0 0 1-8 0V6a4 4 0 0 1 4-4z"></path>
-            <path d="M6 12h12M6 12a6 6 0 0 0-2 4.5V20h16v-3.5A6 6 0 0 0 18 12"></path>
+        <svg class="ai-assistant-toggle-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M15.7 4.5c.82 4.82 3.48 7.48 8.3 8.3-4.82.82-7.48 3.48-8.3 8.3-.82-4.82-3.48-7.48-8.3-8.3 4.82-.82 7.48-3.48 8.3-8.3Z" fill="currentColor"/>
+            <path d="M24.9 4.2c.33 2.03 1.47 3.17 3.5 3.5-2.03.33-3.17 1.47-3.5 3.5-.33-2.03-1.47-3.17-3.5-3.5 2.03-.33 3.17-1.47 3.5-3.5Z" fill="currentColor" opacity=".88"/>
+            <path d="M8 21.2c.38 2.28 1.62 3.52 3.9 3.9-2.28.38-3.52 1.62-3.9 3.9-.38-2.28-1.62-3.52-3.9-3.9 2.28-.38 3.52-1.62 3.9-3.9Z" fill="currentColor" opacity=".72"/>
         </svg>
         <span id="aiAssistantBadge" class="ai-assistant-badge" hidden>1</span>
     </button>
@@ -10,7 +85,12 @@
     <div id="aiAssistantPanel" class="ai-assistant-panel" hidden>
         <div class="ai-assistant-header">
             <div class="ai-assistant-header-info">
-                <div class="ai-assistant-avatar">AI</div>
+                <div class="ai-assistant-avatar ai-assistant-avatar-modern" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M11.8 3.5c.58 3.42 2.48 5.32 5.9 5.9-3.42.58-5.32 2.48-5.9 5.9-.58-3.42-2.48-5.32-5.9-5.9 3.42-.58 5.32-2.48 5.9-5.9Z" fill="currentColor"/>
+                        <path d="M18.2 14.7c.26 1.55 1.13 2.42 2.68 2.68-1.55.26-2.42 1.13-2.68 2.68-.26-1.55-1.13-2.42-2.68-2.68 1.55-.26 2.42-1.13 2.68-2.68Z" fill="currentColor" opacity=".8"/>
+                    </svg>
+                </div>
                 <div>
                     <div class="ai-assistant-title">@Localizer["AI Assistant"]</div>
                     <div class="ai-assistant-subtitle">@Localizer["Ask about your data or how to use the portal"]</div>
