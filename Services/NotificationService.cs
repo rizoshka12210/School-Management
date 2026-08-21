@@ -95,7 +95,9 @@ public class NotificationService
         var payload = userId + "|" + string.Join(
             "||",
             items.Select(item =>
-                $"{item.Title}|{item.Message}|{item.Url}|{item.Kind}|{item.OccurredAt:O}"));
+                string.IsNullOrWhiteSpace(item.FingerprintKey)
+                    ? $"{item.Icon}|{item.Url}|{item.Kind}|{item.OccurredAt:O}"
+                    : item.FingerprintKey));
 
         var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(payload));
         return Convert.ToHexString(bytes);
@@ -123,7 +125,8 @@ public class NotificationService
                 $"{s.FirstName} {s.LastName}",
                 s.Group?.Name ?? _localizer["School"].Value].Value,
             Url = $"/Admin/Students/Details/{s.Id}",
-            Kind = "success"
+            Kind = "success",
+            FingerprintKey = $"admin:student-joined:{s.Id}"
         }));
 
         var lessonsToday = await _context.Lessons
@@ -135,7 +138,8 @@ public class NotificationService
             Title = "Today's Lessons",
             Message = _localizer["{0} lesson(s) scheduled today", lessonsToday].Value,
             Url = "/Admin/Lessons",
-            Kind = "info"
+            Kind = "info",
+            FingerprintKey = $"admin:lessons:{today:yyyy-MM-dd}:{lessonsToday}"
         });
 
         var absentToday = await _context.Attendances
@@ -155,7 +159,8 @@ public class NotificationService
                 Title = "Absence alert",
                 Message = _localizer["{0} student(s) are absent today", absentToday].Value,
                 Url = "/Admin/Attendance",
-                Kind = "warning"
+                Kind = "warning",
+                FingerprintKey = $"admin:absence:{today:yyyy-MM-dd}:{absentToday}"
             });
         }
 
@@ -209,7 +214,8 @@ public class NotificationService
             OccurredAt = l.StartTime,
             Kind = l.Attendances.Count >= l.Group.Students.Count && l.Group.Students.Any()
                 ? "success"
-                : "warning"
+                : "warning",
+            FingerprintKey = $"teacher:attendance:{l.Id}:{l.Attendances.Count}:{l.Group.Students.Count}"
         }).ToList();
 
         return items.Take(take).ToList();
@@ -252,7 +258,8 @@ public class NotificationService
             Message = $"{g.Student.FirstName}: {g.Subject.Name} — {g.Value}",
             Url = $"/Parent/Grades?studentId={g.StudentId}",
             OccurredAt = g.Date,
-            Kind = g.Value >= 4 ? "success" : "info"
+            Kind = g.Value >= 4 ? "success" : "info",
+            FingerprintKey = $"parent:grade:{g.Id}:{g.Value}:{g.Date:O}"
         }));
 
         var absences = await _context.Attendances
@@ -272,7 +279,8 @@ public class NotificationService
             Message = _localizer["{0} missed {1}", a.Student.FirstName, a.Lesson.Subject.Name].Value,
             Url = $"/Parent/Attendance?studentId={a.StudentId}",
             OccurredAt = a.Lesson.StartTime,
-            Kind = "danger"
+            Kind = "danger",
+            FingerprintKey = $"parent:absence:{a.Id}:{a.LessonId}:{a.StudentId}"
         }));
 
         return items
