@@ -4,6 +4,103 @@
     ViewData["Title"] = Localizer["Dashboard"];
 }
 
+<style>
+    .main-wrapper {
+        width: calc(100% - 250px);
+        max-width: calc(100% - 250px);
+        min-width: 0;
+    }
+
+    .page-content {
+        min-width: 0;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    .attendance-trend-column,
+    .attendance-trend-column > .card,
+    .attendance-trend-column > .card > .card-body {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .attendance-chart-viewport {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: .85rem;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(79, 70, 229, .45) rgba(148, 163, 184, .12);
+    }
+
+    .attendance-chart-viewport .attendance-chart {
+        margin: 0;
+        padding-bottom: 0;
+    }
+
+    .attendance-chart-month {
+        width: max-content;
+        min-width: 100%;
+        max-width: none;
+        overflow: visible;
+    }
+
+    .attendance-chart-month .attendance-bar-column {
+        flex: 0 0 46px;
+        width: 46px;
+        min-width: 46px;
+        max-width: 46px;
+    }
+
+    .attendance-chart-viewport::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .attendance-chart-viewport::-webkit-scrollbar-track {
+        background: rgba(148, 163, 184, .12);
+        border-radius: 999px;
+    }
+
+    .attendance-chart-viewport::-webkit-scrollbar-thumb {
+        background: rgba(79, 70, 229, .45);
+        border-radius: 999px;
+    }
+
+    .attendance-chart-viewport::-webkit-scrollbar-thumb:hover {
+        background: rgba(79, 70, 229, .65);
+    }
+
+    html[data-theme="dark"] .attendance-chart-viewport {
+        scrollbar-color: rgba(129, 140, 248, .65) rgba(51, 65, 85, .55);
+    }
+
+    html[data-theme="dark"] .attendance-chart-viewport::-webkit-scrollbar-track {
+        background: rgba(51, 65, 85, .55);
+    }
+
+    html[data-theme="dark"] .attendance-chart-viewport::-webkit-scrollbar-thumb {
+        background: rgba(129, 140, 248, .65);
+    }
+
+    @@media (max-width: 992px) {
+        .main-wrapper {
+            width: calc(100% - 210px);
+            max-width: calc(100% - 210px);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .main-wrapper {
+            width: 100%;
+            max-width: 100%;
+        }
+    }
+</style>
+
 <div class="dashboard-header">
     <div>
         <h1 class="dashboard-title">@Localizer["Smart School Dashboard"]</h1>
@@ -51,7 +148,7 @@
 </div>
 
 <div class="row g-4 mb-4">
-    <div class="col-xl-8">
+    <div class="col-xl-8 attendance-trend-column">
         <div class="card border-0 shadow-sm h-100">
             <div class="card-body">
                 <div class="section-header">
@@ -67,20 +164,19 @@
                     </div>
                 </div>
 
-                <div class="attendance-chart @(Model.TrendPeriod == "month" ? "attendance-chart-month" : "")">
-                    @foreach (var point in Model.AttendanceTrend)
-                    {
-                        <div class="attendance-bar-column" title="@point.FullLabel: @point.Rate.ToString("0.0")%">
-                            @if (Model.TrendPeriod != "month")
-                            {
+                <div class="attendance-chart-viewport">
+                    <div class="attendance-chart @(Model.TrendPeriod == "month" ? "attendance-chart-month" : "")">
+                        @foreach (var point in Model.AttendanceTrend)
+                        {
+                            <div class="attendance-bar-column" title="@point.Label: @point.Rate.ToString("0.0")%">
                                 <div class="attendance-bar-value">@point.Rate.ToString("0")%</div>
-                            }
-                            <div class="attendance-bar-track">
-                                <div class="attendance-bar" style="height:@Math.Max(3, point.Rate).ToString("0", System.Globalization.CultureInfo.InvariantCulture)%"></div>
+                                <div class="attendance-bar-track">
+                                    <div class="attendance-bar" style="height:@Math.Max(3, point.Rate).ToString("0", System.Globalization.CultureInfo.InvariantCulture)%"></div>
+                                </div>
+                                <div class="attendance-bar-label">@point.Label</div>
                             </div>
-                            <div class="attendance-bar-label">@point.Label</div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             </div>
         </div>
