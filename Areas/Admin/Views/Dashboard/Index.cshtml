@@ -67,11 +67,14 @@
                     </div>
                 </div>
 
-                <div class="attendance-chart">
+                <div class="attendance-chart @(Model.TrendPeriod == "month" ? "attendance-chart-month" : "")">
                     @foreach (var point in Model.AttendanceTrend)
                     {
-                        <div class="attendance-bar-column" title="@point.Label: @point.Rate.ToString("0.0")%">
-                            <div class="attendance-bar-value">@point.Rate.ToString("0")%</div>
+                        <div class="attendance-bar-column" title="@point.FullLabel: @point.Rate.ToString("0.0")%">
+                            @if (Model.TrendPeriod != "month")
+                            {
+                                <div class="attendance-bar-value">@point.Rate.ToString("0")%</div>
+                            }
                             <div class="attendance-bar-track">
                                 <div class="attendance-bar" style="height:@Math.Max(3, point.Rate).ToString("0", System.Globalization.CultureInfo.InvariantCulture)%"></div>
                             </div>
