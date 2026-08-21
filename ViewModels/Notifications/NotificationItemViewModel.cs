@@ -8,4 +8,5 @@ public class NotificationItemViewModel
     public string? Url { get; set; }
     public DateTime? OccurredAt { get; set; }
     public string Kind { get; set; } = "info";
+    public string FingerprintKey { get; set; } = string.Empty;
 }

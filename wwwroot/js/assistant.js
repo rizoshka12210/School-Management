@@ -15,9 +15,14 @@
 
     const greeting = scriptTag.getAttribute("data-greeting") || "";
     const errorText = scriptTag.getAttribute("data-error") || "Error.";
+    const shouldAutoOpen = scriptTag.getAttribute("data-auto-open") === "true";
+    const suggestions = [
+        scriptTag.getAttribute("data-suggestion-1"),
+        scriptTag.getAttribute("data-suggestion-2"),
+        scriptTag.getAttribute("data-suggestion-3")
+    ].filter(Boolean);
 
     const HISTORY_KEY = "ai-assistant-history";
-    const AUTO_OPEN_KEY = "ai-assistant-auto-opened";
 
     function loadHistory() {
         try {
@@ -37,6 +42,12 @@
     }
 
     let history = loadHistory();
+    let suggestionsEl = null;
+
+    if (shouldAutoOpen) {
+        history = [];
+        saveHistory(history);
+    }
 
     function renderMessage(role, text) {
         const row = document.createElement("div");
@@ -53,11 +64,49 @@
         return row;
     }
 
+    function removeSuggestions() {
+        if (suggestionsEl) {
+            suggestionsEl.remove();
+            suggestionsEl = null;
+        }
+    }
+
+    function renderSuggestions() {
+        if (suggestions.length === 0) {
+            return;
+        }
+
+        suggestionsEl = document.createElement("div");
+        suggestionsEl.className = "ai-assistant-suggestions";
+
+        suggestions.forEach((suggestion) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.className = "ai-assistant-suggestion";
+            button.textContent = suggestion;
+
+            button.addEventListener("click", () => {
+                input.value = suggestion;
+                form.requestSubmit();
+            });
+
+            suggestionsEl.appendChild(button);
+        });
+
+        messagesEl.appendChild(suggestionsEl);
+        messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
     function renderHistory() {
         messagesEl.innerHTML = "";
+        suggestionsEl = null;
 
-        if (history.length === 0 && greeting) {
-            renderMessage("assistant", greeting);
+        if (history.length === 0) {
+            if (greeting) {
+                renderMessage("assistant", greeting);
+            }
+
+            renderSuggestions();
         } else {
             history.forEach((item) => renderMessage(item.role, item.text));
         }
@@ -67,7 +116,8 @@
         panel.hidden = false;
         toggleBtn.setAttribute("aria-expanded", "true");
         badge.hidden = true;
-        input.focus();
+
+        window.setTimeout(() => input.focus(), 80);
     }
 
     function closePanel() {
@@ -87,9 +137,8 @@
 
     renderHistory();
 
-    if (!sessionStorage.getItem(AUTO_OPEN_KEY)) {
-        sessionStorage.setItem(AUTO_OPEN_KEY, "1");
-        openPanel();
+    if (shouldAutoOpen) {
+        window.setTimeout(openPanel, 450);
     }
 
     let sending = false;
@@ -106,6 +155,7 @@
         sending = true;
         input.value = "";
         input.disabled = true;
+        removeSuggestions();
 
         renderMessage("user", text);
         history.push({ role: "user", text });
