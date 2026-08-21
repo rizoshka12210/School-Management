@@ -6911,11 +6911,11 @@ html[data-theme="dark"] .ai-assistant-badge {
 
 .attendance-chart.attendance-chart-month {
     gap: 3px;
-    overflow-x: visible;
+    overflow-x: auto;
 }
 
 .attendance-chart-month .attendance-bar-column {
-    min-width: 0;
+    min-width: 8px;
 }
 
 .attendance-chart-month .attendance-bar-label {
