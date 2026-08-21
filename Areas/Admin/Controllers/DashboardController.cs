@@ -111,7 +111,7 @@ public class DashboardController : Controller
                 return new AttendanceTrendPointViewModel
                 {
                     Label = period == "month"
-                        ? date.ToString("dd")
+                        ? date.ToString("dd MMM")
                         : date.ToString("ddd"),
                     FullLabel = date.ToString("dd MMM"),
                     Rate = rate,
