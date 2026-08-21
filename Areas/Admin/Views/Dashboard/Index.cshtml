@@ -4,6 +4,55 @@
     ViewData["Title"] = Localizer["Dashboard"];
 }
 
+<style>
+    .attendance-chart-month {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding-bottom: .85rem;
+        overscroll-behavior-x: contain;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(79, 70, 229, .45) rgba(148, 163, 184, .12);
+    }
+
+    .attendance-chart-month .attendance-bar-column {
+        flex: 0 0 46px;
+        min-width: 46px;
+        max-width: 46px;
+    }
+
+    .attendance-chart-month::-webkit-scrollbar {
+        height: 8px;
+    }
+
+    .attendance-chart-month::-webkit-scrollbar-track {
+        background: rgba(148, 163, 184, .12);
+        border-radius: 999px;
+    }
+
+    .attendance-chart-month::-webkit-scrollbar-thumb {
+        background: rgba(79, 70, 229, .45);
+        border-radius: 999px;
+    }
+
+    .attendance-chart-month::-webkit-scrollbar-thumb:hover {
+        background: rgba(79, 70, 229, .65);
+    }
+
+    html[data-theme="dark"] .attendance-chart-month {
+        scrollbar-color: rgba(129, 140, 248, .65) rgba(51, 65, 85, .55);
+    }
+
+    html[data-theme="dark"] .attendance-chart-month::-webkit-scrollbar-track {
+        background: rgba(51, 65, 85, .55);
+    }
+
+    html[data-theme="dark"] .attendance-chart-month::-webkit-scrollbar-thumb {
+        background: rgba(129, 140, 248, .65);
+    }
+</style>
+
 <div class="dashboard-header">
     <div>
         <h1 class="dashboard-title">@Localizer["Smart School Dashboard"]</h1>
@@ -67,7 +116,7 @@
                     </div>
                 </div>
 
-                <div class="attendance-chart">
+                <div class="attendance-chart @(Model.TrendPeriod == "month" ? "attendance-chart-month" : "")">
                     @foreach (var point in Model.AttendanceTrend)
                     {
                         <div class="attendance-bar-column" title="@point.Label: @point.Rate.ToString("0.0")%">
