@@ -82,6 +82,8 @@ public class AuthController : Controller
             return View(model);
         }
 
+        TempData["OpenAiAssistant"] = "1";
+
         return await RedirectByRoleAsync(user);
     }
 
