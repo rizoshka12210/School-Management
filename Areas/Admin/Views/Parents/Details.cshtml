@@ -7,14 +7,10 @@
         ? Localizer["Parent"].Value
         : Model.ApplicationUser.FullName;
 
-    var nameParts = fullName
+    var initials = string.Concat(fullName
         .Split(' ', StringSplitOptions.RemoveEmptyEntries)
         .Take(2)
-        .ToList();
-
-    var initials = nameParts.Count == 0
-        ? "P"
-        : string.Concat(nameParts.Select(x => char.ToUpperInvariant(x[0])));
+        .Select(value => char.ToUpperInvariant(value[0])));
 
     var groupCount = Model.Students
         .Where(student => student.Group != null)
@@ -23,172 +19,117 @@
         .Count();
 }
 
-<div class="admin-details-page">
+<link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
 
-    <div class="details-layout">
+<div class="entity-details-page">
+    <a asp-action="Index" class="entity-details-back">
+        <i class="bi bi-arrow-left"></i>
+        @Localizer["Parents"]
+    </a>
 
-        <section class="details-panel details-profile-panel">
-
-            <div class="details-profile-head">
-                <div class="details-avatar">@initials</div>
-
-                <div>
-                    <h1 class="details-name">@fullName</h1>
-                    <span class="details-email">@(Model.ApplicationUser.Email ?? "—")</span>
-                    <span class="details-role-badge">
-                        <i class="bi bi-person-check-fill"></i>
-                        @Localizer["Parent"]
-                    </span>
-                </div>
-            </div>
-
-            <div class="details-info-list">
-
-                <div class="details-info-row">
-                    <div class="details-info-icon">
-                        <i class="bi bi-envelope-fill"></i>
-                    </div>
-                    <div>
-                        <span>@Localizer["Email"]</span>
-                        <strong>@(Model.ApplicationUser.Email ?? "—")</strong>
-                    </div>
-                </div>
-
-                <div class="details-info-row">
-                    <div class="details-info-icon">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
-                    <div>
-                        <span>@Localizer["Children"]</span>
-                        <strong>@Model.Students.Count</strong>
-                    </div>
-                </div>
-
-                <div class="details-info-row">
-                    <div class="details-info-icon">
-                        <i class="bi bi-collection-fill"></i>
-                    </div>
-                    <div>
-                        <span>@Localizer["Groups"]</span>
-                        <strong>@groupCount</strong>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="details-actions">
-                <a asp-action="Edit"
-                   asp-route-id="@Model.Id"
-                   class="btn btn-primary">
-                    <i class="bi bi-pencil-square"></i>
-                    @Localizer["Edit"]
-                </a>
-
-                <a asp-action="Index"
-                   class="btn btn-outline-secondary">
-                    <i class="bi bi-arrow-left"></i>
-                    @Localizer["Back"]
-                </a>
-            </div>
-
-        </section>
-
-        <section class="details-panel details-children-panel">
-
-            <div class="details-panel-header">
-                <div>
-                    <h4>@Localizer["Children"]</h4>
-                </div>
-
-                <span class="details-count-badge">
-                    @Model.Students.Count
-                </span>
-            </div>
-
-            @if (Model.Students.Any())
-            {
-                <div class="details-children-list">
-                    @foreach (var student in Model.Students.OrderBy(s => s.FirstName).ThenBy(s => s.LastName))
-                    {
-                        var studentName = $"{student.FirstName} {student.LastName}".Trim();
-                        var studentInitials = string.Concat(
-                            new[] { student.FirstName, student.LastName }
-                                .Where(value => !string.IsNullOrWhiteSpace(value))
-                                .Take(2)
-                                .Select(value => char.ToUpperInvariant(value[0])));
-
-                        <a asp-area="Admin"
-                           asp-controller="Students"
-                           asp-action="Details"
-                           asp-route-id="@student.Id"
-                           class="details-child-row">
-
-                            <div class="details-child-avatar">
-                                @(string.IsNullOrWhiteSpace(studentInitials) ? "S" : studentInitials)
-                            </div>
-
-                            <div class="details-child-main">
-                                <strong>@studentName</strong>
-                                <span>@(student.Group?.Name ?? "—")</span>
-                            </div>
-
-                            <span class="details-child-type">
-                                @Localizer["Student"]
-                            </span>
-
-                            <i class="bi bi-chevron-right text-muted"></i>
-                        </a>
-                    }
-                </div>
-            }
-            else
-            {
-                <div class="details-empty">
-                    <div>
-                        <div class="mb-2 fs-3">
-                            <i class="bi bi-person-plus"></i>
-                        </div>
-                        <p class="mb-0">@Localizer["No children assigned."]</p>
-                    </div>
-                </div>
-            }
-
-        </section>
-
-    </div>
-
-    <div class="details-summary">
-
-        <div class="details-summary-item">
-            <div class="details-summary-icon">
-                <i class="bi bi-person-hearts"></i>
+    <section class="entity-details-hero">
+        <div class="entity-details-identity">
+            <div class="entity-details-icon">
+                @(string.IsNullOrWhiteSpace(initials) ? "P" : initials)
             </div>
             <div>
-                <strong>@Model.Students.Count</strong>
+                <span class="entity-details-eyebrow">@Localizer["Parent Details"]</span>
+                <h1 class="entity-details-title">@fullName</h1>
+                <p class="entity-details-subtitle">@(Model.ApplicationUser.Email ?? "—")</p>
+                <div class="entity-details-meta">
+                    <span class="entity-meta-badge"><i class="bi bi-person-hearts"></i>@Localizer["Parent"]</span>
+                    <span class="entity-meta-badge"><i class="bi bi-people-fill"></i>@Model.Students.Count @Localizer["Children"]</span>
+                    <span class="entity-meta-badge"><i class="bi bi-hash"></i>ID @Model.Id</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="entity-details-actions">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i>
+                @Localizer["Edit"]
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i>
+                @Localizer["Back"]
+            </a>
+        </div>
+    </section>
+
+    <div class="entity-kpi-grid entity-kpi-grid-3">
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon blue"><i class="bi bi-people-fill"></i></div>
+            <div class="entity-kpi-content">
                 <span>@Localizer["Children"]</span>
+                <strong>@Model.Students.Count</strong>
+                <small>@Localizer["Children"]</small>
             </div>
         </div>
-
-        <div class="details-summary-item">
-            <div class="details-summary-icon">
-                <i class="bi bi-collection-fill"></i>
-            </div>
-            <div>
-                <strong>@groupCount</strong>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon green"><i class="bi bi-collection-fill"></i></div>
+            <div class="entity-kpi-content">
                 <span>@Localizer["Groups"]</span>
+                <strong>@groupCount</strong>
+                <small>@Localizer["Groups"]</small>
             </div>
         </div>
-
-        <div class="details-summary-item">
-            <div class="details-summary-icon">
-                <i class="bi bi-hash"></i>
-            </div>
-            <div>
-                <strong>@Model.Id</strong>
-                <span>ID</span>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon pink"><i class="bi bi-envelope-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Email"]</span>
+                <strong style="font-size:.9rem">@(Model.ApplicationUser.Email ?? "—")</strong>
+                <small>@Localizer["Parent"]</small>
             </div>
         </div>
-
     </div>
 
+    <div class="entity-details-grid entity-details-grid-wide">
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-person-badge-fill"></i>@Localizer["Parent Details"]</h2>
+                </div>
+            </div>
+            <div class="entity-panel-body">
+                <div class="entity-facts">
+                    <div class="entity-fact"><span>ID</span><strong>#@Model.Id</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Parent"]</span><strong>@fullName</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Email"]</span><strong>@(Model.ApplicationUser.Email ?? "—")</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Children"]</span><strong>@Model.Students.Count</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Groups"]</span><strong>@groupCount</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-people-fill"></i>@Localizer["Children"]</h2>
+                </div>
+                <span class="entity-panel-count">@Model.Students.Count</span>
+            </div>
+            <div class="entity-panel-body">
+                @if (Model.Students.Any())
+                {
+                    <div class="entity-list">
+                        @foreach (var student in Model.Students.OrderBy(s => s.FirstName).ThenBy(s => s.LastName))
+                        {
+                            <a asp-area="Admin" asp-controller="Students" asp-action="Details" asp-route-id="@student.Id" class="entity-list-row">
+                                <div class="entity-list-avatar">@(string.IsNullOrWhiteSpace(student.FirstName) ? "S" : student.FirstName.Substring(0, 1).ToUpper())</div>
+                                <div class="entity-list-main">
+                                    <strong>@student.FirstName @student.LastName</strong>
+                                    <span>@(student.Group?.Name ?? Localizer["No group"].Value) · @Localizer["Student #{0}", student.Id]</span>
+                                </div>
+                                <span class="entity-list-side">@Localizer["View"] <i class="bi bi-chevron-right"></i></span>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="entity-empty"><div><i class="bi bi-person-plus"></i>@Localizer["No children assigned."]</div></div>
+                }
+            </div>
+        </section>
+    </div>
 </div>
