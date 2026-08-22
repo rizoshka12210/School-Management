@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - rizo
+      - demotest
   pull_request:
     branches:
       - main
