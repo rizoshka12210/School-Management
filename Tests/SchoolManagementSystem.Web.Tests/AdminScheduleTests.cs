@@ -124,9 +124,9 @@ public class AdminScheduleTests
 
     private static ScheduleController CreateController(AppDbContext db)
     {
-        return new ScheduleController(
+        return ControllerTestHelpers.WithTempData(new ScheduleController(
             db,
-            new TestStringLocalizer<SharedResource>());
+            new TestStringLocalizer<SharedResource>()));
     }
 
     private static async Task<(Group Group, Subject Subject, Teacher Teacher)> SeedTeacherAssignmentAsync(
