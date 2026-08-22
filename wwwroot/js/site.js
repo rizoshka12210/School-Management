@@ -1,11 +1,19 @@
 ﻿(() => {
-    const refinementHref = "/css/refinements.css";
-    if (!document.querySelector(`link[href*="refinements.css"]`)) {
-        const refinementStyles = document.createElement("link");
-        refinementStyles.rel = "stylesheet";
-        refinementStyles.href = refinementHref;
-        document.head.appendChild(refinementStyles);
-    }
+    const styleSheets = [
+        "/css/refinements.css",
+        "/css/details.css"
+    ];
+
+    styleSheets.forEach(href => {
+        const fileName = href.split("/").pop();
+
+        if (!document.querySelector(`link[href*="${fileName}"]`)) {
+            const styles = document.createElement("link");
+            styles.rel = "stylesheet";
+            styles.href = href;
+            document.head.appendChild(styles);
+        }
+    });
 
     const body = document.body;
     const sidebarToggle = document.getElementById("sidebarToggle");
