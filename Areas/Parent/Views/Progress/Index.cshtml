@@ -60,7 +60,7 @@
             <div class="section-header">
                 <div>
                     <h5 class="section-title">@Localizer["Your Child vs. Group Average"]</h5>
-                    <p class="section-subtitle">@Localizer["{0} grades by month", Model.ComparisonSubjectName]</p>
+                    <p class="section-subtitle">@Localizer["{0} grades by month", Model.ComparisonSubjectName ?? string.Empty]</p>
                 </div>
 
                 @if (Model.Subjects.Count > 1)
