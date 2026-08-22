@@ -147,6 +147,20 @@
     </div>
 </div>
 
+<div class="dashboard-quickbar mb-4">
+    <div class="dashboard-quickbar-label">
+        <i class="bi bi-lightning-charge-fill"></i>
+        <span>@Localizer["Quick Actions"]</span>
+    </div>
+    <div class="dashboard-quickbar-links">
+        <a asp-area="Admin" asp-controller="Students" asp-action="Index"><i class="bi bi-people-fill"></i><span>@Localizer["Students"]</span></a>
+        <a asp-area="Admin" asp-controller="Teachers" asp-action="Index"><i class="bi bi-person-workspace"></i><span>@Localizer["Teachers"]</span></a>
+        <a asp-area="Admin" asp-controller="Schedule" asp-action="Index"><i class="bi bi-calendar3-week-fill"></i><span>@Localizer["Schedule"]</span></a>
+        <a asp-area="Admin" asp-controller="Attendance" asp-action="Index"><i class="bi bi-clipboard2-check-fill"></i><span>@Localizer["Attendance"]</span></a>
+        <a asp-area="Admin" asp-controller="Calendar" asp-action="Index"><i class="bi bi-calendar-event-fill"></i><span>@Localizer["School Calendar"]</span></a>
+    </div>
+</div>
+
 <div class="row g-4 mb-4">
     <div class="col-xl-8 attendance-trend-column">
         <div class="card border-0 shadow-sm h-100">
