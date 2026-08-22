@@ -17,6 +17,84 @@
         overflow-x: hidden;
     }
 
+    .dashboard-quickbar {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: .8rem;
+        border: 1px solid var(--ui-border, #e5e7eb);
+        border-radius: 16px;
+        background: var(--ui-surface-solid, #fff);
+        box-shadow: var(--ui-shadow-sm, 0 8px 24px rgba(15, 23, 42, .06));
+    }
+
+    .dashboard-quickbar-label {
+        display: inline-flex;
+        align-items: center;
+        gap: .55rem;
+        padding: .55rem .7rem;
+        color: var(--ui-text, #111827);
+        font-size: .82rem;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .dashboard-quickbar-label i {
+        width: 30px;
+        height: 30px;
+        display: inline-grid;
+        place-items: center;
+        border-radius: 9px;
+        background: rgba(245, 158, 11, .13);
+        color: #d97706;
+    }
+
+    .dashboard-quickbar-links {
+        display: flex;
+        align-items: center;
+        flex: 1;
+        gap: .55rem;
+        flex-wrap: wrap;
+    }
+
+    .dashboard-quickbar-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: .45rem;
+        min-height: 38px;
+        padding: .55rem .75rem;
+        border: 1px solid transparent;
+        border-radius: 10px;
+        color: var(--ui-muted, #64748b);
+        background: var(--ui-surface-soft, #f8fafc);
+        text-decoration: none;
+        font-size: .8rem;
+        font-weight: 650;
+        transition: .18s ease;
+    }
+
+    .dashboard-quickbar-links a:hover {
+        color: #4f46e5;
+        border-color: rgba(79, 70, 229, .18);
+        background: rgba(79, 70, 229, .09);
+        transform: translateY(-1px);
+    }
+
+    html[data-theme="dark"] .dashboard-quickbar {
+        background: #111827;
+        border-color: #2b3950;
+    }
+
+    html[data-theme="dark"] .dashboard-quickbar-links a {
+        background: #172033;
+        color: #cbd5e1;
+    }
+
+    html[data-theme="dark"] .dashboard-quickbar-links a:hover {
+        color: #c7d2fe;
+        background: rgba(129, 140, 248, .14);
+    }
+
     .attendance-trend-column,
     .attendance-trend-column > .card,
     .attendance-trend-column > .card > .card-body {
@@ -98,6 +176,31 @@
             width: 100%;
             max-width: 100%;
         }
+
+        .dashboard-quickbar {
+            align-items: stretch;
+            flex-direction: column;
+            gap: .45rem;
+        }
+
+        .dashboard-quickbar-label {
+            padding-bottom: .25rem;
+        }
+
+        .dashboard-quickbar-links {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .dashboard-quickbar-links a {
+            justify-content: flex-start;
+        }
+    }
+
+    @@media (max-width: 460px) {
+        .dashboard-quickbar-links {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
 
@@ -144,6 +247,20 @@
             <strong>@Model.TodayLessonsCount</strong>
             <small>@Localizer["Scheduled lessons"]</small>
         </div>
+    </div>
+</div>
+
+<div class="dashboard-quickbar mb-4">
+    <div class="dashboard-quickbar-label">
+        <i class="bi bi-lightning-charge-fill"></i>
+        <span>@Localizer["Quick Actions"]</span>
+    </div>
+    <div class="dashboard-quickbar-links">
+        <a asp-area="Admin" asp-controller="Students" asp-action="Index"><i class="bi bi-people-fill"></i><span>@Localizer["Students"]</span></a>
+        <a asp-area="Admin" asp-controller="Teachers" asp-action="Index"><i class="bi bi-person-workspace"></i><span>@Localizer["Teachers"]</span></a>
+        <a asp-area="Admin" asp-controller="Schedule" asp-action="Index"><i class="bi bi-calendar3-week-fill"></i><span>@Localizer["Schedule"]</span></a>
+        <a asp-area="Admin" asp-controller="Attendance" asp-action="Index"><i class="bi bi-clipboard2-check-fill"></i><span>@Localizer["Attendance"]</span></a>
+        <a asp-area="Admin" asp-controller="Calendar" asp-action="Index"><i class="bi bi-calendar-event-fill"></i><span>@Localizer["School Calendar"]</span></a>
     </div>
 </div>
 

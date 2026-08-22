@@ -2,124 +2,119 @@
 
 @{
     ViewData["Title"] = Model.Name;
-
     var subjects = ViewBag.Subjects as List<string> ?? new List<string>();
 }
 
-<div class="teacher-details-header">
-    <div>
-        <a asp-action="Index" class="back-link">← @Localizer["My Groups"]</a>
+<link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
 
-        <div class="d-flex align-items-center gap-3 mt-3">
-            <div class="teacher-big-group-icon">GR</div>
+<div class="entity-details-page">
+    <a asp-action="Index" class="entity-details-back">
+        <i class="bi bi-arrow-left"></i>
+        @Localizer["My Groups"]
+    </a>
+
+    <section class="entity-details-hero">
+        <div class="entity-details-identity">
+            <div class="entity-details-icon entity-icon-green">
+                <i class="bi bi-collection-fill"></i>
+            </div>
             <div>
-                <h1 class="page-title mb-1">@Model.Name</h1>
-                <p class="page-subtitle">@Localizer["Group overview and students"]</p>
+                <span class="entity-details-eyebrow">@Localizer["My Groups"]</span>
+                <h1 class="entity-details-title">@Model.Name</h1>
+                <p class="entity-details-subtitle">@Localizer["Group overview and students"]</p>
+                <div class="entity-details-meta">
+                    <span class="entity-meta-badge"><i class="bi bi-people-fill"></i>@Model.Students.Count @Localizer["Students"]</span>
+                    <span class="entity-meta-badge"><i class="bi bi-book-fill"></i>@subjects.Count @Localizer["Subjects"]</span>
+                    <span class="entity-meta-badge"><i class="bi bi-hash"></i>ID @Model.Id</span>
+                </div>
+            </div>
+        </div>
+        <div class="entity-details-actions">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i>
+                @Localizer["Back"]
+            </a>
+        </div>
+    </section>
+
+    <div class="entity-kpi-grid entity-kpi-grid-2">
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon green"><i class="bi bi-people-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Students"]</span>
+                <strong>@Model.Students.Count</strong>
+                <small>@Model.Name</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon orange"><i class="bi bi-book-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Subjects"]</span>
+                <strong>@subjects.Count</strong>
+                <small>@Localizer["Subjects scheduled for this group"]</small>
             </div>
         </div>
     </div>
-</div>
 
-<div class="teacher-group-stats">
-    <div class="teacher-info-stat">
-        <div class="teacher-info-stat-icon">ST</div>
-        <div><span>@Localizer["Students"]</span><strong>@Model.Students.Count</strong></div>
-    </div>
-
-    <div class="teacher-info-stat">
-        <div class="teacher-info-stat-icon subject-color">SB</div>
-        <div><span>@Localizer["Subjects"]</span><strong>@subjects.Count</strong></div>
-    </div>
-</div>
-
-<div class="card border-0 shadow-sm mb-4">
-    <div class="card-body">
-        <div class="section-header">
-            <div>
-                <h5 class="section-title">@Localizer["Subjects"]</h5>
-                <p class="section-subtitle">@Localizer["Subjects scheduled for this group"]</p>
+    <div class="entity-details-grid">
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-book-fill"></i>@Localizer["Subjects"]</h2>
+                    <p class="entity-panel-subtitle">@Localizer["Subjects scheduled for this group"]</p>
+                </div>
+                <span class="entity-panel-count">@subjects.Count</span>
             </div>
-        </div>
-
-        @if (!subjects.Any())
-        {
-            <div class="teacher-simple-empty">@Localizer["No subjects scheduled yet."]</div>
-        }
-        else
-        {
-            <div class="teacher-subject-list">
-                @foreach (var subject in subjects)
+            <div class="entity-panel-body">
+                @if (!subjects.Any())
                 {
-                    <div class="teacher-subject-chip">
-                        <div class="teacher-subject-chip-icon">SB</div>
-                        <span>@subject</span>
+                    <div class="entity-empty"><div><i class="bi bi-book"></i>@Localizer["No subjects scheduled yet."]</div></div>
+                }
+                else
+                {
+                    <div class="entity-list">
+                        @foreach (var subject in subjects.OrderBy(value => value))
+                        {
+                            <div class="entity-list-row">
+                                <div class="entity-list-avatar subject"><i class="bi bi-book-fill"></i></div>
+                                <div class="entity-list-main"><strong>@subject</strong><span>@Localizer["Subject"]</span></div>
+                            </div>
+                        }
                     </div>
                 }
             </div>
-        }
-    </div>
-</div>
+        </section>
 
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        <div class="section-header">
-            <div>
-                <h5 class="section-title">@Localizer["Students"]</h5>
-                <p class="section-subtitle">@Localizer["Students enrolled in {0}", Model.Name]</p>
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-people-fill"></i>@Localizer["Students"]</h2>
+                    <p class="entity-panel-subtitle">@Localizer["Students enrolled in {0}", Model.Name]</p>
+                </div>
+                <span class="entity-panel-count">@Model.Students.Count</span>
             </div>
-        </div>
-
-        @if (!Model.Students.Any())
-        {
-            <div class="teacher-empty">
-                <div class="teacher-empty-icon">ST</div>
-                <h5>@Localizer["No students"]</h5>
-                <p>@Localizer["There are no students in this group yet."]</p>
-            </div>
-        }
-        else
-        {
-            <div class="table-responsive">
-                <table class="table table-hover management-table">
-                    <thead>
-                        <tr>
-                            <th>@Localizer["Student"]</th>
-                            <th>@Localizer["Date of Birth"]</th>
-                            <th class="text-end">@Localizer["Action"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <div class="entity-panel-body">
+                @if (!Model.Students.Any())
+                {
+                    <div class="entity-empty"><div><i class="bi bi-person-plus"></i>@Localizer["There are no students in this group yet."]</div></div>
+                }
+                else
+                {
+                    <div class="entity-list">
                         @foreach (var student in Model.Students.OrderBy(s => s.FirstName).ThenBy(s => s.LastName))
                         {
-                            <tr>
-                                <td>
-                                    <div class="person-cell">
-                                        <div class="person-avatar">
-                                            @(string.IsNullOrWhiteSpace(student.FirstName)
-                                                ? "S"
-                                                : student.FirstName.Substring(0, 1).ToUpper())
-                                        </div>
-                                        <div>
-                                            <div class="person-name">@student.FirstName @student.LastName</div>
-                                            <div class="person-id">@Localizer["Student #{0}", student.Id]</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>@student.DateOfBirth.ToString("dd MMM yyyy")</td>
-                                <td class="text-end">
-                                    <a asp-area="Teacher"
-                                       asp-controller="Students"
-                                       asp-action="Details"
-                                       asp-route-id="@student.Id"
-                                       class="action-btn action-details">
-                                        @Localizer["View"]
-                                    </a>
-                                </td>
-                            </tr>
+                            <a asp-area="Teacher" asp-controller="Students" asp-action="Details" asp-route-id="@student.Id" class="entity-list-row">
+                                <div class="entity-list-avatar">@(string.IsNullOrWhiteSpace(student.FirstName) ? "S" : student.FirstName.Substring(0, 1).ToUpper())</div>
+                                <div class="entity-list-main">
+                                    <strong>@student.FirstName @student.LastName</strong>
+                                    <span>@student.DateOfBirth.ToString("dd MMM yyyy") · @Localizer["Student #{0}", student.Id]</span>
+                                </div>
+                                <span class="entity-list-side">@Localizer["View"] <i class="bi bi-chevron-right"></i></span>
+                            </a>
                         }
-                    </tbody>
-                </table>
+                    </div>
+                }
             </div>
-        }
+        </section>
     </div>
 </div>

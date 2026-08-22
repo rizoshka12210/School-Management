@@ -38,12 +38,13 @@
     <link rel="stylesheet" href="~/css/features.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/icons.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SchoolManagementSystem.Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/polish.css" asp-append-version="true" />
 </head>
 <body>
 <div class="app">
 @if (User.Identity?.IsAuthenticated == true)
 {
-    <aside class="sidebar">
+    <aside id="appSidebar" class="sidebar">
         <div class="sidebar-brand">
             <div class="brand-logo"><i class="bi bi-mortarboard-fill"></i></div>
             <div><div class="brand-title">@Localizer["School"]</div><div class="brand-subtitle">@Localizer["Management"]</div></div>
@@ -99,10 +100,15 @@
         }
         </nav>
     </aside>
+    <button type="button" id="sidebarBackdrop" class="sidebar-backdrop" aria-hidden="true" tabindex="-1"></button>
 }
 <div class="main-wrapper">
     <header class="topbar">
         <div class="topbar-title-group">
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <button type="button" id="sidebarToggle" class="btn-mobile-menu" aria-label="@Localizer["Menu"]" aria-controls="appSidebar" aria-expanded="false"><i class="bi bi-list"></i></button>
+            }
             <button type="button" id="backButton" class="btn-back" aria-label="@Localizer["Back"]" title="@Localizer["Back"]"><i class="bi bi-arrow-left"></i></button>
             <h5 class="topbar-title">@ViewData["Title"]</h5>
         </div>
