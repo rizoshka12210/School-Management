@@ -69,7 +69,13 @@
 
                             <div class="teacher-grade-input">
                                 <label asp-for="Students[i].Value">@Localizer["Grade"]</label>
-                                <input asp-for="Students[i].Value" type="number" min="1" max="5" class="form-control" placeholder="1 - 5" />
+                                <select asp-for="Students[i].Value" class="form-select">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
                                 <span asp-validation-for="Students[i].Value" class="text-danger small"></span>
                             </div>
 
@@ -88,8 +94,14 @@
     @if (Model.Students.Any())
     {
         <div class="form-actions">
-            <a asp-action="Index" class="btn btn-light">@Localizer["Cancel"]</a>
-            <button type="submit" class="btn btn-primary">@Localizer["Save Grades"]</button>
+            <a asp-action="Index" class="btn btn-light">
+                <i class="bi bi-x-lg"></i>
+                @Localizer["Cancel"]
+            </a>
+            <button type="submit" class="btn btn-primary">
+                <i class="bi bi-check2-circle"></i>
+                @Localizer["Save Grades"]
+            </button>
         </div>
     }
 
