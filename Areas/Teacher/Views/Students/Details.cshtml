@@ -11,133 +11,151 @@
     int totalLessons = Convert.ToInt32(ViewBag.TotalLessons);
 }
 
-<div class="teacher-details-header">
-    <div>
-        <a asp-action="Index" class="back-link">← @Localizer["My Students"]</a>
+<link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
 
-        <div class="teacher-student-profile mt-3">
-            <div class="teacher-student-avatar">
-                @(string.IsNullOrWhiteSpace(Model.FirstName)
-                    ? "S"
-                    : Model.FirstName.Substring(0, 1).ToUpper())
+<div class="entity-details-page">
+    <a asp-action="Index" class="entity-details-back">
+        <i class="bi bi-arrow-left"></i>
+        @Localizer["My Students"]
+    </a>
+
+    <section class="entity-details-hero">
+        <div class="entity-details-identity">
+            <div class="entity-details-icon">
+                @(string.IsNullOrWhiteSpace(Model.FirstName) ? "S" : Model.FirstName.Substring(0, 1).ToUpper())
             </div>
-
             <div>
-                <h1 class="page-title mb-1">@Model.FirstName @Model.LastName</h1>
-                <div class="d-flex align-items-center gap-2">
+                <span class="entity-details-eyebrow">@Localizer["Student"]</span>
+                <h1 class="entity-details-title">@Model.FirstName @Model.LastName</h1>
+                <p class="entity-details-subtitle">@(Model.Group?.Name ?? Localizer["No group"].Value)</p>
+                <div class="entity-details-meta">
+                    <span class="entity-meta-badge"><i class="bi bi-hash"></i>@Localizer["Student #{0}", Model.Id]</span>
+                    <span class="entity-meta-badge"><i class="bi bi-calendar3"></i>@Model.DateOfBirth.ToString("dd MMM yyyy")</span>
                     @if (Model.Group != null)
                     {
-                        <span class="group-badge">@Model.Group.Name</span>
+                        <span class="entity-meta-badge"><i class="bi bi-collection-fill"></i>@Model.Group.Name</span>
                     }
-                    <span class="text-muted small">@Localizer["Student #{0}", Model.Id]</span>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+        <div class="entity-details-actions">
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i>
+                @Localizer["Back"]
+            </a>
+        </div>
+    </section>
 
-<div class="teacher-student-stat-grid">
-    <div class="teacher-student-stat">
-        <div class="teacher-student-stat-icon attendance-color">AT</div>
-        <div>
-            <span>@Localizer["Attendance"]</span>
-            <strong>@attendanceRate.ToString("0.#")%</strong>
-            <small>@Localizer["{0} of {1} present", presentCount, totalLessons]</small>
+    <div class="entity-kpi-grid">
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon green"><i class="bi bi-clipboard2-check-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Attendance"]</span>
+                <strong>@attendanceRate.ToString("0.#")%</strong>
+                <small>@Localizer["{0} of {1} present", presentCount, totalLessons]</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon orange"><i class="bi bi-award-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Average Grade"]</span>
+                <strong>@averageGrade.ToString("0.##")</strong>
+                <small>@Localizer["In your subjects"]</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon blue"><i class="bi bi-easel2-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Recorded Lessons"]</span>
+                <strong>@totalLessons</strong>
+                <small>@Localizer["Attendance records"]</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon pink"><i class="bi bi-journal-check"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Grades"]</span>
+                <strong>@grades.Count</strong>
+                <small>@Localizer["Recorded grades"]</small>
+            </div>
         </div>
     </div>
 
-    <div class="teacher-student-stat">
-        <div class="teacher-student-stat-icon grade-color">GD</div>
-        <div>
-            <span>@Localizer["Average Grade"]</span>
-            <strong>@averageGrade.ToString("0.##")</strong>
-            <small>@Localizer["In your subjects"]</small>
-        </div>
+    <div class="entity-details-grid entity-details-grid-wide mb-4">
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-person-badge-fill"></i>@Localizer["Student Information"]</h2>
+                </div>
+            </div>
+            <div class="entity-panel-body">
+                <div class="entity-facts">
+                    <div class="entity-fact"><span>ID</span><strong>#@Model.Id</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Date of Birth"]</span><strong>@Model.DateOfBirth.ToString("dd MMMM yyyy")</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Group"]</span><strong>@(Model.Group?.Name ?? Localizer["No group"].Value)</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Attendance"]</span><strong>@presentCount / @totalLessons</strong></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-graph-up-arrow"></i>@Localizer["Progress"]</h2>
+                </div>
+            </div>
+            <div class="entity-panel-body">
+                <div class="entity-facts">
+                    <div class="entity-fact"><span>@Localizer["Average Grade"]</span><strong>@averageGrade.ToString("0.##")</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Attendance"]</span><strong>@attendanceRate.ToString("0.#")%</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Grades"]</span><strong>@grades.Count</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Recorded Lessons"]</span><strong>@totalLessons</strong></div>
+                </div>
+            </div>
+        </section>
     </div>
 
-    <div class="teacher-student-stat">
-        <div class="teacher-student-stat-icon lessons-color">LS</div>
-        <div>
-            <span>@Localizer["Recorded Lessons"]</span>
-            <strong>@totalLessons</strong>
-            <small>@Localizer["Attendance records"]</small>
-        </div>
-    </div>
-
-    <div class="teacher-student-stat">
-        <div class="teacher-student-stat-icon subject-color">GD</div>
-        <div>
-            <span>@Localizer["Grades"]</span>
-            <strong>@grades.Count</strong>
-            <small>@Localizer["Recorded grades"]</small>
-        </div>
-    </div>
-</div>
-
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        <div class="section-header">
+    <section class="entity-panel">
+        <div class="entity-panel-head">
             <div>
-                <h5 class="section-title">@Localizer["Grade History"]</h5>
-                <p class="section-subtitle">@Localizer["Grades recorded by you for this student"]</p>
+                <h2 class="entity-panel-title"><i class="bi bi-journal-check"></i>@Localizer["Grade History"]</h2>
+                <p class="entity-panel-subtitle">@Localizer["Grades recorded by you for this student"]</p>
             </div>
+            <span class="entity-panel-count">@grades.Count</span>
         </div>
-
-        @if (!grades.Any())
-        {
-            <div class="teacher-empty">
-                <div class="teacher-empty-icon">GD</div>
-                <h5>@Localizer["No grades yet"]</h5>
-                <p>@Localizer["This student does not have any grades recorded by you."]</p>
-            </div>
-        }
-        else
-        {
-            <div class="table-responsive">
-                <table class="table table-hover management-table">
-                    <thead>
-                        <tr>
-                            <th>@Localizer["Date"]</th>
-                            <th>@Localizer["Subject"]</th>
-                            <th>@Localizer["Grade"]</th>
-                            <th>@Localizer["Comment"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var grade in grades)
-                        {
+        <div class="entity-panel-body">
+            @if (!grades.Any())
+            {
+                <div class="entity-empty"><div><i class="bi bi-journal-x"></i>@Localizer["This student does not have any grades recorded by you."]</div></div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover management-table">
+                        <thead>
                             <tr>
-                                <td><div class="record-date">@grade.Date.ToString("dd MMM yyyy")</div></td>
-                                <td><span class="subject-badge">@grade.Subject.Name</span></td>
-                                <td>
-                                    @if (grade.Value >= 5)
-                                    {
-                                        <span class="grade-badge grade-high">@grade.Value</span>
-                                    }
-                                    else if (grade.Value >= 4)
-                                    {
-                                        <span class="grade-badge grade-good">@grade.Value</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="grade-badge grade-low">@grade.Value</span>
-                                    }
-                                </td>
-                                <td>
-                                    @if (!string.IsNullOrWhiteSpace(grade.Comment))
-                                    {
-                                        @grade.Comment
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">—</span>
-                                    }
-                                </td>
+                                <th>@Localizer["Date"]</th>
+                                <th>@Localizer["Subject"]</th>
+                                <th>@Localizer["Grade"]</th>
+                                <th>@Localizer["Comment"]</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
-    </div>
+                        </thead>
+                        <tbody>
+                            @foreach (var grade in grades)
+                            {
+                                <tr>
+                                    <td><div class="record-date">@grade.Date.ToString("dd MMM yyyy")</div></td>
+                                    <td><span class="subject-badge">@grade.Subject.Name</span></td>
+                                    <td>
+                                        <span class="grade-badge @(grade.Value >= 5 ? "grade-high" : grade.Value >= 4 ? "grade-good" : "grade-low")">@grade.Value</span>
+                                    </td>
+                                    <td>@(string.IsNullOrWhiteSpace(grade.Comment) ? "—" : grade.Comment)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </section>
 </div>
