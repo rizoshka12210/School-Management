@@ -23,10 +23,10 @@ public class AdminIdentityCrudTests
         var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
         await roleManager.CreateAsync(new IdentityRole(Roles.Parent));
 
-        var controller = new ParentsController(
+        var controller = ControllerTestHelpers.WithTempData(new ParentsController(
             db,
             userManager,
-            new TestStringLocalizer<SharedResource>());
+            new TestStringLocalizer<SharedResource>()));
 
         var createResult = await controller.Create(new ParentFormViewModel
         {
@@ -75,11 +75,11 @@ public class AdminIdentityCrudTests
         db.AddRange(group, subject);
         await db.SaveChangesAsync();
 
-        var controller = new TeachersController(
+        var controller = ControllerTestHelpers.WithTempData(new TeachersController(
             db,
             userManager,
             new TestStringLocalizer<SharedResource>(),
-            new ActivityLogService(db));
+            new ActivityLogService(db)));
 
         var createResult = await controller.Create(new TeacherFormViewModel
         {
