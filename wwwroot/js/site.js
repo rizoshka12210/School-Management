@@ -1,4 +1,12 @@
 ﻿(() => {
+    const refinementHref = "/css/refinements.css";
+    if (!document.querySelector(`link[href*="refinements.css"]`)) {
+        const refinementStyles = document.createElement("link");
+        refinementStyles.rel = "stylesheet";
+        refinementStyles.href = refinementHref;
+        document.head.appendChild(refinementStyles);
+    }
+
     const body = document.body;
     const sidebarToggle = document.getElementById("sidebarToggle");
     const sidebarBackdrop = document.getElementById("sidebarBackdrop");
