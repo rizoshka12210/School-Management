@@ -15,9 +15,9 @@ public class AdminReferenceCrudTests
     {
         using var provider = TestServiceProviderFactory.Create();
         var db = provider.GetRequiredService<AppDbContext>();
-        var controller = new GroupsController(
+        var controller = ControllerTestHelpers.WithTempData(new GroupsController(
             db,
-            new TestStringLocalizer<SharedResource>());
+            new TestStringLocalizer<SharedResource>()));
 
         var createResult = await controller.Create(new GroupFormViewModel
         {
@@ -51,9 +51,9 @@ public class AdminReferenceCrudTests
         db.Groups.Add(new Group { Name = "9-A" });
         await db.SaveChangesAsync();
 
-        var controller = new GroupsController(
+        var controller = ControllerTestHelpers.WithTempData(new GroupsController(
             db,
-            new TestStringLocalizer<SharedResource>());
+            new TestStringLocalizer<SharedResource>()));
 
         var result = await controller.Create(new GroupFormViewModel
         {
@@ -70,9 +70,9 @@ public class AdminReferenceCrudTests
     {
         using var provider = TestServiceProviderFactory.Create();
         var db = provider.GetRequiredService<AppDbContext>();
-        var controller = new SubjectsController(
+        var controller = ControllerTestHelpers.WithTempData(new SubjectsController(
             db,
-            new TestStringLocalizer<SharedResource>());
+            new TestStringLocalizer<SharedResource>()));
 
         var createResult = await controller.Create(new SubjectFormViewModel
         {
@@ -106,9 +106,9 @@ public class AdminReferenceCrudTests
         db.Subjects.Add(new Subject { Name = "Mathematics" });
         await db.SaveChangesAsync();
 
-        var controller = new SubjectsController(
+        var controller = ControllerTestHelpers.WithTempData(new SubjectsController(
             db,
-            new TestStringLocalizer<SharedResource>());
+            new TestStringLocalizer<SharedResource>()));
 
         var result = await controller.Create(new SubjectFormViewModel
         {
