@@ -2,69 +2,97 @@
 
 @{
     ViewData["Title"] = Localizer["Schedule Details"];
+    var duration = Model.EndTime - Model.StartTime;
 }
 
-<div class="container mt-4">
+<link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
 
-    <div class="row justify-content-center">
+<div class="entity-details-page">
+    <a asp-action="Index" class="entity-details-back">
+        <i class="bi bi-arrow-left"></i>
+        @Localizer["Schedule"]
+    </a>
 
-        <div class="col-lg-7">
-
-            <div class="card border-0 shadow-sm">
-
-                <div class="card-body p-4">
-
-                    <h2 class="fw-bold">
-                        @Localizer["Schedule Details"]
-                    </h2>
-
-                    <hr />
-
-                    <p>
-                        <strong>@Localizer["Day"]:</strong>
-                        @Localizer[Model.DayOfWeek.ToString()]
-                    </p>
-
-                    <p>
-                        <strong>@Localizer["Time"]:</strong>
-
-                        @Model.StartTime.ToString("HH:mm")
-                        -
-                        @Model.EndTime.ToString("HH:mm")
-                    </p>
-
-                    <p>
-                        <strong>@Localizer["Group"]:</strong>
-                        @Model.Group.Name
-                    </p>
-
-                    <p>
-                        <strong>@Localizer["Subject"]:</strong>
-                        @Model.Subject.Name
-                    </p>
-
-                    <p>
-                        <strong>@Localizer["Teacher"]:</strong>
-                        @Model.Teacher.ApplicationUser.FullName
-                    </p>
-
-                    <a asp-action="Edit"
-                       asp-route-id="@Model.Id"
-                       class="btn btn-primary">
-                        @Localizer["Edit"]
-                    </a>
-
-                    <a asp-action="Index"
-                       class="btn btn-outline-secondary">
-                        @Localizer["Back"]
-                    </a>
-
-                </div>
-
+    <section class="entity-details-hero">
+        <div class="entity-details-identity">
+            <div class="entity-details-icon entity-icon-green">
+                <i class="bi bi-calendar3-week-fill"></i>
             </div>
-
+            <div>
+                <span class="entity-details-eyebrow">@Localizer["Schedule Details"]</span>
+                <h1 class="entity-details-title">@Model.Subject.Name</h1>
+                <p class="entity-details-subtitle">@Localizer[Model.DayOfWeek.ToString()] · @Model.Group.Name</p>
+                <div class="entity-details-meta">
+                    <span class="entity-meta-badge"><i class="bi bi-clock-fill"></i>@Model.StartTime.ToString("HH:mm") - @Model.EndTime.ToString("HH:mm")</span>
+                    <span class="entity-meta-badge"><i class="bi bi-person-workspace"></i>@Model.Teacher.ApplicationUser.FullName</span>
+                    <span class="entity-meta-badge"><i class="bi bi-hash"></i>ID @Model.Id</span>
+                </div>
+            </div>
         </div>
 
+        <div class="entity-details-actions">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i>
+                @Localizer["Edit"]
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i>
+                @Localizer["Back"]
+            </a>
+        </div>
+    </section>
+
+    <div class="entity-kpi-grid entity-kpi-grid-3">
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon blue"><i class="bi bi-calendar-day-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Day"]</span>
+                <strong>@Localizer[Model.DayOfWeek.ToString()]</strong>
+                <small>@Localizer["Schedule"]</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon green"><i class="bi bi-clock-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Time"]</span>
+                <strong>@Model.StartTime.ToString("HH:mm")</strong>
+                <small>@Model.EndTime.ToString("HH:mm")</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon orange"><i class="bi bi-hourglass-split"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Time"]</span>
+                <strong>@duration.TotalMinutes.ToString("0") min</strong>
+                <small>@Model.Subject.Name</small>
+            </div>
+        </div>
     </div>
 
+    <section class="entity-panel">
+        <div class="entity-panel-head">
+            <div>
+                <h2 class="entity-panel-title"><i class="bi bi-info-circle-fill"></i>@Localizer["Schedule Details"]</h2>
+            </div>
+        </div>
+        <div class="entity-panel-body">
+            <div class="entity-facts">
+                <div class="entity-fact"><span>@Localizer["Day"]</span><strong>@Localizer[Model.DayOfWeek.ToString()]</strong></div>
+                <div class="entity-fact"><span>@Localizer["Time"]</span><strong>@Model.StartTime.ToString("HH:mm") - @Model.EndTime.ToString("HH:mm")</strong></div>
+                <div class="entity-fact">
+                    <span>@Localizer["Group"]</span>
+                    <a asp-area="Admin" asp-controller="Groups" asp-action="Details" asp-route-id="@Model.GroupId">@Model.Group.Name</a>
+                </div>
+                <div class="entity-fact">
+                    <span>@Localizer["Subject"]</span>
+                    <a asp-area="Admin" asp-controller="Subjects" asp-action="Details" asp-route-id="@Model.SubjectId">@Model.Subject.Name</a>
+                </div>
+                <div class="entity-fact">
+                    <span>@Localizer["Teacher"]</span>
+                    <a asp-area="Admin" asp-controller="Teachers" asp-action="Details" asp-route-id="@Model.TeacherId">@Model.Teacher.ApplicationUser.FullName</a>
+                </div>
+                <div class="entity-fact"><span>ID</span><strong>#@Model.Id</strong></div>
+            </div>
+        </div>
+    </section>
 </div>
