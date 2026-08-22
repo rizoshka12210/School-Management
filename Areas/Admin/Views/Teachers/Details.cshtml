@@ -2,87 +2,141 @@
 
 @{
     ViewData["Title"] = Localizer["Teacher Details"];
+
+    var fullName = string.IsNullOrWhiteSpace(Model.ApplicationUser.FullName)
+        ? Localizer["Teacher"].Value
+        : Model.ApplicationUser.FullName;
+
+    var initials = string.Concat(fullName
+        .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+        .Take(2)
+        .Select(value => char.ToUpperInvariant(value[0])));
 }
 
-<div class="container mt-4">
+<link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
 
-    <div class="row justify-content-center">
+<div class="entity-details-page">
+    <a asp-action="Index" class="entity-details-back">
+        <i class="bi bi-arrow-left"></i>
+        @Localizer["Teachers"]
+    </a>
 
-        <div class="col-lg-7">
-
-            <div class="card border-0 shadow-sm">
-
-                <div class="card-body p-4">
-
-                    <h2 class="fw-bold">
-                        @Model.ApplicationUser.FullName
-                    </h2>
-
-                    <p class="text-muted">
-                        @Model.ApplicationUser.Email
-                    </p>
-
-                    <hr />
-
-                    <p>
-                        <strong>@Localizer["Hourly Rate"]:</strong>
-                        @Model.HourlyRate
-                    </p>
-
-                    <h5 class="mt-4">
-                        @Localizer["Groups"]
-                    </h5>
-
-                    @if (Model.Groups.Any())
-                    {
-                        <ul>
-                            @foreach (var group in Model.Groups)
-                            {
-                                <li>@group.Name</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p class="text-muted">
-                            @Localizer["No groups assigned."]
-                        </p>
-                    }
-
-                    <h5 class="mt-4">
-                        @Localizer["Subjects"]
-                    </h5>
-
-                    @if (Model.Subjects.Any())
-                    {
-                        <ul>
-                            @foreach (var subject in Model.Subjects)
-                            {
-                                <li>@subject.Name</li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        <p class="text-muted">
-                            @Localizer["No subjects assigned."]
-                        </p>
-                    }
-
-                    <a asp-action="Edit"
-                       asp-route-id="@Model.Id"
-                       class="btn btn-primary">
-                        @Localizer["Edit"]
-                    </a>
-
-                    <a asp-action="Index"
-                       class="btn btn-outline-secondary">
-                        @Localizer["Back"]
-                    </a>
-
+    <section class="entity-details-hero">
+        <div class="entity-details-identity">
+            <div class="entity-details-icon entity-icon-blue">
+                @(string.IsNullOrWhiteSpace(initials) ? "T" : initials)
+            </div>
+            <div>
+                <span class="entity-details-eyebrow">@Localizer["Teacher Details"]</span>
+                <h1 class="entity-details-title">@fullName</h1>
+                <p class="entity-details-subtitle">@(Model.ApplicationUser.Email ?? "—")</p>
+                <div class="entity-details-meta">
+                    <span class="entity-meta-badge"><i class="bi bi-person-workspace"></i>@Localizer["Teacher"]</span>
+                    <span class="entity-meta-badge"><i class="bi bi-hash"></i>ID @Model.Id</span>
                 </div>
             </div>
-
         </div>
+
+        <div class="entity-details-actions">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                <i class="bi bi-pencil-square"></i>
+                @Localizer["Edit"]
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i>
+                @Localizer["Back"]
+            </a>
+        </div>
+    </section>
+
+    <div class="entity-kpi-grid entity-kpi-grid-3">
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon green"><i class="bi bi-cash-stack"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Hourly Rate"]</span>
+                <strong>@Model.HourlyRate.ToString("0.##")</strong>
+                <small>@Localizer["Hourly Rate"]</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon blue"><i class="bi bi-collection-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Groups"]</span>
+                <strong>@Model.Groups.Count</strong>
+                <small>@Localizer["Groups"]</small>
+            </div>
+        </div>
+        <div class="entity-kpi-card">
+            <div class="entity-kpi-icon orange"><i class="bi bi-book-fill"></i></div>
+            <div class="entity-kpi-content">
+                <span>@Localizer["Subjects"]</span>
+                <strong>@Model.Subjects.Count</strong>
+                <small>@Localizer["Subjects"]</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="entity-details-grid">
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-collection-fill"></i>@Localizer["Groups"]</h2>
+                </div>
+                <span class="entity-panel-count">@Model.Groups.Count</span>
+            </div>
+            <div class="entity-panel-body">
+                @if (Model.Groups.Any())
+                {
+                    <div class="entity-list">
+                        @foreach (var group in Model.Groups.OrderBy(g => g.Name))
+                        {
+                            <a asp-area="Admin" asp-controller="Groups" asp-action="Details" asp-route-id="@group.Id" class="entity-list-row">
+                                <div class="entity-list-avatar group"><i class="bi bi-collection-fill"></i></div>
+                                <div class="entity-list-main">
+                                    <strong>@group.Name</strong>
+                                    <span>@Localizer["Group"] #@group.Id</span>
+                                </div>
+                                <span class="entity-list-side">@Localizer["View"] <i class="bi bi-chevron-right"></i></span>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="entity-empty"><div><i class="bi bi-collection"></i>@Localizer["No groups assigned."]</div></div>
+                }
+            </div>
+        </section>
+
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-book-fill"></i>@Localizer["Subjects"]</h2>
+                </div>
+                <span class="entity-panel-count">@Model.Subjects.Count</span>
+            </div>
+            <div class="entity-panel-body">
+                @if (Model.Subjects.Any())
+                {
+                    <div class="entity-list">
+                        @foreach (var subject in Model.Subjects.OrderBy(s => s.Name))
+                        {
+                            <a asp-area="Admin" asp-controller="Subjects" asp-action="Details" asp-route-id="@subject.Id" class="entity-list-row">
+                                <div class="entity-list-avatar subject"><i class="bi bi-book-fill"></i></div>
+                                <div class="entity-list-main">
+                                    <strong>@subject.Name</strong>
+                                    <span>@Localizer["Subject"] #@subject.Id</span>
+                                </div>
+                                <span class="entity-list-side">@Localizer["View"] <i class="bi bi-chevron-right"></i></span>
+                            </a>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="entity-empty"><div><i class="bi bi-book"></i>@Localizer["No subjects assigned."]</div></div>
+                }
+            </div>
+        </section>
     </div>
 </div>
