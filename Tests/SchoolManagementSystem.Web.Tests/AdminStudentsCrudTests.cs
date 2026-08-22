@@ -14,7 +14,7 @@ public class AdminStudentsCrudTests
     [Fact]
     public async Task Create_AddsStudentAndGroupRelation()
     {
-        await using var provider = TestServiceProviderFactory.Create();
+        using var provider = TestServiceProviderFactory.Create();
         var db = provider.GetRequiredService<AppDbContext>();
         var group = new Group { Name = "10-A" };
         db.Groups.Add(group);
@@ -42,7 +42,7 @@ public class AdminStudentsCrudTests
     [Fact]
     public async Task Edit_UpdatesStudentData()
     {
-        await using var provider = TestServiceProviderFactory.Create();
+        using var provider = TestServiceProviderFactory.Create();
         var db = provider.GetRequiredService<AppDbContext>();
         var student = new Student
         {
@@ -74,7 +74,7 @@ public class AdminStudentsCrudTests
     [Fact]
     public async Task DeleteConfirmed_RemovesStudent()
     {
-        await using var provider = TestServiceProviderFactory.Create();
+        using var provider = TestServiceProviderFactory.Create();
         var db = provider.GetRequiredService<AppDbContext>();
         var student = new Student
         {
@@ -86,7 +86,6 @@ public class AdminStudentsCrudTests
         await db.SaveChangesAsync();
 
         var controller = CreateController(db);
-
         var result = await controller.DeleteConfirmed(student.Id);
 
         Assert.IsType<RedirectToActionResult>(result);
@@ -95,11 +94,11 @@ public class AdminStudentsCrudTests
 
     private static StudentsController CreateController(AppDbContext db)
     {
-        return new StudentsController(
+        return ControllerTestHelpers.WithTempData(new StudentsController(
             db,
             new TestStringLocalizer<SharedResource>(),
             new StudentRiskService(),
             new AchievementService(db),
-            new ActivityLogService(db));
+            new ActivityLogService(db)));
     }
 }
