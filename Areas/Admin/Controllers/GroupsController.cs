@@ -88,10 +88,14 @@ public class GroupsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Journal(GroupJournalSaveViewModel model)
     {
+        var isRussian =
+            System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
+
         if (!ModelState.IsValid)
         {
-            TempData["Error"] =
-                _localizer["Journal contains invalid values."].Value;
+            TempData["Error"] = isRussian
+                ? "В журнале есть некорректные значения."
+                : _localizer["Journal contains invalid values."].Value;
 
             return RedirectToAction(
                 nameof(Journal),
@@ -107,8 +111,9 @@ public class GroupsController : Controller
             return NotFound();
         }
 
-        TempData["Success"] =
-            _localizer["Journal saved successfully."].Value;
+        TempData["Success"] = isRussian
+            ? "Журнал успешно сохранён."
+            : _localizer["Journal saved successfully."].Value;
 
         return RedirectToAction(
             nameof(Journal),
