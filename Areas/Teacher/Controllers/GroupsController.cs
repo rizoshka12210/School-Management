@@ -119,9 +119,14 @@ public class GroupsController : TeacherControllerBase
             return Forbid();
         }
 
+        var isRussian =
+            System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
+
         if (!ModelState.IsValid)
         {
-            TempData["Error"] = "Journal contains invalid values.";
+            TempData["Error"] = isRussian
+                ? "В журнале есть некорректные значения."
+                : "Journal contains invalid values.";
 
             return RedirectToAction(
                 nameof(Journal),
@@ -138,7 +143,9 @@ public class GroupsController : TeacherControllerBase
             return NotFound();
         }
 
-        TempData["Success"] = "Journal saved successfully.";
+        TempData["Success"] = isRussian
+            ? "Журнал успешно сохранён."
+            : "Journal saved successfully.";
 
         return RedirectToAction(
             nameof(Journal),
