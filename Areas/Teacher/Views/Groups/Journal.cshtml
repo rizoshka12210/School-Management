@@ -5,6 +5,10 @@
     ViewData["Title"] = $"{Localizer["Journal"]} · {Model.GroupName}";
     var entryIndex = 0;
     var weekIndex = 0;
+    var isRussian = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
+    var attendanceHeader = isRussian ? "Пос." : Localizer["Att"].Value;
+    var lateMark = isRussian ? "О" : "L";
+    var excusedMark = isRussian ? "У" : "E";
 
     string AttendanceClass(AttendanceStatus? status) => status switch
     {
@@ -162,7 +166,7 @@
                                     <tr>
                                         @foreach (var lesson in week.Lessons)
                                         {
-                                            <th class="journal-subhead-att">@Localizer["Att"]</th>
+                                            <th class="journal-subhead-att">@attendanceHeader</th>
                                             <th class="journal-subhead-grade">@Localizer["Grade"]</th>
                                         }
                                     </tr>
@@ -197,8 +201,8 @@
                                                         <option value="" selected="@(!cell.AttendanceStatus.HasValue ? "selected" : null)">—</option>
                                                         <option value="@((int)AttendanceStatus.Present)" selected="@(cell.AttendanceStatus == AttendanceStatus.Present ? "selected" : null)">✓</option>
                                                         <option value="@((int)AttendanceStatus.Absent)" selected="@(cell.AttendanceStatus == AttendanceStatus.Absent ? "selected" : null)">✕</option>
-                                                        <option value="@((int)AttendanceStatus.Late)" selected="@(cell.AttendanceStatus == AttendanceStatus.Late ? "selected" : null)">L</option>
-                                                        <option value="@((int)AttendanceStatus.Excused)" selected="@(cell.AttendanceStatus == AttendanceStatus.Excused ? "selected" : null)">E</option>
+                                                        <option value="@((int)AttendanceStatus.Late)" selected="@(cell.AttendanceStatus == AttendanceStatus.Late ? "selected" : null)">@lateMark</option>
+                                                        <option value="@((int)AttendanceStatus.Excused)" selected="@(cell.AttendanceStatus == AttendanceStatus.Excused ? "selected" : null)">@excusedMark</option>
                                                     </select>
                                                 </td>
 
