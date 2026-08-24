@@ -322,7 +322,7 @@ public class GroupJournalService
                     SubjectId = lesson.SubjectId,
                     TeacherId = lesson.TeacherId,
                     Value = entry.GradeValue.Value,
-                    Date = lesson.StartTime
+                    Date = EnsureUtc(lesson.StartTime)
                 });
             }
             else
@@ -349,5 +349,15 @@ public class GroupJournalService
         var day = date.Date;
         var diff = (7 + (int)day.DayOfWeek - (int)DayOfWeek.Monday) % 7;
         return day.AddDays(-diff);
+    }
+
+    private static DateTime EnsureUtc(DateTime date)
+    {
+        return date.Kind switch
+        {
+            DateTimeKind.Utc => date,
+            DateTimeKind.Local => date.ToUniversalTime(),
+            _ => DateTime.SpecifyKind(date, DateTimeKind.Utc)
+        };
     }
 }
