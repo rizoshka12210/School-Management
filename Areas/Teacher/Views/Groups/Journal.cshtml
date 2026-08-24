@@ -2,11 +2,13 @@
 @model SchoolManagementSystem.Web.ViewModels.Shared.GroupJournalViewModel
 
 @{
-    ViewData["Title"] = $"{Localizer["Journal"]} · {Model.GroupName}";
+    var isRussian = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
+    string T(string english, string russian) => isRussian ? russian : Localizer[english].Value;
+
+    ViewData["Title"] = $"{T("Journal", "Журнал")} · {Model.GroupName}";
     var entryIndex = 0;
     var weekIndex = 0;
-    var isRussian = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
-    var attendanceHeader = isRussian ? "Пос." : Localizer["Att"].Value;
+    var attendanceHeader = isRussian ? "Пос." : "Att";
     var lateMark = isRussian ? "О" : "L";
     var excusedMark = isRussian ? "У" : "E";
 
@@ -31,12 +33,12 @@
         <div class="journal-page-head-left">
             <a asp-action="Details" asp-route-id="@Model.GroupId" class="journal-back">
                 <i class="bi bi-arrow-left"></i>
-                @Localizer["Back to group"]
+                @T("Back to group", "Назад к группе")
             </a>
 
-            <h1 class="journal-title">@Localizer["Journal"] · @Model.GroupName</h1>
+            <h1 class="journal-title">@T("Journal", "Журнал") · @Model.GroupName</h1>
             <p class="journal-subtitle">
-                @Localizer["Attendance and grades in one place. Each column is one of your lessons for this group."]
+                @T("Attendance and grades in one place. Each column is one of your lessons for this group.", "Посещаемость и оценки в одном месте. Каждый столбец — один из ваших уроков для этой группы.")
             </p>
         </div>
 
@@ -44,10 +46,10 @@
             <input type="hidden" name="id" value="@Model.GroupId" />
             <label for="journalWeeks">@Localizer["Show"]</label>
             <select id="journalWeeks" name="weeks" class="form-select" onchange="this.form.submit()">
-                <option value="4" selected="@(Model.WeeksRequested == 4 ? "selected" : null)">4 @Localizer["weeks"]</option>
-                <option value="8" selected="@(Model.WeeksRequested == 8 ? "selected" : null)">8 @Localizer["weeks"]</option>
-                <option value="12" selected="@(Model.WeeksRequested == 12 ? "selected" : null)">12 @Localizer["weeks"]</option>
-                <option value="16" selected="@(Model.WeeksRequested == 16 ? "selected" : null)">16 @Localizer["weeks"]</option>
+                <option value="4" selected="@(Model.WeeksRequested == 4 ? "selected" : null)">4 @T("weeks", "нед.")</option>
+                <option value="8" selected="@(Model.WeeksRequested == 8 ? "selected" : null)">8 @T("weeks", "нед.")</option>
+                <option value="12" selected="@(Model.WeeksRequested == 12 ? "selected" : null)">12 @T("weeks", "нед.")</option>
+                <option value="16" selected="@(Model.WeeksRequested == 16 ? "selected" : null)">16 @T("weeks", "нед.")</option>
             </select>
         </form>
     </div>
@@ -67,7 +69,7 @@
             <div class="journal-stat-copy">
                 <span>@Localizer["Lessons"]</span>
                 <strong>@Model.TotalLessons</strong>
-                <small>@Localizer["Your lessons shown here"]</small>
+                <small>@T("Your lessons shown here", "Здесь показаны ваши уроки")</small>
             </div>
         </div>
 
@@ -76,7 +78,7 @@
             <div class="journal-stat-copy">
                 <span>@Localizer["Attendance"]</span>
                 <strong>@Model.AttendanceRate.ToString("0.#")%</strong>
-                <small>@Model.MarkedAttendanceCount @Localizer["marked entries"]</small>
+                <small>@Model.MarkedAttendanceCount @T("marked entries", "отмечено")</small>
             </div>
         </div>
 
@@ -85,7 +87,7 @@
             <div class="journal-stat-copy">
                 <span>@Localizer["Average Grade"]</span>
                 <strong>@(Model.AverageGrade?.ToString("0.00") ?? "—")</strong>
-                <small>@Model.GradedEntriesCount @Localizer["grades"]</small>
+                <small>@Model.GradedEntriesCount @T("grades", "оценок")</small>
             </div>
         </div>
     </div>
@@ -103,7 +105,7 @@
             <div class="journal-empty-icon"><i class="bi bi-journal-x"></i></div>
             <h3>@Localizer["No lessons yet"]</h3>
             <p>
-                @Localizer["When lessons are created for this group, they will automatically appear here as journal columns."]
+                @T("When lessons are created for this group, they will automatically appear here as journal columns.", "Когда для этой группы будут созданы уроки, они автоматически появятся здесь как столбцы журнала.")
             </p>
         </div>
     }
@@ -124,7 +126,7 @@
                             <div class="journal-week-summary-main">
                                 <span class="journal-week-chevron"><i class="bi bi-chevron-down"></i></span>
                                 <span>
-                                    <span class="journal-week-name">@Localizer["Week"] @week.WeekNumber</span>
+                                    <span class="journal-week-name">@T("Week", "Неделя") @week.WeekNumber</span>
                                     <span class="journal-week-dates">
                                         @week.StartDate.ToString("dd.MM.yyyy") — @week.EndDate.ToString("dd.MM.yyyy")
                                     </span>
@@ -135,14 +137,14 @@
                                 @if (week.IsCurrentWeek)
                                 {
                                     <span class="journal-week-badge journal-current-badge">
-                                        <i class="bi bi-lightning-charge-fill"></i>@Localizer["Current week"]
+                                        <i class="bi bi-lightning-charge-fill"></i>@T("Current week", "Текущая неделя")
                                     </span>
                                 }
                                 <span class="journal-week-badge">
-                                    <i class="bi bi-easel2"></i>@week.Lessons.Count @Localizer["lessons"]
+                                    <i class="bi bi-easel2"></i>@week.Lessons.Count @T("lessons", "уроков")
                                 </span>
                                 <span class="journal-week-badge">
-                                    <i class="bi bi-people"></i>@week.Students.Count @Localizer["students"]
+                                    <i class="bi bi-people"></i>@week.Students.Count @T("students", "учеников")
                                 </span>
                             </div>
                         </summary>
@@ -161,7 +163,7 @@
                                             </th>
                                         }
 
-                                        <th rowspan="2" class="journal-summary-col">@Localizer["Average"]</th>
+                                        <th rowspan="2" class="journal-summary-col">@T("Average", "Среднее")</th>
                                     </tr>
                                     <tr>
                                         @foreach (var lesson in week.Lessons)
@@ -222,7 +224,7 @@
                                             <td class="journal-summary-col">
                                                 <div class="journal-row-summary">
                                                     <strong>@(row.AverageGrade?.ToString("0.00") ?? "—")</strong>
-                                                    <span>@row.AttendanceRate.ToString("0.#")% @Localizer["attendance"]</span>
+                                                    <span>@row.AttendanceRate.ToString("0.#")% @T("attendance", "посещаемость")</span>
                                                 </div>
                                             </td>
                                         </tr>
@@ -240,14 +242,14 @@
                 <div class="journal-save-copy">
                     <strong>
                         <span class="journal-unsaved-dot"></span>
-                        <span id="journalSaveTitle">@Localizer["Journal is ready"]</span>
+                        <span id="journalSaveTitle">@T("Journal is ready", "Журнал готов")</span>
                     </strong>
-                    <span id="journalSaveHint">@Localizer["Change attendance or a grade, then save all changes at once."]</span>
+                    <span id="journalSaveHint">@T("Change attendance or a grade, then save all changes at once.", "Измените посещаемость или оценку, затем сохраните все изменения одной кнопкой.")</span>
                 </div>
 
                 <button type="submit" class="btn btn-primary journal-save-button">
                     <i class="bi bi-check2-circle"></i>
-                    @Localizer["Save journal"]
+                    @T("Save journal", "Сохранить журнал")
                 </button>
             </div>
         </form>
@@ -293,8 +295,8 @@
 
             const markDirty = () => {
                 saveBar?.classList.add("is-dirty");
-                if (saveTitle) saveTitle.textContent = "@Localizer["Unsaved changes"]";
-                if (saveHint) saveHint.textContent = "@Localizer["Save the journal so attendance and grades are written to the database."]";
+                if (saveTitle) saveTitle.textContent = "@T("Unsaved changes", "Несохранённые изменения")";
+                if (saveHint) saveHint.textContent = "@T("Save the journal so attendance and grades are written to the database.", "Сохраните журнал, чтобы посещаемость и оценки были записаны в базу данных.")";
             };
 
             form.querySelectorAll(".journal-attendance-select").forEach(select => {
