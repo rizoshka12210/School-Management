@@ -2,16 +2,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
+using SchoolManagementSystem.Web.Services;
+using SchoolManagementSystem.Web.ViewModels.Shared;
 
 namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
 public class GroupsController : TeacherControllerBase
 {
+    private readonly GroupJournalService _journalService;
+
     public GroupsController(
         AppDbContext context,
-        OwnershipHelper ownership)
+        OwnershipHelper ownership,
+        GroupJournalService journalService)
         : base(context, ownership)
     {
+        _journalService = journalService;
     }
 
     public async Task<IActionResult> Index()
@@ -63,5 +69,79 @@ public class GroupsController : TeacherControllerBase
         ViewBag.Subjects = subjects;
 
         return View(group);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Journal(int id, int weeks = 8)
+    {
+        var teacherId = await GetTeacherIdAsync();
+
+        if (teacherId == null)
+        {
+            return Forbid();
+        }
+
+        var owns = await Ownership.TeacherOwnsGroupAsync(User, id);
+
+        if (!owns)
+        {
+            return Forbid();
+        }
+
+        var model = await _journalService.BuildAsync(
+            id,
+            weeks,
+            teacherId.Value);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Journal(GroupJournalSaveViewModel model)
+    {
+        var teacherId = await GetTeacherIdAsync();
+
+        if (teacherId == null)
+        {
+            return Forbid();
+        }
+
+        var owns = await Ownership.TeacherOwnsGroupAsync(User, model.GroupId);
+
+        if (!owns)
+        {
+            return Forbid();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = "Journal contains invalid values.";
+
+            return RedirectToAction(
+                nameof(Journal),
+                new { id = model.GroupId, weeks = model.Weeks });
+        }
+
+        var saved = await _journalService.SaveAsync(
+            model.GroupId,
+            model.Entries,
+            teacherId.Value);
+
+        if (!saved)
+        {
+            return NotFound();
+        }
+
+        TempData["Success"] = "Journal saved successfully.";
+
+        return RedirectToAction(
+            nameof(Journal),
+            new { id = model.GroupId, weeks = model.Weeks });
     }
 }
