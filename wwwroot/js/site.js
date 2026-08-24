@@ -64,4 +64,27 @@
             wrapper.setAttribute("tabindex", "0");
         }
     });
+
+    const decodeHtmlEntities = value => {
+        const textarea = document.createElement("textarea");
+        textarea.innerHTML = value;
+        return textarea.value;
+    };
+
+    document.addEventListener("change", event => {
+        const target = event.target;
+
+        if (!(target instanceof HTMLSelectElement) ||
+            !target.matches(".journal-attendance-select, .journal-grade-select")) {
+            return;
+        }
+
+        ["journalSaveTitle", "journalSaveHint"].forEach(id => {
+            const element = document.getElementById(id);
+
+            if (element?.textContent?.includes("&#")) {
+                element.textContent = decodeHtmlEntities(element.textContent);
+            }
+        });
+    });
 })();
