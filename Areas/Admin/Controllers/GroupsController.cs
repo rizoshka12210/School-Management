@@ -6,7 +6,9 @@ using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Entities;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Admin;
+using SchoolManagementSystem.Web.ViewModels.Shared;
 
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
@@ -16,13 +18,16 @@ public class GroupsController : Controller
 {
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly GroupJournalService _journalService;
 
     public GroupsController(
         AppDbContext context,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        GroupJournalService journalService)
     {
         _context = context;
         _localizer = localizer;
+        _journalService = journalService;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -64,6 +69,50 @@ public class GroupsController : Controller
         }
 
         return View(group);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Journal(int id, int weeks = 8)
+    {
+        var model = await _journalService.BuildAsync(id, weeks);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Journal(GroupJournalSaveViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] =
+                _localizer["Journal contains invalid values."].Value;
+
+            return RedirectToAction(
+                nameof(Journal),
+                new { id = model.GroupId, weeks = model.Weeks });
+        }
+
+        var saved = await _journalService.SaveAsync(
+            model.GroupId,
+            model.Entries);
+
+        if (!saved)
+        {
+            return NotFound();
+        }
+
+        TempData["Success"] =
+            _localizer["Journal saved successfully."].Value;
+
+        return RedirectToAction(
+            nameof(Journal),
+            new { id = model.GroupId, weeks = model.Weeks });
     }
 
     [HttpGet]
