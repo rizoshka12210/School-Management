@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = Localizer["Group Details"];
+    var isRussian = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
 }
 
 <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
@@ -32,7 +33,7 @@
         <div class="entity-details-actions">
             <a asp-action="Journal" asp-route-id="@Model.Id" class="btn btn-primary">
                 <i class="bi bi-journal-check"></i>
-                @Localizer["Journal"]
+                @(isRussian ? "Журнал" : Localizer["Journal"].Value)
             </a>
             <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary">
                 <i class="bi bi-pencil-square"></i>
