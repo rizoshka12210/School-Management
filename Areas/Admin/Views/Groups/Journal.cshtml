@@ -1,0 +1,313 @@
+@using SchoolManagementSystem.Web.Models.Enums
+@model SchoolManagementSystem.Web.ViewModels.Shared.GroupJournalViewModel
+
+@{
+    ViewData["Title"] = $"{Localizer["Journal"]} · {Model.GroupName}";
+    var entryIndex = 0;
+    var weekIndex = 0;
+
+    string AttendanceClass(AttendanceStatus? status) => status switch
+    {
+        AttendanceStatus.Present => "status-present",
+        AttendanceStatus.Absent => "status-absent",
+        AttendanceStatus.Late => "status-late",
+        AttendanceStatus.Excused => "status-excused",
+        _ => string.Empty
+    };
+
+    string GradeClass(int? value) => value.HasValue
+        ? $"grade-{value.Value}"
+        : string.Empty;
+}
+
+<link rel="stylesheet" href="~/css/group-journal.css" asp-append-version="true" />
+
+<div class="group-journal-page">
+    <div class="journal-page-head">
+        <div class="journal-page-head-left">
+            <a asp-action="Details" asp-route-id="@Model.GroupId" class="journal-back">
+                <i class="bi bi-arrow-left"></i>
+                @Localizer["Back to group"]
+            </a>
+
+            <h1 class="journal-title">@Localizer["Journal"] · @Model.GroupName</h1>
+            <p class="journal-subtitle">
+                @Localizer["Attendance and grades in one place. Each column is a real lesson from the schedule."]
+            </p>
+        </div>
+
+        <form method="get" asp-action="Journal" class="journal-range-form">
+            <input type="hidden" name="id" value="@Model.GroupId" />
+            <label for="journalWeeks">@Localizer["Show"]</label>
+            <select id="journalWeeks" name="weeks" class="form-select" onchange="this.form.submit()">
+                <option value="4" selected="@(Model.WeeksRequested == 4 ? "selected" : null)">4 @Localizer["weeks"]</option>
+                <option value="8" selected="@(Model.WeeksRequested == 8 ? "selected" : null)">8 @Localizer["weeks"]</option>
+                <option value="12" selected="@(Model.WeeksRequested == 12 ? "selected" : null)">12 @Localizer["weeks"]</option>
+                <option value="16" selected="@(Model.WeeksRequested == 16 ? "selected" : null)">16 @Localizer["weeks"]</option>
+            </select>
+        </form>
+    </div>
+
+    <div class="journal-stats">
+        <div class="journal-stat">
+            <div class="journal-stat-icon students"><i class="bi bi-people-fill"></i></div>
+            <div class="journal-stat-copy">
+                <span>@Localizer["Students"]</span>
+                <strong>@Model.TotalStudents</strong>
+                <small>@Model.GroupName</small>
+            </div>
+        </div>
+
+        <div class="journal-stat">
+            <div class="journal-stat-icon lessons"><i class="bi bi-easel2-fill"></i></div>
+            <div class="journal-stat-copy">
+                <span>@Localizer["Lessons"]</span>
+                <strong>@Model.TotalLessons</strong>
+                <small>@Localizer["Shown in this journal"]</small>
+            </div>
+        </div>
+
+        <div class="journal-stat">
+            <div class="journal-stat-icon attendance"><i class="bi bi-clipboard2-check-fill"></i></div>
+            <div class="journal-stat-copy">
+                <span>@Localizer["Attendance"]</span>
+                <strong>@Model.AttendanceRate.ToString("0.#")%</strong>
+                <small>@Model.MarkedAttendanceCount @Localizer["marked entries"]</small>
+            </div>
+        </div>
+
+        <div class="journal-stat">
+            <div class="journal-stat-icon grade"><i class="bi bi-star-fill"></i></div>
+            <div class="journal-stat-copy">
+                <span>@Localizer["Average Grade"]</span>
+                <strong>@(Model.AverageGrade?.ToString("0.00") ?? "—")</strong>
+                <small>@Model.GradedEntriesCount @Localizer["grades"]</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="journal-legend">
+        <span><i class="present"></i>@Localizer["Present"]</span>
+        <span><i class="absent"></i>@Localizer["Absent"]</span>
+        <span><i class="late"></i>@Localizer["Late"]</span>
+        <span><i class="excused"></i>@Localizer["Excused"]</span>
+    </div>
+
+    @if (!Model.Weeks.Any())
+    {
+        <div class="journal-empty">
+            <div class="journal-empty-icon"><i class="bi bi-journal-x"></i></div>
+            <h3>@Localizer["No lessons yet"]</h3>
+            <p>
+                @Localizer["Create lessons for this group first. The journal will automatically build columns from lesson dates."]
+            </p>
+        </div>
+    }
+    else
+    {
+        <form asp-action="Journal" method="post" id="groupJournalForm">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="GroupId" value="@Model.GroupId" />
+            <input type="hidden" name="Weeks" value="@Model.WeeksRequested" />
+
+            <div class="journal-week-list">
+                @foreach (var week in Model.Weeks)
+                {
+                    var isOpen = week.IsCurrentWeek || weekIndex == 0;
+
+                    <details class="journal-week @(week.IsCurrentWeek ? "current-week" : "")" open="@(isOpen ? "open" : null)">
+                        <summary class="journal-week-summary">
+                            <div class="journal-week-summary-main">
+                                <span class="journal-week-chevron"><i class="bi bi-chevron-down"></i></span>
+                                <span>
+                                    <span class="journal-week-name">@Localizer["Week"] @week.WeekNumber</span>
+                                    <span class="journal-week-dates">
+                                        @week.StartDate.ToString("dd.MM.yyyy") — @week.EndDate.ToString("dd.MM.yyyy")
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="journal-week-badges">
+                                @if (week.IsCurrentWeek)
+                                {
+                                    <span class="journal-week-badge journal-current-badge">
+                                        <i class="bi bi-lightning-charge-fill"></i>@Localizer["Current week"]
+                                    </span>
+                                }
+                                <span class="journal-week-badge">
+                                    <i class="bi bi-easel2"></i>@week.Lessons.Count @Localizer["lessons"]
+                                </span>
+                                <span class="journal-week-badge">
+                                    <i class="bi bi-people"></i>@week.Students.Count @Localizer["students"]
+                                </span>
+                            </div>
+                        </summary>
+
+                        <div class="journal-table-scroll">
+                            <table class="journal-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" class="journal-student-col">@Localizer["Student"]</th>
+
+                                        @foreach (var lesson in week.Lessons)
+                                        {
+                                            <th colspan="2" class="journal-lesson-head" title="@lesson.TeacherName@(string.IsNullOrWhiteSpace(lesson.Topic) ? "" : " · " + lesson.Topic)">
+                                                <span class="journal-lesson-date">@lesson.StartTime.ToString("dd.MM · HH:mm")</span>
+                                                <span class="journal-lesson-subject">@lesson.SubjectName</span>
+                                            </th>
+                                        }
+
+                                        <th rowspan="2" class="journal-summary-col">@Localizer["Average"]</th>
+                                    </tr>
+                                    <tr>
+                                        @foreach (var lesson in week.Lessons)
+                                        {
+                                            <th class="journal-subhead-att">@Localizer["Att"]</th>
+                                            <th class="journal-subhead-grade">@Localizer["Grade"]</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var row in week.Students)
+                                    {
+                                        <tr>
+                                            <td class="journal-student-col journal-student-cell">
+                                                <div class="journal-student-main">
+                                                    <span class="journal-student-avatar">
+                                                        @(string.IsNullOrWhiteSpace(row.StudentName) ? "S" : row.StudentName.Substring(0, 1).ToUpper())
+                                                    </span>
+                                                    <span>
+                                                        <span class="journal-student-name">@row.StudentName</span>
+                                                        <span class="journal-student-id">ID @row.StudentId</span>
+                                                    </span>
+                                                </div>
+                                            </td>
+
+                                            @foreach (var cell in row.Cells)
+                                            {
+                                                var currentIndex = entryIndex++;
+
+                                                <td>
+                                                    <input type="hidden" name="Entries[@currentIndex].StudentId" value="@cell.StudentId" />
+                                                    <input type="hidden" name="Entries[@currentIndex].LessonId" value="@cell.LessonId" />
+
+                                                    <select name="Entries[@currentIndex].AttendanceStatus"
+                                                            class="journal-select journal-attendance-select @AttendanceClass(cell.AttendanceStatus)"
+                                                            aria-label="@Localizer["Attendance"]">
+                                                        <option value="" selected="@(!cell.AttendanceStatus.HasValue ? "selected" : null)">—</option>
+                                                        <option value="@((int)AttendanceStatus.Present)" selected="@(cell.AttendanceStatus == AttendanceStatus.Present ? "selected" : null)">✓</option>
+                                                        <option value="@((int)AttendanceStatus.Absent)" selected="@(cell.AttendanceStatus == AttendanceStatus.Absent ? "selected" : null)">✕</option>
+                                                        <option value="@((int)AttendanceStatus.Late)" selected="@(cell.AttendanceStatus == AttendanceStatus.Late ? "selected" : null)">L</option>
+                                                        <option value="@((int)AttendanceStatus.Excused)" selected="@(cell.AttendanceStatus == AttendanceStatus.Excused ? "selected" : null)">E</option>
+                                                    </select>
+                                                </td>
+
+                                                <td>
+                                                    <select name="Entries[@currentIndex].GradeValue"
+                                                            class="journal-select journal-grade-select @GradeClass(cell.GradeValue)"
+                                                            aria-label="@Localizer["Grade"]">
+                                                        <option value="" selected="@(!cell.GradeValue.HasValue ? "selected" : null)">—</option>
+                                                        @for (var grade = 5; grade >= 1; grade--)
+                                                        {
+                                                            <option value="@grade" selected="@(cell.GradeValue == grade ? "selected" : null)">@grade</option>
+                                                        }
+                                                    </select>
+                                                </td>
+                                            }
+
+                                            <td class="journal-summary-col">
+                                                <div class="journal-row-summary">
+                                                    <strong>@(row.AverageGrade?.ToString("0.00") ?? "—")</strong>
+                                                    <span>@row.AttendanceRate.ToString("0.#")% @Localizer["attendance"]</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </details>
+
+                    weekIndex++;
+                }
+            </div>
+
+            <div class="journal-save-bar" id="journalSaveBar">
+                <div class="journal-save-copy">
+                    <strong>
+                        <span class="journal-unsaved-dot"></span>
+                        <span id="journalSaveTitle">@Localizer["Journal is ready"]</span>
+                    </strong>
+                    <span id="journalSaveHint">@Localizer["Change attendance or a grade, then save all changes at once."]</span>
+                </div>
+
+                <button type="submit" class="btn btn-primary journal-save-button">
+                    <i class="bi bi-check2-circle"></i>
+                    @Localizer["Save journal"]
+                </button>
+            </div>
+        </form>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        (() => {
+            const form = document.getElementById("groupJournalForm");
+            if (!form) return;
+
+            const saveBar = document.getElementById("journalSaveBar");
+            const saveTitle = document.getElementById("journalSaveTitle");
+            const saveHint = document.getElementById("journalSaveHint");
+
+            const attendanceClasses = [
+                "status-present",
+                "status-absent",
+                "status-late",
+                "status-excused"
+            ];
+
+            const gradeClasses = ["grade-1", "grade-2", "grade-3", "grade-4", "grade-5"];
+
+            const refreshAttendanceStyle = select => {
+                attendanceClasses.forEach(value => select.classList.remove(value));
+
+                const className = {
+                    "1": "status-present",
+                    "2": "status-absent",
+                    "3": "status-late",
+                    "4": "status-excused"
+                }[select.value];
+
+                if (className) select.classList.add(className);
+            };
+
+            const refreshGradeStyle = select => {
+                gradeClasses.forEach(value => select.classList.remove(value));
+                if (select.value) select.classList.add(`grade-${select.value}`);
+            };
+
+            const markDirty = () => {
+                saveBar?.classList.add("is-dirty");
+                if (saveTitle) saveTitle.textContent = "@Localizer["Unsaved changes"]";
+                if (saveHint) saveHint.textContent = "@Localizer["Save the journal so attendance and grades are written to the database."]";
+            };
+
+            form.querySelectorAll(".journal-attendance-select").forEach(select => {
+                refreshAttendanceStyle(select);
+                select.addEventListener("change", () => {
+                    refreshAttendanceStyle(select);
+                    markDirty();
+                });
+            });
+
+            form.querySelectorAll(".journal-grade-select").forEach(select => {
+                refreshGradeStyle(select);
+                select.addEventListener("change", () => {
+                    refreshGradeStyle(select);
+                    markDirty();
+                });
+            });
+        })();
+    </script>
+}
