@@ -75,6 +75,7 @@ builder.Services.AddScoped<OwnershipHelper>();
 
 builder.Services.AddScoped<AttendanceService>();
 builder.Services.AddScoped<GradeService>();
+builder.Services.AddScoped<GroupJournalService>();
 builder.Services.AddScoped<SalaryService>();
 builder.Services.AddScoped<TopicCalendarService>();
 builder.Services.AddScoped<AchievementService>();

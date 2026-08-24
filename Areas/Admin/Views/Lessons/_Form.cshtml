@@ -30,7 +30,9 @@
                     </label>
 
                     <input asp-for="StartTime"
+                           asp-format="{0:yyyy-MM-ddTHH:mm}"
                            type="datetime-local"
+                           step="60"
                            class="form-control" />
 
                     <span asp-validation-for="StartTime"
@@ -47,7 +49,9 @@
                     </label>
 
                     <input asp-for="EndTime"
+                           asp-format="{0:yyyy-MM-ddTHH:mm}"
                            type="datetime-local"
+                           step="60"
                            class="form-control" />
 
                     <span asp-validation-for="EndTime"
