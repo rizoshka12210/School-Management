@@ -1,7 +1,8 @@
 ﻿(() => {
     const styleSheets = [
         "/css/refinements.css",
-        "/css/details.css"
+        "/css/details.css",
+        "/css/sidebar-brand.css"
     ];
 
     styleSheets.forEach(href => {
@@ -64,6 +65,13 @@
             wrapper.setAttribute("tabindex", "0");
         }
     });
+
+    const topbarTitle = document.querySelector(".topbar-title");
+
+    if (topbarTitle) {
+        topbarTitle.hidden = true;
+        topbarTitle.setAttribute("aria-hidden", "true");
+    }
 
     document.addEventListener("click", event => {
         const row = event.target.closest("tr[data-href]");
