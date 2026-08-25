@@ -101,7 +101,7 @@
 
                         @foreach (var group in Model)
                         {
-                            <tr>
+                            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = group.Id })">
 
                                 <td>
 
@@ -170,12 +170,6 @@
                                 <td class="text-end">
 
                                     <div class="action-buttons">
-
-                                        <a asp-action="Details"
-                                           asp-route-id="@group.Id"
-                                           class="action-btn action-details">
-                                            @Localizer["View"]
-                                        </a>
 
                                         <a asp-action="Edit"
                                            asp-route-id="@group.Id"

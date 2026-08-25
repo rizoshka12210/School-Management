@@ -71,7 +71,7 @@
                     <tbody>
                         @foreach (var lesson in Model)
                         {
-                            <tr>
+                            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = lesson.Id })">
                                 <td>
                                     <div class="record-date">@lesson.StartTime.ToString("dd MMM yyyy")</div>
                                     <div class="record-time">@lesson.StartTime.ToString("HH:mm") - @lesson.EndTime.ToString("HH:mm")</div>
@@ -110,7 +110,6 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="action-buttons">
-                                        <a asp-action="Details" asp-route-id="@lesson.Id" class="action-btn action-details">@Localizer["View"]</a>
                                         <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark" asp-route-lessonId="@lesson.Id" class="action-btn action-edit">@Localizer["Attendance"]</a>
                                         <a asp-area="Teacher" asp-controller="Grades" asp-action="Add" asp-route-lessonId="@lesson.Id" class="action-btn teacher-grade-button">@Localizer["Grades"]</a>
                                         <a asp-area="Teacher" asp-controller="Topics" asp-action="Edit" asp-route-id="@lesson.Id" class="action-btn action-details">@Localizer["Topic"]</a>
