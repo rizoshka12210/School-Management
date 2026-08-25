@@ -65,6 +65,16 @@
         }
     });
 
+    document.addEventListener("click", event => {
+        const row = event.target.closest("tr[data-href]");
+
+        if (!row || event.target.closest("a, button, input, select")) {
+            return;
+        }
+
+        window.location.href = row.dataset.href;
+    });
+
     const decodeHtmlEntities = value => {
         const textarea = document.createElement("textarea");
         textarea.innerHTML = value;
