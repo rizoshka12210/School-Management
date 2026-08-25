@@ -100,7 +100,7 @@
 
                         @foreach (var subject in Model)
                         {
-                            <tr>
+                            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = subject.Id })">
 
                                 <td>
 
@@ -157,12 +157,6 @@
                                 <td class="text-end">
 
                                     <div class="action-buttons">
-
-                                        <a asp-action="Details"
-                                           asp-route-id="@subject.Id"
-                                           class="action-btn action-details">
-                                            @Localizer["View"]
-                                        </a>
 
                                         <a asp-action="Edit"
                                            asp-route-id="@subject.Id"
