@@ -56,33 +56,6 @@
         </div>
     </section>
 
-    <div class="entity-kpi-grid entity-kpi-grid-3">
-        <div class="entity-kpi-card">
-            <div class="entity-kpi-icon blue"><i class="bi bi-people-fill"></i></div>
-            <div class="entity-kpi-content">
-                <span>@Localizer["Children"]</span>
-                <strong>@Model.Students.Count</strong>
-                <small>@Localizer["Children"]</small>
-            </div>
-        </div>
-        <div class="entity-kpi-card">
-            <div class="entity-kpi-icon green"><i class="bi bi-collection-fill"></i></div>
-            <div class="entity-kpi-content">
-                <span>@Localizer["Groups"]</span>
-                <strong>@groupCount</strong>
-                <small>@Localizer["Groups"]</small>
-            </div>
-        </div>
-        <div class="entity-kpi-card">
-            <div class="entity-kpi-icon pink"><i class="bi bi-envelope-fill"></i></div>
-            <div class="entity-kpi-content">
-                <span>@Localizer["Email"]</span>
-                <strong style="font-size:.9rem">@(Model.ApplicationUser.Email ?? "—")</strong>
-                <small>@Localizer["Parent"]</small>
-            </div>
-        </div>
-    </div>
-
     <div class="entity-details-grid entity-details-grid-wide">
         <section class="entity-panel">
             <div class="entity-panel-head">

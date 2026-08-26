@@ -46,41 +46,6 @@
         </div>
     </section>
 
-    <div class="entity-kpi-grid">
-        <div class="entity-kpi-card">
-            <div class="entity-kpi-icon green"><i class="bi bi-clipboard2-check-fill"></i></div>
-            <div class="entity-kpi-content">
-                <span>@Localizer["Attendance"]</span>
-                <strong>@attendanceRate.ToString("0.#")%</strong>
-                <small>@Localizer["{0} of {1} present", presentCount, totalLessons]</small>
-            </div>
-        </div>
-        <div class="entity-kpi-card">
-            <div class="entity-kpi-icon orange"><i class="bi bi-award-fill"></i></div>
-            <div class="entity-kpi-content">
-                <span>@Localizer["Average Grade"]</span>
-                <strong>@averageGrade.ToString("0.##")</strong>
-                <small>@Localizer["In your subjects"]</small>
-            </div>
-        </div>
-        <div class="entity-kpi-card">
-            <div class="entity-kpi-icon blue"><i class="bi bi-easel2-fill"></i></div>
-            <div class="entity-kpi-content">
-                <span>@Localizer["Recorded Lessons"]</span>
-                <strong>@totalLessons</strong>
-                <small>@Localizer["Attendance records"]</small>
-            </div>
-        </div>
-        <div class="entity-kpi-card">
-            <div class="entity-kpi-icon pink"><i class="bi bi-journal-check"></i></div>
-            <div class="entity-kpi-content">
-                <span>@Localizer["Grades"]</span>
-                <strong>@grades.Count</strong>
-                <small>@Localizer["Recorded grades"]</small>
-            </div>
-        </div>
-    </div>
-
     <div class="entity-details-grid entity-details-grid-wide mb-4">
         <section class="entity-panel">
             <div class="entity-panel-head">
