@@ -59,8 +59,13 @@
                     </label>
 
                     <select asp-for="Status"
-                            asp-items="Html.GetEnumSelectList<AttendanceStatus>()"
                             class="form-select">
+                        @foreach (var status in Enum.GetValues<AttendanceStatus>())
+                        {
+                            <option value="@status" selected="@(Model.Status == status)">
+                                @Localizer[status.ToString()]
+                            </option>
+                        }
                     </select>
 
                     <span asp-validation-for="Status"
