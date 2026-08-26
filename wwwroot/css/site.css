@@ -6870,6 +6870,43 @@ html[data-theme="dark"] .activity-log-message {
     filter: brightness(1.08);
 }
 
+.ai-assistant-mic {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    background: #fff;
+    color: #4b5563;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+
+.ai-assistant-mic:hover {
+    background: #f8fafc;
+    border-color: #c7d2fe;
+}
+
+.ai-assistant-mic.listening {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    color: #dc2626;
+    animation: ai-assistant-mic-pulse 1.1s ease-in-out infinite;
+}
+
+.ai-assistant-mic:disabled {
+    opacity: .4;
+    cursor: not-allowed;
+}
+
+@keyframes ai-assistant-mic-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(220, 38, 38, .28); }
+    50% { box-shadow: 0 0 0 6px rgba(220, 38, 38, 0); }
+}
+
 @media (max-width: 480px) {
     .ai-assistant {
         right: 16px;
@@ -6907,6 +6944,16 @@ html[data-theme="dark"] .ai-assistant-input {
     background: #0f172a;
     border-color: #334155;
     color: #e2e8f0;
+}
+
+html[data-theme="dark"] .ai-assistant-mic {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
+}
+
+html[data-theme="dark"] .ai-assistant-mic:hover {
+    background: #253047;
 }
 
 html[data-theme="dark"] .ai-assistant-badge {
