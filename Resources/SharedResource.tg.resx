@@ -1,0 +1,2062 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="School" xml:space="preserve">
+    <value>Мактаб</value>
+  </data>
+  <data name="School Management" xml:space="preserve">
+    <value>Идоракунии мактаб</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>Идоракунӣ</value>
+  </data>
+  <data name="NavSectionAdmin" xml:space="preserve">
+    <value>МАЪМУР</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Лавҳаи асосӣ</value>
+  </data>
+  <data name="Students" xml:space="preserve">
+    <value>Хонандагон</value>
+  </data>
+  <data name="Parents" xml:space="preserve">
+    <value>Волидон</value>
+  </data>
+  <data name="Teachers" xml:space="preserve">
+    <value>Муаллимон</value>
+  </data>
+  <data name="Groups" xml:space="preserve">
+    <value>Гурӯҳҳо</value>
+  </data>
+  <data name="Subjects" xml:space="preserve">
+    <value>Фанҳо</value>
+  </data>
+  <data name="NavSectionEducation" xml:space="preserve">
+    <value>ТАЪЛИМ</value>
+  </data>
+  <data name="Lessons" xml:space="preserve">
+    <value>Дарсҳо</value>
+  </data>
+  <data name="Schedule" xml:space="preserve">
+    <value>Ҷадвал</value>
+  </data>
+  <data name="Attendance" xml:space="preserve">
+    <value>Ҳозирӣ</value>
+  </data>
+  <data name="Grades" xml:space="preserve">
+    <value>Баҳоҳо</value>
+  </data>
+  <data name="Salary" xml:space="preserve">
+    <value>Маош</value>
+  </data>
+  <data name="NavSectionTeacher" xml:space="preserve">
+    <value>МУАЛЛИМ</value>
+  </data>
+  <data name="My Groups" xml:space="preserve">
+    <value>Гурӯҳҳои ман</value>
+  </data>
+  <data name="Topics" xml:space="preserve">
+    <value>Мавзӯъҳо</value>
+  </data>
+  <data name="My Salary" xml:space="preserve">
+    <value>Маоши ман</value>
+  </data>
+  <data name="NavSectionParent" xml:space="preserve">
+    <value>ВОЛИД</value>
+  </data>
+  <data name="My Child" xml:space="preserve">
+    <value>Фарзанди ман</value>
+  </data>
+  <data name="Progress" xml:space="preserve">
+    <value>Пешрафт</value>
+  </data>
+  <data name="Administrator" xml:space="preserve">
+    <value>Маъмур</value>
+  </data>
+  <data name="Teacher" xml:space="preserve">
+    <value>Муаллим</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>Волид</value>
+  </data>
+  <data name="Switch to English" xml:space="preserve">
+    <value>Гузариш ба забони англисӣ</value>
+  </data>
+  <data name="Switch to Russian" xml:space="preserve">
+    <value>Гузариш ба забони русӣ</value>
+  </data>
+  <data name="Toggle dark mode" xml:space="preserve">
+    <value>Фаъол/ғайрифаъол кардани реҷаи торик</value>
+  </data>
+  <data name="Change theme" xml:space="preserve">
+    <value>Тағйир додани намуди зоҳирӣ</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>Баромад</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вуруд</value>
+  </data>
+  <data name="Manage your school in one place." xml:space="preserve">
+    <value>Мактаби худро дар як ҷо идора кунед.</value>
+  </data>
+  <data name="A simple and secure system for administrators, teachers and parents to manage school information, lessons, attendance and academic progress." xml:space="preserve">
+    <value>Системаи сода ва бехатар барои маъмурон, муаллимон ва волидон ҷиҳати идоракунии маълумоти мактаб, дарсҳо, ҳозирӣ ва пешрафти таҳсилӣ.</value>
+  </data>
+  <data name="Welcome back" xml:space="preserve">
+    <value>Хуш омадед</value>
+  </data>
+  <data name="Sign in to your School Management account" xml:space="preserve">
+    <value>Ба ҳисоби худ дар School Management ворид шавед</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Почтаи электронӣ</value>
+  </data>
+  <data name="Enter your email" xml:space="preserve">
+    <value>Почтаи электрониро ворид кунед</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>Парол</value>
+  </data>
+  <data name="Enter your password" xml:space="preserve">
+    <value>Парольро ворид кунед</value>
+  </data>
+  <data name="Remember me" xml:space="preserve">
+    <value>Маро дар хотир нигоҳ дор</value>
+  </data>
+  <data name="Sign In" xml:space="preserve">
+    <value>Ворид шудан</value>
+  </data>
+  <data name="School Management System" xml:space="preserve">
+    <value>Системаи идоракунии мактаб</value>
+  </data>
+  <data name="Invalid email or password." xml:space="preserve">
+    <value>Почтаи электронӣ ё парол нодуруст аст.</value>
+  </data>
+  <data name="Too many failed attempts. Your account is temporarily locked, please try again later." xml:space="preserve">
+    <value>Шумораи кӯшишҳои нодуруст зиёд шуд. Ҳисоби шумо муваққатан баста шуд, лутфан баъдтар аз нав кӯшиш кунед.</value>
+  </data>
+  <data name="Access Denied" xml:space="preserve">
+    <value>Дастрасӣ рад карда шуд</value>
+  </data>
+  <data name="You do not have permission to access this page." xml:space="preserve">
+    <value>Шумо иҷозати дастрасӣ ба ин саҳифаро надоред.</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Асосӣ</value>
+  </data>
+  <data name="Home Page" xml:space="preserve">
+    <value>Саҳифаи асосӣ</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Хуш омадед</value>
+  </data>
+  <data name="Please sign in to access your School Management account." xml:space="preserve">
+    <value>Лутфан барои дастрасӣ ба ҳисоби School Management ворид шавед.</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Сиёсати махфият</value>
+  </data>
+  <data name="Use this page to detail your site's privacy policy." xml:space="preserve">
+    <value>Ин саҳифаро барои тавзеҳи сиёсати махфияти сайти худ истифода баред.</value>
+  </data>
+  <data name="Admin Dashboard" xml:space="preserve">
+    <value>Лавҳаи маъмур</value>
+  </data>
+  <data name="Welcome back. Here's what's happening at school today." xml:space="preserve">
+    <value>Хуш омадед. Инак чӣ дар мактаб имрӯз рух медиҳад.</value>
+  </data>
+  <data name="View students →" xml:space="preserve">
+    <value>Дидани хонандагон →</value>
+  </data>
+  <data name="View teachers →" xml:space="preserve">
+    <value>Дидани муаллимон →</value>
+  </data>
+  <data name="View groups →" xml:space="preserve">
+    <value>Дидани гурӯҳҳо →</value>
+  </data>
+  <data name="View subjects →" xml:space="preserve">
+    <value>Дидани фанҳо →</value>
+  </data>
+  <data name="Quick Actions" xml:space="preserve">
+    <value>Амалҳои зуд</value>
+  </data>
+  <data name="Common administrative actions" xml:space="preserve">
+    <value>Амалҳои маъмулии маъмурӣ</value>
+  </data>
+  <data name="Add Student" xml:space="preserve">
+    <value>Илова кардани хонанда</value>
+  </data>
+  <data name="Create a new student" xml:space="preserve">
+    <value>Хонандаи нав эҷод кунед</value>
+  </data>
+  <data name="Add Teacher" xml:space="preserve">
+    <value>Илова кардани муаллим</value>
+  </data>
+  <data name="Create teacher account" xml:space="preserve">
+    <value>Ҳисоби муаллим эҷод кунед</value>
+  </data>
+  <data name="Add Lesson" xml:space="preserve">
+    <value>Илова кардани дарс</value>
+  </data>
+  <data name="Create a lesson" xml:space="preserve">
+    <value>Дарс эҷод кунед</value>
+  </data>
+  <data name="Add Schedule" xml:space="preserve">
+    <value>Илова кардани ҷадвал</value>
+  </data>
+  <data name="Create schedule entry" xml:space="preserve">
+    <value>Сабти ҷадвал эҷод кунед</value>
+  </data>
+  <data name="Today's Lessons" xml:space="preserve">
+    <value>Дарсҳои имрӯза</value>
+  </data>
+  <data name="{0} lessons today" xml:space="preserve">
+    <value>{0} дарс имрӯз</value>
+  </data>
+  <data name="View All" xml:space="preserve">
+    <value>Дидани ҳама</value>
+  </data>
+  <data name="No lessons today" xml:space="preserve">
+    <value>Имрӯз дарс нест</value>
+  </data>
+  <data name="There are no lessons scheduled for today." xml:space="preserve">
+    <value>Барои имрӯз дарсе ба нақша гирифта нашудааст.</value>
+  </data>
+  <data name="Time" xml:space="preserve">
+    <value>Вақт</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Гурӯҳ</value>
+  </data>
+  <data name="Subject" xml:space="preserve">
+    <value>Фан</value>
+  </data>
+  <data name="Topic" xml:space="preserve">
+    <value>Мавзӯъ</value>
+  </data>
+  <data name="No topic" xml:space="preserve">
+    <value>Мавзӯъ нест</value>
+  </data>
+  <data name="Recent Students" xml:space="preserve">
+    <value>Хонандагони охирин</value>
+  </data>
+  <data name="Recently added students" xml:space="preserve">
+    <value>Хонандагони ба наздикӣ иловашуда</value>
+  </data>
+  <data name="No students yet." xml:space="preserve">
+    <value>Ҳанӯз хонанда нест.</value>
+  </data>
+  <data name="No group" xml:space="preserve">
+    <value>Гурӯҳ нест</value>
+  </data>
+  <data name="Teacher Dashboard" xml:space="preserve">
+    <value>Лавҳаи муаллим</value>
+  </data>
+  <data name="Here's your teaching overview for today." xml:space="preserve">
+    <value>Инак хулосаи таълими шумо барои имрӯз.</value>
+  </data>
+  <data name="My Students" xml:space="preserve">
+    <value>Хонандагони ман</value>
+  </data>
+  <data name="View lessons →" xml:space="preserve">
+    <value>Дидани дарсҳо →</value>
+  </data>
+  <data name="Monthly Salary" xml:space="preserve">
+    <value>Маоши моҳона</value>
+  </data>
+  <data name="{0} hours worked" xml:space="preserve">
+    <value>{0} соат кор карда шуд</value>
+  </data>
+  <data name="Access your most common teaching tools" xml:space="preserve">
+    <value>Ба абзорҳои маъмултарини таълимии худ дастрасӣ пайдо кунед</value>
+  </data>
+  <data name="Mark student attendance" xml:space="preserve">
+    <value>Ҳозирии хонандагонро қайд кунед</value>
+  </data>
+  <data name="Manage student grades" xml:space="preserve">
+    <value>Баҳоҳои хонандагонро идора кунед</value>
+  </data>
+  <data name="Manage lesson topics" xml:space="preserve">
+    <value>Мавзӯъҳои дарсро идора кунед</value>
+  </data>
+  <data name="View weekly schedule" xml:space="preserve">
+    <value>Дидани ҷадвали ҳафтаина</value>
+  </data>
+  <data name="Today's Schedule" xml:space="preserve">
+    <value>Ҷадвали имрӯза</value>
+  </data>
+  <data name="1 lesson scheduled today" xml:space="preserve">
+    <value>1 дарс барои имрӯз ба нақша гирифта шудааст</value>
+  </data>
+  <data name="{0} lessons scheduled today" xml:space="preserve">
+    <value>{0} дарс барои имрӯз ба нақша гирифта шудааст</value>
+  </data>
+  <data name="You don't have any lessons scheduled for today." xml:space="preserve">
+    <value>Шумо барои имрӯз ягон дарси ба нақша гирифташуда надоред.</value>
+  </data>
+  <data name="Go to Weekly Schedule" xml:space="preserve">
+    <value>Ба ҷадвали ҳафтаина гузаред</value>
+  </data>
+  <data name="No topic yet" xml:space="preserve">
+    <value>Ҳанӯз мавзӯъ нест</value>
+  </data>
+  <data name="Attendance marked" xml:space="preserve">
+    <value>Ҳозирӣ қайд карда шуд</value>
+  </data>
+  <data name="Not marked" xml:space="preserve">
+    <value>Қайд карда нашудааст</value>
+  </data>
+  <data name="Parent Dashboard" xml:space="preserve">
+    <value>Лавҳаи волид</value>
+  </data>
+  <data name="Family Portal" xml:space="preserve">
+    <value>Портали оила</value>
+  </data>
+  <data name="Follow your children's academic progress and attendance" xml:space="preserve">
+    <value>Пешрафти таҳсилӣ ва ҳозирии фарзандони худро пайгирӣ кунед</value>
+  </data>
+  <data name="No children linked" xml:space="preserve">
+    <value>Ҳеҷ фарзанд пайваст нашудааст</value>
+  </data>
+  <data name="No students are currently connected to your parent account." xml:space="preserve">
+    <value>Ҳоло ба ҳисоби волидии шумо ягон хонанда пайваст нашудааст.</value>
+  </data>
+  <data name="Children" xml:space="preserve">
+    <value>Фарзандон</value>
+  </data>
+  <data name="Average Attendance" xml:space="preserve">
+    <value>Ҳозирии миёна</value>
+  </data>
+  <data name="Average Grade" xml:space="preserve">
+    <value>Баҳои миёна</value>
+  </data>
+  <data name="View Profile →" xml:space="preserve">
+    <value>Дидани профил →</value>
+  </data>
+  <data name="Recent Grades" xml:space="preserve">
+    <value>Баҳоҳои охирин</value>
+  </data>
+  <data name="No grades recorded yet." xml:space="preserve">
+    <value>Ҳанӯз баҳое сабт нашудааст.</value>
+  </data>
+  <data name="Manage school groups, students and teachers" xml:space="preserve">
+    <value>Гурӯҳҳо, хонандагон ва муаллимони мактабро идора кунед</value>
+  </data>
+  <data name="Add Group" xml:space="preserve">
+    <value>Илова кардани гурӯҳ</value>
+  </data>
+  <data name="Search group..." xml:space="preserve">
+    <value>Ҷустуҷӯи гурӯҳ...</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Ҷустуҷӯ</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Пок кардан</value>
+  </data>
+  <data name="No groups found" xml:space="preserve">
+    <value>Гурӯҳ ёфт нашуд</value>
+  </data>
+  <data name="Create a group to organize students and teachers." xml:space="preserve">
+    <value>Барои ташкили хонандагон ва муаллимон гурӯҳ эҷод кунед.</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>Амалҳо</value>
+  </data>
+  <data name="Group #{0}" xml:space="preserve">
+    <value>Гурӯҳи №{0}</value>
+  </data>
+  <data name="+{0} more" xml:space="preserve">
+    <value>боз {0}</value>
+  </data>
+  <data name="No teachers" xml:space="preserve">
+    <value>Муаллим нест</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Дидан</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Таҳрир</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Нест кардан</value>
+  </data>
+  <data name="Showing {0} group(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} гурӯҳ</value>
+  </data>
+  <data name="Create a new school group and assign teachers" xml:space="preserve">
+    <value>Гурӯҳи нави мактабӣ эҷод карда, муаллимон таъин кунед</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Бекор кардан</value>
+  </data>
+  <data name="Create Group" xml:space="preserve">
+    <value>Эҷоди гурӯҳ</value>
+  </data>
+  <data name="Save Changes" xml:space="preserve">
+    <value>Захираи тағйирот</value>
+  </data>
+  <data name="Edit Group" xml:space="preserve">
+    <value>Таҳрири гурӯҳ</value>
+  </data>
+  <data name="Update group information and assigned teachers" xml:space="preserve">
+    <value>Маълумоти гурӯҳ ва муаллимони таъиншударо навсозӣ кунед</value>
+  </data>
+  <data name="Delete Group" xml:space="preserve">
+    <value>Нест кардани гурӯҳ</value>
+  </data>
+  <data name="Are you sure you want to delete" xml:space="preserve">
+    <value>Оё мутмаин ҳастед, ки мехоҳед нест кунед</value>
+  </data>
+  <data name="Yes, Delete" xml:space="preserve">
+    <value>Ҳа, нест кун</value>
+  </data>
+  <data name="Group Details" xml:space="preserve">
+    <value>Тафсилоти гурӯҳ</value>
+  </data>
+  <data name="No students in this group." xml:space="preserve">
+    <value>Дар ин гурӯҳ хонанда нест.</value>
+  </data>
+  <data name="No teachers assigned." xml:space="preserve">
+    <value>Ҳеҷ муаллим таъин нашудааст.</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Бозгашт</value>
+  </data>
+  <data name="Group Information" xml:space="preserve">
+    <value>Маълумоти гурӯҳ</value>
+  </data>
+  <data name="Enter the basic information for this group" xml:space="preserve">
+    <value>Маълумоти асосии ин гурӯҳро ворид кунед</value>
+  </data>
+  <data name="Group Name" xml:space="preserve">
+    <value>Номи гурӯҳ</value>
+  </data>
+  <data name="Example: Group 5A" xml:space="preserve">
+    <value>Мисол: Гурӯҳи 5А</value>
+  </data>
+  <data name="Select teachers assigned to this group" xml:space="preserve">
+    <value>Муаллимони таъиншуда ба ин гурӯҳро интихоб кунед</value>
+  </data>
+  <data name="Manage students and their school information" xml:space="preserve">
+    <value>Хонандагон ва маълумоти мактабии онҳоро идора кунед</value>
+  </data>
+  <data name="Search student or group..." xml:space="preserve">
+    <value>Ҷустуҷӯи хонанда ё гурӯҳ...</value>
+  </data>
+  <data name="No students found" xml:space="preserve">
+    <value>Хонанда ёфт нашуд</value>
+  </data>
+  <data name="Try changing your search." xml:space="preserve">
+    <value>Ҷустуҷӯи худро тағйир диҳед.</value>
+  </data>
+  <data name="Add your first student to get started." xml:space="preserve">
+    <value>Барои оғоз хонандаи аввалини худро илова кунед.</value>
+  </data>
+  <data name="Student" xml:space="preserve">
+    <value>Хонанда</value>
+  </data>
+  <data name="Date of Birth" xml:space="preserve">
+    <value>Санаи таваллуд</value>
+  </data>
+  <data name="Student #{0}" xml:space="preserve">
+    <value>Хонандаи №{0}</value>
+  </data>
+  <data name="Subject #{0}" xml:space="preserve">
+    <value>Фани №{0}</value>
+  </data>
+  <data name="No parent assigned" xml:space="preserve">
+    <value>Волид таъин нашудааст</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Тафсилот</value>
+  </data>
+  <data name="Showing {0} student(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} хонанда</value>
+  </data>
+  <data name="Create a new student and assign group and parents" xml:space="preserve">
+    <value>Хонандаи нав эҷод карда, гурӯҳ ва волидонро таъин кунед</value>
+  </data>
+  <data name="Create Student" xml:space="preserve">
+    <value>Эҷоди хонанда</value>
+  </data>
+  <data name="Edit Student" xml:space="preserve">
+    <value>Таҳрири хонанда</value>
+  </data>
+  <data name="Update student information and relationships" xml:space="preserve">
+    <value>Маълумот ва алоқаҳои хонандаро навсозӣ кунед</value>
+  </data>
+  <data name="Delete Student" xml:space="preserve">
+    <value>Нест кардани хонанда</value>
+  </data>
+  <data name="This action cannot be undone." xml:space="preserve">
+    <value>Ин амалро бекор кардан мумкин нест.</value>
+  </data>
+  <data name="Student Details" xml:space="preserve">
+    <value>Тафсилоти хонанда</value>
+  </data>
+  <data name="No parents assigned." xml:space="preserve">
+    <value>Ҳеҷ волид таъин нашудааст.</value>
+  </data>
+  <data name="Student Information" xml:space="preserve">
+    <value>Маълумоти хонанда</value>
+  </data>
+  <data name="Basic personal information about the student" xml:space="preserve">
+    <value>Маълумоти асосии шахсии хонанда</value>
+  </data>
+  <data name="First Name" xml:space="preserve">
+    <value>Ном</value>
+  </data>
+  <data name="Enter first name" xml:space="preserve">
+    <value>Номро ворид кунед</value>
+  </data>
+  <data name="Last Name" xml:space="preserve">
+    <value>Насаб</value>
+  </data>
+  <data name="Enter last name" xml:space="preserve">
+    <value>Насабро ворид кунед</value>
+  </data>
+  <data name="— No group —" xml:space="preserve">
+    <value>— Гурӯҳ нест —</value>
+  </data>
+  <data name="Select parents connected to this student" xml:space="preserve">
+    <value>Волидони пайвасташуда ба ин хонандаро интихоб кунед</value>
+  </data>
+  <data name="Manage parent accounts and connected students" xml:space="preserve">
+    <value>Ҳисобҳои волидон ва хонандагони пайвастшударо идора кунед</value>
+  </data>
+  <data name="Add Parent" xml:space="preserve">
+    <value>Илова кардани волид</value>
+  </data>
+  <data name="Search parent or email..." xml:space="preserve">
+    <value>Ҷустуҷӯи волид ё почта...</value>
+  </data>
+  <data name="No parents found" xml:space="preserve">
+    <value>Волид ёфт нашуд</value>
+  </data>
+  <data name="Add a parent account or change your search." xml:space="preserve">
+    <value>Ҳисоби волид илова кунед ё ҷустуҷӯи худро тағйир диҳед.</value>
+  </data>
+  <data name="No children assigned" xml:space="preserve">
+    <value>Фарзанд таъин нашудааст</value>
+  </data>
+  <data name="No groups" xml:space="preserve">
+    <value>Гурӯҳ нест</value>
+  </data>
+  <data name="Showing {0} parent(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} волид</value>
+  </data>
+  <data name="Create a parent account and connect students" xml:space="preserve">
+    <value>Ҳисоби волид эҷод карда, хонандагонро пайваст кунед</value>
+  </data>
+  <data name="Create Parent" xml:space="preserve">
+    <value>Эҷоди волид</value>
+  </data>
+  <data name="Update parent information and connected students" xml:space="preserve">
+    <value>Маълумоти волид ва хонандагони пайвастшударо навсозӣ кунед</value>
+  </data>
+  <data name="Delete Parent" xml:space="preserve">
+    <value>Нест кардани волид</value>
+  </data>
+  <data name="The Parent login account will also be deleted." xml:space="preserve">
+    <value>Ҳисоби воридшавии волид низ нест карда мешавад.</value>
+  </data>
+  <data name="Parent Details" xml:space="preserve">
+    <value>Тафсилоти волид</value>
+  </data>
+  <data name="No children assigned." xml:space="preserve">
+    <value>Ҳеҷ фарзанд таъин нашудааст.</value>
+  </data>
+  <data name="Parent Information" xml:space="preserve">
+    <value>Маълумоти волид</value>
+  </data>
+  <data name="Account information for the parent" xml:space="preserve">
+    <value>Маълумоти ҳисоби волид</value>
+  </data>
+  <data name="Full Name" xml:space="preserve">
+    <value>Номи пурра</value>
+  </data>
+  <data name="Example: Michael Smith" xml:space="preserve">
+    <value>Мисол: Майкл Смит</value>
+  </data>
+  <data name="optional" xml:space="preserve">
+    <value>ихтиёрӣ</value>
+  </data>
+  <data name="Enter password" xml:space="preserve">
+    <value>Парольро ворид кунед</value>
+  </data>
+  <data name="Leave empty to keep the current password." xml:space="preserve">
+    <value>Барои нигоҳ доштани пароли ҷорӣ холӣ гузоред.</value>
+  </data>
+  <data name="Select students connected to this parent" xml:space="preserve">
+    <value>Хонандагони пайвасташуда ба ин волидро интихоб кунед</value>
+  </data>
+  <data name="Manage teachers, subjects and assigned groups" xml:space="preserve">
+    <value>Муаллимон, фанҳо ва гурӯҳҳои таъиншударо идора кунед</value>
+  </data>
+  <data name="Search teacher or email..." xml:space="preserve">
+    <value>Ҷустуҷӯи муаллим ё почта...</value>
+  </data>
+  <data name="No teachers found" xml:space="preserve">
+    <value>Муаллим ёфт нашуд</value>
+  </data>
+  <data name="No teachers match your search." xml:space="preserve">
+    <value>Ба ҷустуҷӯи шумо муаллиме мувофиқ наёфт.</value>
+  </data>
+  <data name="Hourly Rate" xml:space="preserve">
+    <value>Нархи як соат</value>
+  </data>
+  <data name="hour" xml:space="preserve">
+    <value>соат</value>
+  </data>
+  <data name="No subjects" xml:space="preserve">
+    <value>Фан нест</value>
+  </data>
+  <data name="Showing {0} teacher(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} муаллим</value>
+  </data>
+  <data name="Create a teacher account and assign groups and subjects" xml:space="preserve">
+    <value>Ҳисоби муаллим эҷод карда, гурӯҳ ва фанҳо таъин кунед</value>
+  </data>
+  <data name="Create Teacher" xml:space="preserve">
+    <value>Эҷоди муаллим</value>
+  </data>
+  <data name="Update teacher information, groups and subjects" xml:space="preserve">
+    <value>Маълумот, гурӯҳҳо ва фанҳои муаллимро навсозӣ кунед</value>
+  </data>
+  <data name="Delete Teacher" xml:space="preserve">
+    <value>Нест кардани муаллим</value>
+  </data>
+  <data name="The Teacher login account will also be deleted." xml:space="preserve">
+    <value>Ҳисоби воридшавии муаллим низ нест карда мешавад.</value>
+  </data>
+  <data name="Teacher Details" xml:space="preserve">
+    <value>Тафсилоти муаллим</value>
+  </data>
+  <data name="No groups assigned." xml:space="preserve">
+    <value>Ҳеҷ гурӯҳ таъин нашудааст.</value>
+  </data>
+  <data name="No subjects assigned." xml:space="preserve">
+    <value>Ҳеҷ фан таъин нашудааст.</value>
+  </data>
+  <data name="Account and salary information" xml:space="preserve">
+    <value>Маълумоти ҳисоб ва маош</value>
+  </data>
+  <data name="Example: John Smith" xml:space="preserve">
+    <value>Мисол: Ҷон Смит</value>
+  </data>
+  <data name="School group" xml:space="preserve">
+    <value>Гурӯҳи мактабӣ</value>
+  </data>
+  <data name="Edit Teacher" xml:space="preserve">
+    <value>Таҳрири муаллим</value>
+  </data>
+  <data name="Select groups assigned to this teacher" xml:space="preserve">
+    <value>Гурӯҳҳои таъиншуда ба ин муаллимро интихоб кунед</value>
+  </data>
+  <data name="Select subjects taught by this teacher" xml:space="preserve">
+    <value>Фанҳои таълимдодаи ин муаллимро интихоб кунед</value>
+  </data>
+  <data name="Teacher Information" xml:space="preserve">
+    <value>Маълумоти муаллим</value>
+  </data>
+  <data name="Add Subject" xml:space="preserve">
+    <value>Илова кардани фан</value>
+  </data>
+  <data name="Create a subject and assign teachers" xml:space="preserve">
+    <value>Фан эҷод карда, муаллимон таъин кунед</value>
+  </data>
+  <data name="Create a subject to get started." xml:space="preserve">
+    <value>Барои оғоз фан эҷод кунед.</value>
+  </data>
+  <data name="Create Subject" xml:space="preserve">
+    <value>Эҷоди фан</value>
+  </data>
+  <data name="Delete Subject" xml:space="preserve">
+    <value>Нест кардани фан</value>
+  </data>
+  <data name="Edit Subject" xml:space="preserve">
+    <value>Таҳрири фан</value>
+  </data>
+  <data name="Enter the subject name" xml:space="preserve">
+    <value>Номи фанро ворид кунед</value>
+  </data>
+  <data name="Example: Mathematics" xml:space="preserve">
+    <value>Мисол: Математика</value>
+  </data>
+  <data name="Manage school subjects and assigned teachers" xml:space="preserve">
+    <value>Фанҳои мактабӣ ва муаллимони таъиншударо идора кунед</value>
+  </data>
+  <data name="No subjects found" xml:space="preserve">
+    <value>Фан ёфт нашуд</value>
+  </data>
+  <data name="Schedule entries" xml:space="preserve">
+    <value>Сабтҳои ҷадвал</value>
+  </data>
+  <data name="Search subject..." xml:space="preserve">
+    <value>Ҷустуҷӯи фан...</value>
+  </data>
+  <data name="Select teachers who teach this subject" xml:space="preserve">
+    <value>Муаллимоне, ки ин фанро таълим медиҳанд, интихоб кунед</value>
+  </data>
+  <data name="Subject Details" xml:space="preserve">
+    <value>Тафсилоти фан</value>
+  </data>
+  <data name="Subject Information" xml:space="preserve">
+    <value>Маълумоти фан</value>
+  </data>
+  <data name="Subject Name" xml:space="preserve">
+    <value>Номи фан</value>
+  </data>
+  <data name="Update subject information and assigned teachers" xml:space="preserve">
+    <value>Маълумоти фан ва муаллимони таъиншударо навсозӣ кунед</value>
+  </data>
+  <data name="All groups" xml:space="preserve">
+    <value>Ҳамаи гурӯҳҳо</value>
+  </data>
+  <data name="Are you sure you want to delete this lesson?" xml:space="preserve">
+    <value>Оё мутмаин ҳастед, ки мехоҳед ин дарсро нест кунед?</value>
+  </data>
+  <data name="Assignment" xml:space="preserve">
+    <value>Таъинот</value>
+  </data>
+  <data name="Attendance records" xml:space="preserve">
+    <value>Сабтҳои ҳозирӣ</value>
+  </data>
+  <data name="Create a lesson and assign a teacher, group and subject" xml:space="preserve">
+    <value>Дарс эҷод карда, муаллим, гурӯҳ ва фан таъин кунед</value>
+  </data>
+  <data name="Create Lesson" xml:space="preserve">
+    <value>Эҷоди дарс</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Сана</value>
+  </data>
+  <data name="Date &amp;amp; Time" xml:space="preserve">
+    <value>Сана ва вақт</value>
+  </data>
+  <data name="Delete Lesson" xml:space="preserve">
+    <value>Нест кардани дарс</value>
+  </data>
+  <data name="Edit Lesson" xml:space="preserve">
+    <value>Таҳрири дарс</value>
+  </data>
+  <data name="End Time" xml:space="preserve">
+    <value>Вақти анҷом</value>
+  </data>
+  <data name="Example: Linear equations" xml:space="preserve">
+    <value>Мисол: Муодилаҳои хаттӣ</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Филтр</value>
+  </data>
+  <data name="Lesson Details" xml:space="preserve">
+    <value>Тафсилоти дарс</value>
+  </data>
+  <data name="Lesson Information" xml:space="preserve">
+    <value>Маълумоти дарс</value>
+  </data>
+  <data name="Manage lessons, teachers, subjects and lesson topics" xml:space="preserve">
+    <value>Дарсҳо, муаллимон, фанҳо ва мавзӯъҳои дарсро идора кунед</value>
+  </data>
+  <data name="No lessons found" xml:space="preserve">
+    <value>Дарс ёфт нашуд</value>
+  </data>
+  <data name="Search subject, teacher, group or topic..." xml:space="preserve">
+    <value>Ҷустуҷӯи фан, муаллим, гурӯҳ ё мавзӯъ...</value>
+  </data>
+  <data name="Select group" xml:space="preserve">
+    <value>Гурӯҳро интихоб кунед</value>
+  </data>
+  <data name="Select group, teacher and subject" xml:space="preserve">
+    <value>Гурӯҳ, муаллим ва фанро интихоб кунед</value>
+  </data>
+  <data name="Select subject" xml:space="preserve">
+    <value>Фанро интихоб кунед</value>
+  </data>
+  <data name="Select teacher" xml:space="preserve">
+    <value>Муаллимро интихоб кунед</value>
+  </data>
+  <data name="Set lesson date, time and topic" xml:space="preserve">
+    <value>Сана, вақт ва мавзӯи дарсро таъин кунед</value>
+  </data>
+  <data name="Start Time" xml:space="preserve">
+    <value>Вақти оғоз</value>
+  </data>
+  <data name="There are no lessons matching the selected filters." xml:space="preserve">
+    <value>Ба филтрҳои интихобшуда дарсе мувофиқ нест.</value>
+  </data>
+  <data name="This lesson already contains attendance or grades and cannot be deleted." xml:space="preserve">
+    <value>Ин дарс аллакай дорои ҳозирӣ ё баҳо аст ва онро нест кардан мумкин нест.</value>
+  </data>
+  <data name="Update lesson information" xml:space="preserve">
+    <value>Маълумоти дарсро навсозӣ кунед</value>
+  </data>
+  <data name="Add a lesson to the weekly timetable" xml:space="preserve">
+    <value>Ба ҷадвали ҳафтаина дарс илова кунед</value>
+  </data>
+  <data name="All days" xml:space="preserve">
+    <value>Ҳамаи рӯзҳо</value>
+  </data>
+  <data name="Are you sure you want to delete this schedule entry?" xml:space="preserve">
+    <value>Оё мутмаин ҳастед, ки мехоҳед ин сабти ҷадвалро нест кунед?</value>
+  </data>
+  <data name="Create a schedule entry or change the filters." xml:space="preserve">
+    <value>Сабти ҷадвал эҷод кунед ё филтрҳоро тағйир диҳед.</value>
+  </data>
+  <data name="Create Schedule" xml:space="preserve">
+    <value>Эҷоди ҷадвал</value>
+  </data>
+  <data name="Day" xml:space="preserve">
+    <value>Рӯз</value>
+  </data>
+  <data name="Delete Schedule" xml:space="preserve">
+    <value>Нест кардани ҷадвал</value>
+  </data>
+  <data name="Edit Schedule" xml:space="preserve">
+    <value>Таҳрири ҷадвал</value>
+  </data>
+  <data name="Lesson Assignment" xml:space="preserve">
+    <value>Таъиноти дарс</value>
+  </data>
+  <data name="Manage the weekly school timetable" xml:space="preserve">
+    <value>Ҷадвали ҳафтаинаи мактабро идора кунед</value>
+  </data>
+  <data name="No schedule entries found" xml:space="preserve">
+    <value>Сабти ҷадвал ёфт нашуд</value>
+  </data>
+  <data name="Schedule Details" xml:space="preserve">
+    <value>Тафсилоти ҷадвал</value>
+  </data>
+  <data name="Select weekday and lesson time" xml:space="preserve">
+    <value>Рӯзи ҳафта ва вақти дарсро интихоб кунед</value>
+  </data>
+  <data name="Update the timetable entry" xml:space="preserve">
+    <value>Сабти ҷадвалро навсозӣ кунед</value>
+  </data>
+  <data name="{0} lesson(s)" xml:space="preserve">
+    <value>{0} дарс</value>
+  </data>
+  <data name="Group created successfully." xml:space="preserve">
+    <value>Гурӯҳ бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Group deleted successfully." xml:space="preserve">
+    <value>Гурӯҳ бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Group updated successfully." xml:space="preserve">
+    <value>Гурӯҳ бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="Lesson created successfully." xml:space="preserve">
+    <value>Дарс бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Lesson deleted successfully." xml:space="preserve">
+    <value>Дарс бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Lesson updated successfully." xml:space="preserve">
+    <value>Дарс бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="Parent created successfully." xml:space="preserve">
+    <value>Волид бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Parent deleted successfully." xml:space="preserve">
+    <value>Волид бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Parent updated successfully." xml:space="preserve">
+    <value>Волид бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="Schedule entry created successfully." xml:space="preserve">
+    <value>Сабти ҷадвал бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Schedule entry deleted successfully." xml:space="preserve">
+    <value>Сабти ҷадвал бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Schedule updated successfully." xml:space="preserve">
+    <value>Ҷадвал бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="Student created successfully." xml:space="preserve">
+    <value>Хонанда бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Student deleted successfully." xml:space="preserve">
+    <value>Хонанда бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Student updated successfully." xml:space="preserve">
+    <value>Хонанда бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="Subject created successfully." xml:space="preserve">
+    <value>Фан бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Subject deleted successfully." xml:space="preserve">
+    <value>Фан бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Subject updated successfully." xml:space="preserve">
+    <value>Фан бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="Teacher created successfully." xml:space="preserve">
+    <value>Муаллим бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Teacher deleted successfully." xml:space="preserve">
+    <value>Муаллим бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Teacher updated successfully." xml:space="preserve">
+    <value>Муаллим бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="This group cannot be deleted because it has lessons or schedule entries." xml:space="preserve">
+    <value>Ин гурӯҳро нест кардан мумкин нест, зеро он дорои дарсҳо ё сабтҳои ҷадвал аст.</value>
+  </data>
+  <data name="This lesson cannot be deleted because attendance or grades are connected to it." xml:space="preserve">
+    <value>Ин дарсро нест кардан мумкин нест, зеро ба он ҳозирӣ ё баҳо пайваст аст.</value>
+  </data>
+  <data name="This subject cannot be deleted because it has lessons, schedules or grades." xml:space="preserve">
+    <value>Ин фанро нест кардан мумкин нест, зеро он дорои дарсҳо, ҷадвалҳо ё баҳоҳо аст.</value>
+  </data>
+  <data name="This teacher cannot be deleted because they have lessons, schedules or grades." xml:space="preserve">
+    <value>Ин муаллимро нест кардан мумкин нест, зеро ӯ дорои дарсҳо, ҷадвалҳо ё баҳоҳо аст.</value>
+  </data>
+  <data name="Group name is required" xml:space="preserve">
+    <value>Номи гурӯҳ ҳатмист</value>
+  </data>
+  <data name="Subject name is required" xml:space="preserve">
+    <value>Номи фан ҳатмист</value>
+  </data>
+  <data name="Select a group" xml:space="preserve">
+    <value>Гурӯҳро интихоб кунед</value>
+  </data>
+  <data name="Select a teacher" xml:space="preserve">
+    <value>Муаллимро интихоб кунед</value>
+  </data>
+  <data name="Select a subject" xml:space="preserve">
+    <value>Фанро интихоб кунед</value>
+  </data>
+  <data name="Selected teacher must be assigned to this group and subject." xml:space="preserve">
+    <value>Муаллими интихобшуда бояд ба ин гурӯҳ ва фан таъин шуда бошад.</value>
+  </data>
+  <data name="End time must be later than start time." xml:space="preserve">
+    <value>Вақти анҷом бояд аз вақти оғоз дертар бошад.</value>
+  </data>
+  <data name="This teacher already has another lesson during this time." xml:space="preserve">
+    <value>Ин муаллим дар ин вақт дарси дигар дорад.</value>
+  </data>
+  <data name="This group already has another lesson during this time." xml:space="preserve">
+    <value>Ин гурӯҳ дар ин вақт дарси дигар дорад.</value>
+  </data>
+  <data name="Monday" xml:space="preserve">
+    <value>Душанбе</value>
+  </data>
+  <data name="Tuesday" xml:space="preserve">
+    <value>Сешанбе</value>
+  </data>
+  <data name="Wednesday" xml:space="preserve">
+    <value>Чоршанбе</value>
+  </data>
+  <data name="Thursday" xml:space="preserve">
+    <value>Панҷшанбе</value>
+  </data>
+  <data name="Friday" xml:space="preserve">
+    <value>Ҷумъа</value>
+  </data>
+  <data name="Saturday" xml:space="preserve">
+    <value>Шанбе</value>
+  </data>
+  <data name="Sunday" xml:space="preserve">
+    <value>Якшанбе</value>
+  </data>
+  <data name="My Schedule" xml:space="preserve">
+    <value>Ҷадвали ман</value>
+  </data>
+  <data name="No schedule entries" xml:space="preserve">
+    <value>Сабти ҷадвал нест</value>
+  </data>
+  <data name="No schedule yet" xml:space="preserve">
+    <value>Ҳанӯз ҷадвал нест</value>
+  </data>
+  <data name="School Days" xml:space="preserve">
+    <value>Рӯзҳои мактабӣ</value>
+  </data>
+  <data name="School lesson" xml:space="preserve">
+    <value>Дарси мактабӣ</value>
+  </data>
+  <data name="Teaching Days" xml:space="preserve">
+    <value>Рӯзҳои таълимӣ</value>
+  </data>
+  <data name="The weekly schedule will appear here when it is created." xml:space="preserve">
+    <value>Ҷадвали ҳафтаина пас аз эҷод дар ин ҷо намоён мешавад.</value>
+  </data>
+  <data name="Weekly Lessons" xml:space="preserve">
+    <value>Дарсҳои ҳафтаина</value>
+  </data>
+  <data name="Your weekly schedule will appear here." xml:space="preserve">
+    <value>Ҷадвали ҳафтаинаи шумо дар ин ҷо намоён мешавад.</value>
+  </data>
+  <data name="Your weekly teaching timetable" xml:space="preserve">
+    <value>Ҷадвали ҳафтаинаи таълимии шумо</value>
+  </data>
+  <data name="{0}'s weekly timetable" xml:space="preserve">
+    <value>Ҷадвали ҳафтаинаи {0}</value>
+  </data>
+  <data name="Excellent Student" xml:space="preserve">
+    <value>Хонандаи аълочӣ</value>
+  </data>
+  <data name="Average grade of 4.5 or higher" xml:space="preserve">
+    <value>Баҳои миёна 4.5 ё баландтар</value>
+  </data>
+  <data name="10 Excellent Grades" xml:space="preserve">
+    <value>10 баҳои аъло</value>
+  </data>
+  <data name="Earned ten grades of 5" xml:space="preserve">
+    <value>Даҳ баҳои 5 гирифт</value>
+  </data>
+  <data name="30 Days Attendance Streak" xml:space="preserve">
+    <value>30 рӯз ҳозирии бефосила</value>
+  </data>
+  <data name="No absences in the last 30 days" xml:space="preserve">
+    <value>Дар 30 рӯзи охир ғоиб набудааст</value>
+  </data>
+  <data name="Mathematics Master" xml:space="preserve">
+    <value>Устоди математика</value>
+  </data>
+  <data name="Average grade of 4.5 or higher in Mathematics" xml:space="preserve">
+    <value>Баҳои миёна аз математика 4.5 ё баландтар</value>
+  </data>
+  <data name="100% Attendance" xml:space="preserve">
+    <value>100% ҳозирӣ</value>
+  </data>
+  <data name="Never marked absent" xml:space="preserve">
+    <value>Ҳеҷ гоҳ ғоиб қайд нашудааст</value>
+  </data>
+  <data name="students unit" xml:space="preserve">
+    <value>хонанда</value>
+  </data>
+  <data name="Achievements" xml:space="preserve">
+    <value>Дастовардҳо</value>
+  </data>
+  <data name="Leaderboard" xml:space="preserve">
+    <value>Ҷадвали пешсафон</value>
+  </data>
+  <data name="Top performing students this month" xml:space="preserve">
+    <value>Хонандагони беҳтарини ин моҳ</value>
+  </data>
+  <data name="Top Grades" xml:space="preserve">
+    <value>Баҳоҳои баландтарин</value>
+  </data>
+  <data name="Highest average grade this month" xml:space="preserve">
+    <value>Баҳои миёнаи баландтарин дар ин моҳ</value>
+  </data>
+  <data name="Best Attendance" xml:space="preserve">
+    <value>Беҳтарин ҳозирӣ</value>
+  </data>
+  <data name="Highest attendance rate this month" xml:space="preserve">
+    <value>Сатҳи баландтарини ҳозирӣ дар ин моҳ</value>
+  </data>
+  <data name="Most Improved" xml:space="preserve">
+    <value>Бештарин пешрафт</value>
+  </data>
+  <data name="Biggest grade improvement vs last month" xml:space="preserve">
+    <value>Бузургтарин беҳбудии баҳо нисбат ба моҳи гузашта</value>
+  </data>
+  <data name="Not enough data yet" xml:space="preserve">
+    <value>Ҳанӯз маълумот кофӣ нест</value>
+  </data>
+  <data name="Check back after a few more grades or attendance records are added." xml:space="preserve">
+    <value>Пас аз илова шудани баҳо ё сабти ҳозирии бештар дубора санҷед.</value>
+  </data>
+  <data name="Teacher Comments" xml:space="preserve">
+    <value>Шарҳҳои муаллим</value>
+  </data>
+  <data name="Comments attached to recent grades" xml:space="preserve">
+    <value>Шарҳҳои пайвастшуда ба баҳоҳои охирин</value>
+  </data>
+  <data name="No teacher comments yet." xml:space="preserve">
+    <value>Ҳанӯз шарҳи муаллим нест.</value>
+  </data>
+  <data name="Upcoming Events" xml:space="preserve">
+    <value>Рӯйдодҳои наздик</value>
+  </data>
+  <data name="From the school calendar" xml:space="preserve">
+    <value>Аз тақвими мактаб</value>
+  </data>
+  <data name="No upcoming events." xml:space="preserve">
+    <value>Рӯйдоди наздик нест.</value>
+  </data>
+  <data name="School Calendar" xml:space="preserve">
+    <value>Тақвими мактаб</value>
+  </data>
+  <data name="Admin creates events, everyone else can view them" xml:space="preserve">
+    <value>Маъмур рӯйдодҳоро эҷод мекунад, дигарон онҳоро дида метавонанд</value>
+  </data>
+  <data name="Add Event" xml:space="preserve">
+    <value>Илова кардани рӯйдод</value>
+  </data>
+  <data name="Edit Event" xml:space="preserve">
+    <value>Таҳрири рӯйдод</value>
+  </data>
+  <data name="Delete Event" xml:space="preserve">
+    <value>Нест кардани рӯйдод</value>
+  </data>
+  <data name="Event Information" xml:space="preserve">
+    <value>Маълумоти рӯйдод</value>
+  </data>
+  <data name="Enter the event title, date and an optional description" xml:space="preserve">
+    <value>Номи рӯйдод, сана ва тавсифи ихтиёриро ворид кунед</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>Сарлавҳа</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Тавсиф</value>
+  </data>
+  <data name="Create a new calendar event" xml:space="preserve">
+    <value>Рӯйдоди нави тақвимӣ эҷод кунед</value>
+  </data>
+  <data name="Upcoming school events" xml:space="preserve">
+    <value>Рӯйдодҳои наздики мактабӣ</value>
+  </data>
+  <data name="Add" xml:space="preserve">
+    <value>Илова кардан</value>
+  </data>
+  <data name="Example: Parent Meeting" xml:space="preserve">
+    <value>Мисол: Ҷаласаи волидон</value>
+  </data>
+  <data name="Event created successfully." xml:space="preserve">
+    <value>Рӯйдод бомуваффақият эҷод шуд.</value>
+  </data>
+  <data name="Event updated successfully." xml:space="preserve">
+    <value>Рӯйдод бомуваффақият навсозӣ шуд.</value>
+  </data>
+  <data name="Event deleted successfully." xml:space="preserve">
+    <value>Рӯйдод бомуваффақият нест карда шуд.</value>
+  </data>
+  <data name="Lessons Today" xml:space="preserve">
+    <value>Дарсҳои имрӯза</value>
+  </data>
+  <data name="Missed {0} — {1}" xml:space="preserve">
+    <value>Аз даст рафт {0} — {1}</value>
+  </data>
+  <data name="Good morning" xml:space="preserve">
+    <value>Субҳ ба хайр</value>
+  </data>
+  <data name="Good afternoon" xml:space="preserve">
+    <value>Рӯз ба хайр</value>
+  </data>
+  <data name="Good evening" xml:space="preserve">
+    <value>Шом ба хайр</value>
+  </data>
+  <data name="Students Today" xml:space="preserve">
+    <value>Хонандагони имрӯза</value>
+  </data>
+  <data name="Missing Grades" xml:space="preserve">
+    <value>Баҳоҳои норасида</value>
+  </data>
+  <data name="Attendance Not Completed" xml:space="preserve">
+    <value>Ҳозирӣ пур карда нашудааст</value>
+  </data>
+  <data name="Activity Log" xml:space="preserve">
+    <value>Сабти фаъолият</value>
+  </data>
+  <data name="Most recent 100 actions across the school" xml:space="preserve">
+    <value>100 амали охирин дар тамоми мактаб</value>
+  </data>
+  <data name="No activity recorded yet." xml:space="preserve">
+    <value>Ҳанӯз фаъолияте сабт нашудааст.</value>
+  </data>
+  <data name="Smart School Dashboard" xml:space="preserve">
+    <value>Лавҳаи ҳушманди мактаб</value>
+  </data>
+  <data name="Live academic performance, attendance and student risk analytics." xml:space="preserve">
+    <value>Таҳлили зиндаи пешрафти таҳсилӣ, ҳозирӣ ва хатари хонандагон.</value>
+  </data>
+  <data name="School-wide average" xml:space="preserve">
+    <value>Миёнаи умумимактабӣ</value>
+  </data>
+  <data name="All attendance records" xml:space="preserve">
+    <value>Ҳамаи сабтҳои ҳозирӣ</value>
+  </data>
+  <data name="Students Absent Today" xml:space="preserve">
+    <value>Хонандагони ғоиб имрӯз</value>
+  </data>
+  <data name="Unique students" xml:space="preserve">
+    <value>Хонандагони беназир</value>
+  </data>
+  <data name="Scheduled lessons" xml:space="preserve">
+    <value>Дарсҳои ба нақша гирифташуда</value>
+  </data>
+  <data name="Attendance Trend" xml:space="preserve">
+    <value>Тамоюли ҳозирӣ</value>
+  </data>
+  <data name="Daily attendance percentage" xml:space="preserve">
+    <value>Фоизи ҳаррӯзаи ҳозирӣ</value>
+  </data>
+  <data name="Week" xml:space="preserve">
+    <value>Ҳафта</value>
+  </data>
+  <data name="School Overview" xml:space="preserve">
+    <value>Хулосаи мактаб</value>
+  </data>
+  <data name="Current system totals" xml:space="preserve">
+    <value>Ҷамъбасти ҷории система</value>
+  </data>
+  <data name="Top 5 Students" xml:space="preserve">
+    <value>5 хонандаи беҳтарин</value>
+  </data>
+  <data name="Best average grades with attendance as tie-breaker" xml:space="preserve">
+    <value>Беҳтарин баҳои миёна бо ҳозирӣ ҳамчун омили ҳалкунанда</value>
+  </data>
+  <data name="No grade data yet." xml:space="preserve">
+    <value>Ҳанӯз маълумоти баҳо нест.</value>
+  </data>
+  <data name="att." xml:space="preserve">
+    <value>ҳоз.</value>
+  </data>
+  <data name="Early Warning System" xml:space="preserve">
+    <value>Системаи огоҳии барвақт</value>
+  </data>
+  <data name="Students who need attention right now" xml:space="preserve">
+    <value>Хонандагоне, ки ҳозир таваҷҷуҳ талаб мекунанд</value>
+  </data>
+  <data name="All students are currently in the good zone." xml:space="preserve">
+    <value>Ҳамаи хонандагон ҳоло дар минтақаи хуб қарор доранд.</value>
+  </data>
+  <data name="{0} lesson(s) today" xml:space="preserve">
+    <value>{0} дарс имрӯз</value>
+  </data>
+  <data name="Student Profile 360°" xml:space="preserve">
+    <value>Профили пурраи хонанда</value>
+  </data>
+  <data name="Edit profile" xml:space="preserve">
+    <value>Таҳрири профил</value>
+  </data>
+  <data name="Reasons" xml:space="preserve">
+    <value>Сабабҳо</value>
+  </data>
+  <data name="No active risk signals detected." xml:space="preserve">
+    <value>Ҳеҷ аломати хатари фаъол ошкор нашуд.</value>
+  </data>
+  <data name="Attendance Calendar" xml:space="preserve">
+    <value>Тақвими ҳозирӣ</value>
+  </data>
+  <data name="Not assigned" xml:space="preserve">
+    <value>Таъин нашудааст</value>
+  </data>
+  <data name="Good" xml:space="preserve">
+    <value>Хуб</value>
+  </data>
+  <data name="Attention Needed" xml:space="preserve">
+    <value>Таваҷҷуҳ лозим аст</value>
+  </data>
+  <data name="At Risk" xml:space="preserve">
+    <value>Дар хатар</value>
+  </data>
+  <data name="Unknown" xml:space="preserve">
+    <value>Номаълум</value>
+  </data>
+  <data name="No attendance data yet" xml:space="preserve">
+    <value>Ҳанӯз маълумоти ҳозирӣ нест</value>
+  </data>
+  <data name="Attendance below 70%" xml:space="preserve">
+    <value>Ҳозирӣ поёнтар аз 70%</value>
+  </data>
+  <data name="Attendance below 85%" xml:space="preserve">
+    <value>Ҳозирӣ поёнтар аз 85%</value>
+  </data>
+  <data name="No grades recorded yet" xml:space="preserve">
+    <value>Ҳанӯз баҳое сабт нашудааст</value>
+  </data>
+  <data name="Average grade below 3.0" xml:space="preserve">
+    <value>Баҳои миёна поёнтар аз 3.0</value>
+  </data>
+  <data name="Average grade below 3.5" xml:space="preserve">
+    <value>Баҳои миёна поёнтар аз 3.5</value>
+  </data>
+  <data name="Notifications" xml:space="preserve">
+    <value>Огоҳиномаҳо</value>
+  </data>
+  <data name="Role-based updates from your school activity." xml:space="preserve">
+    <value>Навсозиҳо аз фаъолияти мактабии шумо, вобаста ба нақш.</value>
+  </data>
+  <data name="{0} notification(s)" xml:space="preserve">
+    <value>{0} огоҳинома</value>
+  </data>
+  <data name="No notifications" xml:space="preserve">
+    <value>Огоҳинома нест</value>
+  </data>
+  <data name="There is nothing new for your account right now." xml:space="preserve">
+    <value>Ҳоло барои ҳисоби шумо чизи наве нест.</value>
+  </data>
+  <data name="Student joined" xml:space="preserve">
+    <value>Хонанда пайваст шуд</value>
+  </data>
+  <data name="Absence alert" xml:space="preserve">
+    <value>Огоҳии ғоибӣ</value>
+  </data>
+  <data name="Attendance completed" xml:space="preserve">
+    <value>Ҳозирӣ пур карда шуд</value>
+  </data>
+  <data name="Attendance pending" xml:space="preserve">
+    <value>Ҳозирӣ дар интизор</value>
+  </data>
+  <data name="New grade" xml:space="preserve">
+    <value>Баҳои нав</value>
+  </data>
+  <data name="Missed lesson" xml:space="preserve">
+    <value>Дарси аз даст рафта</value>
+  </data>
+  <data name="{0} joined {1}" xml:space="preserve">
+    <value>{0} ба {1} пайваст шуд</value>
+  </data>
+  <data name="{0} lesson(s) scheduled today" xml:space="preserve">
+    <value>{0} дарс барои имрӯз ба нақша гирифта шудааст</value>
+  </data>
+  <data name="{0} student(s) are absent today" xml:space="preserve">
+    <value>{0} хонанда имрӯз ғоиб аст</value>
+  </data>
+  <data name="{0} missed {1}" xml:space="preserve">
+    <value>{0} {1}-ро аз даст дод</value>
+  </data>
+  <data name="Interactive Weekly Schedule" xml:space="preserve">
+    <value>Ҷадвали ҳафтаинаи интерактивӣ</value>
+  </data>
+  <data name="Visual timetable with teacher, group and subject cards." xml:space="preserve">
+    <value>Ҷадвали визуалӣ бо корточкаҳои муаллим, гурӯҳ ва фан.</value>
+  </data>
+  <data name="Click a lesson card to open details, edit or delete it." xml:space="preserve">
+    <value>Барои кушодани тафсилот, таҳрир ё нест кардан ба корточкаи дарс клик кунед.</value>
+  </data>
+  <data name="Teacher {0} already has {1} with {2} at {3}–{4}." xml:space="preserve">
+    <value>Муаллим {0} аллакай {1}-ро бо {2} дар соати {3}–{4} дорад.</value>
+  </data>
+  <data name="Group {0} already has {1} with {2} at {3}–{4}." xml:space="preserve">
+    <value>Гурӯҳи {0} аллакай {1}-ро бо {2} дар соати {3}–{4} дорад.</value>
+  </data>
+  <data name="Earned and upcoming student badges" xml:space="preserve">
+    <value>Нишонҳои гирифташуда ва наздики хонанда</value>
+  </data>
+  <data name="Automatic risk status from grades + attendance" xml:space="preserve">
+    <value>Ҳолати хатари худкор аз баҳо ва ҳозирӣ</value>
+  </data>
+  <data name="Across {0} grade(s)" xml:space="preserve">
+    <value>Дар байни {0} баҳо</value>
+  </data>
+  <data name="{0} attendance record(s)" xml:space="preserve">
+    <value>{0} сабти ҳозирӣ</value>
+  </data>
+  <data name="Current school group" xml:space="preserve">
+    <value>Гурӯҳи ҷории мактабӣ</value>
+  </data>
+  <data name="Connected parent account(s)" xml:space="preserve">
+    <value>Ҳисоб(ҳо)и волиди пайвастшуда</value>
+  </data>
+  <data name="Personal and family information" xml:space="preserve">
+    <value>Маълумоти шахсӣ ва оилавӣ</value>
+  </data>
+  <data name="Latest academic results" xml:space="preserve">
+    <value>Натиҷаҳои охирини таҳсилӣ</value>
+  </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Баҳо</value>
+  </data>
+  <data name="No attendance data yet." xml:space="preserve">
+    <value>Ҳанӯз маълумоти ҳозирӣ нест.</value>
+  </data>
+  <data name="Last {0} attendance records" xml:space="preserve">
+    <value>{0} сабти охирини ҳозирӣ</value>
+  </data>
+  <data name="AI Assistant" xml:space="preserve">
+    <value>Ёрдамчии AI</value>
+  </data>
+  <data name="Ask about your data or how to use the portal" xml:space="preserve">
+    <value>Дар бораи маълумоти худ ё тарзи истифодаи портал бипурсед</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Пӯшидан</value>
+  </data>
+  <data name="Type your question..." xml:space="preserve">
+    <value>Саволи худро нависед...</value>
+  </data>
+  <data name="Send" xml:space="preserve">
+    <value>Фиристодан</value>
+  </data>
+  <data name="Hi! I can answer questions about your data or help you find your way around the portal. What would you like to know?" xml:space="preserve">
+    <value>Салом! Ман метавонам ба саволҳо дар бораи маълумоти шумо ҷавоб диҳам ё дар истифодаи портал кӯмак кунам. Чиро донистан мехоҳед?</value>
+  </data>
+  <data name="Something went wrong. Please try again." xml:space="preserve">
+    <value>Хатогӣ рух дод. Лутфан аз нав кӯшиш кунед.</value>
+  </data>
+  <data name="{0} / {1} completed" xml:space="preserve">
+    <value>{0} аз {1} иҷро шуд</value>
+  </data>
+  <data name="{0} / {1} marked" xml:space="preserve">
+    <value>{0} аз {1} қайд шуд</value>
+  </data>
+  <data name="{0} average" xml:space="preserve">
+    <value>Миёна: {0}</value>
+  </data>
+  <data name="{0} grade(s)" xml:space="preserve">
+    <value>{0} баҳо</value>
+  </data>
+  <data name="{0} grades by month" xml:space="preserve">
+    <value>Баҳоҳо аз рӯи моҳ: {0}</value>
+  </data>
+  <data name="{0} group(s)" xml:space="preserve">
+    <value>{0} гурӯҳ</value>
+  </data>
+  <data name="{0} of {1} present" xml:space="preserve">
+    <value>{0} аз {1} ҳозир буд</value>
+  </data>
+  <data name="{0} present" xml:space="preserve">
+    <value>Ҳозир буд: {0}</value>
+  </data>
+  <data name="{0} present out of {1} attendance records" xml:space="preserve">
+    <value>{0} ҳозир аз {1} сабти ҳозирӣ</value>
+  </data>
+  <data name="{0} record(s)" xml:space="preserve">
+    <value>{0} сабт</value>
+  </data>
+  <data name="{0} student(s)" xml:space="preserve">
+    <value>{0} хонанда</value>
+  </data>
+  <data name="{0} subject(s)" xml:space="preserve">
+    <value>{0} фан</value>
+  </data>
+  <data name="{0} teacher(s)" xml:space="preserve">
+    <value>{0} муаллим</value>
+  </data>
+  <data name="{0} topic(s)" xml:space="preserve">
+    <value>{0} мавзӯъ</value>
+  </data>
+  <data name="{0}'s academic results" xml:space="preserve">
+    <value>Натиҷаҳои таҳсилии {0}</value>
+  </data>
+  <data name="{0}'s attendance history" xml:space="preserve">
+    <value>Таърихи ҳозирии {0}</value>
+  </data>
+  <data name="{0}'s subjects and teachers" xml:space="preserve">
+    <value>Фанҳо ва муаллимони {0}</value>
+  </data>
+  <data name="Absent" xml:space="preserve">
+    <value>Ғоиб</value>
+  </data>
+  <data name="Academic Access" xml:space="preserve">
+    <value>Дастрасии таҳсилӣ</value>
+  </data>
+  <data name="Academic performance across subjects" xml:space="preserve">
+    <value>Пешрафти таҳсилӣ аз рӯи фанҳо</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Амал</value>
+  </data>
+  <data name="Add or update the topic for each lesson" xml:space="preserve">
+    <value>Барои ҳар дарс мавзӯъ илова кунед ё навсозӣ кунед</value>
+  </data>
+  <data name="Add Topic" xml:space="preserve">
+    <value>Илова кардани мавзӯъ</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Илова шуд</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Синну сол</value>
+  </data>
+  <data name="All recorded grades for {0}" xml:space="preserve">
+    <value>Ҳамаи баҳоҳои сабтшудаи {0}</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>Ҳамаи вазъиятҳо</value>
+  </data>
+  <data name="All subjects" xml:space="preserve">
+    <value>Ҳамаи фанҳо</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Татбиқ кардан</value>
+  </data>
+  <data name="Are you sure you want to delete this attendance record?" xml:space="preserve">
+    <value>Оё мутмаин ҳастед, ки мехоҳед ин сабти ҳозириро нест кунед?</value>
+  </data>
+  <data name="Are you sure you want to delete this grade?" xml:space="preserve">
+    <value>Оё мутмаин ҳастед, ки мехоҳед ин баҳоро нест кунед?</value>
+  </data>
+  <data name="Attendance History" xml:space="preserve">
+    <value>Таърихи ҳозирӣ</value>
+  </data>
+  <data name="Attendance Journal" xml:space="preserve">
+    <value>Журнали ҳозирӣ</value>
+  </data>
+  <data name="Attendance Marked" xml:space="preserve">
+    <value>Ҳозирӣ қайд карда шуд</value>
+  </data>
+  <data name="Attendance not marked" xml:space="preserve">
+    <value>Ҳозирӣ қайд карда нашудааст</value>
+  </data>
+  <data name="Attendance Rate" xml:space="preserve">
+    <value>Сатҳи ҳозирӣ</value>
+  </data>
+  <data name="Attendance records will appear here after lessons." xml:space="preserve">
+    <value>Сабтҳои ҳозирӣ пас аз дарсҳо дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Average grade for each subject" xml:space="preserve">
+    <value>Баҳои миёна барои ҳар фан</value>
+  </data>
+  <data name="Based on {0} grade(s)" xml:space="preserve">
+    <value>Дар асоси {0} баҳо</value>
+  </data>
+  <data name="Choose a group above to view its attendance journal." xml:space="preserve">
+    <value>Барои дидани журнали ҳозирӣ гурӯҳро дар боло интихоб кунед.</value>
+  </data>
+  <data name="Choose one of your groups above to view its attendance journal." xml:space="preserve">
+    <value>Барои дидани журнали ҳозирӣ яке аз гурӯҳҳои худро дар боло интихоб кунед.</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Шарҳ</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Иҷро шуд</value>
+  </data>
+  <data name="Correct the attendance record for {0}" xml:space="preserve">
+    <value>Сабти ҳозирии {0}-ро ислоҳ кунед</value>
+  </data>
+  <data name="Correct the grade for {0}" xml:space="preserve">
+    <value>Баҳои {0}-ро ислоҳ кунед</value>
+  </data>
+  <data name="Delete Attendance Record" xml:space="preserve">
+    <value>Нест кардани сабти ҳозирӣ</value>
+  </data>
+  <data name="Delete Grade" xml:space="preserve">
+    <value>Нест кардани баҳо</value>
+  </data>
+  <data name="Describe what was covered during this lesson" xml:space="preserve">
+    <value>Тавсиф кунед, ки дар ин дарс чӣ гузаронида шуд</value>
+  </data>
+  <data name="Detailed attendance records" xml:space="preserve">
+    <value>Сабтҳои муфассали ҳозирӣ</value>
+  </data>
+  <data name="Edit Attendance" xml:space="preserve">
+    <value>Таҳрири ҳозирӣ</value>
+  </data>
+  <data name="Edit Grade" xml:space="preserve">
+    <value>Таҳрири баҳо</value>
+  </data>
+  <data name="Edit Grades" xml:space="preserve">
+    <value>Таҳрири баҳоҳо</value>
+  </data>
+  <data name="Edit Parent" xml:space="preserve">
+    <value>Таҳрири волид</value>
+  </data>
+  <data name="Edit Topic" xml:space="preserve">
+    <value>Таҳрири мавзӯъ</value>
+  </data>
+  <data name="Enter a grade from 1 to 5 and an optional comment" xml:space="preserve">
+    <value>Баҳо аз 1 то 5 ва шарҳи ихтиёриро ворид кунед</value>
+  </data>
+  <data name="Enter and manage student grades for your lessons" xml:space="preserve">
+    <value>Баҳоҳои хонандагони дарсҳои худро ворид ва идора кунед</value>
+  </data>
+  <data name="Enter Grades" xml:space="preserve">
+    <value>Ворид кардани баҳоҳо</value>
+  </data>
+  <data name="Example: Introduction to Newton's Laws" xml:space="preserve">
+    <value>Мисол: Муқаддима ба қонунҳои Нютон</value>
+  </data>
+  <data name="Excused" xml:space="preserve">
+    <value>Бо сабаби узрнок</value>
+  </data>
+  <data name="Flat list" xml:space="preserve">
+    <value>Рӯйхати одӣ</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>Аз</value>
+  </data>
+  <data name="General information about your child" xml:space="preserve">
+    <value>Маълумоти умумӣ дар бораи фарзанди шумо</value>
+  </data>
+  <data name="Grade History" xml:space="preserve">
+    <value>Таърихи баҳоҳо</value>
+  </data>
+  <data name="Grades Entered" xml:space="preserve">
+    <value>Баҳоҳои воридшуда</value>
+  </data>
+  <data name="Grades recorded by teachers will appear here." xml:space="preserve">
+    <value>Баҳоҳои сабтшудаи муаллимон дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Grades recorded by you for this student" xml:space="preserve">
+    <value>Баҳоҳои сабтшудаи шумо барои ин хонанда</value>
+  </data>
+  <data name="Group average" xml:space="preserve">
+    <value>Миёнаи гурӯҳ</value>
+  </data>
+  <data name="Group overview and students" xml:space="preserve">
+    <value>Хулосаи гурӯҳ ва хонандагон</value>
+  </data>
+  <data name="Groups assigned to you" xml:space="preserve">
+    <value>Гурӯҳҳои ба шумо таъиншуда</value>
+  </data>
+  <data name="Highest Grade" xml:space="preserve">
+    <value>Баландтарин баҳо</value>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>соат</value>
+  </data>
+  <data name="Journal View" xml:space="preserve">
+    <value>Намоиши журнал</value>
+  </data>
+  <data name="Late" xml:space="preserve">
+    <value>Дер омад</value>
+  </data>
+  <data name="Latest Topic" xml:space="preserve">
+    <value>Мавзӯи охирин</value>
+  </data>
+  <data name="Learning History" xml:space="preserve">
+    <value>Таърихи омӯзиш</value>
+  </data>
+  <data name="Lesson" xml:space="preserve">
+    <value>Дарс</value>
+  </data>
+  <data name="Lesson at {0}" xml:space="preserve">
+    <value>Дарс дар {0}</value>
+  </data>
+  <data name="Lesson History" xml:space="preserve">
+    <value>Таърихи дарс</value>
+  </data>
+  <data name="Lesson Topic" xml:space="preserve">
+    <value>Мавзӯи дарс</value>
+  </data>
+  <data name="Lesson Topics" xml:space="preserve">
+    <value>Мавзӯъҳои дарс</value>
+  </data>
+  <data name="Lessons assigned to you by the administration" xml:space="preserve">
+    <value>Дарсҳои аз ҷониби маъмурият ба шумо таъиншуда</value>
+  </data>
+  <data name="Lessons assigned to you will appear here." xml:space="preserve">
+    <value>Дарсҳои ба шумо таъиншуда дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Lessons Conducted" xml:space="preserve">
+    <value>Дарсҳои гузаронидашуда</value>
+  </data>
+  <data name="Lessons With Grades" xml:space="preserve">
+    <value>Дарсҳо бо баҳо</value>
+  </data>
+  <data name="Manage topics covered in your lessons" xml:space="preserve">
+    <value>Мавзӯъҳои дар дарсҳои шумо гузаронидашударо идора кунед</value>
+  </data>
+  <data name="Mark" xml:space="preserve">
+    <value>Қайд кардан</value>
+  </data>
+  <data name="Mark and manage student attendance for your lessons" xml:space="preserve">
+    <value>Ҳозирии хонандагони дарсҳои худро қайд ва идора кунед</value>
+  </data>
+  <data name="Mark Attendance" xml:space="preserve">
+    <value>Қайд кардани ҳозирӣ</value>
+  </data>
+  <data name="Marked" xml:space="preserve">
+    <value>Қайд карда шуд</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>Норасида</value>
+  </data>
+  <data name="Missing Topics" xml:space="preserve">
+    <value>Мавзӯъҳои норасида</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Моҳ</value>
+  </data>
+  <data name="Monthly teacher salary calculation based on worked hours" xml:space="preserve">
+    <value>Ҳисоби маоши моҳонаи муаллим дар асоси соатҳои коркарда</value>
+  </data>
+  <data name="My Lessons" xml:space="preserve">
+    <value>Дарсҳои ман</value>
+  </data>
+  <data name="No attendance records" xml:space="preserve">
+    <value>Сабти ҳозирӣ нест</value>
+  </data>
+  <data name="No grades" xml:space="preserve">
+    <value>Баҳо нест</value>
+  </data>
+  <data name="No grades found" xml:space="preserve">
+    <value>Баҳо ёфт нашуд</value>
+  </data>
+  <data name="No grades have been recorded for this lesson." xml:space="preserve">
+    <value>Барои ин дарс баҳое сабт нашудааст.</value>
+  </data>
+  <data name="No grades yet" xml:space="preserve">
+    <value>Ҳанӯз баҳо нест</value>
+  </data>
+  <data name="No groups assigned" xml:space="preserve">
+    <value>Гурӯҳ таъин нашудааст</value>
+  </data>
+  <data name="No lessons" xml:space="preserve">
+    <value>Дарс нест</value>
+  </data>
+  <data name="No lessons in this range" xml:space="preserve">
+    <value>Дар ин фосила дарс нест</value>
+  </data>
+  <data name="No lessons yet" xml:space="preserve">
+    <value>Ҳанӯз дарс нест</value>
+  </data>
+  <data name="No progress data" xml:space="preserve">
+    <value>Маълумоти пешрафт нест</value>
+  </data>
+  <data name="No salary data" xml:space="preserve">
+    <value>Маълумоти маош нест</value>
+  </data>
+  <data name="No students" xml:space="preserve">
+    <value>Хонанда нест</value>
+  </data>
+  <data name="No subject averages available yet." xml:space="preserve">
+    <value>Миёнаи фанҳо ҳанӯз дастрас нест.</value>
+  </data>
+  <data name="No subjects scheduled yet." xml:space="preserve">
+    <value>Ҳанӯз фане ба нақша гирифта нашудааст.</value>
+  </data>
+  <data name="No subjects yet" xml:space="preserve">
+    <value>Ҳанӯз фан нест</value>
+  </data>
+  <data name="No teacher salary information is available for this period." xml:space="preserve">
+    <value>Барои ин давра маълумоти маоши муаллим дастрас нест.</value>
+  </data>
+  <data name="No teachers assigned" xml:space="preserve">
+    <value>Муаллим таъин нашудааст</value>
+  </data>
+  <data name="No topic has been recorded for this lesson." xml:space="preserve">
+    <value>Барои ин дарс мавзӯъ сабт нашудааст.</value>
+  </data>
+  <data name="No topics recorded" xml:space="preserve">
+    <value>Мавзӯъ сабт нашудааст</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Қайд</value>
+  </data>
+  <data name="Open group" xml:space="preserve">
+    <value>Кушодани гурӯҳ</value>
+  </data>
+  <data name="Optional comment" xml:space="preserve">
+    <value>Шарҳи ихтиёрӣ</value>
+  </data>
+  <data name="Optional comment..." xml:space="preserve">
+    <value>Шарҳи ихтиёрӣ...</value>
+  </data>
+  <data name="Optional note" xml:space="preserve">
+    <value>Қайди ихтиёрӣ</value>
+  </data>
+  <data name="Overall Attendance Rate" xml:space="preserve">
+    <value>Сатҳи умумии ҳозирӣ</value>
+  </data>
+  <data name="Overall Average" xml:space="preserve">
+    <value>Миёнаи умумӣ</value>
+  </data>
+  <data name="Overall performance" xml:space="preserve">
+    <value>Натиҷаи умумӣ</value>
+  </data>
+  <data name="Partial" xml:space="preserve">
+    <value>Қисман</value>
+  </data>
+  <data name="Per hour" xml:space="preserve">
+    <value>Дар як соат</value>
+  </data>
+  <data name="Present" xml:space="preserve">
+    <value>Ҳозир</value>
+  </data>
+  <data name="Progress by Subject" xml:space="preserve">
+    <value>Пешрафт аз рӯи фан</value>
+  </data>
+  <data name="Quickly open your child's school information" xml:space="preserve">
+    <value>Маълумоти мактабии фарзандатонро зуд кушоед</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Нарх</value>
+  </data>
+  <data name="Read only" xml:space="preserve">
+    <value>Танҳо хондан</value>
+  </data>
+  <data name="Recorded Lessons" xml:space="preserve">
+    <value>Дарсҳои сабтшуда</value>
+  </data>
+  <data name="Salary Calculation" xml:space="preserve">
+    <value>Ҳисоби маош</value>
+  </data>
+  <data name="Salary Details" xml:space="preserve">
+    <value>Тафсилоти маош</value>
+  </data>
+  <data name="Save Attendance" xml:space="preserve">
+    <value>Захираи ҳозирӣ</value>
+  </data>
+  <data name="Save Grades" xml:space="preserve">
+    <value>Захираи баҳоҳо</value>
+  </data>
+  <data name="Save Topic" xml:space="preserve">
+    <value>Захираи мавзӯъ</value>
+  </data>
+  <data name="School Group" xml:space="preserve">
+    <value>Гурӯҳи мактабӣ</value>
+  </data>
+  <data name="School subjects" xml:space="preserve">
+    <value>Фанҳои мактабӣ</value>
+  </data>
+  <data name="Search student, group, subject or teacher..." xml:space="preserve">
+    <value>Ҷустуҷӯи хонанда, гурӯҳ, фан ё муаллим...</value>
+  </data>
+  <data name="Search student, subject or teacher..." xml:space="preserve">
+    <value>Ҷустуҷӯи хонанда, фан ё муаллим...</value>
+  </data>
+  <data name="Select a lesson to enter student grades" xml:space="preserve">
+    <value>Барои ворид кардани баҳои хонандагон дарсро интихоб кунед</value>
+  </data>
+  <data name="Select a lesson to mark attendance" xml:space="preserve">
+    <value>Барои қайди ҳозирӣ дарсро интихоб кунед</value>
+  </data>
+  <data name="Select attendance status for each student" xml:space="preserve">
+    <value>Барои ҳар хонанда вазъияти ҳозириро интихоб кунед</value>
+  </data>
+  <data name="Selected period" xml:space="preserve">
+    <value>Давраи интихобшуда</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Нишон додан</value>
+  </data>
+  <data name="Showing {0} attendance record(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} сабти ҳозирӣ</value>
+  </data>
+  <data name="Showing {0} grade(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} баҳо</value>
+  </data>
+  <data name="Showing {0} lesson(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} дарс</value>
+  </data>
+  <data name="Showing {0} subject(s)" xml:space="preserve">
+    <value>Нишон дода мешавад: {0} фан</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Вазъият</value>
+  </data>
+  <data name="Student attendance for this lesson" xml:space="preserve">
+    <value>Ҳозирии хонандагон барои ин дарс</value>
+  </data>
+  <data name="Student Grades" xml:space="preserve">
+    <value>Баҳоҳои хонанда</value>
+  </data>
+  <data name="Student grades for this lesson" xml:space="preserve">
+    <value>Баҳоҳои хонандагон барои ин дарс</value>
+  </data>
+  <data name="Student ID" xml:space="preserve">
+    <value>Рақами хонанда</value>
+  </data>
+  <data name="Student Progress" xml:space="preserve">
+    <value>Пешрафти хонанда</value>
+  </data>
+  <data name="Students × lesson dates, at a glance" xml:space="preserve">
+    <value>Хонандагон × санаҳои дарс, дар як назар</value>
+  </data>
+  <data name="Students enrolled in {0}" xml:space="preserve">
+    <value>Хонандагони дар {0} қайдшуда</value>
+  </data>
+  <data name="Students from your assigned groups" xml:space="preserve">
+    <value>Хонандагон аз гурӯҳҳои ба шумо таъиншуда</value>
+  </data>
+  <data name="Students Graded" xml:space="preserve">
+    <value>Хонандагони баҳогирифта</value>
+  </data>
+  <data name="Students will appear here when you are assigned to a group." xml:space="preserve">
+    <value>Пас аз таъин шуданатон ба гурӯҳ, хонандагон дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Subject Performance" xml:space="preserve">
+    <value>Натиҷаи фан</value>
+  </data>
+  <data name="Subject progress will appear after grades are recorded." xml:space="preserve">
+    <value>Пешрафти фан пас аз сабти баҳоҳо намоён мешавад.</value>
+  </data>
+  <data name="Subjects scheduled for this group" xml:space="preserve">
+    <value>Фанҳои барои ин гурӯҳ ба нақша гирифташуда</value>
+  </data>
+  <data name="Subjects will appear here when the schedule is created." xml:space="preserve">
+    <value>Пас аз эҷоди ҷадвал фанҳо дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Teacher Salary" xml:space="preserve">
+    <value>Маоши муаллим</value>
+  </data>
+  <data name="There are no attendance records matching the selected filters." xml:space="preserve">
+    <value>Ба филтрҳои интихобшуда сабти ҳозирӣ мувофиқ нест.</value>
+  </data>
+  <data name="There are no grades matching the selected filters." xml:space="preserve">
+    <value>Ба филтрҳои интихобшуда баҳо мувофиқ нест.</value>
+  </data>
+  <data name="There are no lessons for {0} in the selected date range." xml:space="preserve">
+    <value>Барои {0} дар фосилаи санаи интихобшуда дарс нест.</value>
+  </data>
+  <data name="There are no students in this group yet." xml:space="preserve">
+    <value>Дар ин гурӯҳ ҳанӯз хонанда нест.</value>
+  </data>
+  <data name="This group does not have any students." xml:space="preserve">
+    <value>Ин гурӯҳ хонанда надорад.</value>
+  </data>
+  <data name="This month" xml:space="preserve">
+    <value>Ин моҳ</value>
+  </data>
+  <data name="This student does not have any grades recorded by you." xml:space="preserve">
+    <value>Ин хонанда аз ҷониби шумо ягон баҳои сабтшуда надорад.</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>То</value>
+  </data>
+  <data name="Topic Calendar" xml:space="preserve">
+    <value>Тақвими мавзӯъҳо</value>
+  </data>
+  <data name="Topic covered during this lesson" xml:space="preserve">
+    <value>Мавзӯи дар ин дарс гузаронидашуда</value>
+  </data>
+  <data name="Topics Added" xml:space="preserve">
+    <value>Мавзӯъҳои иловашуда</value>
+  </data>
+  <data name="Topics already covered by {0}'s group" xml:space="preserve">
+    <value>Мавзӯъҳое, ки аллакай аз ҷониби гурӯҳи {0} гузаронида шудаанд</value>
+  </data>
+  <data name="Topics Covered" xml:space="preserve">
+    <value>Мавзӯъҳои гузаронидашуда</value>
+  </data>
+  <data name="Topics recorded by teachers after lessons" xml:space="preserve">
+    <value>Мавзӯъҳои аз ҷониби муаллимон пас аз дарс сабтшуда</value>
+  </data>
+  <data name="Topics will appear here after teachers add them to lessons." xml:space="preserve">
+    <value>Пас аз иловаи муаллимон ба дарсҳо, мавзӯъҳо дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Ҳамагӣ</value>
+  </data>
+  <data name="Total Grades" xml:space="preserve">
+    <value>Ҳамагӣ баҳоҳо</value>
+  </data>
+  <data name="Total hours" xml:space="preserve">
+    <value>Ҳамагӣ соат</value>
+  </data>
+  <data name="Total Lessons" xml:space="preserve">
+    <value>Ҳамагӣ дарсҳо</value>
+  </data>
+  <data name="Total Records" xml:space="preserve">
+    <value>Ҳамагӣ сабтҳо</value>
+  </data>
+  <data name="Total Salary" xml:space="preserve">
+    <value>Маоши умумӣ</value>
+  </data>
+  <data name="Total Students" xml:space="preserve">
+    <value>Ҳамагӣ хонандагон</value>
+  </data>
+  <data name="Total Subjects" xml:space="preserve">
+    <value>Ҳамагӣ фанҳо</value>
+  </data>
+  <data name="View and correct grades recorded by teachers" xml:space="preserve">
+    <value>Баҳоҳои сабтшудаи муаллимонро дида, ислоҳ кунед</value>
+  </data>
+  <data name="View and correct student attendance records across the school" xml:space="preserve">
+    <value>Сабтҳои ҳозирии хонандагони тамоми мактабро дида, ислоҳ кунед</value>
+  </data>
+  <data name="View Progress" xml:space="preserve">
+    <value>Дидани пешрафт</value>
+  </data>
+  <data name="View your lessons and manage attendance, grades and topics" xml:space="preserve">
+    <value>Дарсҳои худро дида, ҳозирӣ, баҳоҳо ва мавзӯъҳоро идора кунед</value>
+  </data>
+  <data name="View your monthly salary based on conducted lessons" xml:space="preserve">
+    <value>Маоши моҳонаи худро дар асоси дарсҳои гузаронидашуда бинед</value>
+  </data>
+  <data name="Weekly timetable" xml:space="preserve">
+    <value>Ҷадвали ҳафтаина</value>
+  </data>
+  <data name="Worked Hours" xml:space="preserve">
+    <value>Соатҳои коркарда</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Сол</value>
+  </data>
+  <data name="years old" xml:space="preserve">
+    <value>сола</value>
+  </data>
+  <data name="Your assigned groups will appear here." xml:space="preserve">
+    <value>Гурӯҳҳои ба шумо таъиншуда дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Your child" xml:space="preserve">
+    <value>Фарзанди шумо</value>
+  </data>
+  <data name="Your Child vs. Group Average" xml:space="preserve">
+    <value>Фарзанди шумо дар муқоиса бо миёнаи гурӯҳ</value>
+  </data>
+  <data name="Your lessons will appear here when they are scheduled." xml:space="preserve">
+    <value>Пас аз ба нақша гирифта шудан, дарсҳои шумо дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Your lessons will appear here." xml:space="preserve">
+    <value>Дарсҳои шумо дар ин ҷо намоён мешаванд.</value>
+  </data>
+  <data name="Your students × lesson dates, at a glance" xml:space="preserve">
+    <value>Хонандагони шумо × санаҳои дарс, дар як назар</value>
+  </data>
+  <data name="Voice input" xml:space="preserve">
+    <value>Вуруди овозӣ</value>
+  </data>
+  <data name="Voice input is not supported in this browser." xml:space="preserve">
+    <value>Вуруди овозӣ дар ин браузер дастгирӣ намешавад.</value>
+  </data>
+  <data name="Microphone access was denied." xml:space="preserve">
+    <value>Дастрасӣ ба микрофон рад карда шуд.</value>
+  </data>
+  <data name="No speech detected. Please try again." xml:space="preserve">
+    <value>Нутқ ошкор нашуд. Лутфан аз нав кӯшиш кунед.</value>
+  </data>
+  <data name="Voice input failed. Please try again or type your question." xml:space="preserve">
+    <value>Вуруди овозӣ ноком шуд. Лутфан аз нав кӯшиш кунед ё саволро бо матн ворид кунед.</value>
+  </data>
+</root>

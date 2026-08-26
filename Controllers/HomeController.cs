@@ -8,7 +8,7 @@ namespace SchoolManagementSystem.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private static readonly string[] SupportedCultures = { "en-US", "ru-RU" };
+    private static readonly string[] SupportedCultures = { "en-US", "ru-RU", "tg-TJ" };
 
     public IActionResult Index()
     {
