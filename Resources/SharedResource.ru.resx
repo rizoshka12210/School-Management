@@ -520,6 +520,9 @@
   <data name="Student #{0}" xml:space="preserve">
     <value>Ученик №{0}</value>
   </data>
+  <data name="Subject #{0}" xml:space="preserve">
+    <value>Предмет №{0}</value>
+  </data>
   <data name="No parent assigned" xml:space="preserve">
     <value>Родитель не назначен</value>
   </data>
@@ -1431,5 +1434,614 @@
   </data>
   <data name="Something went wrong. Please try again." xml:space="preserve">
     <value>Что-то пошло не так. Попробуйте ещё раз.</value>
+  </data>
+  <data name="{0} / {1} completed" xml:space="preserve">
+    <value>{0} из {1} выполнено</value>
+  </data>
+  <data name="{0} / {1} marked" xml:space="preserve">
+    <value>{0} из {1} отмечено</value>
+  </data>
+  <data name="{0} average" xml:space="preserve">
+    <value>Средний балл: {0}</value>
+  </data>
+  <data name="{0} grade(s)" xml:space="preserve">
+    <value>{0} оцен(ок)</value>
+  </data>
+  <data name="{0} grades by month" xml:space="preserve">
+    <value>Оценки по месяцам: {0}</value>
+  </data>
+  <data name="{0} group(s)" xml:space="preserve">
+    <value>{0} групп(ы)</value>
+  </data>
+  <data name="{0} of {1} present" xml:space="preserve">
+    <value>{0} из {1} присутствовал(и)</value>
+  </data>
+  <data name="{0} present" xml:space="preserve">
+    <value>Присутствовало: {0}</value>
+  </data>
+  <data name="{0} present out of {1} attendance records" xml:space="preserve">
+    <value>Присутствовал {0} из {1} записей посещаемости</value>
+  </data>
+  <data name="{0} record(s)" xml:space="preserve">
+    <value>{0} запис(ей)</value>
+  </data>
+  <data name="{0} student(s)" xml:space="preserve">
+    <value>{0} учени(ков)</value>
+  </data>
+  <data name="{0} subject(s)" xml:space="preserve">
+    <value>{0} предмет(ов)</value>
+  </data>
+  <data name="{0} teacher(s)" xml:space="preserve">
+    <value>{0} учител(ей)</value>
+  </data>
+  <data name="{0} topic(s)" xml:space="preserve">
+    <value>{0} тем(ы)</value>
+  </data>
+  <data name="{0}'s academic results" xml:space="preserve">
+    <value>Успеваемость: {0}</value>
+  </data>
+  <data name="{0}'s attendance history" xml:space="preserve">
+    <value>История посещаемости: {0}</value>
+  </data>
+  <data name="{0}'s subjects and teachers" xml:space="preserve">
+    <value>Предметы и учителя: {0}</value>
+  </data>
+  <data name="Absent" xml:space="preserve">
+    <value>Отсутствовал</value>
+  </data>
+  <data name="Academic Access" xml:space="preserve">
+    <value>Учебный доступ</value>
+  </data>
+  <data name="Academic performance across subjects" xml:space="preserve">
+    <value>Успеваемость по предметам</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Действие</value>
+  </data>
+  <data name="Add or update the topic for each lesson" xml:space="preserve">
+    <value>Добавьте или обновите тему для каждого урока</value>
+  </data>
+  <data name="Add Topic" xml:space="preserve">
+    <value>Добавить тему</value>
+  </data>
+  <data name="Added" xml:space="preserve">
+    <value>Добавлено</value>
+  </data>
+  <data name="Age" xml:space="preserve">
+    <value>Возраст</value>
+  </data>
+  <data name="All recorded grades for {0}" xml:space="preserve">
+    <value>Все оценки: {0}</value>
+  </data>
+  <data name="All statuses" xml:space="preserve">
+    <value>Все статусы</value>
+  </data>
+  <data name="All subjects" xml:space="preserve">
+    <value>Все предметы</value>
+  </data>
+  <data name="Apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="Are you sure you want to delete this attendance record?" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить эту запись о посещаемости?</value>
+  </data>
+  <data name="Are you sure you want to delete this grade?" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить эту оценку?</value>
+  </data>
+  <data name="Attendance History" xml:space="preserve">
+    <value>История посещаемости</value>
+  </data>
+  <data name="Attendance Journal" xml:space="preserve">
+    <value>Журнал посещаемости</value>
+  </data>
+  <data name="Attendance Marked" xml:space="preserve">
+    <value>Посещаемость отмечена</value>
+  </data>
+  <data name="Attendance not marked" xml:space="preserve">
+    <value>Посещаемость не отмечена</value>
+  </data>
+  <data name="Attendance Rate" xml:space="preserve">
+    <value>Процент посещаемости</value>
+  </data>
+  <data name="Attendance records will appear here after lessons." xml:space="preserve">
+    <value>Записи о посещаемости появятся здесь после уроков.</value>
+  </data>
+  <data name="Average grade for each subject" xml:space="preserve">
+    <value>Средний балл по каждому предмету</value>
+  </data>
+  <data name="Based on {0} grade(s)" xml:space="preserve">
+    <value>На основе {0} оцен(ок)</value>
+  </data>
+  <data name="Choose a group above to view its attendance journal." xml:space="preserve">
+    <value>Выберите группу выше, чтобы увидеть журнал посещаемости.</value>
+  </data>
+  <data name="Choose one of your groups above to view its attendance journal." xml:space="preserve">
+    <value>Выберите одну из ваших групп выше, чтобы увидеть журнал посещаемости.</value>
+  </data>
+  <data name="Comment" xml:space="preserve">
+    <value>Комментарий</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Выполнено</value>
+  </data>
+  <data name="Correct the attendance record for {0}" xml:space="preserve">
+    <value>Исправьте запись о посещаемости: {0}</value>
+  </data>
+  <data name="Correct the grade for {0}" xml:space="preserve">
+    <value>Исправьте оценку: {0}</value>
+  </data>
+  <data name="Delete Attendance Record" xml:space="preserve">
+    <value>Удалить запись о посещаемости</value>
+  </data>
+  <data name="Delete Grade" xml:space="preserve">
+    <value>Удалить оценку</value>
+  </data>
+  <data name="Describe what was covered during this lesson" xml:space="preserve">
+    <value>Опишите, что было пройдено на этом уроке</value>
+  </data>
+  <data name="Detailed attendance records" xml:space="preserve">
+    <value>Подробные записи посещаемости</value>
+  </data>
+  <data name="Edit Attendance" xml:space="preserve">
+    <value>Изменить посещаемость</value>
+  </data>
+  <data name="Edit Grade" xml:space="preserve">
+    <value>Изменить оценку</value>
+  </data>
+  <data name="Edit Grades" xml:space="preserve">
+    <value>Изменить оценки</value>
+  </data>
+  <data name="Edit Parent" xml:space="preserve">
+    <value>Изменить родителя</value>
+  </data>
+  <data name="Edit Topic" xml:space="preserve">
+    <value>Изменить тему</value>
+  </data>
+  <data name="Enter a grade from 1 to 5 and an optional comment" xml:space="preserve">
+    <value>Введите оценку от 1 до 5 и, при желании, комментарий</value>
+  </data>
+  <data name="Enter and manage student grades for your lessons" xml:space="preserve">
+    <value>Вводите и управляйте оценками учеников по вашим урокам</value>
+  </data>
+  <data name="Enter Grades" xml:space="preserve">
+    <value>Ввести оценки</value>
+  </data>
+  <data name="Example: Introduction to Newton's Laws" xml:space="preserve">
+    <value>Например: Введение в законы Ньютона</value>
+  </data>
+  <data name="Excused" xml:space="preserve">
+    <value>Уважительная причина</value>
+  </data>
+  <data name="Flat list" xml:space="preserve">
+    <value>Простой список</value>
+  </data>
+  <data name="From" xml:space="preserve">
+    <value>С</value>
+  </data>
+  <data name="General information about your child" xml:space="preserve">
+    <value>Общая информация о вашем ребёнке</value>
+  </data>
+  <data name="Grade History" xml:space="preserve">
+    <value>История оценок</value>
+  </data>
+  <data name="Grades Entered" xml:space="preserve">
+    <value>Оценок выставлено</value>
+  </data>
+  <data name="Grades recorded by teachers will appear here." xml:space="preserve">
+    <value>Здесь появятся оценки, выставленные учителями.</value>
+  </data>
+  <data name="Grades recorded by you for this student" xml:space="preserve">
+    <value>Оценки, выставленные вами этому ученику</value>
+  </data>
+  <data name="Group average" xml:space="preserve">
+    <value>Средний балл по группе</value>
+  </data>
+  <data name="Group overview and students" xml:space="preserve">
+    <value>Обзор группы и учеников</value>
+  </data>
+  <data name="Groups assigned to you" xml:space="preserve">
+    <value>Назначенные вам группы</value>
+  </data>
+  <data name="Highest Grade" xml:space="preserve">
+    <value>Наивысшая оценка</value>
+  </data>
+  <data name="hours" xml:space="preserve">
+    <value>часов</value>
+  </data>
+  <data name="Journal View" xml:space="preserve">
+    <value>Вид журнала</value>
+  </data>
+  <data name="Late" xml:space="preserve">
+    <value>Опоздал</value>
+  </data>
+  <data name="Latest Topic" xml:space="preserve">
+    <value>Последняя тема</value>
+  </data>
+  <data name="Learning History" xml:space="preserve">
+    <value>История обучения</value>
+  </data>
+  <data name="Lesson" xml:space="preserve">
+    <value>Урок</value>
+  </data>
+  <data name="Lesson at {0}" xml:space="preserve">
+    <value>Урок в {0}</value>
+  </data>
+  <data name="Lesson History" xml:space="preserve">
+    <value>История уроков</value>
+  </data>
+  <data name="Lesson Topic" xml:space="preserve">
+    <value>Тема урока</value>
+  </data>
+  <data name="Lesson Topics" xml:space="preserve">
+    <value>Темы уроков</value>
+  </data>
+  <data name="Lessons assigned to you by the administration" xml:space="preserve">
+    <value>Уроки, назначенные вам администрацией</value>
+  </data>
+  <data name="Lessons assigned to you will appear here." xml:space="preserve">
+    <value>Здесь появятся назначенные вам уроки.</value>
+  </data>
+  <data name="Lessons Conducted" xml:space="preserve">
+    <value>Проведено уроков</value>
+  </data>
+  <data name="Lessons With Grades" xml:space="preserve">
+    <value>Уроки с оценками</value>
+  </data>
+  <data name="Manage topics covered in your lessons" xml:space="preserve">
+    <value>Управляйте темами, пройденными на ваших уроках</value>
+  </data>
+  <data name="Mark" xml:space="preserve">
+    <value>Отметить</value>
+  </data>
+  <data name="Mark and manage student attendance for your lessons" xml:space="preserve">
+    <value>Отмечайте и управляйте посещаемостью учеников на ваших уроках</value>
+  </data>
+  <data name="Mark Attendance" xml:space="preserve">
+    <value>Отметить посещаемость</value>
+  </data>
+  <data name="Marked" xml:space="preserve">
+    <value>Отмечено</value>
+  </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Меню</value>
+  </data>
+  <data name="Missing" xml:space="preserve">
+    <value>Отсутствует</value>
+  </data>
+  <data name="Missing Topics" xml:space="preserve">
+    <value>Без темы</value>
+  </data>
+  <data name="Month" xml:space="preserve">
+    <value>Месяц</value>
+  </data>
+  <data name="Monthly teacher salary calculation based on worked hours" xml:space="preserve">
+    <value>Расчёт месячной зарплаты учителя на основе отработанных часов</value>
+  </data>
+  <data name="My Lessons" xml:space="preserve">
+    <value>Мои уроки</value>
+  </data>
+  <data name="No attendance records" xml:space="preserve">
+    <value>Нет записей о посещаемости</value>
+  </data>
+  <data name="No grades" xml:space="preserve">
+    <value>Нет оценок</value>
+  </data>
+  <data name="No grades found" xml:space="preserve">
+    <value>Оценки не найдены</value>
+  </data>
+  <data name="No grades have been recorded for this lesson." xml:space="preserve">
+    <value>Для этого урока не выставлено ни одной оценки.</value>
+  </data>
+  <data name="No grades yet" xml:space="preserve">
+    <value>Пока нет оценок</value>
+  </data>
+  <data name="No groups assigned" xml:space="preserve">
+    <value>Нет назначенных групп</value>
+  </data>
+  <data name="No lessons" xml:space="preserve">
+    <value>Нет уроков</value>
+  </data>
+  <data name="No lessons in this range" xml:space="preserve">
+    <value>Нет уроков за этот период</value>
+  </data>
+  <data name="No lessons yet" xml:space="preserve">
+    <value>Пока нет уроков</value>
+  </data>
+  <data name="No progress data" xml:space="preserve">
+    <value>Нет данных об успеваемости</value>
+  </data>
+  <data name="No salary data" xml:space="preserve">
+    <value>Нет данных о зарплате</value>
+  </data>
+  <data name="No students" xml:space="preserve">
+    <value>Нет учеников</value>
+  </data>
+  <data name="No subject averages available yet." xml:space="preserve">
+    <value>Средние баллы по предметам пока недоступны.</value>
+  </data>
+  <data name="No subjects scheduled yet." xml:space="preserve">
+    <value>Предметы пока не запланированы.</value>
+  </data>
+  <data name="No subjects yet" xml:space="preserve">
+    <value>Пока нет предметов</value>
+  </data>
+  <data name="No teacher salary information is available for this period." xml:space="preserve">
+    <value>Информация о зарплате учителя за этот период недоступна.</value>
+  </data>
+  <data name="No teachers assigned" xml:space="preserve">
+    <value>Нет назначенных учителей</value>
+  </data>
+  <data name="No topic has been recorded for this lesson." xml:space="preserve">
+    <value>Для этого урока тема не указана.</value>
+  </data>
+  <data name="No topics recorded" xml:space="preserve">
+    <value>Темы не записаны</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>Заметка</value>
+  </data>
+  <data name="Open group" xml:space="preserve">
+    <value>Открыть группу</value>
+  </data>
+  <data name="Optional comment" xml:space="preserve">
+    <value>Комментарий (необязательно)</value>
+  </data>
+  <data name="Optional comment..." xml:space="preserve">
+    <value>Комментарий (необязательно)...</value>
+  </data>
+  <data name="Optional note" xml:space="preserve">
+    <value>Заметка (необязательно)</value>
+  </data>
+  <data name="Overall Attendance Rate" xml:space="preserve">
+    <value>Общий процент посещаемости</value>
+  </data>
+  <data name="Overall Average" xml:space="preserve">
+    <value>Общий средний балл</value>
+  </data>
+  <data name="Overall performance" xml:space="preserve">
+    <value>Общая успеваемость</value>
+  </data>
+  <data name="Partial" xml:space="preserve">
+    <value>Частично</value>
+  </data>
+  <data name="Per hour" xml:space="preserve">
+    <value>В час</value>
+  </data>
+  <data name="Present" xml:space="preserve">
+    <value>Присутствовал</value>
+  </data>
+  <data name="Progress by Subject" xml:space="preserve">
+    <value>Успеваемость по предметам</value>
+  </data>
+  <data name="Quickly open your child's school information" xml:space="preserve">
+    <value>Быстрый доступ к школьной информации вашего ребёнка</value>
+  </data>
+  <data name="Rate" xml:space="preserve">
+    <value>Ставка</value>
+  </data>
+  <data name="Read only" xml:space="preserve">
+    <value>Только просмотр</value>
+  </data>
+  <data name="Recorded Lessons" xml:space="preserve">
+    <value>Записанные уроки</value>
+  </data>
+  <data name="Salary Calculation" xml:space="preserve">
+    <value>Расчёт зарплаты</value>
+  </data>
+  <data name="Salary Details" xml:space="preserve">
+    <value>Детали зарплаты</value>
+  </data>
+  <data name="Save Attendance" xml:space="preserve">
+    <value>Сохранить посещаемость</value>
+  </data>
+  <data name="Save Grades" xml:space="preserve">
+    <value>Сохранить оценки</value>
+  </data>
+  <data name="Save Topic" xml:space="preserve">
+    <value>Сохранить тему</value>
+  </data>
+  <data name="School Group" xml:space="preserve">
+    <value>Учебная группа</value>
+  </data>
+  <data name="School subjects" xml:space="preserve">
+    <value>Школьные предметы</value>
+  </data>
+  <data name="Search student, group, subject or teacher..." xml:space="preserve">
+    <value>Поиск ученика, группы, предмета или учителя...</value>
+  </data>
+  <data name="Search student, subject or teacher..." xml:space="preserve">
+    <value>Поиск ученика, предмета или учителя...</value>
+  </data>
+  <data name="Select a lesson to enter student grades" xml:space="preserve">
+    <value>Выберите урок, чтобы выставить оценки ученикам</value>
+  </data>
+  <data name="Select a lesson to mark attendance" xml:space="preserve">
+    <value>Выберите урок, чтобы отметить посещаемость</value>
+  </data>
+  <data name="Select attendance status for each student" xml:space="preserve">
+    <value>Выберите статус посещаемости для каждого ученика</value>
+  </data>
+  <data name="Selected period" xml:space="preserve">
+    <value>Выбранный период</value>
+  </data>
+  <data name="Show" xml:space="preserve">
+    <value>Показать</value>
+  </data>
+  <data name="Showing {0} attendance record(s)" xml:space="preserve">
+    <value>Показано записей о посещаемости: {0}</value>
+  </data>
+  <data name="Showing {0} grade(s)" xml:space="preserve">
+    <value>Показано оценок: {0}</value>
+  </data>
+  <data name="Showing {0} lesson(s)" xml:space="preserve">
+    <value>Показано уроков: {0}</value>
+  </data>
+  <data name="Showing {0} subject(s)" xml:space="preserve">
+    <value>Показано предметов: {0}</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Student attendance for this lesson" xml:space="preserve">
+    <value>Посещаемость учеников на этом уроке</value>
+  </data>
+  <data name="Student Grades" xml:space="preserve">
+    <value>Оценки ученика</value>
+  </data>
+  <data name="Student grades for this lesson" xml:space="preserve">
+    <value>Оценки учеников за этот урок</value>
+  </data>
+  <data name="Student ID" xml:space="preserve">
+    <value>ID ученика</value>
+  </data>
+  <data name="Student Progress" xml:space="preserve">
+    <value>Успеваемость ученика</value>
+  </data>
+  <data name="Students × lesson dates, at a glance" xml:space="preserve">
+    <value>Ученики × даты уроков, кратко</value>
+  </data>
+  <data name="Students enrolled in {0}" xml:space="preserve">
+    <value>Ученики, зачисленные в {0}</value>
+  </data>
+  <data name="Students from your assigned groups" xml:space="preserve">
+    <value>Ученики из назначенных вам групп</value>
+  </data>
+  <data name="Students Graded" xml:space="preserve">
+    <value>Ученикам выставлены оценки</value>
+  </data>
+  <data name="students unit" xml:space="preserve">
+    <value>учеников</value>
+  </data>
+  <data name="Students will appear here when you are assigned to a group." xml:space="preserve">
+    <value>Ученики появятся здесь, когда вас назначат в группу.</value>
+  </data>
+  <data name="Subject Performance" xml:space="preserve">
+    <value>Успеваемость по предмету</value>
+  </data>
+  <data name="Subject progress will appear after grades are recorded." xml:space="preserve">
+    <value>Прогресс по предмету появится после выставления оценок.</value>
+  </data>
+  <data name="Subjects scheduled for this group" xml:space="preserve">
+    <value>Предметы, запланированные для этой группы</value>
+  </data>
+  <data name="Subjects will appear here when the schedule is created." xml:space="preserve">
+    <value>Предметы появятся здесь после создания расписания.</value>
+  </data>
+  <data name="Teacher Salary" xml:space="preserve">
+    <value>Зарплата учителя</value>
+  </data>
+  <data name="There are no attendance records matching the selected filters." xml:space="preserve">
+    <value>Нет записей о посещаемости, соответствующих выбранным фильтрам.</value>
+  </data>
+  <data name="There are no grades matching the selected filters." xml:space="preserve">
+    <value>Нет оценок, соответствующих выбранным фильтрам.</value>
+  </data>
+  <data name="There are no lessons for {0} in the selected date range." xml:space="preserve">
+    <value>Нет уроков для {0} за выбранный период.</value>
+  </data>
+  <data name="There are no students in this group yet." xml:space="preserve">
+    <value>В этой группе пока нет учеников.</value>
+  </data>
+  <data name="This group does not have any students." xml:space="preserve">
+    <value>В этой группе нет учеников.</value>
+  </data>
+  <data name="This month" xml:space="preserve">
+    <value>Этот месяц</value>
+  </data>
+  <data name="This student does not have any grades recorded by you." xml:space="preserve">
+    <value>У этого ученика нет оценок, выставленных вами.</value>
+  </data>
+  <data name="To" xml:space="preserve">
+    <value>По</value>
+  </data>
+  <data name="Topic Calendar" xml:space="preserve">
+    <value>Календарь тем</value>
+  </data>
+  <data name="Topic covered during this lesson" xml:space="preserve">
+    <value>Тема, пройденная на этом уроке</value>
+  </data>
+  <data name="Topics Added" xml:space="preserve">
+    <value>Добавлено тем</value>
+  </data>
+  <data name="Topics already covered by {0}'s group" xml:space="preserve">
+    <value>Темы, уже пройденные группой {0}</value>
+  </data>
+  <data name="Topics Covered" xml:space="preserve">
+    <value>Пройденные темы</value>
+  </data>
+  <data name="Topics recorded by teachers after lessons" xml:space="preserve">
+    <value>Темы, записанные учителями после уроков</value>
+  </data>
+  <data name="Topics will appear here after teachers add them to lessons." xml:space="preserve">
+    <value>Темы появятся здесь после того, как учителя добавят их к урокам.</value>
+  </data>
+  <data name="Total" xml:space="preserve">
+    <value>Всего</value>
+  </data>
+  <data name="Total Grades" xml:space="preserve">
+    <value>Всего оценок</value>
+  </data>
+  <data name="Total hours" xml:space="preserve">
+    <value>Всего часов</value>
+  </data>
+  <data name="Total Lessons" xml:space="preserve">
+    <value>Всего уроков</value>
+  </data>
+  <data name="Total Records" xml:space="preserve">
+    <value>Всего записей</value>
+  </data>
+  <data name="Total Salary" xml:space="preserve">
+    <value>Итоговая зарплата</value>
+  </data>
+  <data name="Total Students" xml:space="preserve">
+    <value>Всего учеников</value>
+  </data>
+  <data name="Total Subjects" xml:space="preserve">
+    <value>Всего предметов</value>
+  </data>
+  <data name="View and correct grades recorded by teachers" xml:space="preserve">
+    <value>Просматривайте и исправляйте оценки, выставленные учителями</value>
+  </data>
+  <data name="View and correct student attendance records across the school" xml:space="preserve">
+    <value>Просматривайте и исправляйте записи о посещаемости учеников по всей школе</value>
+  </data>
+  <data name="View Progress" xml:space="preserve">
+    <value>Посмотреть успеваемость</value>
+  </data>
+  <data name="View your lessons and manage attendance, grades and topics" xml:space="preserve">
+    <value>Просматривайте уроки и управляйте посещаемостью, оценками и темами</value>
+  </data>
+  <data name="View your monthly salary based on conducted lessons" xml:space="preserve">
+    <value>Смотрите вашу месячную зарплату на основе проведённых уроков</value>
+  </data>
+  <data name="Weekly timetable" xml:space="preserve">
+    <value>Недельное расписание</value>
+  </data>
+  <data name="Worked Hours" xml:space="preserve">
+    <value>Отработано часов</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>Год</value>
+  </data>
+  <data name="years old" xml:space="preserve">
+    <value>лет</value>
+  </data>
+  <data name="Your assigned groups will appear here." xml:space="preserve">
+    <value>Здесь появятся назначенные вам группы.</value>
+  </data>
+  <data name="Your child" xml:space="preserve">
+    <value>Ваш ребёнок</value>
+  </data>
+  <data name="Your Child vs. Group Average" xml:space="preserve">
+    <value>Ваш ребёнок против среднего по группе</value>
+  </data>
+  <data name="Your lessons will appear here when they are scheduled." xml:space="preserve">
+    <value>Здесь появятся ваши уроки, когда они будут запланированы.</value>
+  </data>
+  <data name="Your lessons will appear here." xml:space="preserve">
+    <value>Здесь появятся ваши уроки.</value>
+  </data>
+  <data name="Your students × lesson dates, at a glance" xml:space="preserve">
+    <value>Ваши ученики × даты уроков, кратко</value>
   </data>
 </root>
