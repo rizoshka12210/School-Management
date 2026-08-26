@@ -28,6 +28,7 @@
     const voiceDeniedText = scriptTag.getAttribute("data-voice-denied") || "";
     const voiceNoSpeechText = scriptTag.getAttribute("data-voice-no-speech") || "";
     const voiceErrorText = scriptTag.getAttribute("data-voice-error") || "";
+    const editLabel = scriptTag.getAttribute("data-edit-label") || "Edit";
 
     const HISTORY_KEY = "ai-assistant-history";
     const REOPEN_KEY = "ai-assistant-reopen";
@@ -60,6 +61,27 @@
     function renderMessage(role, text) {
         const row = document.createElement("div");
         row.className = "ai-assistant-msg ai-assistant-msg-" + role;
+
+        if (role === "user") {
+            const editBtn = document.createElement("button");
+            editBtn.type = "button";
+            editBtn.className = "ai-assistant-edit";
+            editBtn.setAttribute("aria-label", editLabel);
+            editBtn.title = editLabel;
+            editBtn.innerHTML =
+                '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+                '<path d="M12 20h9"></path>' +
+                '<path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4 12.5-12.5z"></path>' +
+                "</svg>";
+
+            editBtn.addEventListener("click", () => {
+                input.value = text;
+                input.focus();
+                input.setSelectionRange(text.length, text.length);
+            });
+
+            row.appendChild(editBtn);
+        }
 
         const bubble = document.createElement("div");
         bubble.className = "ai-assistant-bubble";

@@ -6798,6 +6798,33 @@ html[data-theme="dark"] .activity-log-message {
 
 .ai-assistant-msg-user {
     justify-content: flex-end;
+    align-items: center;
+    gap: 5px;
+}
+
+.ai-assistant-edit {
+    width: 22px;
+    height: 22px;
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity .12s ease, background .12s ease, color .12s ease;
+}
+
+.ai-assistant-msg-user:hover .ai-assistant-edit {
+    opacity: 1;
+}
+
+.ai-assistant-edit:hover {
+    background: #eef2ff;
+    color: #4f46e5;
 }
 
 .ai-assistant-msg-assistant {
@@ -6954,6 +6981,15 @@ html[data-theme="dark"] .ai-assistant-mic {
 
 html[data-theme="dark"] .ai-assistant-mic:hover {
     background: #253047;
+}
+
+html[data-theme="dark"] .ai-assistant-edit {
+    color: #64748b;
+}
+
+html[data-theme="dark"] .ai-assistant-edit:hover {
+    background: #253047;
+    color: #a5b4fc;
 }
 
 html[data-theme="dark"] .ai-assistant-badge {
