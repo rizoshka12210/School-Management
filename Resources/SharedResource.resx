@@ -2044,4 +2044,19 @@
   <data name="Your students × lesson dates, at a glance" xml:space="preserve">
     <value>Your students × lesson dates, at a glance</value>
   </data>
+  <data name="Voice input" xml:space="preserve">
+    <value>Voice input</value>
+  </data>
+  <data name="Voice input is not supported in this browser." xml:space="preserve">
+    <value>Voice input is not supported in this browser.</value>
+  </data>
+  <data name="Microphone access was denied." xml:space="preserve">
+    <value>Microphone access was denied.</value>
+  </data>
+  <data name="No speech detected. Please try again." xml:space="preserve">
+    <value>No speech detected. Please try again.</value>
+  </data>
+  <data name="Voice input failed. Please try again or type your question." xml:space="preserve">
+    <value>Voice input failed. Please try again or type your question.</value>
+  </data>
 </root>

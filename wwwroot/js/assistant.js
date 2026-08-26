@@ -11,6 +11,7 @@
     const messagesEl = document.getElementById("aiAssistantMessages");
     const form = document.getElementById("aiAssistantForm");
     const input = document.getElementById("aiAssistantInput");
+    const micBtn = document.getElementById("aiAssistantMic");
     const scriptTag = document.currentScript;
 
     const greeting = scriptTag.getAttribute("data-greeting") || "";
@@ -21,6 +22,12 @@
         scriptTag.getAttribute("data-suggestion-2"),
         scriptTag.getAttribute("data-suggestion-3")
     ].filter(Boolean);
+
+    const voiceCulture = scriptTag.getAttribute("data-voice-culture") || "en-US";
+    const voiceUnsupportedText = scriptTag.getAttribute("data-voice-unsupported") || "";
+    const voiceDeniedText = scriptTag.getAttribute("data-voice-denied") || "";
+    const voiceNoSpeechText = scriptTag.getAttribute("data-voice-no-speech") || "";
+    const voiceErrorText = scriptTag.getAttribute("data-voice-error") || "";
 
     const HISTORY_KEY = "ai-assistant-history";
     const REOPEN_KEY = "ai-assistant-reopen";
@@ -143,6 +150,72 @@
     } else if (sessionStorage.getItem(REOPEN_KEY)) {
         sessionStorage.removeItem(REOPEN_KEY);
         openPanel();
+    }
+
+    if (micBtn) {
+        const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognitionCtor) {
+            micBtn.disabled = true;
+            micBtn.title = voiceUnsupportedText;
+        } else {
+            const recognition = new SpeechRecognitionCtor();
+            recognition.lang = voiceCulture;
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+
+            let listening = false;
+
+            recognition.addEventListener("start", () => {
+                listening = true;
+                micBtn.classList.add("listening");
+            });
+
+            recognition.addEventListener("end", () => {
+                listening = false;
+                micBtn.classList.remove("listening");
+            });
+
+            recognition.addEventListener("result", (event) => {
+                const transcript = event.results[0]?.[0]?.transcript?.trim();
+
+                if (transcript) {
+                    input.value = transcript;
+                    form.requestSubmit();
+                }
+            });
+
+            recognition.addEventListener("error", (event) => {
+                let message = voiceErrorText;
+
+                if (event.error === "not-allowed" || event.error === "service-not-allowed") {
+                    message = voiceDeniedText;
+                } else if (event.error === "no-speech") {
+                    message = voiceNoSpeechText;
+                }
+
+                if (message) {
+                    renderMessage("assistant", message);
+                    history.push({ role: "assistant", text: message });
+                    saveHistory(history);
+                }
+            });
+
+            micBtn.addEventListener("click", () => {
+                if (listening) {
+                    recognition.stop();
+                    return;
+                }
+
+                removeSuggestions();
+
+                try {
+                    recognition.start();
+                } catch {
+                    // recognition already running or unavailable; ignore
+                }
+            });
+        }
     }
 
     let sending = false;
