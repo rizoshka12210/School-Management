@@ -485,6 +485,10 @@
         <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
         <button type="submit" class="login-lang-btn @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
     </form>
+    <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+        <input type="hidden" name="culture" value="tg-TJ" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+        <button type="submit" class="login-lang-btn @(currentCulture == "tg-TJ" ? "active" : "")">TJ</button>
+    </form>
 </div>
 <div class="login-page">
     <section class="login-brand">

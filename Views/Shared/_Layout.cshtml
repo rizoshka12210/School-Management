@@ -146,6 +146,10 @@
                     <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
                     <button type="submit" class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
                 </form>
+                <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                    <input type="hidden" name="culture" value="tg-TJ" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                    <button type="submit" class="btn-lang @(currentCulture == "tg-TJ" ? "active" : "")">TJ</button>
+                </form>
             </div>
             <button type="button" id="themeToggle" class="btn-theme" aria-label="@Localizer["Toggle dark mode"]"><i id="themeIcon" class="bi bi-moon-stars-fill"></i></button>
             <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post"><button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i><span>@Localizer["Logout"]</span></button></form>
