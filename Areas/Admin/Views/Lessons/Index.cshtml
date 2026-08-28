@@ -14,10 +14,18 @@
         </p>
     </div>
 
-    <a asp-action="Create"
-       class="btn btn-primary">
-        + @Localizer["Add Lesson"]
-    </a>
+    <div class="d-flex gap-2 flex-wrap">
+        <a asp-area="Admin"
+           asp-controller="WorkHours"
+           asp-action="Index"
+           class="btn btn-light">
+            <i class="bi bi-clock-fill me-1"></i>@Localizer["Worked Hours"]
+        </a>
+        <a asp-action="Create"
+           class="btn btn-primary">
+            + @Localizer["Add Lesson"]
+        </a>
+    </div>
 
 </div>
 

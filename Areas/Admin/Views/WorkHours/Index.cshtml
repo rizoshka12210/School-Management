@@ -1,0 +1,166 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Lesson>
+
+@{
+    ViewData["Title"] = Localizer["Worked Hours"];
+    int year = ViewBag.Year;
+    int month = ViewBag.Month;
+    int? teacherId = ViewBag.TeacherId;
+    string[] monthNames =
+    {
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    };
+    var totalHours = Model.Sum(l => (l.EndTime - l.StartTime).TotalHours);
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Localizer["Worked Hours"]</h1>
+        <p class="page-subtitle">@Localizer["Lessons"] · @Localizer[monthNames[month - 1]] @year</p>
+    </div>
+    <a asp-area="Admin" asp-controller="Lessons" asp-action="Index" class="btn btn-light">
+        @Localizer["Lessons"]
+    </a>
+</div>
+
+@if (TempData["Error"] is string error)
+{
+    <div class="alert alert-danger">@error</div>
+}
+@if (TempData["Success"] is string success)
+{
+    <div class="alert alert-success">@success</div>
+}
+
+<div class="salary-period mb-4">
+    <div>
+        <div class="salary-period-label">@Localizer["Selected period"]</div>
+        <div class="salary-period-value">@Localizer[monthNames[month - 1]] @year</div>
+    </div>
+
+    <form method="get" asp-action="Index" class="salary-filter">
+        <select name="teacherId" class="form-select">
+            <option value="">@Localizer["All teachers"]</option>
+            @foreach (var teacher in ViewBag.Teachers)
+            {
+                if (teacherId.HasValue && teacherId.Value == teacher.Id)
+                {
+                    <option value="@teacher.Id" selected>@teacher.ApplicationUser.FullName</option>
+                }
+                else
+                {
+                    <option value="@teacher.Id">@teacher.ApplicationUser.FullName</option>
+                }
+            }
+        </select>
+
+        <select name="month" class="form-select">
+            @for (int i = 1; i <= 12; i++)
+            {
+                if (i == month)
+                {
+                    <option value="@i" selected>@Localizer[monthNames[i - 1]]</option>
+                }
+                else
+                {
+                    <option value="@i">@Localizer[monthNames[i - 1]]</option>
+                }
+            }
+        </select>
+
+        <select name="year" class="form-select">
+            @for (int i = DateTime.UtcNow.Year - 3; i <= DateTime.UtcNow.Year + 1; i++)
+            {
+                if (i == year)
+                {
+                    <option value="@i" selected>@i</option>
+                }
+                else
+                {
+                    <option value="@i">@i</option>
+                }
+            }
+        </select>
+
+        <button type="submit" class="btn btn-primary">@Localizer["Apply"]</button>
+    </form>
+</div>
+
+<div class="salary-stats mb-4">
+    <div class="salary-stat">
+        <div class="salary-stat-label">@Localizer["Lessons"]</div>
+        <div class="salary-stat-value">@Model.Count()</div>
+    </div>
+    <div class="salary-stat">
+        <div class="salary-stat-label">@Localizer["Worked Hours"]</div>
+        <div class="salary-stat-value">@totalHours.ToString("0.##")</div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+                <div class="management-empty-icon">WH</div>
+                <h5>@Localizer["No lessons found"]</h5>
+                <p>@Localizer["There are no lessons matching the selected filters."]</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover management-table align-middle">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Date"]</th>
+                            <th>@Localizer["Teacher"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Start Time"]</th>
+                            <th>@Localizer["End Time"]</th>
+                            <th>@Localizer["Worked Hours"]</th>
+                            <th class="text-end">@Localizer["Actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lesson in Model)
+                        {
+                            var formId = $"work-hours-{lesson.Id}";
+                            var hours = (lesson.EndTime - lesson.StartTime).TotalHours;
+                            <tr>
+                                <td><strong>@lesson.StartTime.ToString("dd.MM.yyyy")</strong></td>
+                                <td>@lesson.Teacher.ApplicationUser.FullName</td>
+                                <td><span class="group-badge">@lesson.Group.Name</span></td>
+                                <td><span class="subject-badge">@lesson.Subject.Name</span></td>
+                                <td>
+                                    <input form="@formId" type="time" name="startTime"
+                                           value="@(lesson.StartTime.ToString("HH:mm"))"
+                                           class="form-control" required />
+                                </td>
+                                <td>
+                                    <input form="@formId" type="time" name="endTime"
+                                           value="@(lesson.EndTime.ToString("HH:mm"))"
+                                           class="form-control" required />
+                                </td>
+                                <td><strong>@hours.ToString("0.##")</strong> <span class="text-muted small">@Localizer["hours"]</span></td>
+                                <td class="text-end">
+                                    <form id="@formId" asp-action="Update" method="post" class="d-inline">
+                                        <input type="hidden" name="lessonId" value="@lesson.Id" />
+                                        <input type="hidden" name="year" value="@year" />
+                                        <input type="hidden" name="month" value="@month" />
+                                        @if (teacherId.HasValue)
+                                        {
+                                            <input type="hidden" name="teacherId" value="@teacherId.Value" />
+                                        }
+                                        <button type="submit" class="btn btn-primary btn-sm">@Localizer["Save"]</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
