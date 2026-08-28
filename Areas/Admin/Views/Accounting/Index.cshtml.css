@@ -22,6 +22,29 @@
     min-width: 1180px;
 }
 
+.management-table th:last-child,
+.management-table td:last-child {
+    position: sticky;
+    right: 0;
+    min-width: 132px;
+    z-index: 3;
+    background: var(--ui-surface-solid);
+    box-shadow: -12px 0 18px -18px rgba(15, 23, 42, .55);
+}
+
+.management-table thead th:last-child {
+    z-index: 4;
+    background: var(--ui-surface-soft);
+}
+
+.management-table tbody tr:hover td:last-child {
+    background: var(--ui-surface-soft);
+}
+
+.management-table td:last-child .d-flex {
+    flex-wrap: nowrap !important;
+}
+
 .salary-stats {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
