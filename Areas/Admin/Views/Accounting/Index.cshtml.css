@@ -140,6 +140,7 @@
     display: flex;
     gap: 8px;
     min-width: 0;
+    margin-top: 14px;
 }
 
 .accounting-filter-actions .btn,
@@ -249,6 +250,10 @@
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 10px;
+}
+
+.accounting-fee-form .btn {
+    margin-top: 14px;
 }
 
 .accounting-register-panel {
@@ -430,6 +435,8 @@
     min-width: 0;
     max-width: 128px;
     justify-self: end;
+    align-self: start;
+    margin-top: 24px;
 }
 
 .accounting-payment-actions form {
@@ -512,6 +519,7 @@
         flex-direction: row;
         justify-self: stretch;
         justify-content: flex-end;
+        margin-top: 12px;
     }
 
     .accounting-payment-actions form {
@@ -599,6 +607,7 @@
     .accounting-payment-actions {
         width: 100%;
         max-width: none;
+        margin-top: 12px;
     }
 
     .accounting-payment-actions form,
