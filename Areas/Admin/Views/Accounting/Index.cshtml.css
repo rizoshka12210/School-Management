@@ -11,7 +11,14 @@
     gap: 20px;
 }
 
-.accounting-hero > div {
+.accounting-hero > div,
+.accounting-panel,
+.accounting-field,
+.accounting-student-info,
+.accounting-payment-status,
+.accounting-payment-fields,
+.accounting-payment-fields .accounting-field,
+.accounting-note-field {
     min-width: 0;
 }
 
@@ -36,15 +43,18 @@
     color: var(--ui-muted);
 }
 
-.accounting-students-btn {
+.accounting-students-btn,
+.accounting-filter-actions .btn,
+.accounting-fee-form .btn,
+.accounting-payment-actions .btn {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    gap: 7px;
     white-space: nowrap;
 }
 
 .accounting-panel {
-    min-width: 0;
     padding: 22px;
     border: 1px solid var(--ui-border);
     border-radius: 18px;
@@ -81,8 +91,8 @@
     place-items: center;
     width: 38px;
     height: 38px;
-    border-radius: 11px;
     flex: 0 0 38px;
+    border-radius: 11px;
     background: var(--ui-primary-soft);
     color: var(--ui-primary);
 }
@@ -96,10 +106,6 @@
     grid-template-columns: minmax(220px, 1.7fr) minmax(145px, 1fr) minmax(145px, 1fr) minmax(145px, 1fr) 105px auto;
     gap: 12px;
     align-items: end;
-}
-
-.accounting-field {
-    min-width: 0;
 }
 
 .accounting-field label {
@@ -140,17 +146,7 @@
     display: flex;
     gap: 8px;
     min-width: 0;
-    margin-top: 14px;
-}
-
-.accounting-filter-actions .btn,
-.accounting-fee-form .btn,
-.accounting-payment-actions .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-    white-space: nowrap;
+    margin-top: 16px;
 }
 
 .accounting-stats-grid {
@@ -160,10 +156,10 @@
 }
 
 .accounting-stat-card {
-    min-width: 0;
     display: flex;
     align-items: center;
     gap: 14px;
+    min-width: 0;
     padding: 18px;
     border: 1px solid var(--ui-border);
     border-radius: 16px;
@@ -181,10 +177,10 @@
     font-size: 19px;
 }
 
-.accounting-stat-purple { background: rgba(99, 102, 241, .13); color: #818cf8; }
-.accounting-stat-green { background: rgba(34, 197, 94, .12); color: #22c55e; }
-.accounting-stat-red { background: rgba(239, 68, 68, .12); color: #ef4444; }
-.accounting-stat-blue { background: rgba(59, 130, 246, .12); color: #60a5fa; }
+.accounting-stat-purple { background: rgba(99,102,241,.13); color: #818cf8; }
+.accounting-stat-green { background: rgba(34,197,94,.12); color: #22c55e; }
+.accounting-stat-red { background: rgba(239,68,68,.12); color: #ef4444; }
+.accounting-stat-blue { background: rgba(59,130,246,.12); color: #60a5fa; }
 
 .accounting-stat-card span {
     display: block;
@@ -202,13 +198,13 @@
 
 .accounting-summary-grid {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+    grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
     gap: 16px;
 }
 
 .accounting-status-list {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2,minmax(0,1fr));
     gap: 10px;
 }
 
@@ -237,10 +233,7 @@
     color: var(--ui-muted);
 }
 
-.accounting-status-item strong {
-    color: var(--ui-text);
-}
-
+.accounting-status-item strong { color: var(--ui-text); }
 .accounting-status-item.paid .dot { background: #22c55e; }
 .accounting-status-item.partial .dot { background: #f59e0b; }
 .accounting-status-item.unpaid .dot { background: #ef4444; }
@@ -248,12 +241,13 @@
 
 .accounting-fee-form {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0,1fr) auto;
     gap: 10px;
+    align-items: end;
 }
 
 .accounting-fee-form .btn {
-    margin-top: 14px;
+    margin-top: 16px;
 }
 
 .accounting-register-panel {
@@ -286,7 +280,7 @@
 
 .accounting-payment-card {
     display: grid;
-    grid-template-columns: minmax(210px, 1.05fr) minmax(135px, .58fr) minmax(0, 2.1fr) 128px;
+    grid-template-columns: minmax(210px,1.05fr) minmax(135px,.58fr) minmax(0,2.1fr) 128px;
     gap: 14px;
     align-items: center;
     min-width: 0;
@@ -295,17 +289,12 @@
     background: var(--ui-surface-solid);
 }
 
-.accounting-payment-card:last-child {
-    border-bottom: 0;
-}
-
-.accounting-payment-card:hover {
-    background: var(--ui-surface-soft);
-}
+.accounting-payment-card:last-child { border-bottom: 0; }
+.accounting-payment-card:hover { background: var(--ui-surface-soft); }
 
 .accounting-student-block {
     display: grid;
-    grid-template-columns: 44px minmax(0, 1fr) auto;
+    grid-template-columns: 44px minmax(0,1fr) auto;
     align-items: center;
     gap: 11px;
     min-width: 0;
@@ -322,20 +311,14 @@
     font-weight: 800;
 }
 
-.accounting-student-info {
-    min-width: 0;
-}
-
 .accounting-student-info strong,
-.accounting-student-info span {
-    display: block;
-}
+.accounting-student-info span { display: block; }
 
 .accounting-student-info strong {
     overflow: hidden;
     text-overflow: ellipsis;
-    color: var(--ui-text);
     white-space: nowrap;
+    color: var(--ui-text);
 }
 
 .accounting-student-info span {
@@ -351,7 +334,7 @@
     max-width: 96px;
     padding: 6px 8px;
     border-radius: 9px;
-    background: rgba(34, 197, 94, .11);
+    background: rgba(34,197,94,.11);
     color: #22c55e;
     font-size: 11px;
     font-weight: 700;
@@ -365,10 +348,6 @@
     color: var(--ui-muted);
 }
 
-.accounting-payment-status {
-    min-width: 0;
-}
-
 .accounting-status {
     display: inline-flex;
     align-items: center;
@@ -380,27 +359,20 @@
     white-space: nowrap;
 }
 
-.accounting-status-paid { background: rgba(34, 197, 94, .14); color: #22c55e; }
-.accounting-status-partial { background: rgba(245, 158, 11, .14); color: #f59e0b; }
-.accounting-status-unpaid { background: rgba(239, 68, 68, .14); color: #ef4444; }
-.accounting-status-notset { background: rgba(148, 163, 184, .16); color: #94a3b8; }
+.accounting-status-paid { background: rgba(34,197,94,.14); color: #22c55e; }
+.accounting-status-partial { background: rgba(245,158,11,.14); color: #f59e0b; }
+.accounting-status-unpaid { background: rgba(239,68,68,.14); color: #ef4444; }
+.accounting-status-notset { background: rgba(148,163,184,.16); color: #94a3b8; }
 
-.accounting-balance {
-    margin-top: 10px;
-}
-
+.accounting-balance { margin-top: 10px; }
 .accounting-balance span,
-.accounting-balance strong {
-    display: block;
-}
-
+.accounting-balance strong { display: block; }
 .accounting-balance span {
     font-size: 10px;
     text-transform: uppercase;
     letter-spacing: .06em;
     color: var(--ui-muted);
 }
-
 .accounting-balance strong {
     margin-top: 2px;
     font-size: 17px;
@@ -409,14 +381,8 @@
 
 .accounting-payment-fields {
     display: grid;
-    grid-template-columns: minmax(92px, .72fr) minmax(92px, .72fr) minmax(140px, 1fr) minmax(140px, 1.25fr);
+    grid-template-columns: minmax(92px,.72fr) minmax(92px,.72fr) minmax(140px,1fr) minmax(140px,1.25fr);
     gap: 8px;
-    min-width: 0;
-}
-
-.accounting-payment-fields .accounting-field,
-.accounting-note-field {
-    min-width: 0;
 }
 
 .accounting-payment-fields .form-control {
@@ -435,8 +401,7 @@
     min-width: 0;
     max-width: 128px;
     justify-self: end;
-    align-self: start;
-    margin-top: 24px;
+    margin-top: 20px;
 }
 
 .accounting-payment-actions form {
@@ -449,10 +414,6 @@
     min-width: 0;
     padding: 8px 9px;
     font-size: 13px;
-}
-
-.accounting-payment-actions .btn i {
-    flex: 0 0 auto;
 }
 
 .accounting-empty {
@@ -485,16 +446,17 @@
 
 @media (max-width: 1450px) {
     .accounting-filter-grid {
-        grid-template-columns: minmax(220px, 1.4fr) repeat(3, minmax(135px, 1fr)) 100px;
+        grid-template-columns: minmax(220px,1.4fr) repeat(3,minmax(135px,1fr)) 100px;
     }
 
     .accounting-filter-actions {
         grid-column: 1 / -1;
-        justify-content: flex-end;
+        justify-content: flex-start;
+        margin-top: 16px;
     }
 
     .accounting-payment-card {
-        grid-template-columns: minmax(210px, 1fr) minmax(135px, .55fr) minmax(0, 2fr) 120px;
+        grid-template-columns: minmax(210px,1fr) minmax(135px,.55fr) minmax(0,2fr) 120px;
     }
 
     .accounting-payment-actions {
@@ -505,7 +467,7 @@
 
 @media (max-width: 1250px) {
     .accounting-payment-card {
-        grid-template-columns: minmax(220px, 1fr) minmax(145px, .62fr);
+        grid-template-columns: minmax(220px,1fr) minmax(145px,.62fr);
     }
 
     .accounting-payment-fields,
@@ -519,13 +481,10 @@
         flex-direction: row;
         justify-self: stretch;
         justify-content: flex-end;
-        margin-top: 12px;
+        margin-top: 14px;
     }
 
-    .accounting-payment-actions form {
-        width: auto;
-    }
-
+    .accounting-payment-actions form { width: auto; }
     .accounting-payment-actions .btn {
         width: auto;
         min-width: 128px;
@@ -533,98 +492,51 @@
 }
 
 @media (max-width: 1180px) {
-    .accounting-stats-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .accounting-summary-grid {
-        grid-template-columns: 1fr;
-    }
+    .accounting-stats-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .accounting-summary-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 900px) {
-    .accounting-filter-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .accounting-search-field {
-        grid-column: 1 / -1;
-    }
-
-    .accounting-filter-actions {
-        justify-content: stretch;
-    }
-
-    .accounting-filter-actions .btn {
-        flex: 1;
-    }
-
-    .accounting-payment-fields {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    .accounting-filter-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+    .accounting-search-field { grid-column: 1 / -1; }
+    .accounting-filter-actions { justify-content: stretch; }
+    .accounting-filter-actions .btn { flex: 1; }
+    .accounting-payment-fields { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 
 @media (max-width: 640px) {
-    .accounting-page {
-        gap: 16px;
-    }
-
-    .accounting-hero {
-        flex-direction: column;
-    }
-
-    .accounting-students-btn {
-        width: 100%;
-        justify-content: center;
-    }
+    .accounting-page { gap: 16px; }
+    .accounting-hero { flex-direction: column; }
+    .accounting-students-btn { width: 100%; justify-content: center; }
 
     .accounting-panel,
     .accounting-register-header,
-    .accounting-payment-card {
-        padding: 16px;
-    }
+    .accounting-payment-card { padding: 16px; }
 
     .accounting-filter-grid,
     .accounting-stats-grid,
     .accounting-status-list,
     .accounting-fee-form,
     .accounting-payment-card,
-    .accounting-payment-fields {
-        grid-template-columns: 1fr;
-    }
+    .accounting-payment-fields { grid-template-columns: 1fr; }
 
     .accounting-search-field,
     .accounting-payment-fields,
-    .accounting-payment-actions {
-        grid-column: auto;
-    }
+    .accounting-payment-actions { grid-column: auto; }
 
     .accounting-filter-actions,
-    .accounting-payment-actions {
-        flex-direction: column;
-    }
+    .accounting-payment-actions { flex-direction: column; }
 
     .accounting-payment-actions {
         width: 100%;
         max-width: none;
-        margin-top: 12px;
+        margin-top: 14px;
     }
 
     .accounting-payment-actions form,
-    .accounting-payment-actions .btn {
-        width: 100%;
-    }
+    .accounting-payment-actions .btn { width: 100%; }
 
-    .accounting-student-block {
-        grid-template-columns: 44px minmax(0, 1fr);
-    }
-
-    .accounting-group-chip {
-        grid-column: 2;
-        justify-self: start;
-    }
-
-    .accounting-register-header {
-        flex-direction: column;
-    }
+    .accounting-student-block { grid-template-columns: 44px minmax(0,1fr); }
+    .accounting-group-chip { grid-column: 2; justify-self: start; }
+    .accounting-register-header { flex-direction: column; }
 }
