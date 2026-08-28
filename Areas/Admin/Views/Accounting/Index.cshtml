@@ -1,7 +1,7 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.StudentAccountingViewModel
 
 @{
-    ViewData["Title"] = "Бухгалтерия учеников";
+    ViewData["Title"] = Localizer["Student Accounting"];
 
     string[] monthNames =
     {
@@ -11,10 +11,10 @@
 
     string StatusText(string status) => status switch
     {
-        "paid" => "Оплачено",
-        "partial" => "Частично",
-        "unpaid" => "Не оплачено",
-        _ => "Не назначено"
+        "paid" => Localizer["Paid"],
+        "partial" => Localizer["Partial"],
+        "unpaid" => Localizer["Not paid"],
+        _ => Localizer["Fee not assigned"]
     };
 
     string StatusClass(string status) => status switch
@@ -29,13 +29,13 @@
 <div class="accounting-page">
     <section class="accounting-hero">
         <div>
-            <div class="accounting-eyebrow">ФИНАНСЫ ШКОЛЫ</div>
-            <h1>Бухгалтерия учеников</h1>
-            <p>Оплаты за @Localizer[monthNames[Model.Month - 1]] @Model.Year — начисления, поступления и задолженность учеников.</p>
+            <div class="accounting-eyebrow">@Localizer["SCHOOL FINANCE"]</div>
+            <h1>@Localizer["Student Accounting"]</h1>
+            <p>@Localizer["Payments for {0} {1} — charges, receipts and outstanding balance of students.", Localizer[monthNames[Model.Month - 1]], Model.Year]</p>
         </div>
         <a asp-area="Admin" asp-controller="Students" asp-action="Index" class="btn btn-light accounting-students-btn">
             <i class="bi bi-people-fill"></i>
-            Ученики
+            @Localizer["Students"]
         </a>
     </section>
 
@@ -51,25 +51,25 @@
     <section class="accounting-panel accounting-filter-panel">
         <div class="accounting-panel-title">
             <div>
-                <h2>Фильтры</h2>
-                <p>Найдите ученика или выберите нужный период.</p>
+                <h2>@Localizer["Filters"]</h2>
+                <p>@Localizer["Find a student or choose the period."]</p>
             </div>
             <i class="bi bi-funnel"></i>
         </div>
 
         <form method="get" asp-action="Index" class="accounting-filter-grid">
             <div class="accounting-field accounting-search-field">
-                <label>Поиск</label>
+                <label>@Localizer["Search"]</label>
                 <div class="accounting-input-icon">
                     <i class="bi bi-search"></i>
-                    <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="Имя ученика или группа" />
+                    <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="@Localizer["Student name or group"]" />
                 </div>
             </div>
 
             <div class="accounting-field">
-                <label>Группа</label>
+                <label>@Localizer["Group"]</label>
                 <select name="groupId" class="form-select">
-                    <option value="">Все группы</option>
+                    <option value="">@Localizer["All groups"]</option>
                     @foreach (var group in Model.Groups)
                     {
                         if (Model.GroupId == group.Id)
@@ -85,18 +85,18 @@
             </div>
 
             <div class="accounting-field">
-                <label>Статус</label>
+                <label>@Localizer["Status"]</label>
                 <select name="status" class="form-select">
-                    <option value="">Все статусы</option>
-                    @if (Model.Status == "paid") { <option value="paid" selected>Оплачено</option> } else { <option value="paid">Оплачено</option> }
-                    @if (Model.Status == "partial") { <option value="partial" selected>Частично</option> } else { <option value="partial">Частично</option> }
-                    @if (Model.Status == "unpaid") { <option value="unpaid" selected>Не оплачено</option> } else { <option value="unpaid">Не оплачено</option> }
-                    @if (Model.Status == "not-set") { <option value="not-set" selected>Не назначено</option> } else { <option value="not-set">Не назначено</option> }
+                    <option value="">@Localizer["All statuses"]</option>
+                    @if (Model.Status == "paid") { <option value="paid" selected>@Localizer["Paid"]</option> } else { <option value="paid">@Localizer["Paid"]</option> }
+                    @if (Model.Status == "partial") { <option value="partial" selected>@Localizer["Partial"]</option> } else { <option value="partial">@Localizer["Partial"]</option> }
+                    @if (Model.Status == "unpaid") { <option value="unpaid" selected>@Localizer["Not paid"]</option> } else { <option value="unpaid">@Localizer["Not paid"]</option> }
+                    @if (Model.Status == "not-set") { <option value="not-set" selected>@Localizer["Fee not assigned"]</option> } else { <option value="not-set">@Localizer["Fee not assigned"]</option> }
                 </select>
             </div>
 
             <div class="accounting-field">
-                <label>Месяц</label>
+                <label>@Localizer["Month"]</label>
                 <select name="month" class="form-select">
                     @for (var i = 1; i <= 12; i++)
                     {
@@ -113,7 +113,7 @@
             </div>
 
             <div class="accounting-field accounting-year-field">
-                <label>Год</label>
+                <label>@Localizer["Year"]</label>
                 <select name="year" class="form-select">
                     @for (var y = DateTime.UtcNow.Year - 3; y <= DateTime.UtcNow.Year + 1; y++)
                     {
@@ -132,9 +132,9 @@
             <div class="accounting-filter-actions">
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-check2-circle"></i>
-                    Применить
+                    @Localizer["Apply"]
                 </button>
-                <a asp-action="Index" class="btn btn-light">Сбросить</a>
+                <a asp-action="Index" class="btn btn-light">@Localizer["Clear"]</a>
             </div>
         </form>
     </section>
@@ -143,28 +143,28 @@
         <div class="accounting-stat-card">
             <div class="accounting-stat-icon accounting-stat-purple"><i class="bi bi-receipt"></i></div>
             <div>
-                <span>Начислено</span>
+                <span>@Localizer["Charged"]</span>
                 <strong>@Model.TotalExpected.ToString("0.00")</strong>
             </div>
         </div>
         <div class="accounting-stat-card">
             <div class="accounting-stat-icon accounting-stat-green"><i class="bi bi-wallet2"></i></div>
             <div>
-                <span>Собрано</span>
+                <span>@Localizer["Collected"]</span>
                 <strong>@Model.TotalPaid.ToString("0.00")</strong>
             </div>
         </div>
         <div class="accounting-stat-card">
             <div class="accounting-stat-icon accounting-stat-red"><i class="bi bi-exclamation-circle"></i></div>
             <div>
-                <span>Осталось собрать</span>
+                <span>@Localizer["Remaining to collect"]</span>
                 <strong>@Model.TotalDebt.ToString("0.00")</strong>
             </div>
         </div>
         <div class="accounting-stat-card">
             <div class="accounting-stat-icon accounting-stat-blue"><i class="bi bi-check-circle"></i></div>
             <div>
-                <span>Оплатили полностью</span>
+                <span>@Localizer["Fully paid"]</span>
                 <strong>@Model.PaidCount</strong>
             </div>
         </div>
@@ -174,23 +174,32 @@
         <div class="accounting-panel">
             <div class="accounting-panel-title compact">
                 <div>
-                    <h2>Статусы за месяц</h2>
-                    <p>Состояние оплат по выбранному периоду.</p>
+                    <h2>@Localizer["Statuses for the month"]</h2>
+                    <p>@Localizer["Payment status for the selected period."]</p>
                 </div>
             </div>
             <div class="accounting-status-list">
-                <div class="accounting-status-item paid"><span class="dot"></span><span>Оплачено</span><strong>@Model.PaidCount</strong></div>
-                <div class="accounting-status-item partial"><span class="dot"></span><span>Частично</span><strong>@Model.PartialCount</strong></div>
-                <div class="accounting-status-item unpaid"><span class="dot"></span><span>Не оплачено</span><strong>@Model.UnpaidCount</strong></div>
-                <div class="accounting-status-item notset"><span class="dot"></span><span>Не назначено</span><strong>@Model.NotSetCount</strong></div>
+                <div class="accounting-status-item paid"><span class="dot"></span><span>@Localizer["Paid"]</span><strong>@Model.PaidCount</strong></div>
+                <div class="accounting-status-item partial"><span class="dot"></span><span>@Localizer["Partial"]</span><strong>@Model.PartialCount</strong></div>
+                <div class="accounting-status-item unpaid"><span class="dot"></span><span>@Localizer["Not paid"]</span><strong>@Model.UnpaidCount</strong></div>
+                <div class="accounting-status-item notset"><span class="dot"></span><span>@Localizer["Fee not assigned"]</span><strong>@Model.NotSetCount</strong></div>
             </div>
         </div>
 
         <div class="accounting-panel">
             <div class="accounting-panel-title compact">
                 <div>
-                    <h2>Назначить месячную оплату</h2>
-                    <p>Установите сумму @(Model.GroupId.HasValue ? "для выбранной группы" : "для всех учеников"). Внесённые деньги сохраняются.</p>
+                    <h2>@Localizer["Assign monthly fee"]</h2>
+                    <p>
+                        @if (Model.GroupId.HasValue)
+                        {
+                            @Localizer["Set the amount for the selected group. Entered payments are kept."]
+                        }
+                        else
+                        {
+                            @Localizer["Set the amount for all students. Entered payments are kept."]
+                        }
+                    </p>
                 </div>
             </div>
             <form asp-action="SetMonthlyFee" method="post" class="accounting-fee-form">
@@ -202,11 +211,11 @@
                 }
                 <div class="accounting-input-icon">
                     <i class="bi bi-cash-stack"></i>
-                    <input type="number" name="amount" min="0" step="0.01" class="form-control" placeholder="Сумма" required />
+                    <input type="number" name="amount" min="0" step="0.01" class="form-control" placeholder="@Localizer["Amount"]" required />
                 </div>
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i>
-                    Назначить всем
+                    @Localizer["Assign to all"]
                 </button>
             </form>
         </div>
@@ -215,8 +224,8 @@
     <section class="accounting-panel accounting-register-panel">
         <div class="accounting-register-header">
             <div>
-                <h2>Реестр оплат</h2>
-                <p>Показано учеников: @Model.Rows.Count</p>
+                <h2>@Localizer["Payment Register"]</h2>
+                <p>@Localizer["Showing {0} student(s)", Model.Rows.Count]</p>
             </div>
             <div class="accounting-period-chip">
                 <i class="bi bi-calendar3"></i>
@@ -228,8 +237,8 @@
         {
             <div class="accounting-empty">
                 <div class="accounting-empty-icon"><i class="bi bi-search"></i></div>
-                <h3>Нет учеников по выбранным фильтрам</h3>
-                <p>Измените группу, статус, месяц или строку поиска.</p>
+                <h3>@Localizer["No students match the selected filters"]</h3>
+                <p>@Localizer["Change the group, status, month or search text."]</p>
             </div>
         }
         else
@@ -245,7 +254,7 @@
                             </div>
                             <div class="accounting-student-info">
                                 <strong>@row.StudentName</strong>
-                                <span>Student #@row.StudentId</span>
+                                <span>@Localizer["Student #{0}", row.StudentId]</span>
                             </div>
                             @if (!string.IsNullOrWhiteSpace(row.GroupName))
                             {
@@ -253,39 +262,39 @@
                             }
                             else
                             {
-                                <span class="accounting-group-chip muted">Без группы</span>
+                                <span class="accounting-group-chip muted">@Localizer["No group"]</span>
                             }
                         </div>
 
                         <div class="accounting-payment-status">
                             <span class="@StatusClass(row.Status)">@StatusText(row.Status)</span>
                             <div class="accounting-balance">
-                                <span>Остаток</span>
+                                <span>@Localizer["Balance"]</span>
                                 <strong>@row.Balance.ToString("0.00")</strong>
                             </div>
                         </div>
 
                         <div class="accounting-payment-fields">
                             <div class="accounting-field">
-                                <label>Начислено</label>
+                                <label>@Localizer["Charged"]</label>
                                 <input form="@formId" type="number" name="expectedAmount" min="0" step="0.01"
                                        value="@row.ExpectedAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
                                        class="form-control" />
                             </div>
                             <div class="accounting-field">
-                                <label>Оплачено</label>
+                                <label>@Localizer["Paid"]</label>
                                 <input form="@formId" type="number" name="paidAmount" min="0" step="0.01"
                                        value="@row.PaidAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
                                        class="form-control" />
                             </div>
                             <div class="accounting-field">
-                                <label>Дата оплаты</label>
+                                <label>@Localizer["Payment Date"]</label>
                                 <input form="@formId" type="date" name="paidAt" value="@(row.PaidAt?.ToString("yyyy-MM-dd"))" class="form-control" />
                             </div>
                             <div class="accounting-field accounting-note-field">
-                                <label>Примечание</label>
+                                <label>@Localizer["Comment"]</label>
                                 <input form="@formId" type="text" name="note" value="@row.Note" maxlength="500"
-                                       class="form-control" placeholder="Например: наличные" />
+                                       class="form-control" placeholder="@Localizer["e.g. cash"]" />
                             </div>
                         </div>
 
@@ -308,7 +317,7 @@
                                 }
                                 <button type="submit" class="btn btn-primary">
                                     <i class="bi bi-floppy"></i>
-                                    Сохранить
+                                    @Localizer["Save"]
                                 </button>
                             </form>
 
@@ -332,9 +341,9 @@
                                     }
                                     <button type="submit"
                                             class="btn btn-outline-success accounting-mark-paid-btn"
-                                            title="Отметить ученика как полностью оплатившего">
+                                            title="@Localizer["Mark this student as fully paid"]">
                                         <i class="bi bi-check-circle-fill"></i>
-                                        Оплатил всё
+                                        @Localizer["Paid in full"]
                                     </button>
                                 </form>
                             }

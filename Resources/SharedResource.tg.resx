@@ -2059,4 +2059,91 @@
   <data name="Voice input failed. Please try again or type your question." xml:space="preserve">
     <value>Вуруди овозӣ ноком шуд. Лутфан аз нав кӯшиш кунед ё саволро бо матн ворид кунед.</value>
   </data>
+  <data name="Student Accounting" xml:space="preserve">
+    <value>Баҳисобгирии хонандагон</value>
+  </data>
+  <data name="SCHOOL FINANCE" xml:space="preserve">
+    <value>МОЛИЯИ МАКТАБ</value>
+  </data>
+  <data name="Payments for {0} {1} — charges, receipts and outstanding balance of students." xml:space="preserve">
+    <value>Пардохтҳо барои {0} {1} — ҳисобҳо, воридшавӣ ва қарзи хонандагон.</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Филтрҳо</value>
+  </data>
+  <data name="Find a student or choose the period." xml:space="preserve">
+    <value>Хонандаро ёбед ё давраи лозимаро интихоб кунед.</value>
+  </data>
+  <data name="Student name or group" xml:space="preserve">
+    <value>Номи хонанда ё гурӯҳ</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Пардохт шуд</value>
+  </data>
+  <data name="Not paid" xml:space="preserve">
+    <value>Пардохт нашуд</value>
+  </data>
+  <data name="Fee not assigned" xml:space="preserve">
+    <value>Ҳаққи таълим таъин нашудааст</value>
+  </data>
+  <data name="Charged" xml:space="preserve">
+    <value>Ҳисоб шуд</value>
+  </data>
+  <data name="Collected" xml:space="preserve">
+    <value>Ҷамъ шуд</value>
+  </data>
+  <data name="Remaining to collect" xml:space="preserve">
+    <value>Барои ҷамъоварӣ монд</value>
+  </data>
+  <data name="Fully paid" xml:space="preserve">
+    <value>Пурра пардохт карданд</value>
+  </data>
+  <data name="Statuses for the month" xml:space="preserve">
+    <value>Вазъиятҳо барои моҳ</value>
+  </data>
+  <data name="Payment status for the selected period." xml:space="preserve">
+    <value>Вазъияти пардохтҳо барои давраи интихобшуда.</value>
+  </data>
+  <data name="Assign monthly fee" xml:space="preserve">
+    <value>Таъин кардани ҳаққи моҳона</value>
+  </data>
+  <data name="Set the amount for the selected group. Entered payments are kept." xml:space="preserve">
+    <value>Барои гурӯҳи интихобшуда маблағро таъин кунед. Пардохтҳои воридшуда нигоҳ дошта мешаванд.</value>
+  </data>
+  <data name="Set the amount for all students. Entered payments are kept." xml:space="preserve">
+    <value>Барои ҳамаи хонандагон маблағро таъин кунед. Пардохтҳои воридшуда нигоҳ дошта мешаванд.</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Маблағ</value>
+  </data>
+  <data name="Assign to all" xml:space="preserve">
+    <value>Ба ҳама таъин кардан</value>
+  </data>
+  <data name="Payment Register" xml:space="preserve">
+    <value>Феҳристи пардохтҳо</value>
+  </data>
+  <data name="No students match the selected filters" xml:space="preserve">
+    <value>Ба филтрҳои интихобшуда хонанда мувофиқ нест</value>
+  </data>
+  <data name="Change the group, status, month or search text." xml:space="preserve">
+    <value>Гурӯҳ, вазъият, моҳ ё матни ҷустуҷӯро тағйир диҳед.</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Монда</value>
+  </data>
+  <data name="Payment Date" xml:space="preserve">
+    <value>Санаи пардохт</value>
+  </data>
+  <data name="e.g. cash" xml:space="preserve">
+    <value>Мисол: нақдӣ</value>
+  </data>
+  <data name="Mark this student as fully paid" xml:space="preserve">
+    <value>Ин хонандаро ҳамчун пурра пардохткарда қайд кунед</value>
+  </data>
+  <data name="Paid in full" xml:space="preserve">
+    <value>Ҳама пардохт кард</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Захира кардан</value>
+  </data>
 </root>

@@ -2059,4 +2059,91 @@
   <data name="Voice input failed. Please try again or type your question." xml:space="preserve">
     <value>Не удалось распознать голос. Попробуйте ещё раз или введите вопрос текстом.</value>
   </data>
+  <data name="Student Accounting" xml:space="preserve">
+    <value>Бухгалтерия учеников</value>
+  </data>
+  <data name="SCHOOL FINANCE" xml:space="preserve">
+    <value>ФИНАНСЫ ШКОЛЫ</value>
+  </data>
+  <data name="Payments for {0} {1} — charges, receipts and outstanding balance of students." xml:space="preserve">
+    <value>Оплаты за {0} {1} — начисления, поступления и задолженность учеников.</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Фильтры</value>
+  </data>
+  <data name="Find a student or choose the period." xml:space="preserve">
+    <value>Найдите ученика или выберите нужный период.</value>
+  </data>
+  <data name="Student name or group" xml:space="preserve">
+    <value>Имя ученика или группа</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Оплачено</value>
+  </data>
+  <data name="Not paid" xml:space="preserve">
+    <value>Не оплачено</value>
+  </data>
+  <data name="Fee not assigned" xml:space="preserve">
+    <value>Не назначено</value>
+  </data>
+  <data name="Charged" xml:space="preserve">
+    <value>Начислено</value>
+  </data>
+  <data name="Collected" xml:space="preserve">
+    <value>Собрано</value>
+  </data>
+  <data name="Remaining to collect" xml:space="preserve">
+    <value>Осталось собрать</value>
+  </data>
+  <data name="Fully paid" xml:space="preserve">
+    <value>Оплатили полностью</value>
+  </data>
+  <data name="Statuses for the month" xml:space="preserve">
+    <value>Статусы за месяц</value>
+  </data>
+  <data name="Payment status for the selected period." xml:space="preserve">
+    <value>Состояние оплат по выбранному периоду.</value>
+  </data>
+  <data name="Assign monthly fee" xml:space="preserve">
+    <value>Назначить месячную оплату</value>
+  </data>
+  <data name="Set the amount for the selected group. Entered payments are kept." xml:space="preserve">
+    <value>Установите сумму для выбранной группы. Внесённые деньги сохраняются.</value>
+  </data>
+  <data name="Set the amount for all students. Entered payments are kept." xml:space="preserve">
+    <value>Установите сумму для всех учеников. Внесённые деньги сохраняются.</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Сумма</value>
+  </data>
+  <data name="Assign to all" xml:space="preserve">
+    <value>Назначить всем</value>
+  </data>
+  <data name="Payment Register" xml:space="preserve">
+    <value>Реестр оплат</value>
+  </data>
+  <data name="No students match the selected filters" xml:space="preserve">
+    <value>Нет учеников по выбранным фильтрам</value>
+  </data>
+  <data name="Change the group, status, month or search text." xml:space="preserve">
+    <value>Измените группу, статус, месяц или строку поиска.</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Остаток</value>
+  </data>
+  <data name="Payment Date" xml:space="preserve">
+    <value>Дата оплаты</value>
+  </data>
+  <data name="e.g. cash" xml:space="preserve">
+    <value>Например: наличные</value>
+  </data>
+  <data name="Mark this student as fully paid" xml:space="preserve">
+    <value>Отметить ученика как полностью оплатившего</value>
+  </data>
+  <data name="Paid in full" xml:space="preserve">
+    <value>Оплатил всё</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
 </root>

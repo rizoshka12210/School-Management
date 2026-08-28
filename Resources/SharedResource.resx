@@ -2059,4 +2059,91 @@
   <data name="Voice input failed. Please try again or type your question." xml:space="preserve">
     <value>Voice input failed. Please try again or type your question.</value>
   </data>
+  <data name="Student Accounting" xml:space="preserve">
+    <value>Student Accounting</value>
+  </data>
+  <data name="SCHOOL FINANCE" xml:space="preserve">
+    <value>SCHOOL FINANCE</value>
+  </data>
+  <data name="Payments for {0} {1} — charges, receipts and outstanding balance of students." xml:space="preserve">
+    <value>Payments for {0} {1} — charges, receipts and outstanding balance of students.</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="Find a student or choose the period." xml:space="preserve">
+    <value>Find a student or choose the period.</value>
+  </data>
+  <data name="Student name or group" xml:space="preserve">
+    <value>Student name or group</value>
+  </data>
+  <data name="Paid" xml:space="preserve">
+    <value>Paid</value>
+  </data>
+  <data name="Not paid" xml:space="preserve">
+    <value>Not paid</value>
+  </data>
+  <data name="Fee not assigned" xml:space="preserve">
+    <value>Fee not assigned</value>
+  </data>
+  <data name="Charged" xml:space="preserve">
+    <value>Charged</value>
+  </data>
+  <data name="Collected" xml:space="preserve">
+    <value>Collected</value>
+  </data>
+  <data name="Remaining to collect" xml:space="preserve">
+    <value>Remaining to collect</value>
+  </data>
+  <data name="Fully paid" xml:space="preserve">
+    <value>Fully paid</value>
+  </data>
+  <data name="Statuses for the month" xml:space="preserve">
+    <value>Statuses for the month</value>
+  </data>
+  <data name="Payment status for the selected period." xml:space="preserve">
+    <value>Payment status for the selected period.</value>
+  </data>
+  <data name="Assign monthly fee" xml:space="preserve">
+    <value>Assign monthly fee</value>
+  </data>
+  <data name="Set the amount for the selected group. Entered payments are kept." xml:space="preserve">
+    <value>Set the amount for the selected group. Entered payments are kept.</value>
+  </data>
+  <data name="Set the amount for all students. Entered payments are kept." xml:space="preserve">
+    <value>Set the amount for all students. Entered payments are kept.</value>
+  </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Assign to all" xml:space="preserve">
+    <value>Assign to all</value>
+  </data>
+  <data name="Payment Register" xml:space="preserve">
+    <value>Payment Register</value>
+  </data>
+  <data name="No students match the selected filters" xml:space="preserve">
+    <value>No students match the selected filters</value>
+  </data>
+  <data name="Change the group, status, month or search text." xml:space="preserve">
+    <value>Change the group, status, month or search text.</value>
+  </data>
+  <data name="Balance" xml:space="preserve">
+    <value>Balance</value>
+  </data>
+  <data name="Payment Date" xml:space="preserve">
+    <value>Payment Date</value>
+  </data>
+  <data name="e.g. cash" xml:space="preserve">
+    <value>e.g. cash</value>
+  </data>
+  <data name="Mark this student as fully paid" xml:space="preserve">
+    <value>Mark this student as fully paid</value>
+  </data>
+  <data name="Paid in full" xml:space="preserve">
+    <value>Paid in full</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
 </root>
