@@ -46,3 +46,30 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+/* Keep the fixed sidebar from making the main area wider than the viewport. */
+.main-wrapper {
+  width: calc(100% - 250px) !important;
+  min-width: 0;
+  max-width: calc(100% - 250px);
+}
+
+.page-content,
+.topbar {
+  min-width: 0;
+  max-width: 100%;
+}
+
+@media (max-width: 992px) {
+  .main-wrapper {
+    width: calc(100% - 210px) !important;
+    max-width: calc(100% - 210px);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-wrapper {
+    width: 100% !important;
+    max-width: 100%;
+  }
+}
