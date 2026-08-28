@@ -88,10 +88,10 @@
                 <label>Статус</label>
                 <select name="status" class="form-select">
                     <option value="">Все статусы</option>
-                    <option value="paid" selected="@(Model.Status == "paid")">Оплачено</option>
-                    <option value="partial" selected="@(Model.Status == "partial")">Частично</option>
-                    <option value="unpaid" selected="@(Model.Status == "unpaid")">Не оплачено</option>
-                    <option value="not-set" selected="@(Model.Status == "not-set")">Не назначено</option>
+                    @if (Model.Status == "paid") { <option value="paid" selected>Оплачено</option> } else { <option value="paid">Оплачено</option> }
+                    @if (Model.Status == "partial") { <option value="partial" selected>Частично</option> } else { <option value="partial">Частично</option> }
+                    @if (Model.Status == "unpaid") { <option value="unpaid" selected>Не оплачено</option> } else { <option value="unpaid">Не оплачено</option> }
+                    @if (Model.Status == "not-set") { <option value="not-set" selected>Не назначено</option> } else { <option value="not-set">Не назначено</option> }
                 </select>
             </div>
 
