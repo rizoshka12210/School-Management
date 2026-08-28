@@ -14,7 +14,12 @@
         <h1 class="page-title">@Localizer["My Lessons"]</h1>
         <p class="page-subtitle">@Localizer["View your lessons and manage attendance, grades and topics"]</p>
     </div>
-    <div class="teacher-count-label">@Localizer["{0} lesson(s)", totalLessons]</div>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+        <a asp-area="Teacher" asp-controller="WorkHours" asp-action="Index" class="btn btn-light">
+            <i class="bi bi-clock-fill me-1"></i>@Localizer["Worked Hours"]
+        </a>
+        <div class="teacher-count-label">@Localizer["{0} lesson(s)", totalLessons]</div>
+    </div>
 </div>
 
 <div class="teacher-attendance-stats">

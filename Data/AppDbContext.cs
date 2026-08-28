@@ -28,12 +28,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         base.OnModelCreating(builder);
 
-
         builder.Entity<Parent>()
             .HasMany(p => p.Students)
             .WithMany(s => s.Parents)
             .UsingEntity(j => j.ToTable("ParentStudents"));
-
 
         builder.Entity<Teacher>()
             .HasMany(t => t.Groups)
@@ -44,7 +42,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasMany(t => t.Subjects)
             .WithMany(s => s.Teachers)
             .UsingEntity(j => j.ToTable("TeacherSubjects"));
-
 
         builder.Entity<Student>()
             .HasOne(s => s.Group)
@@ -108,7 +105,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(s => s.SubjectId)
             .OnDelete(DeleteBehavior.Restrict);
 
-
         builder.Entity<Attendance>()
             .HasOne(a => a.Student)
             .WithMany(s => s.Attendances)
@@ -124,7 +120,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Attendance>()
             .HasIndex(a => new { a.StudentId, a.LessonId })
             .IsUnique();
-
 
         builder.Entity<Grade>()
             .HasOne(g => g.Student)
