@@ -26,7 +26,7 @@
 .management-table td:last-child {
     position: sticky;
     right: 0;
-    min-width: 132px;
+    min-width: 175px;
     z-index: 3;
     background: var(--ui-surface-solid);
     box-shadow: -12px 0 18px -18px rgba(15, 23, 42, .55);
@@ -42,7 +42,13 @@
 }
 
 .management-table td:last-child .d-flex {
+    flex-direction: column;
+    align-items: flex-end;
     flex-wrap: nowrap !important;
+}
+
+.management-table td:last-child .btn {
+    white-space: nowrap;
 }
 
 .salary-stats {
