@@ -19,49 +19,55 @@
 
     string StatusClass(string status) => status switch
     {
-        "paid" => "text-bg-success",
-        "partial" => "text-bg-warning",
-        "unpaid" => "text-bg-danger",
-        _ => "text-bg-secondary"
+        "paid" => "accounting-status accounting-status-paid",
+        "partial" => "accounting-status accounting-status-partial",
+        "unpaid" => "accounting-status accounting-status-unpaid",
+        _ => "accounting-status accounting-status-notset"
     };
 }
 
-<div class="page-header">
-    <div>
-        <h1 class="page-title">Бухгалтерия учеников</h1>
-        <p class="page-subtitle">
-            Оплаты за @Localizer[monthNames[Model.Month - 1]] @Model.Year — кто оплатил, кто должен и сколько осталось
-        </p>
-    </div>
+<div class="accounting-page">
+    <section class="accounting-hero">
+        <div>
+            <div class="accounting-eyebrow">ФИНАНСЫ ШКОЛЫ</div>
+            <h1>Бухгалтерия учеников</h1>
+            <p>Оплаты за @Localizer[monthNames[Model.Month - 1]] @Model.Year — начисления, поступления и задолженность учеников.</p>
+        </div>
+        <a asp-area="Admin" asp-controller="Students" asp-action="Index" class="btn btn-light accounting-students-btn">
+            <i class="bi bi-people-fill"></i>
+            Ученики
+        </a>
+    </section>
 
-    <a asp-area="Admin" asp-controller="Students" asp-action="Index" class="btn btn-light">
-        <i class="bi bi-people-fill me-1"></i> Ученики
-    </a>
-</div>
+    @if (TempData["Error"] is string error)
+    {
+        <div class="alert alert-danger">@error</div>
+    }
+    @if (TempData["Success"] is string success)
+    {
+        <div class="alert alert-success">@success</div>
+    }
 
-@if (TempData["Error"] is string error)
-{
-    <div class="alert alert-danger">@error</div>
-}
-@if (TempData["Success"] is string success)
-{
-    <div class="alert alert-success">@success</div>
-}
+    <section class="accounting-panel accounting-filter-panel">
+        <div class="accounting-panel-title">
+            <div>
+                <h2>Фильтры</h2>
+                <p>Найдите ученика или выберите нужный период.</p>
+            </div>
+            <i class="bi bi-funnel"></i>
+        </div>
 
-<div class="card border-0 shadow-sm mb-4">
-    <div class="card-body">
-        <form method="get" asp-action="Index" class="row g-2 align-items-end">
-            <div class="col-12 col-lg-3">
-                <label class="form-label">Поиск</label>
-                <input type="text"
-                       name="search"
-                       value="@Model.Search"
-                       class="form-control"
-                       placeholder="Имя ученика или группа" />
+        <form method="get" asp-action="Index" class="accounting-filter-grid">
+            <div class="accounting-field accounting-search-field">
+                <label>Поиск</label>
+                <div class="accounting-input-icon">
+                    <i class="bi bi-search"></i>
+                    <input type="text" name="search" value="@Model.Search" class="form-control" placeholder="Имя ученика или группа" />
+                </div>
             </div>
 
-            <div class="col-6 col-lg-2">
-                <label class="form-label">Группа</label>
+            <div class="accounting-field">
+                <label>Группа</label>
                 <select name="groupId" class="form-select">
                     <option value="">Все группы</option>
                     @foreach (var group in Model.Groups)
@@ -78,47 +84,19 @@
                 </select>
             </div>
 
-            <div class="col-6 col-lg-2">
-                <label class="form-label">Статус</label>
+            <div class="accounting-field">
+                <label>Статус</label>
                 <select name="status" class="form-select">
                     <option value="">Все статусы</option>
-                    @if (Model.Status == "paid")
-                    {
-                        <option value="paid" selected>Оплачено</option>
-                    }
-                    else
-                    {
-                        <option value="paid">Оплачено</option>
-                    }
-                    @if (Model.Status == "partial")
-                    {
-                        <option value="partial" selected>Частично</option>
-                    }
-                    else
-                    {
-                        <option value="partial">Частично</option>
-                    }
-                    @if (Model.Status == "unpaid")
-                    {
-                        <option value="unpaid" selected>Не оплачено</option>
-                    }
-                    else
-                    {
-                        <option value="unpaid">Не оплачено</option>
-                    }
-                    @if (Model.Status == "not-set")
-                    {
-                        <option value="not-set" selected>Не назначено</option>
-                    }
-                    else
-                    {
-                        <option value="not-set">Не назначено</option>
-                    }
+                    <option value="paid" selected="@(Model.Status == "paid")">Оплачено</option>
+                    <option value="partial" selected="@(Model.Status == "partial")">Частично</option>
+                    <option value="unpaid" selected="@(Model.Status == "unpaid")">Не оплачено</option>
+                    <option value="not-set" selected="@(Model.Status == "not-set")">Не назначено</option>
                 </select>
             </div>
 
-            <div class="col-6 col-lg-2">
-                <label class="form-label">Месяц</label>
+            <div class="accounting-field">
+                <label>Месяц</label>
                 <select name="month" class="form-select">
                     @for (var i = 1; i <= 12; i++)
                     {
@@ -134,8 +112,8 @@
                 </select>
             </div>
 
-            <div class="col-6 col-lg-1">
-                <label class="form-label">Год</label>
+            <div class="accounting-field accounting-year-field">
+                <label>Год</label>
                 <select name="year" class="form-select">
                     @for (var y = DateTime.UtcNow.Year - 3; y <= DateTime.UtcNow.Year + 1; y++)
                     {
@@ -151,226 +129,217 @@
                 </select>
             </div>
 
-            <div class="col-12 col-lg-2 d-flex gap-2">
-                <button type="submit" class="btn btn-primary flex-grow-1">Применить</button>
+            <div class="accounting-filter-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check2-circle"></i>
+                    Применить
+                </button>
                 <a asp-action="Index" class="btn btn-light">Сбросить</a>
             </div>
         </form>
-    </div>
-</div>
+    </section>
 
-<div class="salary-stats mb-4">
-    <div class="salary-stat">
-        <div class="salary-stat-label">Начислено</div>
-        <div class="salary-stat-value">@Model.TotalExpected.ToString("0.00")</div>
-    </div>
-    <div class="salary-stat">
-        <div class="salary-stat-label">Собрано</div>
-        <div class="salary-stat-value">@Model.TotalPaid.ToString("0.00")</div>
-    </div>
-    <div class="salary-stat">
-        <div class="salary-stat-label">Осталось собрать</div>
-        <div class="salary-stat-value">@Model.TotalDebt.ToString("0.00")</div>
-    </div>
-    <div class="salary-stat">
-        <div class="salary-stat-label">Оплатили полностью</div>
-        <div class="salary-stat-value">@Model.PaidCount</div>
-    </div>
-</div>
+    <section class="accounting-stats-grid">
+        <div class="accounting-stat-card">
+            <div class="accounting-stat-icon accounting-stat-purple"><i class="bi bi-receipt"></i></div>
+            <div>
+                <span>Начислено</span>
+                <strong>@Model.TotalExpected.ToString("0.00")</strong>
+            </div>
+        </div>
+        <div class="accounting-stat-card">
+            <div class="accounting-stat-icon accounting-stat-green"><i class="bi bi-wallet2"></i></div>
+            <div>
+                <span>Собрано</span>
+                <strong>@Model.TotalPaid.ToString("0.00")</strong>
+            </div>
+        </div>
+        <div class="accounting-stat-card">
+            <div class="accounting-stat-icon accounting-stat-red"><i class="bi bi-exclamation-circle"></i></div>
+            <div>
+                <span>Осталось собрать</span>
+                <strong>@Model.TotalDebt.ToString("0.00")</strong>
+            </div>
+        </div>
+        <div class="accounting-stat-card">
+            <div class="accounting-stat-icon accounting-stat-blue"><i class="bi bi-check-circle"></i></div>
+            <div>
+                <span>Оплатили полностью</span>
+                <strong>@Model.PaidCount</strong>
+            </div>
+        </div>
+    </section>
 
-<div class="row g-3 mb-4">
-    <div class="col-12 col-lg-7">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="section-title mb-2">Статусы за месяц</h5>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="badge text-bg-success p-2">Оплачено: @Model.PaidCount</span>
-                    <span class="badge text-bg-warning p-2">Частично: @Model.PartialCount</span>
-                    <span class="badge text-bg-danger p-2">Не оплачено: @Model.UnpaidCount</span>
-                    <span class="badge text-bg-secondary p-2">Не назначено: @Model.NotSetCount</span>
+    <section class="accounting-summary-grid">
+        <div class="accounting-panel">
+            <div class="accounting-panel-title compact">
+                <div>
+                    <h2>Статусы за месяц</h2>
+                    <p>Состояние оплат по выбранному периоду.</p>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="col-12 col-lg-5">
-        <div class="card border-0 shadow-sm h-100">
-            <div class="card-body">
-                <h5 class="section-title mb-2">Назначить месячную оплату</h5>
-                <p class="text-muted small mb-3">
-                    Сумма будет установлена всем ученикам @(Model.GroupId.HasValue ? "выбранной группы" : "школы"). Уже внесённые деньги не удаляются.
-                </p>
-
-                <form asp-action="SetMonthlyFee" method="post" class="d-flex gap-2">
-                    <input type="hidden" name="year" value="@Model.Year" />
-                    <input type="hidden" name="month" value="@Model.Month" />
-                    @if (Model.GroupId.HasValue)
-                    {
-                        <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
-                    }
-                    <input type="number"
-                           name="amount"
-                           min="0"
-                           step="0.01"
-                           class="form-control"
-                           placeholder="Сумма"
-                           required />
-                    <button type="submit" class="btn btn-primary text-nowrap">Назначить всем</button>
-                </form>
+            <div class="accounting-status-list">
+                <div class="accounting-status-item paid"><span class="dot"></span><span>Оплачено</span><strong>@Model.PaidCount</strong></div>
+                <div class="accounting-status-item partial"><span class="dot"></span><span>Частично</span><strong>@Model.PartialCount</strong></div>
+                <div class="accounting-status-item unpaid"><span class="dot"></span><span>Не оплачено</span><strong>@Model.UnpaidCount</strong></div>
+                <div class="accounting-status-item notset"><span class="dot"></span><span>Не назначено</span><strong>@Model.NotSetCount</strong></div>
             </div>
         </div>
-    </div>
-</div>
 
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        <div class="section-header">
+        <div class="accounting-panel">
+            <div class="accounting-panel-title compact">
+                <div>
+                    <h2>Назначить месячную оплату</h2>
+                    <p>Установите сумму @(Model.GroupId.HasValue ? "для выбранной группы" : "для всех учеников"). Внесённые деньги сохраняются.</p>
+                </div>
+            </div>
+            <form asp-action="SetMonthlyFee" method="post" class="accounting-fee-form">
+                <input type="hidden" name="year" value="@Model.Year" />
+                <input type="hidden" name="month" value="@Model.Month" />
+                @if (Model.GroupId.HasValue)
+                {
+                    <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
+                }
+                <div class="accounting-input-icon">
+                    <i class="bi bi-cash-stack"></i>
+                    <input type="number" name="amount" min="0" step="0.01" class="form-control" placeholder="Сумма" required />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i>
+                    Назначить всем
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <section class="accounting-panel accounting-register-panel">
+        <div class="accounting-register-header">
             <div>
-                <h5 class="section-title">Реестр оплат</h5>
-                <p class="section-subtitle">Показано учеников: @Model.Rows.Count</p>
+                <h2>Реестр оплат</h2>
+                <p>Показано учеников: @Model.Rows.Count</p>
+            </div>
+            <div class="accounting-period-chip">
+                <i class="bi bi-calendar3"></i>
+                @Localizer[monthNames[Model.Month - 1]] @Model.Year
             </div>
         </div>
 
         @if (!Model.Rows.Any())
         {
-            <div class="management-empty">
-                <div class="management-empty-icon">AC</div>
-                <h5>Нет учеников по выбранным фильтрам</h5>
-                <p>Измените группу, статус, месяц или поиск.</p>
+            <div class="accounting-empty">
+                <div class="accounting-empty-icon"><i class="bi bi-search"></i></div>
+                <h3>Нет учеников по выбранным фильтрам</h3>
+                <p>Измените группу, статус, месяц или строку поиска.</p>
             </div>
         }
         else
         {
-            <div class="table-responsive">
-                <table class="table table-hover management-table align-middle">
-                    <thead>
-                        <tr>
-                            <th>Ученик</th>
-                            <th>Группа</th>
-                            <th>Статус</th>
-                            <th style="min-width: 130px;">Начислено</th>
-                            <th style="min-width: 130px;">Оплачено</th>
-                            <th>Остаток</th>
-                            <th style="min-width: 150px;">Дата оплаты</th>
-                            <th style="min-width: 190px;">Примечание</th>
-                            <th class="text-end">Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var row in Model.Rows)
-                        {
-                            var formId = $"payment-{row.StudentId}";
-                            <tr>
-                                <td>
-                                    <div class="person-cell">
-                                        <div class="person-avatar">
-                                            @(string.IsNullOrWhiteSpace(row.StudentName) ? "S" : row.StudentName.Substring(0, 1).ToUpper())
-                                        </div>
-                                        <div>
-                                            <div class="person-name">@row.StudentName</div>
-                                            <div class="person-id">Student #@row.StudentId</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    @if (!string.IsNullOrWhiteSpace(row.GroupName))
-                                    {
-                                        <span class="group-badge">@row.GroupName</span>
-                                    }
-                                    else
-                                    {
-                                        <span class="text-muted">Без группы</span>
-                                    }
-                                </td>
-                                <td>
-                                    <span class="badge @StatusClass(row.Status)">@StatusText(row.Status)</span>
-                                </td>
-                                <td>
-                                    <input form="@formId"
-                                           type="number"
-                                           name="expectedAmount"
-                                           min="0"
-                                           step="0.01"
-                                           value="@row.ExpectedAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
-                                           class="form-control form-control-sm" />
-                                </td>
-                                <td>
-                                    <input form="@formId"
-                                           type="number"
-                                           name="paidAmount"
-                                           min="0"
-                                           step="0.01"
-                                           value="@row.PaidAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
-                                           class="form-control form-control-sm" />
-                                </td>
-                                <td>
-                                    <strong>@row.Balance.ToString("0.00")</strong>
-                                </td>
-                                <td>
-                                    <input form="@formId"
-                                           type="date"
-                                           name="paidAt"
-                                           value="@(row.PaidAt?.ToString("yyyy-MM-dd"))"
-                                           class="form-control form-control-sm" />
-                                </td>
-                                <td>
-                                    <input form="@formId"
-                                           type="text"
-                                           name="note"
-                                           value="@row.Note"
-                                           maxlength="500"
-                                           class="form-control form-control-sm"
-                                           placeholder="Например: наличные" />
-                                </td>
-                                <td class="text-end">
-                                    <div class="d-flex justify-content-end gap-1 flex-wrap">
-                                        <form id="@formId" asp-action="Update" method="post">
-                                            <input type="hidden" name="studentId" value="@row.StudentId" />
-                                            <input type="hidden" name="year" value="@Model.Year" />
-                                            <input type="hidden" name="month" value="@Model.Month" />
-                                            @if (Model.GroupId.HasValue)
-                                            {
-                                                <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
-                                            }
-                                            @if (!string.IsNullOrWhiteSpace(Model.Status))
-                                            {
-                                                <input type="hidden" name="status" value="@Model.Status" />
-                                            }
-                                            @if (!string.IsNullOrWhiteSpace(Model.Search))
-                                            {
-                                                <input type="hidden" name="search" value="@Model.Search" />
-                                            }
-                                            <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
-                                        </form>
+            <div class="accounting-payment-list">
+                @foreach (var row in Model.Rows)
+                {
+                    var formId = $"payment-{row.StudentId}";
+                    <article class="accounting-payment-card">
+                        <div class="accounting-student-block">
+                            <div class="accounting-avatar">
+                                @(string.IsNullOrWhiteSpace(row.StudentName) ? "S" : row.StudentName.Substring(0, 1).ToUpper())
+                            </div>
+                            <div class="accounting-student-info">
+                                <strong>@row.StudentName</strong>
+                                <span>Student #@row.StudentId</span>
+                            </div>
+                            @if (!string.IsNullOrWhiteSpace(row.GroupName))
+                            {
+                                <span class="accounting-group-chip">@row.GroupName</span>
+                            }
+                            else
+                            {
+                                <span class="accounting-group-chip muted">Без группы</span>
+                            }
+                        </div>
 
-                                        @if (row.ExpectedAmount > 0 && row.PaidAmount < row.ExpectedAmount)
-                                        {
-                                            <form asp-action="MarkPaid" method="post">
-                                                <input type="hidden" name="studentId" value="@row.StudentId" />
-                                                <input type="hidden" name="year" value="@Model.Year" />
-                                                <input type="hidden" name="month" value="@Model.Month" />
-                                                @if (Model.GroupId.HasValue)
-                                                {
-                                                    <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
-                                                }
-                                                @if (!string.IsNullOrWhiteSpace(Model.Status))
-                                                {
-                                                    <input type="hidden" name="status" value="@Model.Status" />
-                                                }
-                                                @if (!string.IsNullOrWhiteSpace(Model.Search))
-                                                {
-                                                    <input type="hidden" name="search" value="@Model.Search" />
-                                                }
-                                                <button type="submit" class="btn btn-success btn-sm text-nowrap">Оплачено полностью</button>
-                                            </form>
-                                        }
-                                    </div>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                        <div class="accounting-payment-status">
+                            <span class="@StatusClass(row.Status)">@StatusText(row.Status)</span>
+                            <div class="accounting-balance">
+                                <span>Остаток</span>
+                                <strong>@row.Balance.ToString("0.00")</strong>
+                            </div>
+                        </div>
+
+                        <div class="accounting-payment-fields">
+                            <div class="accounting-field">
+                                <label>Начислено</label>
+                                <input form="@formId" type="number" name="expectedAmount" min="0" step="0.01"
+                                       value="@row.ExpectedAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
+                                       class="form-control" />
+                            </div>
+                            <div class="accounting-field">
+                                <label>Оплачено</label>
+                                <input form="@formId" type="number" name="paidAmount" min="0" step="0.01"
+                                       value="@row.PaidAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
+                                       class="form-control" />
+                            </div>
+                            <div class="accounting-field">
+                                <label>Дата оплаты</label>
+                                <input form="@formId" type="date" name="paidAt" value="@(row.PaidAt?.ToString("yyyy-MM-dd"))" class="form-control" />
+                            </div>
+                            <div class="accounting-field accounting-note-field">
+                                <label>Примечание</label>
+                                <input form="@formId" type="text" name="note" value="@row.Note" maxlength="500"
+                                       class="form-control" placeholder="Например: наличные" />
+                            </div>
+                        </div>
+
+                        <div class="accounting-payment-actions">
+                            <form id="@formId" asp-action="Update" method="post">
+                                <input type="hidden" name="studentId" value="@row.StudentId" />
+                                <input type="hidden" name="year" value="@Model.Year" />
+                                <input type="hidden" name="month" value="@Model.Month" />
+                                @if (Model.GroupId.HasValue)
+                                {
+                                    <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
+                                }
+                                @if (!string.IsNullOrWhiteSpace(Model.Status))
+                                {
+                                    <input type="hidden" name="status" value="@Model.Status" />
+                                }
+                                @if (!string.IsNullOrWhiteSpace(Model.Search))
+                                {
+                                    <input type="hidden" name="search" value="@Model.Search" />
+                                }
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-floppy"></i>
+                                    Сохранить
+                                </button>
+                            </form>
+
+                            @if (row.ExpectedAmount > 0 && row.PaidAmount < row.ExpectedAmount)
+                            {
+                                <form asp-action="MarkPaid" method="post">
+                                    <input type="hidden" name="studentId" value="@row.StudentId" />
+                                    <input type="hidden" name="year" value="@Model.Year" />
+                                    <input type="hidden" name="month" value="@Model.Month" />
+                                    @if (Model.GroupId.HasValue)
+                                    {
+                                        <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(Model.Status))
+                                    {
+                                        <input type="hidden" name="status" value="@Model.Status" />
+                                    }
+                                    @if (!string.IsNullOrWhiteSpace(Model.Search))
+                                    {
+                                        <input type="hidden" name="search" value="@Model.Search" />
+                                    }
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="bi bi-check2-all"></i>
+                                        Оплачено полностью
+                                    </button>
+                                </form>
+                            }
+                        </div>
+                    </article>
+                }
             </div>
         }
-    </div>
+    </section>
 </div>
