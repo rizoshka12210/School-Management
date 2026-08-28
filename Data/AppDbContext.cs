@@ -23,7 +23,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
     public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
-    public DbSet<StudentPayment> StudentPayments => Set<StudentPayment>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -145,23 +144,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(l => l.Grades)
             .HasForeignKey(g => g.LessonId)
             .OnDelete(DeleteBehavior.SetNull);
-
-        builder.Entity<StudentPayment>()
-            .HasOne(p => p.Student)
-            .WithMany(s => s.Payments)
-            .HasForeignKey(p => p.StudentId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        builder.Entity<StudentPayment>()
-            .HasIndex(p => new { p.StudentId, p.Year, p.Month })
-            .IsUnique();
-
-        builder.Entity<StudentPayment>()
-            .Property(p => p.ExpectedAmount)
-            .HasPrecision(12, 2);
-
-        builder.Entity<StudentPayment>()
-            .Property(p => p.PaidAmount)
-            .HasPrecision(12, 2);
     }
 }
