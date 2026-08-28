@@ -58,16 +58,7 @@ public class AccountingController : Controller
             .ThenBy(s => s.LastName)
             .ToListAsync();
 
-        var studentIds = students.Select(s => s.Id).ToList();
-        var payments = studentIds.Count == 0
-            ? new List<StudentPayment>()
-            : await _context.StudentPayments
-                .Where(p =>
-                    p.Year == selectedYear &&
-                    p.Month == selectedMonth &&
-                    studentIds.Contains(p.StudentId))
-                .ToListAsync();
-
+        var payments = await LoadPaymentsAsync(selectedYear, selectedMonth);
         var paymentsByStudent = payments.ToDictionary(p => p.StudentId);
         var allRows = new List<StudentAccountingRowViewModel>();
 
@@ -150,40 +141,39 @@ public class AccountingController : Controller
             return NotFound();
         }
 
-        var payment = await _context.StudentPayments.FirstOrDefaultAsync(p =>
-            p.StudentId == studentId && p.Year == year && p.Month == month);
+        var existing = await LoadPaymentAsync(studentId, year, month);
+        var now = DateTime.UtcNow;
+        var normalizedNote = string.IsNullOrWhiteSpace(note) ? null : note.Trim();
 
-        if (payment == null)
-        {
-            payment = new StudentPayment
-            {
-                StudentId = studentId,
-                Year = year,
-                Month = month,
-                CreatedAt = DateTime.UtcNow
-            };
-            _context.StudentPayments.Add(payment);
-        }
-
-        payment.ExpectedAmount = expectedAmount;
-        payment.PaidAmount = paidAmount;
-        payment.Note = string.IsNullOrWhiteSpace(note) ? null : note.Trim();
-        payment.UpdatedAt = DateTime.UtcNow;
-
+        DateTime? paidAtUtc;
         if (paidAmount <= 0)
         {
-            payment.PaidAt = null;
+            paidAtUtc = null;
         }
         else if (paidAt.HasValue)
         {
-            payment.PaidAt = DateTime.SpecifyKind(paidAt.Value.Date, DateTimeKind.Utc);
+            paidAtUtc = DateTime.SpecifyKind(paidAt.Value.Date, DateTimeKind.Utc);
         }
         else
         {
-            payment.PaidAt ??= DateTime.UtcNow;
+            paidAtUtc = existing?.PaidAt ?? now;
         }
 
-        await _context.SaveChangesAsync();
+        var createdAt = existing?.CreatedAt ?? now;
+
+        await _context.Database.ExecuteSqlInterpolatedAsync($"""
+            INSERT INTO "StudentPayments"
+                ("StudentId", "Year", "Month", "ExpectedAmount", "PaidAmount", "PaidAt", "Note", "CreatedAt", "UpdatedAt")
+            VALUES
+                ({studentId}, {year}, {month}, {expectedAmount}, {paidAmount}, {paidAtUtc}, {normalizedNote}, {createdAt}, {now})
+            ON CONFLICT ("StudentId", "Year", "Month")
+            DO UPDATE SET
+                "ExpectedAmount" = EXCLUDED."ExpectedAmount",
+                "PaidAmount" = EXCLUDED."PaidAmount",
+                "PaidAt" = EXCLUDED."PaidAt",
+                "Note" = EXCLUDED."Note",
+                "UpdatedAt" = EXCLUDED."UpdatedAt";
+            """);
 
         TempData["Success"] = "Оплата ученика сохранена.";
         return RedirectToIndex(year, month, groupId, status, search);
@@ -204,20 +194,26 @@ public class AccountingController : Controller
             return BadRequest();
         }
 
-        var payment = await _context.StudentPayments.FirstOrDefaultAsync(p =>
-            p.StudentId == studentId && p.Year == year && p.Month == month);
-
+        var payment = await LoadPaymentAsync(studentId, year, month);
         if (payment == null || payment.ExpectedAmount <= 0)
         {
             TempData["Error"] = "Сначала установите сумму к оплате для этого ученика.";
             return RedirectToIndex(year, month, groupId, status, search);
         }
 
-        payment.PaidAmount = payment.ExpectedAmount;
-        payment.PaidAt = DateTime.UtcNow;
-        payment.UpdatedAt = DateTime.UtcNow;
+        var now = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
+        await _context.Database.ExecuteSqlInterpolatedAsync($"""
+            UPDATE "StudentPayments"
+            SET
+                "PaidAmount" = "ExpectedAmount",
+                "PaidAt" = {now},
+                "UpdatedAt" = {now}
+            WHERE
+                "StudentId" = {studentId}
+                AND "Year" = {year}
+                AND "Month" = {month};
+            """);
 
         TempData["Success"] = "Ученик отмечен как полностью оплативший.";
         return RedirectToIndex(year, month, groupId, status, search);
@@ -243,45 +239,97 @@ public class AccountingController : Controller
             studentQuery = studentQuery.Where(s => s.GroupId == groupId.Value);
         }
 
-        var studentIds = await studentQuery.Select(s => s.Id).ToListAsync();
-        if (studentIds.Count == 0)
+        var studentCount = await studentQuery.CountAsync();
+        if (studentCount == 0)
         {
             TempData["Error"] = "Для выбранного фильтра ученики не найдены.";
             return RedirectToIndex(year, month, groupId, null, null);
         }
 
-        var existing = await _context.StudentPayments
-            .Where(p =>
-                p.Year == year &&
-                p.Month == month &&
-                studentIds.Contains(p.StudentId))
-            .ToDictionaryAsync(p => p.StudentId);
+        var now = DateTime.UtcNow;
 
-        foreach (var studentId in studentIds)
+        if (groupId.HasValue)
         {
-            if (!existing.TryGetValue(studentId, out var payment))
-            {
-                payment = new StudentPayment
-                {
-                    StudentId = studentId,
-                    Year = year,
-                    Month = month,
-                    CreatedAt = DateTime.UtcNow
-                };
-                _context.StudentPayments.Add(payment);
-            }
-
-            payment.ExpectedAmount = amount;
-            payment.UpdatedAt = DateTime.UtcNow;
+            await _context.Database.ExecuteSqlInterpolatedAsync($"""
+                INSERT INTO "StudentPayments"
+                    ("StudentId", "Year", "Month", "ExpectedAmount", "PaidAmount", "PaidAt", "Note", "CreatedAt", "UpdatedAt")
+                SELECT
+                    s."Id", {year}, {month}, {amount}, 0, NULL, NULL, {now}, {now}
+                FROM "Students" AS s
+                WHERE s."GroupId" = {groupId.Value}
+                ON CONFLICT ("StudentId", "Year", "Month")
+                DO UPDATE SET
+                    "ExpectedAmount" = EXCLUDED."ExpectedAmount",
+                    "UpdatedAt" = EXCLUDED."UpdatedAt";
+                """);
         }
-
-        await _context.SaveChangesAsync();
+        else
+        {
+            await _context.Database.ExecuteSqlInterpolatedAsync($"""
+                INSERT INTO "StudentPayments"
+                    ("StudentId", "Year", "Month", "ExpectedAmount", "PaidAmount", "PaidAt", "Note", "CreatedAt", "UpdatedAt")
+                SELECT
+                    s."Id", {year}, {month}, {amount}, 0, NULL, NULL, {now}, {now}
+                FROM "Students" AS s
+                ON CONFLICT ("StudentId", "Year", "Month")
+                DO UPDATE SET
+                    "ExpectedAmount" = EXCLUDED."ExpectedAmount",
+                    "UpdatedAt" = EXCLUDED."UpdatedAt";
+                """);
+        }
 
         TempData["Success"] = groupId.HasValue
             ? "Месячная сумма установлена для выбранной группы."
             : "Месячная сумма установлена для всех учеников.";
 
         return RedirectToIndex(year, month, groupId, null, null);
+    }
+
+    private async Task<List<StudentPayment>> LoadPaymentsAsync(int year, int month)
+    {
+        return await _context.Database
+            .SqlQuery<StudentPayment>($"""
+                SELECT
+                    "Id",
+                    "StudentId",
+                    "Year",
+                    "Month",
+                    "ExpectedAmount",
+                    "PaidAmount",
+                    "PaidAt",
+                    "Note",
+                    "CreatedAt",
+                    "UpdatedAt"
+                FROM "StudentPayments"
+                WHERE "Year" = {year} AND "Month" = {month}
+                """)
+            .ToListAsync();
+    }
+
+    private async Task<StudentPayment?> LoadPaymentAsync(int studentId, int year, int month)
+    {
+        var payments = await _context.Database
+            .SqlQuery<StudentPayment>($"""
+                SELECT
+                    "Id",
+                    "StudentId",
+                    "Year",
+                    "Month",
+                    "ExpectedAmount",
+                    "PaidAmount",
+                    "PaidAt",
+                    "Note",
+                    "CreatedAt",
+                    "UpdatedAt"
+                FROM "StudentPayments"
+                WHERE
+                    "StudentId" = {studentId}
+                    AND "Year" = {year}
+                    AND "Month" = {month}
+                """)
+            .ToListAsync();
+
+        return payments.FirstOrDefault();
     }
 
     private IActionResult RedirectToIndex(
