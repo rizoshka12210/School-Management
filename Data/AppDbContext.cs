@@ -23,17 +23,16 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
     public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
+    public DbSet<StudentPayment> StudentPayments => Set<StudentPayment>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
-
         builder.Entity<Parent>()
             .HasMany(p => p.Students)
             .WithMany(s => s.Parents)
             .UsingEntity(j => j.ToTable("ParentStudents"));
-
 
         builder.Entity<Teacher>()
             .HasMany(t => t.Groups)
@@ -44,7 +43,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasMany(t => t.Subjects)
             .WithMany(s => s.Teachers)
             .UsingEntity(j => j.ToTable("TeacherSubjects"));
-
 
         builder.Entity<Student>()
             .HasOne(s => s.Group)
@@ -108,7 +106,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(s => s.SubjectId)
             .OnDelete(DeleteBehavior.Restrict);
 
-
         builder.Entity<Attendance>()
             .HasOne(a => a.Student)
             .WithMany(s => s.Attendances)
@@ -124,7 +121,6 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Attendance>()
             .HasIndex(a => new { a.StudentId, a.LessonId })
             .IsUnique();
-
 
         builder.Entity<Grade>()
             .HasOne(g => g.Student)
@@ -149,5 +145,23 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(l => l.Grades)
             .HasForeignKey(g => g.LessonId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<StudentPayment>()
+            .HasOne(p => p.Student)
+            .WithMany(s => s.Payments)
+            .HasForeignKey(p => p.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<StudentPayment>()
+            .HasIndex(p => new { p.StudentId, p.Year, p.Month })
+            .IsUnique();
+
+        builder.Entity<StudentPayment>()
+            .Property(p => p.ExpectedAmount)
+            .HasPrecision(12, 2);
+
+        builder.Entity<StudentPayment>()
+            .Property(p => p.PaidAmount)
+            .HasPrecision(12, 2);
     }
 }
