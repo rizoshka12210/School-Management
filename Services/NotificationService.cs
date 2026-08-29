@@ -264,6 +264,28 @@ public class NotificationService
             FingerprintKey = $"parent:student-deleted:{s.Id}:{s.DeletedAt:O}"
         }));
 
+        // Admin-scheduled requests for this parent to come to school -
+        // the one kind of notification that isn't computed from existing
+        // data, since an admin authored it directly (see ParentSummon).
+        var summons = await _context.ParentSummons
+            .Where(s => s.ParentId == parent.Id)
+            .OrderByDescending(s => s.ScheduledAt)
+            .Take(3)
+            .ToListAsync();
+
+        items.AddRange(summons.Select(s => new NotificationItemViewModel
+        {
+            Icon = "🏫",
+            Title = "You have been summoned to school",
+            Message = string.IsNullOrWhiteSpace(s.Message)
+                ? _localizer["Please come to school on {0}.", s.ScheduledAt.ToLocalTime().ToString("g")].Value
+                : _localizer["Please come to school on {0}. {1}", s.ScheduledAt.ToLocalTime().ToString("g"), s.Message].Value,
+            Url = "/Parent",
+            OccurredAt = s.CreatedAt,
+            Kind = s.ScheduledAt >= DateTime.UtcNow ? "warning" : "info",
+            FingerprintKey = $"parent:summon:{s.Id}:{s.ScheduledAt:O}"
+        }));
+
         if (!parent.Students.Any())
         {
             return items

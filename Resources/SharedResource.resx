@@ -2221,4 +2221,46 @@
   <data name="You have read-only access to this section." xml:space="preserve">
     <value>You have read-only access to this section.</value>
   </data>
+  <data name="Summon Parent" xml:space="preserve">
+    <value>Summon Parent</value>
+  </data>
+  <data name="Ask {0} to come to school at a specific time." xml:space="preserve">
+    <value>Ask {0} to come to school at a specific time.</value>
+  </data>
+  <data name="Date and time" xml:space="preserve">
+    <value>Date and time</value>
+  </data>
+  <data name="Message (optional)" xml:space="preserve">
+    <value>Message (optional)</value>
+  </data>
+  <data name="Example: Discuss attendance" xml:space="preserve">
+    <value>Example: Discuss attendance</value>
+  </data>
+  <data name="Summon" xml:space="preserve">
+    <value>Summon</value>
+  </data>
+  <data name="The scheduled time must be in the future." xml:space="preserve">
+    <value>The scheduled time must be in the future.</value>
+  </data>
+  <data name="Parent summoned successfully." xml:space="preserve">
+    <value>Parent summoned successfully.</value>
+  </data>
+  <data name="Scheduled visits" xml:space="preserve">
+    <value>Scheduled visits</value>
+  </data>
+  <data name="No message" xml:space="preserve">
+    <value>No message</value>
+  </data>
+  <data name="No scheduled visits." xml:space="preserve">
+    <value>No scheduled visits.</value>
+  </data>
+  <data name="You have been summoned to school" xml:space="preserve">
+    <value>You have been summoned to school</value>
+  </data>
+  <data name="Please come to school on {0}." xml:space="preserve">
+    <value>Please come to school on {0}.</value>
+  </data>
+  <data name="Please come to school on {0}. {1}" xml:space="preserve">
+    <value>Please come to school on {0}. {1}</value>
+  </data>
 </root>

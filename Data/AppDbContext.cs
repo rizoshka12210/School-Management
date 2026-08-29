@@ -23,6 +23,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
     public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
+    public DbSet<ParentSummon> ParentSummons => Set<ParentSummon>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -64,6 +65,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<Parent>()
             .HasIndex(p => p.ApplicationUserId)
             .IsUnique();
+
+        builder.Entity<ParentSummon>()
+            .HasOne(s => s.Parent)
+            .WithMany()
+            .HasForeignKey(s => s.ParentId)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Teacher>()
             .HasOne(t => t.ApplicationUser)

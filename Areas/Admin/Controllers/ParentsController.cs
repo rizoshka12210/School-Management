@@ -6,7 +6,9 @@ using Microsoft.Extensions.Localization;
 using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
+using SchoolManagementSystem.Web.Models.Entities;
 using SchoolManagementSystem.Web.Models.Identity;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Admin;
 
 using ParentEntity =
@@ -21,15 +23,18 @@ public class ParentsController : Controller
     private readonly AppDbContext _context;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ActivityLogService _activityLog;
 
     public ParentsController(
         AppDbContext context,
         UserManager<ApplicationUser> userManager,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        ActivityLogService activityLog)
     {
         _context = context;
         _userManager = userManager;
         _localizer = localizer;
+        _activityLog = activityLog;
     }
 
     public async Task<IActionResult> Index(string? search)
@@ -72,7 +77,81 @@ public class ParentsController : Controller
             return NotFound();
         }
 
+        ViewBag.Summons = await _context.ParentSummons
+            .Where(s => s.ParentId == id)
+            .OrderByDescending(s => s.ScheduledAt)
+            .Take(10)
+            .ToListAsync();
+
         return View(parent);
+    }
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Summon(int id)
+    {
+        var parent = await _context.Parents
+            .Include(p => p.ApplicationUser)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+        if (parent == null)
+        {
+            return NotFound();
+        }
+
+        return View(new ParentSummonFormViewModel
+        {
+            ParentId = parent.Id,
+            ParentName = parent.ApplicationUser.FullName
+        });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Summon(ParentSummonFormViewModel model)
+    {
+        var parent = await _context.Parents
+            .Include(p => p.ApplicationUser)
+            .FirstOrDefaultAsync(p => p.Id == model.ParentId);
+
+        if (parent == null)
+        {
+            return NotFound();
+        }
+
+        if (model.ScheduledAt <= DateTime.Now)
+        {
+            ModelState.AddModelError(
+                nameof(model.ScheduledAt),
+                _localizer["The scheduled time must be in the future."].Value);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            model.ParentName = parent.ApplicationUser.FullName;
+            return View(model);
+        }
+
+        var summon = new ParentSummon
+        {
+            ParentId = parent.Id,
+            ScheduledAt = DateTime.SpecifyKind(model.ScheduledAt, DateTimeKind.Utc),
+            Message = string.IsNullOrWhiteSpace(model.Message)
+                ? null
+                : model.Message.Trim()
+        };
+
+        _context.ParentSummons.Add(summon);
+        await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync(
+            $"Admin summoned parent \"{parent.ApplicationUser.FullName}\" for {summon.ScheduledAt:g}");
+
+        TempData["Success"] =
+            _localizer["Parent summoned successfully."].Value;
+
+        return RedirectToAction(nameof(Details), new { id = parent.Id });
     }
 
     [HttpGet]
