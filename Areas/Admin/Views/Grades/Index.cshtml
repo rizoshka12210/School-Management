@@ -264,23 +264,26 @@
 
                                 <td class="text-end">
 
-                                    <div class="action-buttons">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="action-buttons">
 
-                                        <a asp-action="Edit"
-                                           asp-route-id="@grade.Id"
-                                           class="action-btn action-edit"
-                                           title="@Localizer["Edit"]">
-                                            @Localizer["Edit"]
-                                        </a>
+                                            <a asp-action="Edit"
+                                               asp-route-id="@grade.Id"
+                                               class="action-btn action-edit"
+                                               title="@Localizer["Edit"]">
+                                                @Localizer["Edit"]
+                                            </a>
 
-                                        <a asp-action="Delete"
-                                           asp-route-id="@grade.Id"
-                                           class="action-btn action-delete"
-                                           title="@Localizer["Delete"]">
-                                            @Localizer["Delete"]
-                                        </a>
+                                            <a asp-action="Delete"
+                                               asp-route-id="@grade.Id"
+                                               class="action-btn action-delete"
+                                               title="@Localizer["Delete"]">
+                                                @Localizer["Delete"]
+                                            </a>
 
-                                    </div>
+                                        </div>
+                                    }
 
                                 </td>
 

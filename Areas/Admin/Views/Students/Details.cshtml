@@ -21,7 +21,10 @@
     </div>
 
     <div class="d-flex gap-2">
-        <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-primary">@Localizer["Edit profile"]</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-primary">@Localizer["Edit profile"]</a>
+        }
         <a asp-action="Index" class="btn btn-light">@Localizer["Back"]</a>
     </div>
 </div>

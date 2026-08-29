@@ -25,7 +25,10 @@
         <h1 class="page-title">@Localizer["Interactive Weekly Schedule"]</h1>
         <p class="page-subtitle">@Localizer["Visual timetable with teacher, group and subject cards."]</p>
     </div>
-    <a asp-action="Create" class="btn btn-primary">+ @Localizer["Add Schedule"]</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create" class="btn btn-primary">+ @Localizer["Add Schedule"]</a>
+    }
 </div>
 
 <div class="card border-0 shadow-sm mb-4">
@@ -76,7 +79,10 @@
             <div class="management-empty-icon">SC</div>
             <h5>@Localizer["No schedule entries found"]</h5>
             <p>@Localizer["Create a schedule entry or change the filters."]</p>
-            <a asp-action="Create" class="btn btn-primary">+ @Localizer["Add Schedule"]</a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Create" class="btn btn-primary">+ @Localizer["Add Schedule"]</a>
+            }
         </div>
     </div>
 }

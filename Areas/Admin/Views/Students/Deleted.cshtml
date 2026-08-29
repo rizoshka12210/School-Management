@@ -112,12 +112,15 @@
                                 </td>
 
                                 <td class="text-end">
-                                    <form asp-action="Restore" asp-route-id="@student.Id" method="post" class="d-inline">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="action-btn action-edit">
-                                            <i class="bi bi-arrow-counterclockwise me-1"></i> @Localizer["Restore"]
-                                        </button>
-                                    </form>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <form asp-action="Restore" asp-route-id="@student.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="action-btn action-edit">
+                                                <i class="bi bi-arrow-counterclockwise me-1"></i> @Localizer["Restore"]
+                                            </button>
+                                        </form>
+                                    }
                                 </td>
 
                             </tr>

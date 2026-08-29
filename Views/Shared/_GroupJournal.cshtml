@@ -5,6 +5,7 @@
     var isRussian = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ru";
     var area = ViewContext.RouteData.Values["area"]?.ToString();
     var isTeacher = string.Equals(area, "Teacher", StringComparison.OrdinalIgnoreCase);
+    var canEdit = isTeacher || User.IsInRole("Admin");
     string T(string english, string russian) => isRussian ? russian : Localizer[english].Value;
 
     ViewData["Title"] = $"{T("Journal", "Журнал")} · {Model.GroupName}";
@@ -216,7 +217,8 @@
 
                                                     <select name="Entries[@currentIndex].AttendanceStatus"
                                                             class="journal-select journal-attendance-select @AttendanceClass(cell.AttendanceStatus)"
-                                                            aria-label="@Localizer["Attendance"]">
+                                                            aria-label="@Localizer["Attendance"]"
+                                                            disabled="@(!canEdit ? "disabled" : null)">
                                                         <option value="" selected="@(!cell.AttendanceStatus.HasValue ? "selected" : null)">—</option>
                                                         <option value="@((int)AttendanceStatus.Present)" selected="@(cell.AttendanceStatus == AttendanceStatus.Present ? "selected" : null)">✓</option>
                                                         <option value="@((int)AttendanceStatus.Absent)" selected="@(cell.AttendanceStatus == AttendanceStatus.Absent ? "selected" : null)">✕</option>
@@ -228,7 +230,8 @@
                                                 <td>
                                                     <select name="Entries[@currentIndex].GradeValue"
                                                             class="journal-select journal-grade-select @GradeClass(cell.GradeValue)"
-                                                            aria-label="@Localizer["Grade"]">
+                                                            aria-label="@Localizer["Grade"]"
+                                                            disabled="@(!canEdit ? "disabled" : null)">
                                                         <option value="" selected="@(!cell.GradeValue.HasValue ? "selected" : null)">—</option>
                                                         @for (var grade = 5; grade >= 1; grade--)
                                                         {
@@ -255,20 +258,23 @@
                 }
             </div>
 
-            <div class="journal-save-bar" id="journalSaveBar">
-                <div class="journal-save-copy">
-                    <strong>
-                        <span class="journal-unsaved-dot"></span>
-                        <span id="journalSaveTitle">@T("Journal is ready", "Журнал готов")</span>
-                    </strong>
-                    <span id="journalSaveHint">@T("Change attendance or a grade, then save all changes at once.", "Измените посещаемость или оценку, затем сохраните все изменения одной кнопкой.")</span>
-                </div>
+            @if (canEdit)
+            {
+                <div class="journal-save-bar" id="journalSaveBar">
+                    <div class="journal-save-copy">
+                        <strong>
+                            <span class="journal-unsaved-dot"></span>
+                            <span id="journalSaveTitle">@T("Journal is ready", "Журнал готов")</span>
+                        </strong>
+                        <span id="journalSaveHint">@T("Change attendance or a grade, then save all changes at once.", "Измените посещаемость или оценку, затем сохраните все изменения одной кнопкой.")</span>
+                    </div>
 
-                <button type="submit" class="btn btn-primary journal-save-button">
-                    <i class="bi bi-check2-circle"></i>
-                    @T("Save journal", "Сохранить журнал")
-                </button>
-            </div>
+                    <button type="submit" class="btn btn-primary journal-save-button">
+                        <i class="bi bi-check2-circle"></i>
+                        @T("Save journal", "Сохранить журнал")
+                    </button>
+                </div>
+            }
         </form>
     }
 </div>

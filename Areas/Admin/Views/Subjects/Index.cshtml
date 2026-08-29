@@ -16,10 +16,13 @@
         </p>
     </div>
 
-    <a asp-action="Create"
-       class="btn btn-primary">
-        + @Localizer["Add Subject"]
-    </a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create"
+           class="btn btn-primary">
+            + @Localizer["Add Subject"]
+        </a>
+    }
 
 </div>
 
@@ -73,10 +76,13 @@
                     @Localizer["Create a subject to get started."]
                 </p>
 
-                <a asp-action="Create"
-                   class="btn btn-primary">
-                    + @Localizer["Add Subject"]
-                </a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Create"
+                       class="btn btn-primary">
+                        + @Localizer["Add Subject"]
+                    </a>
+                }
 
             </div>
         }
@@ -156,21 +162,24 @@
 
                                 <td class="text-end">
 
-                                    <div class="action-buttons">
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="action-buttons">
 
-                                        <a asp-action="Edit"
-                                           asp-route-id="@subject.Id"
-                                           class="action-btn action-edit">
-                                            @Localizer["Edit"]
-                                        </a>
+                                            <a asp-action="Edit"
+                                               asp-route-id="@subject.Id"
+                                               class="action-btn action-edit">
+                                                @Localizer["Edit"]
+                                            </a>
 
-                                        <a asp-action="Delete"
-                                           asp-route-id="@subject.Id"
-                                           class="action-btn action-delete">
-                                            @Localizer["Delete"]
-                                        </a>
+                                            <a asp-action="Delete"
+                                               asp-route-id="@subject.Id"
+                                               class="action-btn action-delete">
+                                                @Localizer["Delete"]
+                                            </a>
 
-                                    </div>
+                                        </div>
+                                    }
 
                                 </td>
 

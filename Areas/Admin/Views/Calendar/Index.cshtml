@@ -22,7 +22,10 @@
         <p class="page-subtitle">@Localizer["Admin creates events, everyone else can view them"]</p>
     </div>
 
-    <a class="btn btn-primary" asp-action="Create">+ @Localizer["Add Event"]</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <a class="btn btn-primary" asp-action="Create">+ @Localizer["Add Event"]</a>
+    }
 </div>
 
 <div class="calendar-month-nav">

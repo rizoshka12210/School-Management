@@ -202,22 +202,25 @@
                     </p>
                 </div>
             </div>
-            <form asp-action="SetMonthlyFee" method="post" class="accounting-fee-form">
-                <input type="hidden" name="year" value="@Model.Year" />
-                <input type="hidden" name="month" value="@Model.Month" />
-                @if (Model.GroupId.HasValue)
-                {
-                    <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
-                }
-                <div class="accounting-input-icon">
-                    <i class="bi bi-cash-stack"></i>
-                    <input type="number" name="amount" min="0" step="0.01" class="form-control" placeholder="@Localizer["Amount"]" required />
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    <i class="bi bi-plus-circle"></i>
-                    @Localizer["Assign to all"]
-                </button>
-            </form>
+            @if (User.IsInRole("Admin"))
+            {
+                <form asp-action="SetMonthlyFee" method="post" class="accounting-fee-form">
+                    <input type="hidden" name="year" value="@Model.Year" />
+                    <input type="hidden" name="month" value="@Model.Month" />
+                    @if (Model.GroupId.HasValue)
+                    {
+                        <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
+                    }
+                    <div class="accounting-input-icon">
+                        <i class="bi bi-cash-stack"></i>
+                        <input type="number" name="amount" min="0" step="0.01" class="form-control" placeholder="@Localizer["Amount"]" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-plus-circle"></i>
+                        @Localizer["Assign to all"]
+                    </button>
+                </form>
+            }
         </div>
     </section>
 
@@ -279,51 +282,33 @@
                                 <label>@Localizer["Charged"]</label>
                                 <input form="@formId" type="number" name="expectedAmount" min="0" step="0.01"
                                        value="@row.ExpectedAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
-                                       class="form-control" />
+                                       class="form-control"
+                                       disabled="@(!User.IsInRole("Admin") ? "disabled" : null)" />
                             </div>
                             <div class="accounting-field">
                                 <label>@Localizer["Paid"]</label>
                                 <input form="@formId" type="number" name="paidAmount" min="0" step="0.01"
                                        value="@row.PaidAmount.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture)"
-                                       class="form-control" />
+                                       class="form-control"
+                                       disabled="@(!User.IsInRole("Admin") ? "disabled" : null)" />
                             </div>
                             <div class="accounting-field">
                                 <label>@Localizer["Payment Date"]</label>
-                                <input form="@formId" type="date" name="paidAt" value="@(row.PaidAt?.ToString("yyyy-MM-dd"))" class="form-control" />
+                                <input form="@formId" type="date" name="paidAt" value="@(row.PaidAt?.ToString("yyyy-MM-dd"))" class="form-control"
+                                       disabled="@(!User.IsInRole("Admin") ? "disabled" : null)" />
                             </div>
                             <div class="accounting-field accounting-note-field">
                                 <label>@Localizer["Comment"]</label>
                                 <input form="@formId" type="text" name="note" value="@row.Note" maxlength="500"
-                                       class="form-control" placeholder="@Localizer["e.g. cash"]" />
+                                       class="form-control" placeholder="@Localizer["e.g. cash"]"
+                                       disabled="@(!User.IsInRole("Admin") ? "disabled" : null)" />
                             </div>
                         </div>
 
                         <div class="accounting-payment-actions">
-                            <form id="@formId" asp-action="Update" method="post">
-                                <input type="hidden" name="studentId" value="@row.StudentId" />
-                                <input type="hidden" name="year" value="@Model.Year" />
-                                <input type="hidden" name="month" value="@Model.Month" />
-                                @if (Model.GroupId.HasValue)
-                                {
-                                    <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
-                                }
-                                @if (!string.IsNullOrWhiteSpace(Model.Status))
-                                {
-                                    <input type="hidden" name="status" value="@Model.Status" />
-                                }
-                                @if (!string.IsNullOrWhiteSpace(Model.Search))
-                                {
-                                    <input type="hidden" name="search" value="@Model.Search" />
-                                }
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="bi bi-floppy"></i>
-                                    @Localizer["Save"]
-                                </button>
-                            </form>
-
-                            @if (row.ExpectedAmount > 0 && row.PaidAmount < row.ExpectedAmount)
+                            @if (User.IsInRole("Admin"))
                             {
-                                <form asp-action="MarkPaid" method="post">
+                                <form id="@formId" asp-action="Update" method="post">
                                     <input type="hidden" name="studentId" value="@row.StudentId" />
                                     <input type="hidden" name="year" value="@Model.Year" />
                                     <input type="hidden" name="month" value="@Model.Month" />
@@ -339,13 +324,38 @@
                                     {
                                         <input type="hidden" name="search" value="@Model.Search" />
                                     }
-                                    <button type="submit"
-                                            class="btn btn-outline-success accounting-mark-paid-btn"
-                                            title="@Localizer["Mark this student as fully paid"]">
-                                        <i class="bi bi-check-circle-fill"></i>
-                                        @Localizer["Paid in full"]
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-floppy"></i>
+                                        @Localizer["Save"]
                                     </button>
                                 </form>
+
+                                @if (row.ExpectedAmount > 0 && row.PaidAmount < row.ExpectedAmount)
+                                {
+                                    <form asp-action="MarkPaid" method="post">
+                                        <input type="hidden" name="studentId" value="@row.StudentId" />
+                                        <input type="hidden" name="year" value="@Model.Year" />
+                                        <input type="hidden" name="month" value="@Model.Month" />
+                                        @if (Model.GroupId.HasValue)
+                                        {
+                                            <input type="hidden" name="groupId" value="@Model.GroupId.Value" />
+                                        }
+                                        @if (!string.IsNullOrWhiteSpace(Model.Status))
+                                        {
+                                            <input type="hidden" name="status" value="@Model.Status" />
+                                        }
+                                        @if (!string.IsNullOrWhiteSpace(Model.Search))
+                                        {
+                                            <input type="hidden" name="search" value="@Model.Search" />
+                                        }
+                                        <button type="submit"
+                                                class="btn btn-outline-success accounting-mark-paid-btn"
+                                                title="@Localizer["Mark this student as fully paid"]">
+                                            <i class="bi bi-check-circle-fill"></i>
+                                            @Localizer["Paid in full"]
+                                        </button>
+                                    </form>
+                                }
                             }
                         </div>
                     </article>

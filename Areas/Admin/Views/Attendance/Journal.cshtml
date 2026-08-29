@@ -204,7 +204,7 @@
                                 {
                                     <td class="journal-cell">
 
-                                        @if (cell.AttendanceId.HasValue)
+                                        @if (cell.AttendanceId.HasValue && User.IsInRole("Admin"))
                                         {
                                             <a asp-action="Edit"
                                                asp-route-id="@cell.AttendanceId"
@@ -215,7 +215,7 @@
                                         }
                                         else
                                         {
-                                            <span class="status-badge journal-status-badge journal-cell-empty">
+                                            <span class="status-badge journal-status-badge @(cell.AttendanceId.HasValue ? StatusClass(cell.Status) : "journal-cell-empty")">
                                                 @StatusAbbr(cell.Status)
                                             </span>
                                         }

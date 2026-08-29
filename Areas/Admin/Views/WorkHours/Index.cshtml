@@ -136,25 +136,30 @@
                                 <td>
                                     <input form="@formId" type="time" name="startTime"
                                            value="@(lesson.StartTime.ToString("HH:mm"))"
-                                           class="form-control" required />
+                                           class="form-control" required
+                                           disabled="@(!User.IsInRole("Admin") ? "disabled" : null)" />
                                 </td>
                                 <td>
                                     <input form="@formId" type="time" name="endTime"
                                            value="@(lesson.EndTime.ToString("HH:mm"))"
-                                           class="form-control" required />
+                                           class="form-control" required
+                                           disabled="@(!User.IsInRole("Admin") ? "disabled" : null)" />
                                 </td>
                                 <td><strong>@hours.ToString("0.##")</strong> <span class="text-muted small">@Localizer["hours"]</span></td>
                                 <td class="text-end">
-                                    <form id="@formId" asp-action="Update" method="post" class="d-inline">
-                                        <input type="hidden" name="lessonId" value="@lesson.Id" />
-                                        <input type="hidden" name="year" value="@year" />
-                                        <input type="hidden" name="month" value="@month" />
-                                        @if (teacherId.HasValue)
-                                        {
-                                            <input type="hidden" name="teacherId" value="@teacherId.Value" />
-                                        }
-                                        <button type="submit" class="btn btn-primary btn-sm">@Localizer["Save"]</button>
-                                    </form>
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <form id="@formId" asp-action="Update" method="post" class="d-inline">
+                                            <input type="hidden" name="lessonId" value="@lesson.Id" />
+                                            <input type="hidden" name="year" value="@year" />
+                                            <input type="hidden" name="month" value="@month" />
+                                            @if (teacherId.HasValue)
+                                            {
+                                                <input type="hidden" name="teacherId" value="@teacherId.Value" />
+                                            }
+                                            <button type="submit" class="btn btn-primary btn-sm">@Localizer["Save"]</button>
+                                        </form>
+                                    }
                                 </td>
                             </tr>
                         }

@@ -58,7 +58,7 @@ public class CalendarController : Controller
         {
             Year = selectedYear,
             Month = selectedMonth,
-            CanManage = true,
+            CanManage = User.IsInRole(Roles.Admin),
             Events = events
         };
 
