@@ -14,6 +14,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@Localizer["Login"] - @Localizer["School Management"]</title>
+    <link rel="manifest" href="~/manifest.webmanifest" />
+    <meta name="theme-color" content="#111827" />
+    <link rel="apple-touch-icon" href="~/icons/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="School" />
 
     <script>
         (() => {
@@ -582,6 +588,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/js/pwa.js" asp-append-version="true"></script>
 <script>
     document.getElementById("loginBackBtn").onclick = () => history.back();
 </script>
