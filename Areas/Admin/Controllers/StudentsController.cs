@@ -12,7 +12,7 @@ using SchoolManagementSystem.Web.ViewModels.Admin;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class StudentsController : Controller
 {
     private readonly AppDbContext _context;
@@ -59,6 +59,12 @@ public class StudentsController : Controller
             .OrderBy(s => s.FirstName)
             .ThenBy(s => s.LastName)
             .ToListAsync();
+
+        ViewBag.ActiveCount = await _context.Students.CountAsync();
+        ViewBag.DeletedCount = await _context.Students
+            .IgnoreQueryFilters()
+            .CountAsync(s => s.IsDeleted);
+        ViewBag.TotalCount = ViewBag.ActiveCount + ViewBag.DeletedCount;
 
         return View(students);
     }
@@ -120,6 +126,7 @@ public class StudentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create()
     {
         await LoadFormDataAsync();
@@ -134,6 +141,7 @@ public class StudentsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create(StudentFormViewModel model)
     {
         if (!ModelState.IsValid)
@@ -176,6 +184,7 @@ public class StudentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var student = await _context.Students
@@ -203,6 +212,7 @@ public class StudentsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(StudentFormViewModel model)
     {
         if (!ModelState.IsValid)
@@ -250,6 +260,7 @@ public class StudentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var student = await _context.Students
@@ -269,6 +280,7 @@ public class StudentsController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var student = await _context.Students
@@ -279,13 +291,59 @@ public class StudentsController : Controller
             return NotFound();
         }
 
-        _context.Students.Remove(student);
+        // Soft delete: the student's grades, attendance and comments stay
+        // in the database and out of the active lists, and their parent
+        // is told about it (computed from IsDeleted/DeletedAt, same as
+        // every other notification - nothing extra to send here).
+        student.IsDeleted = true;
+        student.DeletedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync($"Admin deleted student \"{student.FirstName} {student.LastName}\"");
 
         TempData["Success"] =
             _localizer["Student deleted successfully."].Value;
 
         return RedirectToAction(nameof(Index));
+    }
+
+    public async Task<IActionResult> Deleted()
+    {
+        var students = await _context.Students
+            .IgnoreQueryFilters()
+            .Where(s => s.IsDeleted)
+            .Include(s => s.Group)
+            .Include(s => s.Parents)
+                .ThenInclude(p => p.ApplicationUser)
+            .OrderByDescending(s => s.DeletedAt)
+            .ToListAsync();
+
+        return View(students);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Restore(int id)
+    {
+        var student = await _context.Students
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(s => s.Id == id && s.IsDeleted);
+
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        student.IsDeleted = false;
+        student.DeletedAt = null;
+        await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync($"Admin restored student \"{student.FirstName} {student.LastName}\"");
+
+        TempData["Success"] = _localizer["Student restored successfully."].Value;
+
+        return RedirectToAction(nameof(Deleted));
     }
 
     private async Task LoadFormDataAsync()

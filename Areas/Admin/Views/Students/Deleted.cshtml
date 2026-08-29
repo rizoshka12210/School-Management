@@ -1,0 +1,141 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Student>
+
+@{
+    ViewData["Title"] = Localizer["Deleted Students"];
+}
+
+<div class="page-header">
+
+    <div>
+        <h1 class="page-title">
+            @Localizer["Deleted Students"]
+        </h1>
+
+        <p class="page-subtitle">
+            @Localizer["Students removed from the school - their history is kept."]
+        </p>
+    </div>
+
+    <a asp-action="Index" class="btn btn-light">
+        <i class="bi bi-arrow-left me-1"></i> @Localizer["Students"]
+    </a>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon">
+                    ST
+                </div>
+
+                <h5>
+                    @Localizer["No deleted students."]
+                </h5>
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Student"]</th>
+                            <th>@Localizer["Group"]</th>
+                            <th>@Localizer["Parents"]</th>
+                            <th>@Localizer["Deleted On"]</th>
+                            <th class="text-end">@Localizer["Actions"]</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var student in Model)
+                        {
+                            <tr>
+
+                                <td>
+                                    <div class="person-cell">
+
+                                        <div class="person-avatar">
+                                            @student.FirstName.Substring(0, 1).ToUpper()
+                                        </div>
+
+                                        <div>
+                                            <div class="person-name">
+                                                @student.FirstName @student.LastName
+                                            </div>
+
+                                            <div class="person-id">
+                                                @Localizer["Student #{0}", student.Id]
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @if (student.Group != null)
+                                    {
+                                        <span class="group-badge">@student.Group.Name</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">@Localizer["No group"]</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @if (student.Parents.Any())
+                                    {
+                                        @foreach (var parent in student.Parents.Take(2))
+                                        {
+                                            <div class="small">@parent.ApplicationUser.FullName</div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">@Localizer["No parent assigned"]</span>
+                                    }
+                                </td>
+
+                                <td>
+                                    @(student.DeletedAt?.ToString("dd.MM.yyyy HH:mm") ?? "—")
+                                </td>
+
+                                <td class="text-end">
+                                    <form asp-action="Restore" asp-route-id="@student.Id" method="post" class="d-inline">
+                                        @Html.AntiForgeryToken()
+                                        <button type="submit" class="action-btn action-edit">
+                                            <i class="bi bi-arrow-counterclockwise me-1"></i> @Localizer["Restore"]
+                                        </button>
+                                    </form>
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="table-footer">
+                <span>
+                    @Localizer["Showing {0} student(s)", Model.Count()]
+                </span>
+            </div>
+        }
+
+    </div>
+
+</div>

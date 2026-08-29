@@ -2182,4 +2182,43 @@
   <data name="Accounting" xml:space="preserve">
     <value>Accounting</value>
   </data>
+  <data name="Student removed" xml:space="preserve">
+    <value>Student removed</value>
+  </data>
+  <data name="{0} has been removed from the school records." xml:space="preserve">
+    <value>{0} has been removed from the school records.</value>
+  </data>
+  <data name="Student restored successfully." xml:space="preserve">
+    <value>Student restored successfully.</value>
+  </data>
+  <data name="Deleted Students" xml:space="preserve">
+    <value>Deleted Students</value>
+  </data>
+  <data name="Students removed from the school - their history is kept." xml:space="preserve">
+    <value>Students removed from the school - their history is kept.</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="Restore" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="Deleted On" xml:space="preserve">
+    <value>Deleted On</value>
+  </data>
+  <data name="No deleted students." xml:space="preserve">
+    <value>No deleted students.</value>
+  </data>
+  <data name="Are you sure you want to delete this student? Their history will be kept and you can restore them later." xml:space="preserve">
+    <value>Are you sure you want to delete this student? Their history will be kept and you can restore them later.</value>
+  </data>
+  <data name="Director" xml:space="preserve">
+    <value>Director</value>
+  </data>
+  <data name="You have read-only access to this section." xml:space="preserve">
+    <value>You have read-only access to this section.</value>
+  </data>
 </root>

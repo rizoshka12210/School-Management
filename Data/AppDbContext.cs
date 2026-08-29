@@ -49,6 +49,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(s => s.GroupId)
             .OnDelete(DeleteBehavior.SetNull);
 
+        // Soft-deleted students stay in the database (grades, attendance
+        // and comments are kept) but are hidden from every normal query.
+        // Use _context.Students.IgnoreQueryFilters() to see them.
+        builder.Entity<Student>()
+            .HasQueryFilter(s => !s.IsDeleted);
+
         builder.Entity<Parent>()
             .HasOne(p => p.ApplicationUser)
             .WithOne()

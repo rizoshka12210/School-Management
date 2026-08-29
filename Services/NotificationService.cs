@@ -235,13 +235,44 @@ public class NotificationService
             .Include(p => p.Students)
             .FirstOrDefaultAsync(p => p.ApplicationUserId == userId);
 
-        if (parent == null || !parent.Students.Any())
+        if (parent == null)
         {
             return new();
         }
 
-        var studentIds = parent.Students.Select(s => s.Id).ToList();
         var items = new List<NotificationItemViewModel>();
+
+        // Soft-deleted children are hidden from parent.Students by the
+        // global query filter, so they're looked up separately here -
+        // this is the only place a parent finds out their child's
+        // record was removed.
+        var removedChildren = await _context.Students
+            .IgnoreQueryFilters()
+            .Where(s => s.IsDeleted && s.Parents.Any(p => p.Id == parent.Id))
+            .OrderByDescending(s => s.DeletedAt)
+            .Take(3)
+            .ToListAsync();
+
+        items.AddRange(removedChildren.Select(s => new NotificationItemViewModel
+        {
+            Icon = "🚫",
+            Title = "Student removed",
+            Message = _localizer["{0} has been removed from the school records.", $"{s.FirstName} {s.LastName}"].Value,
+            Url = "/Parent",
+            OccurredAt = s.DeletedAt,
+            Kind = "danger",
+            FingerprintKey = $"parent:student-deleted:{s.Id}:{s.DeletedAt:O}"
+        }));
+
+        if (!parent.Students.Any())
+        {
+            return items
+                .OrderByDescending(i => i.OccurredAt ?? DateTime.UtcNow)
+                .Take(take)
+                .ToList();
+        }
+
+        var studentIds = parent.Students.Select(s => s.Id).ToList();
 
         var grades = await _context.Grades
             .Where(g => studentIds.Contains(g.StudentId))

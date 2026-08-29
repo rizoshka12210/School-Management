@@ -21,7 +21,7 @@
            asp-controller="Accounting"
            asp-action="Index"
            class="btn btn-light">
-            <i class="bi bi-wallet2 me-1"></i> Бухгалтерия
+            <i class="bi bi-wallet2 me-1"></i> @Localizer["Accounting"]
         </a>
 
         <a asp-area="Admin"
@@ -34,6 +34,29 @@
 
 </div>
 
+<div class="analytics-grid mb-4">
+    <a asp-action="Index" class="analytics-card text-decoration-none text-reset">
+        <div class="analytics-icon"><i class="bi bi-people-fill"></i></div>
+        <div>
+            <span>@Localizer["Total"]</span>
+            <strong>@ViewBag.TotalCount</strong>
+        </div>
+    </a>
+    <a asp-action="Index" class="analytics-card text-decoration-none text-reset">
+        <div class="analytics-icon"><i class="bi bi-person-check-fill"></i></div>
+        <div>
+            <span>@Localizer["Active"]</span>
+            <strong>@ViewBag.ActiveCount</strong>
+        </div>
+    </a>
+    <a asp-action="Deleted" class="analytics-card analytics-danger text-decoration-none text-reset">
+        <div class="analytics-icon"><i class="bi bi-person-x-fill"></i></div>
+        <div>
+            <span>@Localizer["Deleted"]</span>
+            <strong>@ViewBag.DeletedCount</strong>
+        </div>
+    </a>
+</div>
 
 <div class="card border-0 shadow-sm">
 
