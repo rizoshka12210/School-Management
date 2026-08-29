@@ -1537,9 +1537,6 @@
   <data name="Attendance Journal" xml:space="preserve">
     <value>Журнали ҳозирӣ</value>
   </data>
-  <data name="Attendance Marked" xml:space="preserve">
-    <value>Ҳозирӣ қайд карда шуд</value>
-  </data>
   <data name="Attendance not marked" xml:space="preserve">
     <value>Ҳозирӣ қайд карда нашудааст</value>
   </data>
@@ -1843,9 +1840,6 @@
   <data name="Save Topic" xml:space="preserve">
     <value>Захираи мавзӯъ</value>
   </data>
-  <data name="School Group" xml:space="preserve">
-    <value>Гурӯҳи мактабӣ</value>
-  </data>
   <data name="School subjects" xml:space="preserve">
     <value>Фанҳои мактабӣ</value>
   </data>
@@ -2084,7 +2078,7 @@
     <value>Пардохт нашуд</value>
   </data>
   <data name="Fee not assigned" xml:space="preserve">
-    <value>Ҳаққи таълим таъин нашудааст</value>
+    <value>Таъин нашуд</value>
   </data>
   <data name="Charged" xml:space="preserve">
     <value>Ҳисоб шуд</value>
@@ -2141,9 +2135,48 @@
     <value>Ин хонандаро ҳамчун пурра пардохткарда қайд кунед</value>
   </data>
   <data name="Paid in full" xml:space="preserve">
-    <value>Ҳама пардохт кард</value>
+    <value>Пурра пардохт</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Захира кардан</value>
+  </data>
+  <data name="January" xml:space="preserve">
+    <value>Январ</value>
+  </data>
+  <data name="February" xml:space="preserve">
+    <value>Феврал</value>
+  </data>
+  <data name="March" xml:space="preserve">
+    <value>Март</value>
+  </data>
+  <data name="April" xml:space="preserve">
+    <value>Апрел</value>
+  </data>
+  <data name="May" xml:space="preserve">
+    <value>Май</value>
+  </data>
+  <data name="June" xml:space="preserve">
+    <value>Июн</value>
+  </data>
+  <data name="July" xml:space="preserve">
+    <value>Июл</value>
+  </data>
+  <data name="August" xml:space="preserve">
+    <value>Август</value>
+  </data>
+  <data name="September" xml:space="preserve">
+    <value>Сентябр</value>
+  </data>
+  <data name="October" xml:space="preserve">
+    <value>Октябр</value>
+  </data>
+  <data name="November" xml:space="preserve">
+    <value>Ноябр</value>
+  </data>
+  <data name="December" xml:space="preserve">
+    <value>Декабр</value>
+  </data>
+  <data name="Lessons With Attendance" xml:space="preserve">
+    <value>Ҳозирӣ қайд карда шуд</value>
   </data>
 </root>

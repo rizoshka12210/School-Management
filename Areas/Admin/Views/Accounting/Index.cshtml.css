@@ -227,9 +227,7 @@
 }
 
 .accounting-status-item span:not(.dot) {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
     color: var(--ui-muted);
 }
 
@@ -280,7 +278,7 @@
 
 .accounting-payment-card {
     display: grid;
-    grid-template-columns: minmax(210px,1.05fr) minmax(135px,.58fr) minmax(0,2.1fr) 128px;
+    grid-template-columns: minmax(210px,1.05fr) minmax(160px,.7fr) minmax(0,2.1fr) 128px;
     gap: 14px;
     align-items: center;
     min-width: 0;
@@ -352,11 +350,14 @@
     display: inline-flex;
     align-items: center;
     min-height: 28px;
+    max-width: 100%;
     padding: 5px 9px;
     border-radius: 8px;
     font-size: 11px;
     font-weight: 700;
-    white-space: nowrap;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
 }
 
 .accounting-status-paid { background: rgba(34,197,94,.14); color: #22c55e; }
@@ -414,6 +415,9 @@
     min-width: 0;
     padding: 8px 9px;
     font-size: 13px;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
 }
 
 .accounting-empty {
