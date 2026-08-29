@@ -2179,4 +2179,7 @@
   <data name="Lessons With Attendance" xml:space="preserve">
     <value>Ҳозирӣ қайд карда шуд</value>
   </data>
+  <data name="Accounting" xml:space="preserve">
+    <value>Баҳисобгирӣ</value>
+  </data>
 </root>

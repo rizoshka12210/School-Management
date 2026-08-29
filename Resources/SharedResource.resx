@@ -2179,4 +2179,7 @@
   <data name="Lessons With Attendance" xml:space="preserve">
     <value>Lessons With Attendance</value>
   </data>
+  <data name="Accounting" xml:space="preserve">
+    <value>Accounting</value>
+  </data>
 </root>

@@ -2179,4 +2179,7 @@
   <data name="Lessons With Attendance" xml:space="preserve">
     <value>Посещаемость отмечена</value>
   </data>
+  <data name="Accounting" xml:space="preserve">
+    <value>Бухгалтерия</value>
+  </data>
 </root>
