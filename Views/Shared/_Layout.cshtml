@@ -50,7 +50,7 @@
             <div><div class="brand-title">@Localizer["School"]</div><div class="brand-subtitle">@Localizer["Management"]</div></div>
         </div>
         <nav class="sidebar-nav">
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("Director"))
         {
             <div class="sidebar-section">@Localizer["NavSectionAdmin"]</div>
             <a class="sidebar-link @Active("Admin", "Dashboard")" asp-area="Admin" asp-controller="Dashboard" asp-action="Index"><i class="bi bi-grid-1x2-fill sidebar-link-icon"></i><span>@Localizer["Dashboard"]</span></a>
@@ -130,6 +130,7 @@
                     <span class="user-email">@User.Identity.Name</span>
                     <span class="user-role">
                         @if (User.IsInRole("Admin")) { <text>@Localizer["Administrator"]</text> }
+                        else if (User.IsInRole("Director")) { <text>@Localizer["Director"]</text> }
                         else if (User.IsInRole("Teacher")) { <text>@Localizer["Teacher"]</text> }
                         else if (User.IsInRole("Parent")) { <text>@Localizer["Parent"]</text> }
                     </span>

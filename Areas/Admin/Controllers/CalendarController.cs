@@ -12,7 +12,7 @@ using SchoolManagementSystem.Web.ViewModels.Shared;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class CalendarController : Controller
 {
     private readonly AppDbContext _context;
@@ -66,6 +66,7 @@ public class CalendarController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public IActionResult Create(DateTime? date)
     {
         var model = new CalendarEventFormViewModel
@@ -78,6 +79,7 @@ public class CalendarController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create(CalendarEventFormViewModel model)
     {
         if (!ModelState.IsValid)
@@ -107,6 +109,7 @@ public class CalendarController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var calendarEvent = await _context.CalendarEvents.FindAsync(id);
@@ -129,6 +132,7 @@ public class CalendarController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(CalendarEventFormViewModel model)
     {
         if (!ModelState.IsValid)
@@ -161,6 +165,7 @@ public class CalendarController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var calendarEvent = await _context.CalendarEvents.FindAsync(id);
@@ -176,6 +181,7 @@ public class CalendarController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var calendarEvent = await _context.CalendarEvents.FindAsync(id);

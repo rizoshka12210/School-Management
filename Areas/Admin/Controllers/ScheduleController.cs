@@ -12,7 +12,7 @@ using ScheduleEntity = SchoolManagementSystem.Web.Models.Entities.Schedule;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class ScheduleController : Controller
 {
     private readonly AppDbContext _context;
@@ -71,6 +71,7 @@ public class ScheduleController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create()
     {
         await LoadFormDataAsync();
@@ -84,6 +85,7 @@ public class ScheduleController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create(ScheduleFormViewModel model)
     {
         await ValidateAsync(model);
@@ -112,6 +114,7 @@ public class ScheduleController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
@@ -134,6 +137,7 @@ public class ScheduleController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(ScheduleFormViewModel model)
     {
         var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == model.Id);
@@ -161,6 +165,7 @@ public class ScheduleController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var schedule = await _context.Schedules
@@ -176,6 +181,7 @@ public class ScheduleController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);

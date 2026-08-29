@@ -6,7 +6,7 @@ using SchoolManagementSystem.Web.Services;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class SalaryController : Controller
 {
     private readonly SalaryService _salaryService;

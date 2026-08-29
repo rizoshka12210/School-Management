@@ -7,7 +7,7 @@ using SchoolManagementSystem.Web.Data;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class ActivityLogController : Controller
 {
     private readonly AppDbContext _context;

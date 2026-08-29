@@ -25,7 +25,8 @@ public static class DbSeeder
         {
             Roles.Admin,
             Roles.Teacher,
-            Roles.Parent
+            Roles.Parent,
+            Roles.Director
         };
 
         foreach (var role in roles)
@@ -64,6 +65,36 @@ public static class DbSeeder
                 await userManager.AddToRoleAsync(
                     adminUser,
                     Roles.Admin
+                );
+            }
+        }
+
+
+        var directorEmail = "director@school.com";
+
+        var directorUser =
+            await userManager.FindByEmailAsync(directorEmail);
+
+        if (directorUser == null)
+        {
+            directorUser = new ApplicationUser
+            {
+                UserName = directorEmail,
+                Email = directorEmail,
+                FullName = "School Director",
+                EmailConfirmed = true
+            };
+
+            var directorResult = await userManager.CreateAsync(
+                directorUser,
+                "Director123!"
+            );
+
+            if (directorResult.Succeeded)
+            {
+                await userManager.AddToRoleAsync(
+                    directorUser,
+                    Roles.Director
                 );
             }
         }

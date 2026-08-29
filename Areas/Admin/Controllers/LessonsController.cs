@@ -11,7 +11,7 @@ using SchoolManagementSystem.Web.ViewModels.Admin;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class LessonsController : Controller
 {
     private readonly AppDbContext _context;
@@ -102,6 +102,7 @@ public class LessonsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create()
     {
         await LoadFormDataAsync();
@@ -119,6 +120,7 @@ public class LessonsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create(
         LessonFormViewModel model)
     {
@@ -138,6 +140,8 @@ public class LessonsController : Controller
                 nameof(model.TeacherId),
                 _localizer["Selected teacher must be assigned to this group and subject."].Value);
         }
+
+        await ValidateTimeConflictsAsync(model);
 
         if (!ModelState.IsValid)
         {
@@ -169,6 +173,7 @@ public class LessonsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var lesson = await _context.Lessons
@@ -197,6 +202,7 @@ public class LessonsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(
         LessonFormViewModel model)
     {
@@ -225,6 +231,8 @@ public class LessonsController : Controller
                 _localizer["Selected teacher must be assigned to this group and subject."].Value);
         }
 
+        await ValidateTimeConflictsAsync(model);
+
         if (!ModelState.IsValid)
         {
             await LoadFormDataAsync();
@@ -250,6 +258,7 @@ public class LessonsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var lesson = await _context.Lessons
@@ -270,6 +279,7 @@ public class LessonsController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var lesson = await _context.Lessons
@@ -318,6 +328,76 @@ public class LessonsController : Controller
         ViewBag.Subjects = await _context.Subjects
             .OrderBy(s => s.Name)
             .ToListAsync();
+    }
+
+    /// <summary>
+    /// Once a teacher's time is booked for a lesson, nobody else can book
+    /// that same teacher - or that same group - for an overlapping time.
+    /// Mirrors the conflict check already used for the weekly Schedule
+    /// template, but against actual dated lessons.
+    /// </summary>
+    private async Task ValidateTimeConflictsAsync(LessonFormViewModel model)
+    {
+        if (model.EndTime <= model.StartTime)
+        {
+            // Already reported by the caller; nothing sensible to check here.
+            return;
+        }
+
+        var start = MakeUtc(model.StartTime);
+        var end = MakeUtc(model.EndTime);
+
+        var teacherConflict = await _context.Lessons
+            .Where(l =>
+                l.Id != model.Id &&
+                l.TeacherId == model.TeacherId &&
+                l.StartTime < end &&
+                start < l.EndTime)
+            .Include(l => l.Group)
+            .Include(l => l.Subject)
+            .Include(l => l.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .FirstOrDefaultAsync();
+
+        if (teacherConflict != null)
+        {
+            ModelState.AddModelError(
+                nameof(model.StartTime),
+                _localizer[
+                    "Teacher {0} already has {1} with {2} at {3}–{4}.",
+                    teacherConflict.Teacher.ApplicationUser.FullName,
+                    teacherConflict.Subject.Name,
+                    teacherConflict.Group.Name,
+                    teacherConflict.StartTime.ToString("HH:mm"),
+                    teacherConflict.EndTime.ToString("HH:mm")].Value);
+
+            return;
+        }
+
+        var groupConflict = await _context.Lessons
+            .Where(l =>
+                l.Id != model.Id &&
+                l.GroupId == model.GroupId &&
+                l.StartTime < end &&
+                start < l.EndTime)
+            .Include(l => l.Group)
+            .Include(l => l.Subject)
+            .Include(l => l.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .FirstOrDefaultAsync();
+
+        if (groupConflict != null)
+        {
+            ModelState.AddModelError(
+                nameof(model.StartTime),
+                _localizer[
+                    "Group {0} already has {1} with {2} at {3}–{4}.",
+                    groupConflict.Group.Name,
+                    groupConflict.Subject.Name,
+                    groupConflict.Teacher.ApplicationUser.FullName,
+                    groupConflict.StartTime.ToString("HH:mm"),
+                    groupConflict.EndTime.ToString("HH:mm")].Value);
+        }
     }
 
     private async Task<bool> TeacherMatchesAsync(

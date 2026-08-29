@@ -11,7 +11,7 @@ using SchoolManagementSystem.Web.ViewModels.Admin;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class GradesController : Controller
 {
     private readonly GradeService _gradeService;
@@ -79,6 +79,7 @@ public class GradesController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var grade = await _context.Grades
@@ -109,6 +110,7 @@ public class GradesController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(GradeFormViewModel model)
     {
         var grade = await _context.Grades
@@ -150,6 +152,7 @@ public class GradesController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var grade = await _context.Grades
@@ -170,6 +173,7 @@ public class GradesController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var grade = await _context.Grades

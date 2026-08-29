@@ -9,7 +9,7 @@ using SchoolManagementSystem.Web.Data;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class WorkHoursController : Controller
 {
     private readonly AppDbContext _context;
@@ -79,6 +79,7 @@ public class WorkHoursController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Update(
         int lessonId,
         TimeOnly startTime,

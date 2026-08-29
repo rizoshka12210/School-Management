@@ -9,7 +9,7 @@ using SchoolManagementSystem.Web.ViewModels.Admin;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class AccountingController : Controller
 {
     private readonly AppDbContext _context;
@@ -117,6 +117,7 @@ public class AccountingController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Update(
         int studentId,
         int year,
@@ -181,6 +182,7 @@ public class AccountingController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> MarkPaid(
         int studentId,
         int year,
@@ -221,6 +223,7 @@ public class AccountingController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> SetMonthlyFee(
         int year,
         int month,

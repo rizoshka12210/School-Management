@@ -13,7 +13,7 @@ using SchoolManagementSystem.Web.ViewModels.Shared;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class GroupsController : Controller
 {
     private readonly AppDbContext _context;
@@ -86,6 +86,7 @@ public class GroupsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Journal(GroupJournalSaveViewModel model)
     {
         var isRussian =
@@ -121,6 +122,7 @@ public class GroupsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create()
     {
         await LoadTeachersAsync();
@@ -130,6 +132,7 @@ public class GroupsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create(
         GroupFormViewModel model)
     {
@@ -182,6 +185,7 @@ public class GroupsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var group = await _context.Groups
@@ -209,6 +213,7 @@ public class GroupsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(
         GroupFormViewModel model)
     {
@@ -269,6 +274,7 @@ public class GroupsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var group = await _context.Groups
@@ -288,6 +294,7 @@ public class GroupsController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(
         int id)
     {

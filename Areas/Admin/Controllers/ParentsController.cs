@@ -15,7 +15,7 @@ using ParentEntity =
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class ParentsController : Controller
 {
     private readonly AppDbContext _context;
@@ -76,6 +76,7 @@ public class ParentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create()
     {
         await LoadStudentsAsync();
@@ -85,6 +86,7 @@ public class ParentsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create(
         ParentFormViewModel model)
     {
@@ -172,6 +174,7 @@ public class ParentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var parent = await _context.Parents
@@ -201,6 +204,7 @@ public class ParentsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(
         ParentFormViewModel model)
     {
@@ -309,6 +313,7 @@ public class ParentsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var parent = await _context.Parents
@@ -327,6 +332,7 @@ public class ParentsController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(
         int id)
     {

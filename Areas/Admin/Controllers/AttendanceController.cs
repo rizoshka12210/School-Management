@@ -12,7 +12,7 @@ using SchoolManagementSystem.Web.ViewModels.Admin;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.Admin)]
+[Authorize(Roles = Roles.AdminAndDirector)]
 public class AttendanceController : Controller
 {
     private readonly AttendanceService _attendanceService;
@@ -138,6 +138,7 @@ public class AttendanceController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
         var attendance = await _context.Attendances
@@ -170,6 +171,7 @@ public class AttendanceController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(AttendanceFormViewModel model)
     {
         var attendance = await _context.Attendances
@@ -215,6 +217,7 @@ public class AttendanceController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
         var attendance = await _context.Attendances
@@ -236,6 +239,7 @@ public class AttendanceController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var attendance = await _context.Attendances
