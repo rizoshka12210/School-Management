@@ -158,55 +158,75 @@ html[data-theme="dark"] .user-avatar {
     box-shadow: inset 0 0 0 3px rgba(15, 23, 42, .45);
 }
 
-.lang-switcher {
-    padding: 3px;
-    border: 1px solid var(--ui-border);
-    border-radius: 11px;
-    background: var(--ui-surface-soft);
+/* Language switcher: a notification-bell-styled toggle button that opens
+   a small dropdown menu. One implementation for every screen size, placed
+   next to the notification bell, instead of a segmented control that had
+   to be hidden below 992px with no equivalent replacement on mobile. */
+.lang-dropdown {
+    position: relative;
 }
 
-/* The topbar switcher is hidden below 992px (see the media query further
-   down) - this one lives in the sidebar so language stays reachable from
-   the mobile hamburger menu instead of disappearing entirely. */
-.sidebar-lang-switcher {
+.lang-dropdown-menu {
     display: none;
-    margin: 12px 14px 16px;
-    justify-content: center;
-    /* This is a flex item inside .sidebar's column layout. .lang-switcher's
-       overflow:hidden (for the rounded segmented-control corners) resets
-       its automatic flex minimum size to 0, so once the long nav list
-       overflows .sidebar's fixed height, this item - unlike its siblings,
-       which keep a content-based floor - gets squeezed almost to nothing
-       instead of .sidebar's own overflow-y:auto just scrolling past it.
-       flex-shrink:0 keeps it at its natural size no matter what. */
-    flex-shrink: 0;
-    height: 48px;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 170px;
+    padding: 6px;
+    border: 1px solid var(--ui-border);
+    border-radius: 14px;
+    background: var(--ui-surface-solid);
+    box-shadow: 0 16px 36px rgba(15, 23, 42, .18);
+    z-index: 1100;
 }
 
-/* .lang-switcher form uses display:contents so its hidden inputs don't
-   affect layout - fine inside the topbar's own flex row, but here the
-   sidebar-lang-switcher IS the flex container, and a display:contents
-   <form> doesn't contribute the button's height to it, so the container
-   collapses and the button gets clipped by the sidebar's scroll area.
-   Give the form real box participation instead, scoped to this container
-   only. */
-.sidebar-lang-switcher form {
+.lang-dropdown.open .lang-dropdown-menu {
+    display: block;
+}
+
+.lang-dropdown-menu form {
+    display: contents;
+}
+
+.lang-dropdown-item {
     display: flex;
-    flex: 1;
-    /* Chromium doesn't size a <form> correctly as an auto-height flex
-       item/container (it collapses to 0 despite a 42px-tall child) -
-       pin the height explicitly to match .btn-lang instead of relying
-       on flex auto-sizing to do it. */
-    height: 42px;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 9px 10px;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--ui-text, inherit);
+    font-size: 14px;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: .15s ease;
 }
 
-.sidebar-lang-switcher .btn-lang {
-    flex: 1;
-    width: auto;
+.lang-dropdown-item:hover {
+    background: var(--ui-primary-soft);
 }
 
-.btn-lang {
-    border-radius: 8px !important;
+.lang-dropdown-item.active {
+    background: var(--ui-primary-soft);
+    color: var(--ui-primary);
+}
+
+.lang-dropdown-item .bi-check-lg {
+    margin-left: auto;
+}
+
+.lang-dropdown-code {
+    display: inline-grid;
+    place-items: center;
+    min-width: 28px;
+    padding: 2px 4px;
+    border-radius: 6px;
+    background: rgba(148, 163, 184, .16);
+    font-size: 11px;
+    letter-spacing: .02em;
 }
 
 .btn-logout {
@@ -507,12 +527,8 @@ html[data-theme="dark"] .form-select:hover {
         gap: 10px;
     }
 
-    .lang-switcher:not(.sidebar-lang-switcher) {
-        display: none;
-    }
-
-    .sidebar-lang-switcher {
-        display: flex;
+    .lang-dropdown-menu {
+        right: -8px;
     }
 
     .btn-logout span {

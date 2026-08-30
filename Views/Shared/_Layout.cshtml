@@ -108,20 +108,6 @@
             <a class="sidebar-link @Active("Parent", "Calendar")" asp-area="Parent" asp-controller="Calendar" asp-action="Index"><i class="bi bi-calendar-event-fill sidebar-link-icon"></i><span>@Localizer["School Calendar"]</span></a>
         }
         </nav>
-        <div class="lang-switcher sidebar-lang-switcher">
-            <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
-                <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
-                <button type="submit" class="btn-lang @(currentCulture == "en-US" ? "active" : "")">EN</button>
-            </form>
-            <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
-                <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
-                <button type="submit" class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
-            </form>
-            <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
-                <input type="hidden" name="culture" value="tg-TJ" /><input type="hidden" name="returnUrl" value="@returnUrl" />
-                <button type="submit" class="btn-lang @(currentCulture == "tg-TJ" ? "active" : "")">TJ</button>
-            </form>
-        </div>
     </aside>
     <button type="button" id="sidebarBackdrop" class="sidebar-backdrop" aria-hidden="true" tabindex="-1"></button>
 }
@@ -146,6 +132,35 @@
                 }
             </a>
 
+            <div class="lang-dropdown" id="langDropdown">
+                <button type="button" id="langDropdownToggle" class="notification-bell" title="@Localizer["Language"]" aria-haspopup="true" aria-expanded="false" aria-controls="langDropdownMenu">
+                    <i class="bi bi-translate"></i>
+                </button>
+                <div id="langDropdownMenu" class="lang-dropdown-menu" role="menu">
+                    <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                        <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                        <button type="submit" role="menuitem" class="lang-dropdown-item @(currentCulture == "en-US" ? "active" : "")">
+                            <span class="lang-dropdown-code">EN</span><span>English</span>
+                            @if (currentCulture == "en-US") { <i class="bi bi-check-lg"></i> }
+                        </button>
+                    </form>
+                    <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                        <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                        <button type="submit" role="menuitem" class="lang-dropdown-item @(currentCulture == "ru-RU" ? "active" : "")">
+                            <span class="lang-dropdown-code">RU</span><span>Русский</span>
+                            @if (currentCulture == "ru-RU") { <i class="bi bi-check-lg"></i> }
+                        </button>
+                    </form>
+                    <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                        <input type="hidden" name="culture" value="tg-TJ" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                        <button type="submit" role="menuitem" class="lang-dropdown-item @(currentCulture == "tg-TJ" ? "active" : "")">
+                            <span class="lang-dropdown-code">TJ</span><span>Тоҷикӣ</span>
+                            @if (currentCulture == "tg-TJ") { <i class="bi bi-check-lg"></i> }
+                        </button>
+                    </form>
+                </div>
+            </div>
+
             <div class="user-info">
                 <div class="user-avatar">@(User.Identity.Name?.Substring(0, 1).ToUpper())</div>
                 <div class="user-details">
@@ -159,20 +174,6 @@
                 </div>
             </div>
 
-            <div class="lang-switcher">
-                <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
-                    <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
-                    <button type="submit" class="btn-lang @(currentCulture == "en-US" ? "active" : "")">EN</button>
-                </form>
-                <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
-                    <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
-                    <button type="submit" class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
-                </form>
-                <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
-                    <input type="hidden" name="culture" value="tg-TJ" /><input type="hidden" name="returnUrl" value="@returnUrl" />
-                    <button type="submit" class="btn-lang @(currentCulture == "tg-TJ" ? "active" : "")">TJ</button>
-                </form>
-            </div>
             <button type="button" id="themeToggle" class="btn-theme" aria-label="@Localizer["Toggle dark mode"]"><i id="themeIcon" class="bi bi-moon-stars-fill"></i></button>
             <form asp-area="" asp-controller="Auth" asp-action="Logout" method="post"><button type="submit" class="btn-logout"><i class="bi bi-box-arrow-right"></i><span>@Localizer["Logout"]</span></button></form>
         }
@@ -234,6 +235,26 @@
 
     if (window.location.pathname.toLowerCase().startsWith("/notifications")) {
         document.getElementById("notificationCountBadge")?.remove();
+    }
+
+    const langDropdown = document.getElementById("langDropdown");
+    const langDropdownToggle = document.getElementById("langDropdownToggle");
+    if (langDropdown && langDropdownToggle) {
+        const closeLangDropdown = () => {
+            langDropdown.classList.remove("open");
+            langDropdownToggle.setAttribute("aria-expanded", "false");
+        };
+        langDropdownToggle.addEventListener("click", (event) => {
+            event.stopPropagation();
+            const isOpen = langDropdown.classList.toggle("open");
+            langDropdownToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+        });
+        document.addEventListener("click", (event) => {
+            if (!langDropdown.contains(event.target)) closeLangDropdown();
+        });
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") closeLangDropdown();
+        });
     }
 </script>
 </body>
