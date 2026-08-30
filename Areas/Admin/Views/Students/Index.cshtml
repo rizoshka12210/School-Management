@@ -139,6 +139,7 @@
                     <thead>
 
                         <tr>
+                            <th class="text-center" style="width: 48px;">№</th>
                             <th>@Localizer["Student"]</th>
                             <th>@Localizer["Group"]</th>
                             <th>@Localizer["Date of Birth"]</th>
@@ -152,9 +153,19 @@
 
                     <tbody>
 
+                        @{ var rowNumber = 0; }
+
                         @foreach (var student in Model)
                         {
+                            rowNumber++;
+
                             <tr class="clickable-row" data-href="@Url.Action("Details", new { id = student.Id })">
+
+                                <!-- ROW NUMBER -->
+
+                                <td class="text-center text-muted">
+                                    @rowNumber
+                                </td>
 
                                 <!-- STUDENT -->
 
