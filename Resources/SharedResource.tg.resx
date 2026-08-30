@@ -2029,6 +2029,12 @@
   <data name="Your Child vs. Group Average" xml:space="preserve">
     <value>Фарзанди шумо дар муқоиса бо миёнаи гурӯҳ</value>
   </data>
+  <data name="Your Child Among Classmates" xml:space="preserve">
+    <value>Фарзанди шумо дар байни ҳамсинфон</value>
+  </data>
+  <data name="Classmates" xml:space="preserve">
+    <value>Ҳамсинфон</value>
+  </data>
   <data name="Your lessons will appear here when they are scheduled." xml:space="preserve">
     <value>Пас аз ба нақша гирифта шудан, дарсҳои шумо дар ин ҷо намоён мешаванд.</value>
   </data>

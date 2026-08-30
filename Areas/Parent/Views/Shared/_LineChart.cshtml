@@ -1,5 +1,5 @@
 @using System.Globalization
-@model List<SchoolManagementSystem.Web.ViewModels.Parent.GroupComparisonPoint>
+@model SchoolManagementSystem.Web.ViewModels.Parent.GroupComparisonChartViewModel
 
 @{
     var inv = CultureInfo.InvariantCulture;
@@ -14,7 +14,7 @@
     const double minValue = 1.0;
     const double maxValue = 5.0;
 
-    var count = Model.Count;
+    var count = Model.MonthLabels.Count;
 
     var plotWidth = width - padLeft - padRight;
     var plotHeight = height - padTop - padBottom;
@@ -34,13 +34,13 @@
         return y.ToString("0.##", inv);
     }
 
-    string BuildPolyline(Func<SchoolManagementSystem.Web.ViewModels.Parent.GroupComparisonPoint, double?> selector)
+    string BuildPolyline(List<double?> values)
     {
         var points = new List<string>();
 
         for (var i = 0; i < count; i++)
         {
-            var value = selector(Model[i]);
+            var value = i < values.Count ? values[i] : null;
 
             if (value.HasValue)
             {
@@ -51,8 +51,10 @@
         return string.Join(" ", points);
     }
 
-    var childPoints = BuildPolyline(p => p.ChildAverage);
-    var groupPoints = BuildPolyline(p => p.GroupAverage);
+    // Every classmate gets the same muted color/weight so the child's
+    // own line (drawn last, on top) is what stands out.
+    var classmates = Model.Series.Where(s => !s.IsChild).ToList();
+    var child = Model.Series.FirstOrDefault(s => s.IsChild);
 }
 
 <div class="line-chart-wrap">
@@ -74,40 +76,69 @@
                 $"<text x=\"4\" y=\"{Y(grid)}\" class=\"line-chart-axis-label\">{grid}</text>")
         }
 
-        @if (!string.IsNullOrEmpty(groupPoints))
+        @foreach (var classmate in classmates)
         {
-            <polyline points="@groupPoints"
-                      class="line-chart-series line-chart-series-group"
-                      fill="none" />
+            var points = BuildPolyline(classmate.Values);
+
+            if (!string.IsNullOrEmpty(points))
+            {
+                <polyline points="@points"
+                          class="line-chart-series line-chart-series-classmate"
+                          fill="none">
+                    <title>@classmate.StudentName</title>
+                </polyline>
+            }
         }
 
-        @if (!string.IsNullOrEmpty(childPoints))
+        @if (child != null)
         {
-            <polyline points="@childPoints"
-                      class="line-chart-series line-chart-series-child"
-                      fill="none" />
+            var childPoints = BuildPolyline(child.Values);
+
+            if (!string.IsNullOrEmpty(childPoints))
+            {
+                <polyline points="@childPoints"
+                          class="line-chart-series line-chart-series-child"
+                          fill="none" />
+            }
+        }
+
+        @foreach (var classmate in classmates)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var value = i < classmate.Values.Count ? classmate.Values[i] : null;
+
+                if (value.HasValue)
+                {
+                    <circle cx="@X(i)"
+                            cy="@Y(value.Value)"
+                            r="3"
+                            class="line-chart-dot line-chart-dot-classmate">
+                        <title>@classmate.StudentName</title>
+                    </circle>
+                }
+            }
+        }
+
+        @if (child != null)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                var value = i < child.Values.Count ? child.Values[i] : null;
+
+                if (value.HasValue)
+                {
+                    <circle cx="@X(i)"
+                            cy="@Y(value.Value)"
+                            r="4"
+                            class="line-chart-dot line-chart-dot-child" />
+                }
+            }
         }
 
         @for (var i = 0; i < count; i++)
         {
-            if (Model[i].GroupAverage.HasValue)
-            {
-                <circle cx="@X(i)"
-                        cy="@Y(Model[i].GroupAverage!.Value)"
-                        r="3.5"
-                        class="line-chart-dot line-chart-dot-group" />
-            }
-
-            if (Model[i].ChildAverage.HasValue)
-            {
-                <circle cx="@X(i)"
-                        cy="@Y(Model[i].ChildAverage!.Value)"
-                        r="3.5"
-                        class="line-chart-dot line-chart-dot-child" />
-            }
-
-            var xLabel = System.Net.WebUtility.HtmlEncode(
-                Model[i].MonthLabel);
+            var xLabel = System.Net.WebUtility.HtmlEncode(Model.MonthLabels[i]);
 
             @Html.Raw(
                 $"<text x=\"{X(i)}\" y=\"{(height - 6).ToString(inv)}\" class=\"line-chart-x-label\">{xLabel}</text>")
@@ -117,15 +148,21 @@
 
     <div class="line-chart-legend">
 
-        <span class="line-chart-legend-item">
-            <span class="line-chart-legend-swatch line-chart-legend-child"></span>
-            @Localizer["Your child"]
-        </span>
+        @if (child != null)
+        {
+            <span class="line-chart-legend-item">
+                <span class="line-chart-legend-swatch line-chart-legend-child"></span>
+                @child.StudentName (@Localizer["Your child"])
+            </span>
+        }
 
-        <span class="line-chart-legend-item">
-            <span class="line-chart-legend-swatch line-chart-legend-group"></span>
-            @Localizer["Group average"]
-        </span>
+        @if (classmates.Any())
+        {
+            <span class="line-chart-legend-item">
+                <span class="line-chart-legend-swatch line-chart-legend-classmate"></span>
+                @Localizer["Classmates"] (@classmates.Count)
+            </span>
+        }
 
     </div>
 

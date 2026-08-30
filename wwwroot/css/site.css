@@ -6206,17 +6206,19 @@ html[data-theme="dark"] .journal-cell-empty {
     stroke: #4f46e5;
 }
 
-.line-chart-series-group {
-    stroke: #f59e0b;
-    stroke-dasharray: 5 4;
+.line-chart-series-classmate {
+    stroke: #94a3b8;
+    stroke-width: 1.5;
+    stroke-opacity: .55;
 }
 
 .line-chart-dot-child {
     fill: #4f46e5;
 }
 
-.line-chart-dot-group {
-    fill: #f59e0b;
+.line-chart-dot-classmate {
+    fill: #94a3b8;
+    fill-opacity: .55;
 }
 
 .line-chart-legend {
@@ -6243,8 +6245,8 @@ html[data-theme="dark"] .journal-cell-empty {
     background: #4f46e5;
 }
 
-.line-chart-legend-group {
-    background: #f59e0b;
+.line-chart-legend-classmate {
+    background: #94a3b8;
 }
 
 html[data-theme="dark"] .line-chart-grid {

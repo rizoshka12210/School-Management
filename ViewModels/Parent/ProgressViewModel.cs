@@ -30,7 +30,7 @@ public class ProgressViewModel
 
     public string? ComparisonSubjectName { get; set; }
 
-    public List<GroupComparisonPoint> GroupComparison { get; set; } = new();
+    public GroupComparisonChartViewModel? GroupComparison { get; set; }
 }
 
 public class SubjectProgressViewModel
@@ -44,11 +44,26 @@ public class SubjectProgressViewModel
     public double AverageGrade { get; set; }
 }
 
-public class GroupComparisonPoint
+/// <summary>
+/// One line per student in the group (the parent's child highlighted),
+/// all aligned to the same month buckets - not a single blended group
+/// average line.
+/// </summary>
+public class GroupComparisonChartViewModel
 {
-    public string MonthLabel { get; set; } = string.Empty;
+    public List<string> MonthLabels { get; set; } = new();
 
-    public double? ChildAverage { get; set; }
+    public List<StudentSeriesViewModel> Series { get; set; } = new();
+}
 
-    public double? GroupAverage { get; set; }
+public class StudentSeriesViewModel
+{
+    public int StudentId { get; set; }
+
+    public string StudentName { get; set; } = string.Empty;
+
+    public bool IsChild { get; set; }
+
+    /// <summary>Aligned by index with GroupComparisonChartViewModel.MonthLabels.</summary>
+    public List<double?> Values { get; set; } = new();
 }

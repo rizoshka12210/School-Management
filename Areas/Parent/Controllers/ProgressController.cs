@@ -100,7 +100,7 @@ public class ProgressController : ParentControllerBase
 
         int? comparisonSubjectId = null;
         string? comparisonSubjectName = null;
-        var groupComparison = new List<GroupComparisonPoint>();
+        GroupComparisonChartViewModel? groupComparison = null;
 
         if (student.GroupId.HasValue && subjects.Any())
         {
@@ -120,7 +120,14 @@ public class ProgressController : ParentControllerBase
                 .Where(g =>
                     g.SubjectId == comparisonSubjectId.Value &&
                     g.Student.GroupId == student.GroupId)
-                .Select(g => new { g.Date, g.Value, g.StudentId })
+                .Select(g => new
+                {
+                    g.Date,
+                    g.Value,
+                    g.StudentId,
+                    g.Student.FirstName,
+                    g.Student.LastName
+                })
                 .ToListAsync();
 
             var buckets = groupGrades
@@ -136,37 +143,41 @@ public class ProgressController : ParentControllerBase
                 .OrderBy(d => d)
                 .ToList();
 
-            groupComparison = buckets
-                .Select(bucket =>
+            // One line per student in the group (not a blended average),
+            // so the parent can see exactly where their child stands
+            // among their actual classmates - the child's own line is
+            // flagged via IsChild for the view to highlight it.
+            var series = groupGrades
+                .GroupBy(g => new { g.StudentId, g.FirstName, g.LastName })
+                .Select(g => new StudentSeriesViewModel
                 {
-                    var inBucket = groupGrades
-                        .Where(g =>
-                            g.Date.Year == bucket.Year &&
-                            g.Date.Month == bucket.Month)
-                        .ToList();
+                    StudentId = g.Key.StudentId,
+                    StudentName = $"{g.Key.FirstName} {g.Key.LastName}",
+                    IsChild = g.Key.StudentId == student.Id,
+                    Values = buckets
+                        .Select(bucket =>
+                        {
+                            var inBucket = g
+                                .Where(x =>
+                                    x.Date.Year == bucket.Year &&
+                                    x.Date.Month == bucket.Month)
+                                .ToList();
 
-                    var childInBucket = inBucket
-                        .Where(g => g.StudentId == student.Id)
-                        .ToList();
-
-                    return new GroupComparisonPoint
-                    {
-                        MonthLabel = bucket.ToString("MMM yyyy"),
-
-                        GroupAverage = inBucket.Any()
-                            ? Math.Round(
-                                inBucket.Average(g => g.Value),
-                                2)
-                            : null,
-
-                        ChildAverage = childInBucket.Any()
-                            ? Math.Round(
-                                childInBucket.Average(g => g.Value),
-                                2)
-                            : null
-                    };
+                            return inBucket.Any()
+                                ? (double?)Math.Round(inBucket.Average(x => x.Value), 2)
+                                : null;
+                        })
+                        .ToList()
                 })
+                .OrderByDescending(s => s.IsChild)
+                .ThenBy(s => s.StudentName)
                 .ToList();
+
+            groupComparison = new GroupComparisonChartViewModel
+            {
+                MonthLabels = buckets.Select(b => b.ToString("MMM yyyy")).ToList(),
+                Series = series
+            };
         }
 
         var model = new ProgressViewModel
