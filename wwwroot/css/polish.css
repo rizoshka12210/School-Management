@@ -165,6 +165,46 @@ html[data-theme="dark"] .user-avatar {
     background: var(--ui-surface-soft);
 }
 
+/* The topbar switcher is hidden below 992px (see the media query further
+   down) - this one lives in the sidebar so language stays reachable from
+   the mobile hamburger menu instead of disappearing entirely. */
+.sidebar-lang-switcher {
+    display: none;
+    margin: 12px 14px 16px;
+    justify-content: center;
+    /* This is a flex item inside .sidebar's column layout. .lang-switcher's
+       overflow:hidden (for the rounded segmented-control corners) resets
+       its automatic flex minimum size to 0, so once the long nav list
+       overflows .sidebar's fixed height, this item - unlike its siblings,
+       which keep a content-based floor - gets squeezed almost to nothing
+       instead of .sidebar's own overflow-y:auto just scrolling past it.
+       flex-shrink:0 keeps it at its natural size no matter what. */
+    flex-shrink: 0;
+    height: 48px;
+}
+
+/* .lang-switcher form uses display:contents so its hidden inputs don't
+   affect layout - fine inside the topbar's own flex row, but here the
+   sidebar-lang-switcher IS the flex container, and a display:contents
+   <form> doesn't contribute the button's height to it, so the container
+   collapses and the button gets clipped by the sidebar's scroll area.
+   Give the form real box participation instead, scoped to this container
+   only. */
+.sidebar-lang-switcher form {
+    display: flex;
+    flex: 1;
+    /* Chromium doesn't size a <form> correctly as an auto-height flex
+       item/container (it collapses to 0 despite a 42px-tall child) -
+       pin the height explicitly to match .btn-lang instead of relying
+       on flex auto-sizing to do it. */
+    height: 42px;
+}
+
+.sidebar-lang-switcher .btn-lang {
+    flex: 1;
+    width: auto;
+}
+
 .btn-lang {
     border-radius: 8px !important;
 }
@@ -467,8 +507,12 @@ html[data-theme="dark"] .form-select:hover {
         gap: 10px;
     }
 
-    .lang-switcher {
+    .lang-switcher:not(.sidebar-lang-switcher) {
         display: none;
+    }
+
+    .sidebar-lang-switcher {
+        display: flex;
     }
 
     .btn-logout span {

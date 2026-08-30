@@ -13,6 +13,8 @@
             ? 0
             : await NotificationService.GetUnreadCountAsync(User, seenNotificationFingerprint))
         : 0;
+    var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
+    var returnUrl = Context.Request.Path + Context.Request.QueryString;
 
     string Active(string targetArea, string targetController)
         => area == targetArea && controller == targetController ? "active" : "";
@@ -106,6 +108,20 @@
             <a class="sidebar-link @Active("Parent", "Calendar")" asp-area="Parent" asp-controller="Calendar" asp-action="Index"><i class="bi bi-calendar-event-fill sidebar-link-icon"></i><span>@Localizer["School Calendar"]</span></a>
         }
         </nav>
+        <div class="lang-switcher sidebar-lang-switcher">
+            <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                <button type="submit" class="btn-lang @(currentCulture == "en-US" ? "active" : "")">EN</button>
+            </form>
+            <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                <input type="hidden" name="culture" value="ru-RU" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                <button type="submit" class="btn-lang @(currentCulture == "ru-RU" ? "active" : "")">RU</button>
+            </form>
+            <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
+                <input type="hidden" name="culture" value="tg-TJ" /><input type="hidden" name="returnUrl" value="@returnUrl" />
+                <button type="submit" class="btn-lang @(currentCulture == "tg-TJ" ? "active" : "")">TJ</button>
+            </form>
+        </div>
     </aside>
     <button type="button" id="sidebarBackdrop" class="sidebar-backdrop" aria-hidden="true" tabindex="-1"></button>
 }
@@ -143,8 +159,6 @@
                 </div>
             </div>
 
-            var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
-            var returnUrl = Context.Request.Path + Context.Request.QueryString;
             <div class="lang-switcher">
                 <form asp-area="" asp-controller="Home" asp-action="SetCulture" method="post">
                     <input type="hidden" name="culture" value="en-US" /><input type="hidden" name="returnUrl" value="@returnUrl" />
