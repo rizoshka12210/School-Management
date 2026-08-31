@@ -1057,6 +1057,7 @@ h1 {
     background: #eef2ff;
     color: #4f46e5;
 
+    font-size: 26px;
     font-weight: 800;
 
     margin-bottom: 15px;
@@ -1437,7 +1438,7 @@ h1 {
     background: #f0fdf4;
     color: #15803d;
 
-    font-size: 11px;
+    font-size: 16px;
     font-weight: 800;
 }
 
@@ -2371,7 +2372,7 @@ h1 {
     border-radius: 50%;
     background: #ecfdf5;
     color: #059669;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 800;
 }
 
@@ -2502,7 +2503,7 @@ h1 {
     border-radius: 12px;
     background: #ecfdf5;
     color: #059669;
-    font-size: 11px;
+    font-size: 19px;
     font-weight: 800;
 }
 
@@ -2847,7 +2848,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 11px;
-    font-size: 10px;
+    font-size: 19px;
     font-weight: 800;
 }
 
@@ -2940,7 +2941,7 @@ h1 {
     border-radius: 15px;
     background: #ecfdf5;
     color: #059669;
-    font-size: 12px;
+    font-size: 25px;
     font-weight: 800;
 }
 
@@ -3162,7 +3163,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 11px;
-    font-size: 10px;
+    font-size: 19px;
     font-weight: 800;
 }
 
@@ -3731,7 +3732,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 10px;
-    font-size: 9px;
+    font-size: 17px;
     font-weight: 800;
 }
 
@@ -3895,7 +3896,7 @@ h1 {
     align-items: center;
     justify-content: center;
     border-radius: 7px;
-    font-size: 7px;
+    font-size: 12px;
     font-weight: 800;
 }
 
@@ -3948,7 +3949,7 @@ h1 {
     border-radius: 16px;
     background: #fdf2f8;
     color: #db2777;
-    font-size: 12px;
+    font-size: 26px;
     font-weight: 800;
 }
 
@@ -4085,7 +4086,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 9px;
-    font-size: 8px;
+    font-size: 16px;
     font-weight: 800;
 }
 
@@ -4185,7 +4186,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 11px;
-    font-size: 9px;
+    font-size: 19px;
     font-weight: 800;
 }
 
@@ -4252,7 +4253,7 @@ h1 {
     border-radius: 9px;
     background: #fff7ed;
     color: #ea580c;
-    font-size: 8px;
+    font-size: 16px;
     font-weight: 800;
 }
 
@@ -4376,7 +4377,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 9px;
-    font-size: 8px;
+    font-size: 17px;
     font-weight: 800;
 }
 
@@ -4484,7 +4485,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 10px;
-    font-size: 8px;
+    font-size: 17px;
     font-weight: 800;
 }
 
@@ -4654,7 +4655,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 11px;
-    font-size: 9px;
+    font-size: 19px;
     font-weight: 800;
 }
 
@@ -4843,7 +4844,7 @@ h1 {
     border-radius: 10px;
     background: #fff7ed;
     color: #ea580c;
-    font-size: 9px;
+    font-size: 17px;
     font-weight: 800;
 }
 
@@ -4899,7 +4900,7 @@ h1 {
     border-radius: 11px;
     background: #fff7ed;
     color: #ea580c;
-    font-size: 9px;
+    font-size: 19px;
     font-weight: 800;
 }
 
@@ -4984,7 +4985,7 @@ h1 {
     justify-content: center;
     flex-shrink: 0;
     border-radius: 11px;
-    font-size: 9px;
+    font-size: 19px;
     font-weight: 800;
 }
 
