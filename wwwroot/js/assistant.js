@@ -165,6 +165,21 @@
 
     closeBtn.addEventListener("click", closePanel);
 
+    const widgetRoot = document.getElementById("aiAssistant");
+
+    document.addEventListener("click", (event) => {
+        if (panel.hidden) return;
+        if (widgetRoot && widgetRoot.contains(event.target)) return;
+        closePanel();
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && !panel.hidden) {
+            closePanel();
+            toggleBtn.focus();
+        }
+    });
+
     renderHistory();
 
     if (shouldAutoOpen) {
