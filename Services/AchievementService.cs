@@ -71,35 +71,35 @@ public class AchievementService
         {
             new()
             {
-                Icon = "🏆",
+                Icon = "bi-trophy-fill",
                 NameKey = "Excellent Student",
                 DescriptionKey = "Average grade of 4.5 or higher",
                 Earned = grades.Any() && averageGrade >= 4.5
             },
             new()
             {
-                Icon = "⭐️",
+                Icon = "bi-star-fill",
                 NameKey = "10 Excellent Grades",
                 DescriptionKey = "Earned ten grades of 5",
                 Earned = excellentGradesCount >= 10
             },
             new()
             {
-                Icon = "🔥",
+                Icon = "bi-fire",
                 NameKey = "30 Days Attendance Streak",
                 DescriptionKey = "No absences in the last 30 days",
                 Earned = thirtyDayStreak
             },
             new()
             {
-                Icon = "📚",
+                Icon = "bi-book-fill",
                 NameKey = "Mathematics Master",
                 DescriptionKey = "Average grade of 4.5 or higher in Mathematics",
                 Earned = mathMaster
             },
             new()
             {
-                Icon = "🎯",
+                Icon = "bi-bullseye",
                 NameKey = "100% Attendance",
                 DescriptionKey = "Never marked absent",
                 Earned = perfectAttendance

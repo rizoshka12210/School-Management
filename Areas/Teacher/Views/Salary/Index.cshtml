@@ -74,7 +74,7 @@
 
 <div class="teacher-salary-grid">
     <div class="teacher-salary-card">
-        <div class="teacher-salary-icon salary-lessons-icon">LS</div>
+        <div class="teacher-salary-icon salary-lessons-icon"><i class="bi bi-easel2-fill"></i></div>
         <div>
             <span>@Localizer["Lessons Conducted"]</span>
             <strong>@Model.LessonsCount</strong>
@@ -83,7 +83,7 @@
     </div>
 
     <div class="teacher-salary-card">
-        <div class="teacher-salary-icon salary-hours-icon">HR</div>
+        <div class="teacher-salary-icon salary-hours-icon"><i class="bi bi-clock-fill"></i></div>
         <div>
             <span>@Localizer["Worked Hours"]</span>
             <strong>@Model.WorkedHours.ToString("0.##")</strong>
@@ -92,7 +92,7 @@
     </div>
 
     <div class="teacher-salary-card">
-        <div class="teacher-salary-icon salary-rate-icon">RT</div>
+        <div class="teacher-salary-icon salary-rate-icon"><i class="bi bi-tag-fill"></i></div>
         <div>
             <span>@Localizer["Hourly Rate"]</span>
             <strong>@Model.HourlyRate.ToString("0.00")</strong>
@@ -101,7 +101,7 @@
     </div>
 
     <div class="teacher-salary-card teacher-salary-total-card">
-        <div class="teacher-salary-icon salary-total-icon">SA</div>
+        <div class="teacher-salary-icon salary-total-icon"><i class="bi bi-cash-stack"></i></div>
         <div>
             <span>@Localizer["Total Salary"]</span>
             <strong>@Model.TotalSalary.ToString("0.00")</strong>

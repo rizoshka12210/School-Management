@@ -23,11 +23,11 @@
 
 <div class="teacher-grade-stats">
     <div class="teacher-grade-stat">
-        <div class="teacher-grade-stat-icon grade-stat-lessons">LS</div>
+        <div class="teacher-grade-stat-icon grade-stat-lessons"><i class="bi bi-easel2-fill"></i></div>
         <div><span>@Localizer["Lessons"]</span><strong>@totalLessons</strong></div>
     </div>
     <div class="teacher-grade-stat">
-        <div class="teacher-grade-stat-icon grade-stat-records">GD</div>
+        <div class="teacher-grade-stat-icon grade-stat-records"><i class="bi bi-journal-check"></i></div>
         <div><span>@Localizer["Grades Entered"]</span><strong>@totalGrades</strong></div>
     </div>
     <div class="teacher-grade-stat">
@@ -52,7 +52,7 @@
         @if (!Model.Any())
         {
             <div class="teacher-empty">
-                <div class="teacher-empty-icon">GD</div>
+                <div class="teacher-empty-icon"><i class="bi bi-journal-check"></i></div>
                 <h5>@Localizer["No lessons yet"]</h5>
                 <p>@Localizer["Your lessons will appear here when they are scheduled."]</p>
             </div>

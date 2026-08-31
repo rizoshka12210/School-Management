@@ -74,7 +74,7 @@ public class DashboardController : Controller
                     RiskStatus = risk.Status,
                     RiskLabel = risk.Label,
                     RiskCssClass = risk.CssClass,
-                    RiskIcon = risk.Icon,
+                    RiskIcon = risk.IconClass,
                     RiskReasons = risk.Reasons.ToList()
                 };
             })

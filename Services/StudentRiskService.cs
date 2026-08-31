@@ -99,11 +99,11 @@ public record StudentRiskResult(
         _ => string.Empty
     };
 
-    public string Icon => Status switch
+    public string IconClass => Status switch
     {
-        StudentRiskStatus.Good => "🟢",
-        StudentRiskStatus.AttentionNeeded => "🟡",
-        StudentRiskStatus.AtRisk => "🔴",
-        _ => "⚪"
+        StudentRiskStatus.Good => "bi-check-circle-fill",
+        StudentRiskStatus.AttentionNeeded => "bi-exclamation-triangle-fill",
+        StudentRiskStatus.AtRisk => "bi-exclamation-octagon-fill",
+        _ => "bi-question-circle-fill"
     };
 }

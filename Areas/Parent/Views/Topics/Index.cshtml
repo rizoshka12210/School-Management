@@ -18,17 +18,17 @@
 
 <div class="parent-topic-stats">
     <div class="parent-topic-stat">
-        <div class="parent-topic-stat-icon parent-topic-total">TP</div>
+        <div class="parent-topic-stat-icon parent-topic-total"><i class="bi bi-book-half"></i></div>
         <div><span>@Localizer["Topics Covered"]</span><strong>@totalTopics</strong></div>
     </div>
 
     <div class="parent-topic-stat">
-        <div class="parent-topic-stat-icon parent-topic-subject">SB</div>
+        <div class="parent-topic-stat-icon parent-topic-subject"><i class="bi bi-book-fill"></i></div>
         <div><span>@Localizer["Subjects"]</span><strong>@subjectsCount</strong></div>
     </div>
 
     <div class="parent-topic-stat parent-topic-latest">
-        <div class="parent-topic-stat-icon parent-topic-date">DT</div>
+        <div class="parent-topic-stat-icon parent-topic-date"><i class="bi bi-calendar3"></i></div>
         <div>
             <span>@Localizer["Latest Topic"]</span>
             <strong class="parent-topic-latest-text">
@@ -57,7 +57,7 @@
         @if (!Model.Any())
         {
             <div class="parent-empty">
-                <div class="parent-empty-icon">TP</div>
+                <div class="parent-empty-icon"><i class="bi bi-book-half"></i></div>
                 <h5>@Localizer["No topics recorded"]</h5>
                 <p>@Localizer["Topics will appear here after teachers add them to lessons."]</p>
             </div>

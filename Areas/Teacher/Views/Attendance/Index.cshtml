@@ -44,7 +44,7 @@
 <div class="teacher-attendance-stats">
 
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon attendance-all">LS</div>
+        <div class="teacher-attendance-stat-icon attendance-all"><i class="bi bi-easel2-fill"></i></div>
         <div>
             <span>@Localizer["Total Lessons"]</span>
             <strong>@totalLessons</strong>
@@ -52,7 +52,7 @@
     </div>
 
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon attendance-complete">✓</div>
+        <div class="teacher-attendance-stat-icon attendance-complete"><i class="bi bi-check-circle-fill"></i></div>
         <div>
             <span>@Localizer["Completed"]</span>
             <strong>@completedLessons</strong>
@@ -60,7 +60,7 @@
     </div>
 
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon attendance-partial">~</div>
+        <div class="teacher-attendance-stat-icon attendance-partial"><i class="bi bi-dash-circle-fill"></i></div>
         <div>
             <span>@Localizer["Partial"]</span>
             <strong>@partialLessons</strong>
@@ -68,7 +68,7 @@
     </div>
 
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon attendance-pending">!</div>
+        <div class="teacher-attendance-stat-icon attendance-pending"><i class="bi bi-exclamation-circle-fill"></i></div>
         <div>
             <span>@Localizer["Not marked"]</span>
             <strong>@notMarkedLessons</strong>
@@ -89,7 +89,7 @@
         @if (!Model.Any())
         {
             <div class="teacher-empty">
-                <div class="teacher-empty-icon">AT</div>
+                <div class="teacher-empty-icon"><i class="bi bi-clipboard2-check-fill"></i></div>
                 <h5>@Localizer["No lessons yet"]</h5>
                 <p>@Localizer["Your lessons will appear here when they are scheduled."]</p>
             </div>

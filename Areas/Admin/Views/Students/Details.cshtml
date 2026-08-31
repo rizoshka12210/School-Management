@@ -14,7 +14,7 @@
         <div>
             <div class="d-flex align-items-center gap-2 flex-wrap">
                 <h1 class="page-title mb-0">@student.FirstName @student.LastName</h1>
-                <span class="risk-badge @Model.Risk.CssClass">@Model.Risk.Icon @Localizer[Model.Risk.Label]</span>
+                <span class="risk-badge @Model.Risk.CssClass"><i class="bi @Model.Risk.IconClass"></i> @Localizer[Model.Risk.Label]</span>
             </div>
             <p class="page-subtitle mb-0">@Localizer["Student Profile 360°"] · @(student.Group?.Name ?? Localizer["No group"].Value)</p>
         </div>
@@ -74,7 +74,7 @@
                 </div>
 
                 <div class="risk-profile-card @Model.Risk.CssClass">
-                    <div class="risk-profile-status">@Model.Risk.Icon @Localizer[Model.Risk.Label]</div>
+                    <div class="risk-profile-status"><i class="bi @Model.Risk.IconClass"></i> @Localizer[Model.Risk.Label]</div>
                     <div class="risk-profile-metrics">
                         <div><span>@Localizer["Average Grade"]</span><strong>@Model.Risk.AverageGrade.ToString("0.00")</strong></div>
                         <div><span>@Localizer["Attendance"]</span><strong>@Model.Risk.AttendanceRate.ToString("0.0")%</strong></div>
@@ -189,22 +189,22 @@
                     <div class="attendance-calendar">
                         @foreach (var item in Model.RecentAttendance.OrderBy(a => a.Lesson.StartTime))
                         {
-                            var icon = item.Status switch
+                            var dotClass = item.Status switch
                             {
-                                AttendanceStatus.Present => "🟢",
-                                AttendanceStatus.Absent => "🔴",
-                                AttendanceStatus.Late => "🟡",
-                                AttendanceStatus.Excused => "🔵",
-                                _ => "⚪"
+                                AttendanceStatus.Present => "calendar-dot-present",
+                                AttendanceStatus.Absent => "calendar-dot-absent",
+                                AttendanceStatus.Late => "calendar-dot-late",
+                                AttendanceStatus.Excused => "calendar-dot-excused",
+                                _ => "calendar-dot-unknown"
                             };
                             <div class="attendance-calendar-day" title="@item.Lesson.StartTime.ToString("dd MMM") · @item.Lesson.Subject.Name · @Localizer[item.Status.ToString()]">
-                                <span>@icon</span>
+                                <span class="calendar-dot @dotClass"></span>
                                 <small>@item.Lesson.StartTime.ToString("dd")</small>
                             </div>
                         }
                     </div>
                     <div class="attendance-legend mt-3">
-                        <span>🟢 @Localizer["Present"]</span><span>🟡 @Localizer["Late"]</span><span>🔴 @Localizer["Absent"]</span><span>🔵 @Localizer["Excused"]</span>
+                        <span><span class="calendar-dot calendar-dot-present"></span>@Localizer["Present"]</span><span><span class="calendar-dot calendar-dot-late"></span>@Localizer["Late"]</span><span><span class="calendar-dot calendar-dot-absent"></span>@Localizer["Absent"]</span><span><span class="calendar-dot calendar-dot-excused"></span>@Localizer["Excused"]</span>
                     </div>
                 }
             </div>

@@ -24,19 +24,19 @@
 
 <div class="teacher-attendance-stats">
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon attendance-all">LS</div>
+        <div class="teacher-attendance-stat-icon attendance-all"><i class="bi bi-easel2-fill"></i></div>
         <div><span>@Localizer["Total Lessons"]</span><strong>@totalLessons</strong></div>
     </div>
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon attendance-complete">AT</div>
+        <div class="teacher-attendance-stat-icon attendance-complete"><i class="bi bi-clipboard2-check-fill"></i></div>
         <div><span>@Localizer["Lessons With Attendance"]</span><strong>@attendanceMarked</strong></div>
     </div>
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon grade-stat-records">GD</div>
+        <div class="teacher-attendance-stat-icon grade-stat-records"><i class="bi bi-journal-check"></i></div>
         <div><span>@Localizer["Lessons With Grades"]</span><strong>@lessonsWithGrades</strong></div>
     </div>
     <div class="teacher-attendance-stat">
-        <div class="teacher-attendance-stat-icon topic-subjects">TP</div>
+        <div class="teacher-attendance-stat-icon topic-subjects"><i class="bi bi-book-half"></i></div>
         <div><span>@Localizer["Topics Added"]</span><strong>@topicsAdded</strong></div>
     </div>
 </div>
@@ -53,7 +53,7 @@
         @if (!Model.Any())
         {
             <div class="teacher-empty">
-                <div class="teacher-empty-icon">LS</div>
+                <div class="teacher-empty-icon"><i class="bi bi-easel2-fill"></i></div>
                 <h5>@Localizer["No lessons yet"]</h5>
                 <p>@Localizer["Lessons assigned to you will appear here."]</p>
             </div>

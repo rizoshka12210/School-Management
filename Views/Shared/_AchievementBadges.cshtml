@@ -6,7 +6,7 @@
     {
         <div class="achievement-badge @(badge.Earned ? "achievement-badge-earned" : "achievement-badge-locked")"
              title="@Localizer[badge.DescriptionKey]">
-            <div class="achievement-badge-icon">@badge.Icon</div>
+            <div class="achievement-badge-icon"><i class="bi @badge.Icon"></i></div>
             <div class="achievement-badge-name">@Localizer[badge.NameKey]</div>
             <div class="achievement-badge-desc">@Localizer[badge.DescriptionKey]</div>
         </div>

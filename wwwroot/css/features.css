@@ -666,3 +666,20 @@ html[data-theme="dark"] ::selection {
     background: #4f46e5;
     color: #fff;
 }
+
+/* Attendance status dots - replaces emoji circles with a plain colored
+   dot, matching the status-badge colors used elsewhere. */
+.calendar-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.calendar-dot-present { background: #15803d; }
+.calendar-dot-absent { background: #dc2626; }
+.calendar-dot-late { background: #b45309; }
+.calendar-dot-excused { background: #2563eb; }
+.calendar-dot-unknown { background: #94a3b8; }
+
+.attendance-legend .calendar-dot { margin-right: 4px; vertical-align: middle; }

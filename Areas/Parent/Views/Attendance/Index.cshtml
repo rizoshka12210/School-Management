@@ -43,19 +43,19 @@
 
     <div class="parent-attendance-mini-grid">
         <div class="parent-attendance-mini">
-            <div class="parent-attendance-mini-icon status-present">PR</div>
+            <div class="parent-attendance-mini-icon status-present"><i class="bi bi-check-circle-fill"></i></div>
             <div><span>@Localizer["Present"]</span><strong>@presentCount</strong></div>
         </div>
         <div class="parent-attendance-mini">
-            <div class="parent-attendance-mini-icon status-absent">AB</div>
+            <div class="parent-attendance-mini-icon status-absent"><i class="bi bi-x-circle-fill"></i></div>
             <div><span>@Localizer["Absent"]</span><strong>@absentCount</strong></div>
         </div>
         <div class="parent-attendance-mini">
-            <div class="parent-attendance-mini-icon status-late">LT</div>
+            <div class="parent-attendance-mini-icon status-late"><i class="bi bi-clock-fill"></i></div>
             <div><span>@Localizer["Late"]</span><strong>@lateCount</strong></div>
         </div>
         <div class="parent-attendance-mini">
-            <div class="parent-attendance-mini-icon status-excused">EX</div>
+            <div class="parent-attendance-mini-icon status-excused"><i class="bi bi-shield-check"></i></div>
             <div><span>@Localizer["Excused"]</span><strong>@excusedCount</strong></div>
         </div>
     </div>
@@ -74,7 +74,7 @@
         @if (!Model.Any())
         {
             <div class="parent-empty">
-                <div class="parent-empty-icon">AT</div>
+                <div class="parent-empty-icon"><i class="bi bi-clipboard2-check-fill"></i></div>
                 <h5>@Localizer["No attendance records"]</h5>
                 <p>@Localizer["Attendance records will appear here after lessons."]</p>
             </div>

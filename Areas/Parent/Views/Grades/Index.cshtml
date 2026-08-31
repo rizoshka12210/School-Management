@@ -21,19 +21,19 @@
 
 <div class="parent-grade-stats">
     <div class="parent-grade-stat">
-        <div class="parent-grade-stat-icon parent-grade-average">AV</div>
+        <div class="parent-grade-stat-icon parent-grade-average"><i class="bi bi-graph-up"></i></div>
         <div><span>@Localizer["Overall Average"]</span><strong>@overallAverage.ToString("0.##")</strong></div>
     </div>
     <div class="parent-grade-stat">
-        <div class="parent-grade-stat-icon parent-grade-total">GD</div>
+        <div class="parent-grade-stat-icon parent-grade-total"><i class="bi bi-journal-check"></i></div>
         <div><span>@Localizer["Total Grades"]</span><strong>@totalGrades</strong></div>
     </div>
     <div class="parent-grade-stat">
-        <div class="parent-grade-stat-icon parent-grade-high">HI</div>
+        <div class="parent-grade-stat-icon parent-grade-high"><i class="bi bi-star-fill"></i></div>
         <div><span>@Localizer["Highest Grade"]</span><strong>@highestGrade</strong></div>
     </div>
     <div class="parent-grade-stat">
-        <div class="parent-grade-stat-icon parent-grade-subjects">SB</div>
+        <div class="parent-grade-stat-icon parent-grade-subjects"><i class="bi bi-book-fill"></i></div>
         <div><span>@Localizer["Subjects"]</span><strong>@subjectsCount</strong></div>
     </div>
 </div>
@@ -57,7 +57,7 @@
                 @foreach (var pair in averages)
                 {
                     <div class="parent-subject-average-card">
-                        <div class="parent-subject-average-icon">SB</div>
+                        <div class="parent-subject-average-icon"><i class="bi bi-book-fill"></i></div>
                         <div><span>@pair.Key</span><strong>@pair.Value.ToString("0.##")</strong></div>
                     </div>
                 }
@@ -79,7 +79,7 @@
         @if (!Model.Any())
         {
             <div class="parent-empty">
-                <div class="parent-empty-icon">GD</div>
+                <div class="parent-empty-icon"><i class="bi bi-journal-check"></i></div>
                 <h5>@Localizer["No grades yet"]</h5>
                 <p>@Localizer["Grades recorded by teachers will appear here."]</p>
             </div>

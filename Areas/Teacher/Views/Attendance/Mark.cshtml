@@ -10,7 +10,7 @@
     <a asp-action="Index" class="back-link">← @Localizer["Attendance"]</a>
 
     <div class="teacher-lesson-form-header mt-3">
-        <div class="teacher-lesson-form-icon">AT</div>
+        <div class="teacher-lesson-form-icon"><i class="bi bi-clipboard2-check-fill"></i></div>
         <div>
             <h1 class="page-title mb-1">@Localizer["Mark Attendance"]</h1>
             <div class="teacher-lesson-meta">
@@ -45,7 +45,7 @@
             @if (!Model.Students.Any())
             {
                 <div class="teacher-empty">
-                    <div class="teacher-empty-icon">ST</div>
+                    <div class="teacher-empty-icon"><i class="bi bi-people-fill"></i></div>
                     <h5>@Localizer["No students"]</h5>
                     <p>@Localizer["This group does not have any students."]</p>
                 </div>

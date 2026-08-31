@@ -36,19 +36,19 @@
 
 <div class="parent-progress-stats">
     <div class="parent-progress-stat">
-        <div class="parent-progress-stat-icon progress-present">PR</div>
+        <div class="parent-progress-stat-icon progress-present"><i class="bi bi-check-circle-fill"></i></div>
         <div><span>@Localizer["Present"]</span><strong>@Model.PresentCount</strong></div>
     </div>
     <div class="parent-progress-stat">
-        <div class="parent-progress-stat-icon progress-late">LT</div>
+        <div class="parent-progress-stat-icon progress-late"><i class="bi bi-clock-fill"></i></div>
         <div><span>@Localizer["Late"]</span><strong>@Model.LateCount</strong></div>
     </div>
     <div class="parent-progress-stat">
-        <div class="parent-progress-stat-icon progress-absent">AB</div>
+        <div class="parent-progress-stat-icon progress-absent"><i class="bi bi-x-circle-fill"></i></div>
         <div><span>@Localizer["Absent"]</span><strong>@Model.AbsentCount</strong></div>
     </div>
     <div class="parent-progress-stat">
-        <div class="parent-progress-stat-icon progress-excused">EX</div>
+        <div class="parent-progress-stat-icon progress-excused"><i class="bi bi-shield-check"></i></div>
         <div><span>@Localizer["Excused"]</span><strong>@Model.ExcusedCount</strong></div>
     </div>
 </div>
@@ -102,7 +102,7 @@
         @if (!Model.Subjects.Any())
         {
             <div class="parent-empty">
-                <div class="parent-empty-icon">PR</div>
+                <div class="parent-empty-icon"><i class="bi bi-graph-up-arrow"></i></div>
                 <h5>@Localizer["No progress data"]</h5>
                 <p>@Localizer["Subject progress will appear after grades are recorded."]</p>
             </div>

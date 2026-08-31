@@ -87,7 +87,7 @@
         @if (Model == null)
         {
             <div class="management-empty">
-                <div class="management-empty-icon">AT</div>
+                <div class="management-empty-icon"><i class="bi bi-clipboard2-check-fill"></i></div>
                 <h5>@Localizer["Select a group"]</h5>
                 <p>@Localizer["Choose one of your groups above to view its attendance journal."]</p>
             </div>
@@ -95,7 +95,7 @@
         else if (!Model.Columns.Any())
         {
             <div class="management-empty">
-                <div class="management-empty-icon">AT</div>
+                <div class="management-empty-icon"><i class="bi bi-clipboard2-check-fill"></i></div>
                 <h5>@Localizer["No lessons in this range"]</h5>
                 <p>@Localizer["There are no lessons for {0} in the selected date range.", Model.GroupName]</p>
             </div>
