@@ -2314,7 +2314,7 @@
   <data name="Average" xml:space="preserve">
     <value>Балли миёна</value>
   </data>
-  <data name="Enter a lesson grade, two exam scores and an optional comment - all from 0 to 100" xml:space="preserve">
-    <value>Бахои дарс, ду натиҷаи имтиҳон ва, агар хоҳед, шарҳро ворид кунед - ҳама аз 0 то 100</value>
+  <data name="Enter two exam scores from 0 to 100 - the average is calculated automatically" xml:space="preserve">
+    <value>Ду натиҷаи имтиҳонро аз 0 то 100 ворид кунед - балли миёна худкор ҳисоб карда мешавад</value>
   </data>
 </root>

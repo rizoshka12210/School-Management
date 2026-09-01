@@ -3129,9 +3129,7 @@ h1 {
     display: grid;
     grid-template-columns:
         minmax(200px, 1fr)
-        120px
-        minmax(260px, 1.4fr)
-        minmax(220px, 1.2fr);
+        minmax(320px, 1.6fr);
     align-items: start;
     gap: 18px;
     padding: 16px 4px;
@@ -3185,10 +3183,7 @@ h1 {
     }
 
     .teacher-grade-entry-row {
-        grid-template-columns:
-            1fr
-            130px
-            1fr;
+        grid-template-columns: 1fr 1fr;
     }
 }
 

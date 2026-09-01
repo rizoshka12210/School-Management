@@ -25,10 +25,6 @@ public class GradeRow
 
     [Range(0, 100, ErrorMessage = "Grade must be between 0 and 100")]
     [ModelBinder(typeof(DecimalCommaModelBinder))]
-    public decimal? Value { get; set; }
-
-    [Range(0, 100, ErrorMessage = "Grade must be between 0 and 100")]
-    [ModelBinder(typeof(DecimalCommaModelBinder))]
     public decimal? Exam1 { get; set; }
 
     [Range(0, 100, ErrorMessage = "Grade must be between 0 and 100")]
@@ -39,7 +35,4 @@ public class GradeRow
         Exam1.HasValue && Exam2.HasValue
             ? Math.Round((Exam1.Value + Exam2.Value) / 2, 2)
             : Exam1 ?? Exam2;
-
-    [StringLength(300)]
-    public string? Comment { get; set; }
 }

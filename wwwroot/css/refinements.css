@@ -68,7 +68,7 @@ html[data-theme="dark"] .form-actions .btn-outline-secondary:hover {
 
 .teacher-grade-entry-row {
     display: grid;
-    grid-template-columns: minmax(200px, 1fr) 120px minmax(260px, 1.4fr) minmax(220px, 1.2fr);
+    grid-template-columns: minmax(200px, 1fr) minmax(320px, 1.6fr);
     align-items: center;
     gap: 20px;
     padding: 18px 4px;
@@ -828,14 +828,9 @@ html[data-theme="dark"] .details-child-row:hover {
     }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 700px) {
     .teacher-grade-entry-row {
-        grid-template-columns: 1fr 130px;
-    }
-
-    .teacher-grade-exams,
-    .teacher-grade-comment {
-        grid-column: 1 / -1;
+        grid-template-columns: 1fr;
     }
 
     .teacher-grade-exams {

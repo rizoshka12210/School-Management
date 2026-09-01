@@ -2314,7 +2314,7 @@
   <data name="Average" xml:space="preserve">
     <value>Average</value>
   </data>
-  <data name="Enter a lesson grade, two exam scores and an optional comment - all from 0 to 100" xml:space="preserve">
-    <value>Enter a lesson grade, two exam scores and an optional comment - all from 0 to 100</value>
+  <data name="Enter two exam scores from 0 to 100 - the average is calculated automatically" xml:space="preserve">
+    <value>Enter two exam scores from 0 to 100 - the average is calculated automatically</value>
   </data>
 </root>

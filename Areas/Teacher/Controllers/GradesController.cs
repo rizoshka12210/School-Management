@@ -8,26 +8,21 @@ using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Shared;
 using SchoolManagementSystem.Web.ViewModels.Teacher;
 
-using GradeEntity = SchoolManagementSystem.Web.Models.Entities.Grade;
-
 namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
 public class GradesController : TeacherControllerBase
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
-    private readonly ActivityLogService _activityLog;
     private readonly ExamSheetService _examSheetService;
 
     public GradesController(
         AppDbContext context,
         OwnershipHelper ownership,
         IStringLocalizer<SharedResource> localizer,
-        ActivityLogService activityLog,
         ExamSheetService examSheetService)
         : base(context, ownership)
     {
         _localizer = localizer;
-        _activityLog = activityLog;
         _examSheetService = examSheetService;
     }
 
@@ -66,7 +61,6 @@ public class GradesController : TeacherControllerBase
             .Include(l => l.Group)
                 .ThenInclude(g => g.Students)
             .Include(l => l.Subject)
-            .Include(l => l.Grades)
             .FirstOrDefaultAsync(l => l.Id == lessonId);
 
         if (lesson == null)
@@ -90,9 +84,6 @@ public class GradesController : TeacherControllerBase
                 .ThenBy(s => s.LastName)
                 .Select(s =>
                 {
-                    var existing = lesson.Grades
-                        .FirstOrDefault(g => g.StudentId == s.Id);
-
                     var exam = examGrades
                         .FirstOrDefault(e => e.StudentId == s.Id);
 
@@ -100,8 +91,6 @@ public class GradesController : TeacherControllerBase
                     {
                         StudentId = s.Id,
                         StudentName = $"{s.FirstName} {s.LastName}",
-                        Value = existing?.Value,
-                        Comment = existing?.Comment,
                         Exam1 = exam?.Exam1,
                         Exam2 = exam?.Exam2
                     };
@@ -129,9 +118,7 @@ public class GradesController : TeacherControllerBase
 
         var lesson = await Context.Lessons
             .Include(l => l.Group)
-                .ThenInclude(g => g.Students)
             .Include(l => l.Subject)
-            .Include(l => l.Grades)
             .FirstOrDefaultAsync(l => l.Id == model.LessonId);
 
         if (lesson == null)
@@ -147,58 +134,6 @@ public class GradesController : TeacherControllerBase
 
             return View(model);
         }
-
-        var validStudentIds = lesson.Group.Students
-            .Select(s => s.Id)
-            .ToHashSet();
-
-        var lessonDate = DateTime.SpecifyKind(
-            lesson.StartTime.Date,
-            DateTimeKind.Utc);
-
-        var teacher = await Context.Teachers
-            .Include(t => t.ApplicationUser)
-            .FirstAsync(t => t.Id == teacherId);
-
-        foreach (var row in model.Students)
-        {
-            if (!validStudentIds.Contains(row.StudentId))
-            {
-                continue;
-            }
-
-            if (!row.Value.HasValue)
-            {
-                continue;
-            }
-
-            var existing = lesson.Grades
-                .FirstOrDefault(g => g.StudentId == row.StudentId);
-
-            if (existing != null)
-            {
-                existing.Value = row.Value.Value;
-                existing.Comment = row.Comment;
-            }
-            else
-            {
-                Context.Grades.Add(new GradeEntity
-                {
-                    LessonId = lesson.Id,
-                    StudentId = row.StudentId,
-                    SubjectId = lesson.SubjectId,
-                    TeacherId = teacherId!.Value,
-                    Value = row.Value.Value,
-                    Date = lessonDate,
-                    Comment = row.Comment
-                });
-            }
-
-            await _activityLog.LogAsync(
-                $"Teacher {teacher.ApplicationUser.FullName} added grade {row.Value.Value} to {row.StudentName}");
-        }
-
-        await Context.SaveChangesAsync();
 
         await _examSheetService.SaveAsync(
             lesson.GroupId,
