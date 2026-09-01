@@ -32,7 +32,7 @@ public class RecentGrade
 {
     public string SubjectName { get; set; } = string.Empty;
 
-    public int Value { get; set; }
+    public decimal Value { get; set; }
 
     public DateTime Date { get; set; }
 }

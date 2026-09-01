@@ -46,7 +46,7 @@
 
                     <p>
                         <strong>@Localizer["Grade"]:</strong>
-                        @Model.Value
+                        @Model.Value.ToString("0.##")
                     </p>
 
                     <form asp-action="Delete"

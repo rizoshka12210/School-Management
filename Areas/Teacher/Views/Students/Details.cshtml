@@ -112,7 +112,7 @@
                                     <td><div class="record-date">@grade.Date.ToString("dd MMM yyyy")</div></td>
                                     <td><span class="subject-badge">@grade.Subject.Name</span></td>
                                     <td>
-                                        <span class="grade-badge @(grade.Value >= 90 ? "grade-high" : grade.Value >= 75 ? "grade-good" : "grade-low")">@grade.Value</span>
+                                        <span class="grade-badge @(grade.Value >= 90 ? "grade-high" : grade.Value >= 75 ? "grade-good" : "grade-low")">@grade.Value.ToString("0.##")</span>
                                     </td>
                                     <td>@(string.IsNullOrWhiteSpace(grade.Comment) ? "—" : grade.Comment)</td>
                                 </tr>

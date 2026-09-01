@@ -64,7 +64,7 @@ public class StudentRiskService
 
         return new StudentRiskResult(
             status,
-            averageGrade,
+            (double)averageGrade,
             attendanceRate,
             reasons);
     }

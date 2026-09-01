@@ -128,7 +128,7 @@ public class DashboardController : Controller
             GroupsCount = await _context.Groups.CountAsync(),
             SubjectsCount = await _context.Subjects.CountAsync(),
             TodayLessonsCount = todayLessons.Count,
-            AverageGrade = allGrades.Count == 0 ? 0 : allGrades.Average(),
+            AverageGrade = allGrades.Count == 0 ? 0 : (double)allGrades.Average(),
             AttendanceRate = allAttendance.Count == 0
                 ? 0
                 : allAttendance.Count(a => a != AttendanceStatus.Absent) * 100.0 / allAttendance.Count,

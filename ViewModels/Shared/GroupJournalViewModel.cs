@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using SchoolManagementSystem.Web.ModelBinding;
 using SchoolManagementSystem.Web.Models.Enums;
 
 namespace SchoolManagementSystem.Web.ViewModels.Shared;
@@ -75,7 +77,7 @@ public class GroupJournalCellViewModel
 
     public AttendanceStatus? AttendanceStatus { get; set; }
 
-    public int? GradeValue { get; set; }
+    public decimal? GradeValue { get; set; }
 }
 
 public class GroupJournalSaveViewModel
@@ -96,6 +98,7 @@ public class GroupJournalEntryInputModel
 
     public AttendanceStatus? AttendanceStatus { get; set; }
 
-    [Range(1, 5, ErrorMessage = "Grade must be between 1 and 5")]
-    public int? GradeValue { get; set; }
+    [Range(0, 100, ErrorMessage = "Grade must be between 0 and 100")]
+    [ModelBinder(typeof(DecimalCommaModelBinder))]
+    public decimal? GradeValue { get; set; }
 }

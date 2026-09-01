@@ -116,15 +116,15 @@
                                 <td>
                                     @if (grade.Value >= 90)
                                     {
-                                        <span class="grade-badge grade-high">@grade.Value</span>
+                                        <span class="grade-badge grade-high">@grade.Value.ToString("0.##")</span>
                                     }
                                     else if (grade.Value >= 75)
                                     {
-                                        <span class="grade-badge grade-good">@grade.Value</span>
+                                        <span class="grade-badge grade-good">@grade.Value.ToString("0.##")</span>
                                     }
                                     else
                                     {
-                                        <span class="grade-badge grade-low">@grade.Value</span>
+                                        <span class="grade-badge grade-low">@grade.Value.ToString("0.##")</span>
                                     }
                                 </td>
                                 <td>

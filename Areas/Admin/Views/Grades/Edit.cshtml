@@ -52,16 +52,17 @@
 
                 <div class="col-md-6">
 
-                    <label asp-for="Value"
+                    <label for="Value"
                            class="form-label">
                         @Localizer["Grade"]
                     </label>
 
-                    <input asp-for="Value"
-                           type="number"
-                           min="0"
-                           max="100"
-                           class="form-control" />
+                    <input type="text"
+                           inputmode="decimal"
+                           id="Value"
+                           name="Value"
+                           class="form-control"
+                           value="@Model.Value.ToString(System.Globalization.CultureInfo.InvariantCulture)" />
 
                     <span asp-validation-for="Value"
                           class="text-danger small">

@@ -20,6 +20,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Lesson> Lessons => Set<Lesson>();
     public DbSet<Attendance> Attendances => Set<Attendance>();
     public DbSet<Grade> Grades => Set<Grade>();
+    public DbSet<ExamGrade> ExamGrades => Set<ExamGrade>();
     public DbSet<Schedule> Schedules => Set<Schedule>();
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
     public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
@@ -157,5 +158,36 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(l => l.Grades)
             .HasForeignKey(g => g.LessonId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<ExamGrade>()
+            .Ignore(e => e.Average);
+
+        builder.Entity<ExamGrade>()
+            .HasIndex(e => new { e.StudentId, e.SubjectId })
+            .IsUnique();
+
+        builder.Entity<ExamGrade>()
+            .HasOne(e => e.Student)
+            .WithMany()
+            .HasForeignKey(e => e.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<ExamGrade>()
+            .HasOne(e => e.Subject)
+            .WithMany()
+            .HasForeignKey(e => e.SubjectId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ExamGrade>()
+            .HasOne(e => e.Group)
+            .WithMany()
+            .HasForeignKey(e => e.GroupId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<ExamGrade>()
+            .HasOne(e => e.Teacher)
+            .WithMany()
+            .HasForeignKey(e => e.TeacherId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }

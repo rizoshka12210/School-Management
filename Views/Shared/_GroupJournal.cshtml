@@ -24,7 +24,7 @@
         _ => string.Empty
     };
 
-    string GradeClass(int? value) => value switch
+    string GradeClass(decimal? value) => value switch
     {
         null => string.Empty,
         >= 90 => "grade-high",
@@ -233,13 +233,12 @@
                                                 </td>
 
                                                 <td>
-                                                    <input type="number"
+                                                    <input type="text"
+                                                           inputmode="decimal"
                                                            name="Entries[@currentIndex].GradeValue"
                                                            class="journal-select journal-grade-select @GradeClass(cell.GradeValue)"
                                                            aria-label="@Localizer["Grade"]"
-                                                           min="0"
-                                                           max="100"
-                                                           value="@(cell.GradeValue?.ToString() ?? "")"
+                                                           value="@(cell.GradeValue?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")"
                                                            placeholder="—"
                                                            disabled="@(!canEdit ? "disabled" : null)" />
                                                 </td>
@@ -317,9 +316,11 @@
         const refreshGradeStyle = input => {
             gradeClasses.forEach(value => input.classList.remove(value));
 
-            if (input.value === "") return;
+            if (input.value.trim() === "") return;
 
-            const grade = Number(input.value);
+            const grade = Number(input.value.trim().replace(",", "."));
+            if (Number.isNaN(grade)) return;
+
             let className = "grade-fail";
             if (grade >= 90) className = "grade-high";
             else if (grade >= 75) className = "grade-good";

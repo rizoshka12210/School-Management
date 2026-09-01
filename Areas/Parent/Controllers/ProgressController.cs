@@ -91,7 +91,7 @@ public class ProgressController : ParentControllerBase
 
                 GradesCount = g.Count(),
 
-                AverageGrade = Math.Round(
+                AverageGrade = (double)Math.Round(
                     g.Average(x => x.Value),
                     2)
             })
@@ -193,7 +193,7 @@ public class ProgressController : ParentControllerBase
 
             AverageGrade = grades.Count == 0
                 ? 0
-                : Math.Round(
+                : (double)Math.Round(
                     grades.Average(g => g.Value),
                     2),
 

@@ -96,7 +96,7 @@ public class DashboardController : ParentControllerBase
                     : Math.Round(present * 100.0 / total, 1),
 
                 AverageGrade = grades.Any()
-                    ? Math.Round(grades.Average(g => g.Value), 2)
+                    ? (double)Math.Round(grades.Average(g => g.Value), 2)
                     : 0,
 
                 RecentGrades = grades

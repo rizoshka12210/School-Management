@@ -68,8 +68,14 @@
                             </div>
 
                             <div class="teacher-grade-input">
-                                <label asp-for="Students[i].Value">@Localizer["Grade"]</label>
-                                <input asp-for="Students[i].Value" type="number" min="0" max="100" class="form-control" placeholder="0-100" />
+                                <label for="Students_@(i)__Value">@Localizer["Grade"]</label>
+                                <input type="text"
+                                       inputmode="decimal"
+                                       id="Students_@(i)__Value"
+                                       name="Students[@i].Value"
+                                       class="form-control"
+                                       placeholder="0-100"
+                                       value="@(Model.Students[i].Value?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")" />
                                 <span asp-validation-for="Students[i].Value" class="text-danger small"></span>
                             </div>
 

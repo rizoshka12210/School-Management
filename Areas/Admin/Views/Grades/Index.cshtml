@@ -226,19 +226,19 @@
                                     @if (grade.Value >= 90)
                                     {
                                         <span class="grade-badge grade-high">
-                                            @grade.Value
+                                            @grade.Value.ToString("0.##")
                                         </span>
                                     }
                                     else if (grade.Value >= 75)
                                     {
                                         <span class="grade-badge grade-good">
-                                            @grade.Value
+                                            @grade.Value.ToString("0.##")
                                         </span>
                                     }
                                     else
                                     {
                                         <span class="grade-badge grade-low">
-                                            @grade.Value
+                                            @grade.Value.ToString("0.##")
                                         </span>
                                     }
 

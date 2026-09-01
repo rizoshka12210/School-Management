@@ -160,7 +160,7 @@ public class GroupJournalService
 
                 row.AverageGrade = grades.Count == 0
                     ? null
-                    : Math.Round(grades.Average(), 2);
+                    : (double)Math.Round(grades.Average(), 2);
 
                 week.Students.Add(row);
             }
@@ -189,7 +189,7 @@ public class GroupJournalService
         model.GradedEntriesCount = gradeValues.Count;
         model.AverageGrade = gradeValues.Count == 0
             ? null
-            : Math.Round(gradeValues.Average(), 2);
+            : (double)Math.Round(gradeValues.Average(), 2);
 
         return model;
     }

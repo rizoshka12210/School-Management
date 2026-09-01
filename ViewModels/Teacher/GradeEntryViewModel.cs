@@ -1,4 +1,6 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
+using SchoolManagementSystem.Web.ModelBinding;
 
 namespace SchoolManagementSystem.Web.ViewModels.Teacher;
 
@@ -22,7 +24,8 @@ public class GradeRow
     public string StudentName { get; set; } = string.Empty;
 
     [Range(0, 100, ErrorMessage = "Grade must be between 0 and 100")]
-    public int? Value { get; set; }
+    [ModelBinder(typeof(DecimalCommaModelBinder))]
+    public decimal? Value { get; set; }
 
     [StringLength(300)]
     public string? Comment { get; set; }

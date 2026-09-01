@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = Localizer["Exams"];
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Localizer["Exams"]</h1>
+        <p class="page-subtitle">@Localizer["Choose a group and subject to enter exam results"]</p>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+
+        <form asp-action="Sheet" method="get" class="row g-4 align-items-end">
+
+            <div class="col-md-5">
+                <label class="form-label">@Localizer["Group"]</label>
+                <select name="groupId" class="form-select">
+                    @foreach (var group in ViewBag.Groups)
+                    {
+                        <option value="@group.Id">@group.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-5">
+                <label class="form-label">@Localizer["Subject"]</label>
+                <select name="subjectId" class="form-select">
+                    @foreach (var subject in ViewBag.Subjects)
+                    {
+                        <option value="@subject.Id">@subject.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="bi bi-arrow-right-circle"></i>
+                    @Localizer["Open Sheet"]
+                </button>
+            </div>
+
+        </form>
+
+    </div>
+</div>

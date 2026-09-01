@@ -2305,4 +2305,40 @@
   <data name="Please come to school on {0}. {1}" xml:space="preserve">
     <value>Please come to school on {0}. {1}</value>
   </data>
+  <data name="Exams" xml:space="preserve">
+    <value>Exams</value>
+  </data>
+  <data name="Choose a group and subject to enter exam results" xml:space="preserve">
+    <value>Choose a group and subject to enter exam results</value>
+  </data>
+  <data name="Open Sheet" xml:space="preserve">
+    <value>Open Sheet</value>
+  </data>
+  <data name="No groups or subjects assigned" xml:space="preserve">
+    <value>No groups or subjects assigned</value>
+  </data>
+  <data name="Ask the administration to assign you to a group and subject first." xml:space="preserve">
+    <value>Ask the administration to assign you to a group and subject first.</value>
+  </data>
+  <data name="Exam 1" xml:space="preserve">
+    <value>Exam 1</value>
+  </data>
+  <data name="Exam 2" xml:space="preserve">
+    <value>Exam 2</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Average</value>
+  </data>
+  <data name="Save Results" xml:space="preserve">
+    <value>Save Results</value>
+  </data>
+  <data name="The exam sheet contains invalid values." xml:space="preserve">
+    <value>The exam sheet contains invalid values.</value>
+  </data>
+  <data name="Exam results saved." xml:space="preserve">
+    <value>Exam results saved.</value>
+  </data>
+  <data name="No teacher is assigned to this group and subject yet." xml:space="preserve">
+    <value>No teacher is assigned to this group and subject yet.</value>
+  </data>
 </root>

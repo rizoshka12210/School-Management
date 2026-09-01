@@ -2305,4 +2305,40 @@
   <data name="Please come to school on {0}. {1}" xml:space="preserve">
     <value>Лутфан, {0} ба мактаб биёед. {1}</value>
   </data>
+  <data name="Exams" xml:space="preserve">
+    <value>Имтиҳонҳо</value>
+  </data>
+  <data name="Choose a group and subject to enter exam results" xml:space="preserve">
+    <value>Гурӯҳ ва фанро интихоб кунед, то натиҷаҳои имтиҳонро ворид кунед</value>
+  </data>
+  <data name="Open Sheet" xml:space="preserve">
+    <value>Кушодани варақа</value>
+  </data>
+  <data name="No groups or subjects assigned" xml:space="preserve">
+    <value>Ягон гурӯҳ ё фан таъин нашудааст</value>
+  </data>
+  <data name="Ask the administration to assign you to a group and subject first." xml:space="preserve">
+    <value>Аз маъмурият хоҳиш кунед, ки аввал шуморо ба гурӯҳ ва фан таъин кунад.</value>
+  </data>
+  <data name="Exam 1" xml:space="preserve">
+    <value>Имтиҳони №1</value>
+  </data>
+  <data name="Exam 2" xml:space="preserve">
+    <value>Имтиҳони №2</value>
+  </data>
+  <data name="Average" xml:space="preserve">
+    <value>Балли миёна</value>
+  </data>
+  <data name="Save Results" xml:space="preserve">
+    <value>Натиҷаҳоро нигоҳ доред</value>
+  </data>
+  <data name="The exam sheet contains invalid values." xml:space="preserve">
+    <value>Дар варақаи имтиҳон қиматҳои нодуруст мавҷуданд.</value>
+  </data>
+  <data name="Exam results saved." xml:space="preserve">
+    <value>Натиҷаҳои имтиҳон нигоҳ дошта шуданд.</value>
+  </data>
+  <data name="No teacher is assigned to this group and subject yet." xml:space="preserve">
+    <value>Ба ин гурӯҳ ва фан ҳанӯз муаллим таъин нашудааст.</value>
+  </data>
 </root>
