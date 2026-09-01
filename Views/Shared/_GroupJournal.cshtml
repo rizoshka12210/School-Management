@@ -24,9 +24,14 @@
         _ => string.Empty
     };
 
-    string GradeClass(int? value) => value.HasValue
-        ? $"grade-{value.Value}"
-        : string.Empty;
+    string GradeClass(int? value) => value switch
+    {
+        null => string.Empty,
+        >= 90 => "grade-high",
+        >= 75 => "grade-good",
+        >= 60 => "grade-low",
+        _ => "grade-fail"
+    };
 }
 
 <link rel="stylesheet" href="~/css/group-journal.css" asp-append-version="true" />
@@ -228,16 +233,15 @@
                                                 </td>
 
                                                 <td>
-                                                    <select name="Entries[@currentIndex].GradeValue"
-                                                            class="journal-select journal-grade-select @GradeClass(cell.GradeValue)"
-                                                            aria-label="@Localizer["Grade"]"
-                                                            disabled="@(!canEdit ? "disabled" : null)">
-                                                        <option value="" selected="@(!cell.GradeValue.HasValue ? "selected" : null)">—</option>
-                                                        @for (var grade = 5; grade >= 1; grade--)
-                                                        {
-                                                            <option value="@grade" selected="@(cell.GradeValue == grade ? "selected" : null)">@grade</option>
-                                                        }
-                                                    </select>
+                                                    <input type="number"
+                                                           name="Entries[@currentIndex].GradeValue"
+                                                           class="journal-select journal-grade-select @GradeClass(cell.GradeValue)"
+                                                           aria-label="@Localizer["Grade"]"
+                                                           min="0"
+                                                           max="100"
+                                                           value="@(cell.GradeValue?.ToString() ?? "")"
+                                                           placeholder="—"
+                                                           disabled="@(!canEdit ? "disabled" : null)" />
                                                 </td>
                                             }
 
@@ -295,7 +299,7 @@
             "status-excused"
         ];
 
-        const gradeClasses = ["grade-1", "grade-2", "grade-3", "grade-4", "grade-5"];
+        const gradeClasses = ["grade-high", "grade-good", "grade-low", "grade-fail"];
 
         const refreshAttendanceStyle = select => {
             attendanceClasses.forEach(value => select.classList.remove(value));
@@ -310,9 +314,18 @@
             if (className) select.classList.add(className);
         };
 
-        const refreshGradeStyle = select => {
-            gradeClasses.forEach(value => select.classList.remove(value));
-            if (select.value) select.classList.add(`grade-${select.value}`);
+        const refreshGradeStyle = input => {
+            gradeClasses.forEach(value => input.classList.remove(value));
+
+            if (input.value === "") return;
+
+            const grade = Number(input.value);
+            let className = "grade-fail";
+            if (grade >= 90) className = "grade-high";
+            else if (grade >= 75) className = "grade-good";
+            else if (grade >= 60) className = "grade-low";
+
+            input.classList.add(className);
         };
 
         const markDirty = () => {
@@ -329,10 +342,10 @@
             });
         });
 
-        form.querySelectorAll(".journal-grade-select").forEach(select => {
-            refreshGradeStyle(select);
-            select.addEventListener("change", () => {
-                refreshGradeStyle(select);
+        form.querySelectorAll(".journal-grade-select").forEach(input => {
+            refreshGradeStyle(input);
+            input.addEventListener("input", () => {
+                refreshGradeStyle(input);
                 markDirty();
             });
         });

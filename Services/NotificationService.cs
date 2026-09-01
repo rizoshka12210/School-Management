@@ -311,7 +311,7 @@ public class NotificationService
             Message = $"{g.Student.FirstName}: {g.Subject.Name} — {g.Value}",
             Url = $"/Parent/Grades?studentId={g.StudentId}",
             OccurredAt = g.Date,
-            Kind = g.Value >= 4 ? "success" : "info",
+            Kind = g.Value >= 75 ? "success" : "info",
             FingerprintKey = $"parent:grade:{g.Id}:{g.Value}:{g.Date:O}"
         }));
 

@@ -46,7 +46,7 @@ public class AchievementService
             ? grades.Average(g => g.Value)
             : 0;
 
-        var excellentGradesCount = grades.Count(g => g.Value == 5);
+        var excellentGradesCount = grades.Count(g => g.Value >= 90);
 
         var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
 
@@ -62,7 +62,7 @@ public class AchievementService
             .ToList();
 
         var mathMaster = mathGrades.Any() &&
-            mathGrades.Average(g => g.Value) >= 4.5;
+            mathGrades.Average(g => g.Value) >= 90;
 
         var perfectAttendance = attendances.Any() &&
             attendances.All(a => a.Status != AttendanceStatus.Absent);
@@ -73,14 +73,14 @@ public class AchievementService
             {
                 Icon = "bi-trophy-fill",
                 NameKey = "Excellent Student",
-                DescriptionKey = "Average grade of 4.5 or higher",
-                Earned = grades.Any() && averageGrade >= 4.5
+                DescriptionKey = "Average grade of 90 or higher",
+                Earned = grades.Any() && averageGrade >= 90
             },
             new()
             {
                 Icon = "bi-star-fill",
                 NameKey = "10 Excellent Grades",
-                DescriptionKey = "Earned ten grades of 5",
+                DescriptionKey = "Earned ten grades of 90 or higher",
                 Earned = excellentGradesCount >= 10
             },
             new()
@@ -94,7 +94,7 @@ public class AchievementService
             {
                 Icon = "bi-book-fill",
                 NameKey = "Mathematics Master",
-                DescriptionKey = "Average grade of 4.5 or higher in Mathematics",
+                DescriptionKey = "Average grade of 90 or higher in Mathematics",
                 Earned = mathMaster
             },
             new()

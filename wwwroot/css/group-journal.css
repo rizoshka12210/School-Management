@@ -523,6 +523,20 @@
     box-shadow: 0 0 0 3px var(--journal-primary-soft);
 }
 
+/* The grade cell is a plain number input (0-100 doesn't fit a <select>),
+   so it doesn't need the extra right-padding reserved for a <select>'s
+   dropdown arrow, and the spinner arrows just add noise in a table cell. */
+.journal-grade-select {
+    padding: 4px 7px;
+    -moz-appearance: textfield;
+}
+
+.journal-grade-select::-webkit-outer-spin-button,
+.journal-grade-select::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
 .journal-attendance-select.status-present {
     color: var(--journal-green);
     background-color: var(--journal-green-soft);
@@ -547,23 +561,22 @@
     border-color: rgba(37, 99, 235, .28);
 }
 
-.journal-grade-select.grade-5 {
+.journal-grade-select.grade-high {
     color: var(--journal-green);
     background-color: var(--journal-green-soft);
 }
 
-.journal-grade-select.grade-4 {
+.journal-grade-select.grade-good {
     color: var(--journal-blue);
     background-color: var(--journal-blue-soft);
 }
 
-.journal-grade-select.grade-3 {
+.journal-grade-select.grade-low {
     color: var(--journal-amber);
     background-color: var(--journal-amber-soft);
 }
 
-.journal-grade-select.grade-2,
-.journal-grade-select.grade-1 {
+.journal-grade-select.grade-fail {
     color: var(--journal-red);
     background-color: var(--journal-red-soft);
 }

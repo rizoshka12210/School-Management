@@ -306,7 +306,7 @@ public class GroupJournalService
                 continue;
             }
 
-            if (entry.GradeValue.Value is < 1 or > 5)
+            if (entry.GradeValue.Value is < 0 or > 100)
             {
                 continue;
             }

@@ -33,7 +33,7 @@
             <div class="section-header">
                 <div>
                     <h5 class="section-title">@Localizer["Student Grades"]</h5>
-                    <p class="section-subtitle">@Localizer["Enter a grade from 1 to 5 and an optional comment"]</p>
+                    <p class="section-subtitle">@Localizer["Enter a grade from 0 to 100 and an optional comment"]</p>
                 </div>
                 <div class="teacher-count-label">@Localizer["{0} student(s)", Model.Students.Count]</div>
             </div>
@@ -69,13 +69,7 @@
 
                             <div class="teacher-grade-input">
                                 <label asp-for="Students[i].Value">@Localizer["Grade"]</label>
-                                <select asp-for="Students[i].Value" class="form-select">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                </select>
+                                <input asp-for="Students[i].Value" type="number" min="0" max="100" class="form-control" placeholder="0-100" />
                                 <span asp-validation-for="Students[i].Value" class="text-danger small"></span>
                             </div>
 

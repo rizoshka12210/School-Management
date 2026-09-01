@@ -11,8 +11,9 @@
     const int padLeft = 30;
     const int padRight = 16;
 
-    const double minValue = 1.0;
-    const double maxValue = 5.0;
+    const double minValue = 0.0;
+    const double maxValue = 100.0;
+    const double gridStep = 20.0;
 
     var count = Model.MonthLabels.Count;
 
@@ -64,7 +65,7 @@
          xmlns="http://www.w3.org/2000/svg"
          preserveAspectRatio="xMidYMid meet">
 
-        @for (var grid = 1; grid <= 5; grid++)
+        @for (var grid = minValue; grid <= maxValue; grid += gridStep)
         {
             <line x1="@padLeft.ToString(inv)"
                   y1="@Y(grid)"
@@ -73,7 +74,7 @@
                   class="line-chart-grid" />
 
             @Html.Raw(
-                $"<text x=\"4\" y=\"{Y(grid)}\" class=\"line-chart-axis-label\">{grid}</text>")
+                $"<text x=\"4\" y=\"{Y(grid)}\" class=\"line-chart-axis-label\">{grid:0}</text>")
         }
 
         @foreach (var classmate in classmates)

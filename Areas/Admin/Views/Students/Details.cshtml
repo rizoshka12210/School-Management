@@ -159,7 +159,7 @@
                                         <td>@grade.Date.ToString("dd MMM")</td>
                                         <td><span class="subject-badge">@grade.Subject.Name</span></td>
                                         <td>@grade.Teacher.ApplicationUser.FullName</td>
-                                        <td><span class="grade-badge @(grade.Value >= 5 ? "grade-high" : grade.Value >= 4 ? "grade-good" : "grade-low")">@grade.Value</span></td>
+                                        <td><span class="grade-badge @(grade.Value >= 90 ? "grade-high" : grade.Value >= 75 ? "grade-good" : "grade-low")">@grade.Value</span></td>
                                     </tr>
                                 }
                             </tbody>

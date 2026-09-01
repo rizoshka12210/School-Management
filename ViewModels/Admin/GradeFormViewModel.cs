@@ -14,7 +14,7 @@ public class GradeFormViewModel
 
     public DateTime Date { get; set; }
 
-    [Range(1, 5, ErrorMessage = "Grade must be between 1 and 5")]
+    [Range(0, 100, ErrorMessage = "Grade must be between 0 and 100")]
     public int Value { get; set; }
 
     [StringLength(300)]

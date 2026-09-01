@@ -399,7 +399,7 @@ public static class DbSeeder
                         Student = student,
                         Subject = plan.Subject,
                         Teacher = plan.Teacher,
-                        Value = rnd.Next(3, 6),
+                        Value = rnd.Next(60, 101),
                         Date = DateTime.SpecifyKind(
                             start.Date, DateTimeKind.Utc)
                     });

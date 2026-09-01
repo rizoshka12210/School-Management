@@ -1057,11 +1057,17 @@
   <data name="Average grade of 4.5 or higher" xml:space="preserve">
     <value>Баҳои миёна 4.5 ё баландтар</value>
   </data>
+  <data name="Average grade of 90 or higher" xml:space="preserve">
+    <value>Баҳои миёна 90 ё баландтар</value>
+  </data>
   <data name="10 Excellent Grades" xml:space="preserve">
     <value>10 баҳои аъло</value>
   </data>
   <data name="Earned ten grades of 5" xml:space="preserve">
     <value>Даҳ баҳои 5 гирифт</value>
+  </data>
+  <data name="Earned ten grades of 90 or higher" xml:space="preserve">
+    <value>Даҳ баҳои 90 ва баландтар гирифт</value>
   </data>
   <data name="30 Days Attendance Streak" xml:space="preserve">
     <value>30 рӯз ҳозирии бефосила</value>
@@ -1074,6 +1080,9 @@
   </data>
   <data name="Average grade of 4.5 or higher in Mathematics" xml:space="preserve">
     <value>Баҳои миёна аз математика 4.5 ё баландтар</value>
+  </data>
+  <data name="Average grade of 90 or higher in Mathematics" xml:space="preserve">
+    <value>Баҳои миёна аз математика 90 ё баландтар</value>
   </data>
   <data name="100% Attendance" xml:space="preserve">
     <value>100% ҳозирӣ</value>
@@ -1321,8 +1330,14 @@
   <data name="Average grade below 3.0" xml:space="preserve">
     <value>Баҳои миёна поёнтар аз 3.0</value>
   </data>
+  <data name="Average grade below 60" xml:space="preserve">
+    <value>Баҳои миёна поёнтар аз 60</value>
+  </data>
   <data name="Average grade below 3.5" xml:space="preserve">
     <value>Баҳои миёна поёнтар аз 3.5</value>
+  </data>
+  <data name="Average grade below 70" xml:space="preserve">
+    <value>Баҳои миёна поёнтар аз 70</value>
   </data>
   <data name="Notifications" xml:space="preserve">
     <value>Огоҳиномаҳо</value>
@@ -1599,6 +1614,9 @@
   </data>
   <data name="Enter a grade from 1 to 5 and an optional comment" xml:space="preserve">
     <value>Баҳо аз 1 то 5 ва шарҳи ихтиёриро ворид кунед</value>
+  </data>
+  <data name="Enter a grade from 0 to 100 and an optional comment" xml:space="preserve">
+    <value>Баҳо аз 0 то 100 ва шарҳи ихтиёриро ворид кунед</value>
   </data>
   <data name="Enter and manage student grades for your lessons" xml:space="preserve">
     <value>Баҳоҳои хонандагони дарсҳои худро ворид ва идора кунед</value>

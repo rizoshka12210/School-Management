@@ -1057,11 +1057,17 @@
   <data name="Average grade of 4.5 or higher" xml:space="preserve">
     <value>Средний балл 4.5 или выше</value>
   </data>
+  <data name="Average grade of 90 or higher" xml:space="preserve">
+    <value>Средний балл 90 или выше</value>
+  </data>
   <data name="10 Excellent Grades" xml:space="preserve">
     <value>10 отличных оценок</value>
   </data>
   <data name="Earned ten grades of 5" xml:space="preserve">
     <value>Получено десять пятёрок</value>
+  </data>
+  <data name="Earned ten grades of 90 or higher" xml:space="preserve">
+    <value>Получено десять оценок 90 и выше</value>
   </data>
   <data name="30 Days Attendance Streak" xml:space="preserve">
     <value>30 дней без пропусков</value>
@@ -1074,6 +1080,9 @@
   </data>
   <data name="Average grade of 4.5 or higher in Mathematics" xml:space="preserve">
     <value>Средний балл 4.5 или выше по математике</value>
+  </data>
+  <data name="Average grade of 90 or higher in Mathematics" xml:space="preserve">
+    <value>Средний балл 90 или выше по математике</value>
   </data>
   <data name="100% Attendance" xml:space="preserve">
     <value>100% посещаемость</value>
@@ -1318,8 +1327,14 @@
   <data name="Average grade below 3.0" xml:space="preserve">
     <value>Средний балл ниже 3.0</value>
   </data>
+  <data name="Average grade below 60" xml:space="preserve">
+    <value>Средний балл ниже 60</value>
+  </data>
   <data name="Average grade below 3.5" xml:space="preserve">
     <value>Средний балл ниже 3.5</value>
+  </data>
+  <data name="Average grade below 70" xml:space="preserve">
+    <value>Средний балл ниже 70</value>
   </data>
   <data name="Notifications" xml:space="preserve">
     <value>Уведомления</value>
@@ -1596,6 +1611,9 @@
   </data>
   <data name="Enter a grade from 1 to 5 and an optional comment" xml:space="preserve">
     <value>Введите оценку от 1 до 5 и, при желании, комментарий</value>
+  </data>
+  <data name="Enter a grade from 0 to 100 and an optional comment" xml:space="preserve">
+    <value>Введите оценку от 0 до 100 и, при желании, комментарий</value>
   </data>
   <data name="Enter and manage student grades for your lessons" xml:space="preserve">
     <value>Вводите и управляйте оценками учеников по вашим урокам</value>

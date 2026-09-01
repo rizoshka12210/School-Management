@@ -38,25 +38,25 @@ public class StudentRiskService
         {
             reasons.Add("No grades recorded yet");
         }
-        else if (averageGrade < 3.0)
+        else if (averageGrade < 60)
         {
-            reasons.Add("Average grade below 3.0");
+            reasons.Add("Average grade below 60");
         }
-        else if (averageGrade < 3.5)
+        else if (averageGrade < 70)
         {
-            reasons.Add("Average grade below 3.5");
+            reasons.Add("Average grade below 70");
         }
 
         var status = StudentRiskStatus.Good;
 
-        if ((student.Grades.Any() && averageGrade < 3.0) ||
+        if ((student.Grades.Any() && averageGrade < 60) ||
             (attendanceTotal > 0 && attendanceRate < 70))
         {
             status = StudentRiskStatus.AtRisk;
         }
         else if (!student.Grades.Any() ||
                  attendanceTotal == 0 ||
-                 averageGrade < 3.5 ||
+                 averageGrade < 70 ||
                  attendanceRate < 85)
         {
             status = StudentRiskStatus.AttentionNeeded;
