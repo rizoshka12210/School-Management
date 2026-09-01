@@ -401,6 +401,68 @@ h1, h2, h3, h4, h5, h6,
         rgba(99,102,241,.12);
 }
 
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: 40px;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 6px;
+}
+
+.password-toggle:hover {
+    color: #4f46e5;
+    background: rgba(79, 70, 229, .08);
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid #4f46e5;
+    outline-offset: -2px;
+}
+
+.password-toggle svg {
+    width: 18px;
+    height: 18px;
+}
+
+.password-toggle .icon-eye-off {
+    display: none;
+}
+
+.password-toggle.is-visible .icon-eye {
+    display: none;
+}
+
+.password-toggle.is-visible .icon-eye-off {
+    display: block;
+}
+
+html[data-theme="dark"] .password-toggle {
+    color: #64748b;
+}
+
+html[data-theme="dark"] .password-toggle:hover {
+    color: #818cf8;
+    background: rgba(99, 102, 241, .14);
+}
+
 .form-label {
     font-size: 13px;
 

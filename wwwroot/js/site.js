@@ -105,4 +105,22 @@
             }
         });
     });
+
+    document.querySelectorAll(".password-toggle").forEach(toggle => {
+        const input = toggle.parentElement?.querySelector("input");
+        if (!input) return;
+
+        toggle.addEventListener("click", () => {
+            const isVisible = input.type === "text";
+            input.type = isVisible ? "password" : "text";
+            toggle.classList.toggle("is-visible", !isVisible);
+            toggle.setAttribute("aria-pressed", (!isVisible).toString());
+
+            const label = !isVisible ? toggle.dataset.hideLabel : toggle.dataset.showLabel;
+            if (label) {
+                toggle.setAttribute("aria-label", label);
+                toggle.title = label;
+            }
+        });
+    });
 })();

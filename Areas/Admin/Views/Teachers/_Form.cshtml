@@ -102,10 +102,14 @@
 
                     </label>
 
-                    <input asp-for="Password"
-                           type="password"
-                           class="form-control"
-                           placeholder="@Localizer["Enter password"]" />
+                    <div class="password-field">
+                        <input asp-for="Password"
+                               type="password"
+                               class="form-control"
+                               placeholder="@Localizer["Enter password"]" />
+
+                        <partial name="_PasswordToggle" />
+                    </div>
 
                     <span asp-validation-for="Password"
                           class="text-danger small">
