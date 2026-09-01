@@ -988,6 +988,18 @@
   <data name="Selected teacher must be assigned to this group and subject." xml:space="preserve">
     <value>Selected teacher must be assigned to this group and subject.</value>
   </data>
+  <data name="Your group and subject selection must match one of your assignments." xml:space="preserve">
+    <value>Your group and subject selection must match one of your assignments.</value>
+  </data>
+  <data name="You already have {0} with {1} at {2}–{3}." xml:space="preserve">
+    <value>You already have {0} with {1} at {2}–{3}.</value>
+  </data>
+  <data name="Schedule a lesson for one of your groups and subjects" xml:space="preserve">
+    <value>Schedule a lesson for one of your groups and subjects</value>
+  </data>
+  <data name="Select one of your groups and subjects" xml:space="preserve">
+    <value>Select one of your groups and subjects</value>
+  </data>
   <data name="End time must be later than start time." xml:space="preserve">
     <value>End time must be later than start time.</value>
   </data>

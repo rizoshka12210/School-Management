@@ -1,0 +1,54 @@
+@model SchoolManagementSystem.Web.ViewModels.Teacher.LessonFormViewModel
+
+@{
+    ViewData["Title"] = Localizer["Edit Lesson"];
+}
+
+<div class="form-page-header">
+
+    <a asp-action="Index"
+       class="back-link">
+        ← @Localizer["My Lessons"]
+    </a>
+
+    <h1 class="page-title mt-2">
+        @Localizer["Edit Lesson"]
+    </h1>
+
+    <p class="page-subtitle">
+        @Localizer["Update lesson information"]
+    </p>
+
+</div>
+
+<form asp-action="Edit"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="Id"
+           type="hidden" />
+
+    <partial name="_Form"
+             model="Model" />
+
+    <div class="form-actions">
+
+        <a asp-action="Index"
+           class="btn btn-light">
+            @Localizer["Cancel"]
+        </a>
+
+        <button type="submit"
+                class="btn btn-primary">
+            @Localizer["Save Changes"]
+        </button>
+
+    </div>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -988,6 +988,18 @@
   <data name="Selected teacher must be assigned to this group and subject." xml:space="preserve">
     <value>Муаллими интихобшуда бояд ба ин гурӯҳ ва фан таъин шуда бошад.</value>
   </data>
+  <data name="Your group and subject selection must match one of your assignments." xml:space="preserve">
+    <value>Гурӯҳ ва фани интихобшуда бояд ба таъиноти шумо мувофиқат кунад.</value>
+  </data>
+  <data name="You already have {0} with {1} at {2}–{3}." xml:space="preserve">
+    <value>Шумо аллакай {0}-ро бо {1} дар соати {2}–{3} доред.</value>
+  </data>
+  <data name="Schedule a lesson for one of your groups and subjects" xml:space="preserve">
+    <value>Барои яке аз гурӯҳ ва фанҳои худ дарс таъин кунед</value>
+  </data>
+  <data name="Select one of your groups and subjects" xml:space="preserve">
+    <value>Яке аз гурӯҳ ва фанҳои худро интихоб кунед</value>
+  </data>
   <data name="End time must be later than start time." xml:space="preserve">
     <value>Вақти анҷом бояд аз вақти оғоз дертар бошад.</value>
   </data>

@@ -15,6 +15,9 @@
         <p class="page-subtitle">@Localizer["View your lessons and manage attendance, grades and topics"]</p>
     </div>
     <div class="d-flex align-items-center gap-2 flex-wrap">
+        <a asp-area="Teacher" asp-controller="Lessons" asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-lg me-1"></i>@Localizer["Add Lesson"]
+        </a>
         <a asp-area="Teacher" asp-controller="WorkHours" asp-action="Index" class="btn btn-light">
             <i class="bi bi-clock-fill me-1"></i>@Localizer["Worked Hours"]
         </a>
@@ -115,6 +118,7 @@
                                 </td>
                                 <td class="text-end">
                                     <div class="action-buttons">
+                                        <a asp-area="Teacher" asp-controller="Lessons" asp-action="Edit" asp-route-id="@lesson.Id" class="action-btn action-edit">@Localizer["Edit"]</a>
                                         <a asp-area="Teacher" asp-controller="Attendance" asp-action="Mark" asp-route-lessonId="@lesson.Id" class="action-btn action-edit">@Localizer["Attendance"]</a>
                                         <a asp-area="Teacher" asp-controller="Grades" asp-action="Add" asp-route-lessonId="@lesson.Id" class="action-btn teacher-grade-button">@Localizer["Grades"]</a>
                                         <a asp-area="Teacher" asp-controller="Topics" asp-action="Edit" asp-route-id="@lesson.Id" class="action-btn action-details">@Localizer["Topic"]</a>
