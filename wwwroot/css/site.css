@@ -3128,13 +3128,33 @@ h1 {
 .teacher-grade-entry-row {
     display: grid;
     grid-template-columns:
-        minmax(210px, 1fr)
-        150px
-        minmax(260px, 1.5fr);
+        minmax(200px, 1fr)
+        120px
+        minmax(260px, 1.4fr)
+        minmax(220px, 1.2fr);
     align-items: start;
     gap: 18px;
     padding: 16px 4px;
     border-bottom: 1px solid #f1f5f9;
+}
+
+.teacher-grade-exams {
+    display: flex;
+    gap: 12px;
+    min-width: 0;
+}
+
+.teacher-exam-field,
+.teacher-exam-average {
+    min-width: 0;
+    flex: 1;
+}
+
+.teacher-exam-average strong {
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+    font-size: 15px;
 }
 
 .teacher-grade-entry-row:last-child {

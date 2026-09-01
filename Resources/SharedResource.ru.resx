@@ -2305,21 +2305,6 @@
   <data name="Please come to school on {0}. {1}" xml:space="preserve">
     <value>Пожалуйста, приходите в школу {0}. {1}</value>
   </data>
-  <data name="Exams" xml:space="preserve">
-    <value>Экзамены</value>
-  </data>
-  <data name="Choose a group and subject to enter exam results" xml:space="preserve">
-    <value>Выберите группу и предмет, чтобы внести результаты экзаменов</value>
-  </data>
-  <data name="Open Sheet" xml:space="preserve">
-    <value>Открыть ведомость</value>
-  </data>
-  <data name="No groups or subjects assigned" xml:space="preserve">
-    <value>Нет назначенных групп или предметов</value>
-  </data>
-  <data name="Ask the administration to assign you to a group and subject first." xml:space="preserve">
-    <value>Попросите администрацию сначала назначить вас на группу и предмет.</value>
-  </data>
   <data name="Exam 1" xml:space="preserve">
     <value>Экзамен №1</value>
   </data>
@@ -2329,16 +2314,7 @@
   <data name="Average" xml:space="preserve">
     <value>Средний балл</value>
   </data>
-  <data name="Save Results" xml:space="preserve">
-    <value>Сохранить результаты</value>
-  </data>
-  <data name="The exam sheet contains invalid values." xml:space="preserve">
-    <value>В ведомости есть некорректные значения.</value>
-  </data>
-  <data name="Exam results saved." xml:space="preserve">
-    <value>Результаты экзаменов сохранены.</value>
-  </data>
-  <data name="No teacher is assigned to this group and subject yet." xml:space="preserve">
-    <value>На эту группу и предмет пока не назначен учитель.</value>
+  <data name="Enter a lesson grade, two exam scores and an optional comment - all from 0 to 100" xml:space="preserve">
+    <value>Введите оценку за урок, два результата экзаменов и, при желании, комментарий - всё по шкале 0-100</value>
   </data>
 </root>

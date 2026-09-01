@@ -68,9 +68,9 @@ html[data-theme="dark"] .form-actions .btn-outline-secondary:hover {
 
 .teacher-grade-entry-row {
     display: grid;
-    grid-template-columns: minmax(250px, 1fr) 150px minmax(300px, 1.65fr);
+    grid-template-columns: minmax(200px, 1fr) 120px minmax(260px, 1.4fr) minmax(220px, 1.2fr);
     align-items: center;
-    gap: 24px;
+    gap: 20px;
     padding: 18px 4px;
     border-bottom: 1px solid var(--ui-border, #e6eaf0);
 }
@@ -80,8 +80,36 @@ html[data-theme="dark"] .form-actions .btn-outline-secondary:hover {
 }
 
 .teacher-grade-input,
-.teacher-grade-comment {
+.teacher-grade-comment,
+.teacher-grade-exams {
     min-width: 0;
+}
+
+.teacher-grade-exams {
+    display: flex;
+    gap: 12px;
+}
+
+.teacher-exam-field,
+.teacher-exam-average {
+    min-width: 0;
+    flex: 1;
+}
+
+.teacher-exam-average label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--ui-muted, #64748b);
+}
+
+.teacher-exam-average strong {
+    display: block;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
 }
 
 .teacher-grade-input label,
@@ -805,8 +833,13 @@ html[data-theme="dark"] .details-child-row:hover {
         grid-template-columns: 1fr 130px;
     }
 
+    .teacher-grade-exams,
     .teacher-grade-comment {
         grid-column: 1 / -1;
+    }
+
+    .teacher-grade-exams {
+        flex-wrap: wrap;
     }
 }
 

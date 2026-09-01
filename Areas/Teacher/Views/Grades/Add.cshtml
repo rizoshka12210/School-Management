@@ -33,7 +33,7 @@
             <div class="section-header">
                 <div>
                     <h5 class="section-title">@Localizer["Student Grades"]</h5>
-                    <p class="section-subtitle">@Localizer["Enter a grade from 0 to 100 and an optional comment"]</p>
+                    <p class="section-subtitle">@Localizer["Enter a lesson grade, two exam scores and an optional comment - all from 0 to 100"]</p>
                 </div>
                 <div class="teacher-count-label">@Localizer["{0} student(s)", Model.Students.Count]</div>
             </div>
@@ -79,6 +79,41 @@
                                 <span asp-validation-for="Students[i].Value" class="text-danger small"></span>
                             </div>
 
+                            <div class="teacher-grade-exams">
+                                <div class="teacher-exam-field">
+                                    <label for="Students_@(i)__Exam1">@Localizer["Exam 1"]</label>
+                                    <input type="text"
+                                           inputmode="decimal"
+                                           id="Students_@(i)__Exam1"
+                                           name="Students[@i].Exam1"
+                                           class="form-control exam-input"
+                                           data-row="@i"
+                                           placeholder="0-100"
+                                           value="@(Model.Students[i].Exam1?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")" />
+                                    <span asp-validation-for="Students[i].Exam1" class="text-danger small"></span>
+                                </div>
+
+                                <div class="teacher-exam-field">
+                                    <label for="Students_@(i)__Exam2">@Localizer["Exam 2"]</label>
+                                    <input type="text"
+                                           inputmode="decimal"
+                                           id="Students_@(i)__Exam2"
+                                           name="Students[@i].Exam2"
+                                           class="form-control exam-input"
+                                           data-row="@i"
+                                           placeholder="0-100"
+                                           value="@(Model.Students[i].Exam2?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")" />
+                                    <span asp-validation-for="Students[i].Exam2" class="text-danger small"></span>
+                                </div>
+
+                                <div class="teacher-exam-average">
+                                    <label>@Localizer["Average"]</label>
+                                    <strong class="exam-average" data-row="@i">
+                                        @(Model.Students[i].Average?.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) ?? "—")
+                                    </strong>
+                                </div>
+                            </div>
+
                             <div class="teacher-grade-comment">
                                 <label asp-for="Students[i].Comment">@Localizer["Comment"]</label>
                                 <input asp-for="Students[i].Comment" class="form-control" placeholder="@Localizer["Optional comment..."]" />
@@ -110,4 +145,34 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        (() => {
+            const parse = value => {
+                if (!value) return null;
+                const normalized = value.trim().replace(",", ".");
+                const number = Number(normalized);
+                return Number.isNaN(number) ? null : number;
+            };
+
+            const refreshRow = row => {
+                const exam1 = parse(document.querySelector(`.exam-input[name="Students[${row}].Exam1"]`)?.value);
+                const exam2 = parse(document.querySelector(`.exam-input[name="Students[${row}].Exam2"]`)?.value);
+                const target = document.querySelector(`.exam-average[data-row="${row}"]`);
+
+                if (!target) return;
+
+                let average = null;
+                if (exam1 !== null && exam2 !== null) average = Math.round(((exam1 + exam2) / 2) * 100) / 100;
+                else if (exam1 !== null) average = exam1;
+                else if (exam2 !== null) average = exam2;
+
+                target.textContent = average === null ? "—" : average.toString();
+            };
+
+            document.querySelectorAll(".exam-input").forEach(input => {
+                input.addEventListener("input", () => refreshRow(input.dataset.row));
+            });
+        })();
+    </script>
 }

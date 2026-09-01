@@ -5,6 +5,7 @@ using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Services;
+using SchoolManagementSystem.Web.ViewModels.Shared;
 using SchoolManagementSystem.Web.ViewModels.Teacher;
 
 using GradeEntity = SchoolManagementSystem.Web.Models.Entities.Grade;
@@ -15,16 +16,19 @@ public class GradesController : TeacherControllerBase
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly ActivityLogService _activityLog;
+    private readonly ExamSheetService _examSheetService;
 
     public GradesController(
         AppDbContext context,
         OwnershipHelper ownership,
         IStringLocalizer<SharedResource> localizer,
-        ActivityLogService activityLog)
+        ActivityLogService activityLog,
+        ExamSheetService examSheetService)
         : base(context, ownership)
     {
         _localizer = localizer;
         _activityLog = activityLog;
+        _examSheetService = examSheetService;
     }
 
     public async Task<IActionResult> Index()
@@ -70,6 +74,10 @@ public class GradesController : TeacherControllerBase
             return NotFound();
         }
 
+        var examGrades = await Context.ExamGrades
+            .Where(e => e.GroupId == lesson.GroupId && e.SubjectId == lesson.SubjectId)
+            .ToListAsync();
+
         var model = new GradeEntryViewModel
         {
             LessonId = lesson.Id,
@@ -85,12 +93,17 @@ public class GradesController : TeacherControllerBase
                     var existing = lesson.Grades
                         .FirstOrDefault(g => g.StudentId == s.Id);
 
+                    var exam = examGrades
+                        .FirstOrDefault(e => e.StudentId == s.Id);
+
                     return new GradeRow
                     {
                         StudentId = s.Id,
                         StudentName = $"{s.FirstName} {s.LastName}",
                         Value = existing?.Value,
-                        Comment = existing?.Comment
+                        Comment = existing?.Comment,
+                        Exam1 = exam?.Exam1,
+                        Exam2 = exam?.Exam2
                     };
                 })
                 .ToList()
@@ -186,6 +199,17 @@ public class GradesController : TeacherControllerBase
         }
 
         await Context.SaveChangesAsync();
+
+        await _examSheetService.SaveAsync(
+            lesson.GroupId,
+            lesson.SubjectId,
+            teacherId!.Value,
+            model.Students.Select(row => new ExamSheetRowViewModel
+            {
+                StudentId = row.StudentId,
+                Exam1 = row.Exam1,
+                Exam2 = row.Exam2
+            }));
 
         TempData["Success"] = _localizer["Grades saved."].Value;
 
