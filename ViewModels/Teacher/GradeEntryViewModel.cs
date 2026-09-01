@@ -35,4 +35,7 @@ public class GradeRow
         Exam1.HasValue && Exam2.HasValue
             ? Math.Round((Exam1.Value + Exam2.Value) / 2, 2)
             : Exam1 ?? Exam2;
+
+    [StringLength(300)]
+    public string? Comment { get; set; }
 }

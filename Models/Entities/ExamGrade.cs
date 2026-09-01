@@ -27,6 +27,8 @@ public class ExamGrade
 
     public decimal? Exam2 { get; set; }
 
+    public string? Comment { get; set; }
+
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     /// <summary>

@@ -63,7 +63,8 @@ public class ExamSheetService
                 StudentId = student.Id,
                 StudentName = $"{student.FirstName} {student.LastName}",
                 Exam1 = record?.Exam1,
-                Exam2 = record?.Exam2
+                Exam2 = record?.Exam2,
+                Comment = record?.Comment
             });
         }
 
@@ -102,8 +103,11 @@ public class ExamSheetService
             }
 
             var record = existing.FirstOrDefault(e => e.StudentId == row.StudentId);
+            var hasContent = row.Exam1.HasValue ||
+                row.Exam2.HasValue ||
+                !string.IsNullOrWhiteSpace(row.Comment);
 
-            if (!row.Exam1.HasValue && !row.Exam2.HasValue)
+            if (!hasContent)
             {
                 if (record != null)
                 {
@@ -123,6 +127,7 @@ public class ExamSheetService
                     TeacherId = teacherId,
                     Exam1 = row.Exam1,
                     Exam2 = row.Exam2,
+                    Comment = row.Comment,
                     UpdatedAt = DateTime.UtcNow
                 });
             }
@@ -130,6 +135,7 @@ public class ExamSheetService
             {
                 record.Exam1 = row.Exam1;
                 record.Exam2 = row.Exam2;
+                record.Comment = row.Comment;
                 record.TeacherId = teacherId;
                 record.UpdatedAt = DateTime.UtcNow;
             }

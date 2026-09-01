@@ -1,4 +1,5 @@
 @model SchoolManagementSystem.Web.ViewModels.Teacher.GradeEntryViewModel
+@using System.Globalization
 
 @{
     ViewData["Title"] = Localizer["Enter Grades"];
@@ -48,61 +49,70 @@
             }
             else
             {
-                <div class="teacher-grade-entry-list">
-                    @for (var i = 0; i < Model.Students.Count; i++)
-                    {
-                        <input type="hidden" asp-for="Students[i].StudentId" />
-                        <input type="hidden" asp-for="Students[i].StudentName" />
+                <div class="table-responsive">
+                    <table class="table table-hover management-table exam-grades-table">
+                        <thead>
+                            <tr>
+                                <th>@Localizer["Student"]</th>
+                                <th>@Localizer["Exam 1"]</th>
+                                <th>@Localizer["Exam 2"]</th>
+                                <th>@Localizer["Average"]</th>
+                                <th>@Localizer["Comment"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.Students.Count; i++)
+                            {
+                                var row = Model.Students[i];
 
-                        <div class="teacher-grade-entry-row">
-                            <div class="teacher-attendance-student">
-                                <div class="person-avatar">
-                                    @(string.IsNullOrWhiteSpace(Model.Students[i].StudentName)
-                                        ? "S"
-                                        : Model.Students[i].StudentName.Substring(0, 1).ToUpper())
-                                </div>
-                                <div>
-                                    <strong>@Model.Students[i].StudentName</strong>
-                                    <span>@Localizer["Student"]</span>
-                                </div>
-                            </div>
-
-                            <div class="teacher-grade-exams">
-                                <div class="teacher-exam-field">
-                                    <label for="Students_@(i)__Exam1">@Localizer["Exam 1"]</label>
-                                    <input type="text"
-                                           inputmode="decimal"
-                                           id="Students_@(i)__Exam1"
-                                           name="Students[@i].Exam1"
-                                           class="form-control exam-input"
-                                           data-row="@i"
-                                           placeholder="0-100"
-                                           value="@(Model.Students[i].Exam1?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")" />
-                                    <span asp-validation-for="Students[i].Exam1" class="text-danger small"></span>
-                                </div>
-
-                                <div class="teacher-exam-field">
-                                    <label for="Students_@(i)__Exam2">@Localizer["Exam 2"]</label>
-                                    <input type="text"
-                                           inputmode="decimal"
-                                           id="Students_@(i)__Exam2"
-                                           name="Students[@i].Exam2"
-                                           class="form-control exam-input"
-                                           data-row="@i"
-                                           placeholder="0-100"
-                                           value="@(Model.Students[i].Exam2?.ToString(System.Globalization.CultureInfo.InvariantCulture) ?? "")" />
-                                    <span asp-validation-for="Students[i].Exam2" class="text-danger small"></span>
-                                </div>
-
-                                <div class="teacher-exam-average">
-                                    <label>@Localizer["Average"]</label>
-                                    <strong class="exam-average" data-row="@i">
-                                        @(Model.Students[i].Average?.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) ?? "—")
-                                    </strong>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                                <tr>
+                                    <td>
+                                        <input type="hidden" asp-for="Students[i].StudentId" />
+                                        <input type="hidden" asp-for="Students[i].StudentName" />
+                                        <div class="teacher-attendance-student">
+                                            <div class="person-avatar">
+                                                @(string.IsNullOrWhiteSpace(row.StudentName)
+                                                    ? "S"
+                                                    : row.StudentName.Substring(0, 1).ToUpper())
+                                            </div>
+                                            <div>
+                                                <strong>@row.StudentName</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                               inputmode="decimal"
+                                               name="Students[@i].Exam1"
+                                               class="form-control exam-input"
+                                               data-row="@i"
+                                               placeholder="0-100"
+                                               value="@(row.Exam1?.ToString(CultureInfo.InvariantCulture) ?? "")" />
+                                        <span asp-validation-for="Students[i].Exam1" class="text-danger small"></span>
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                               inputmode="decimal"
+                                               name="Students[@i].Exam2"
+                                               class="form-control exam-input"
+                                               data-row="@i"
+                                               placeholder="0-100"
+                                               value="@(row.Exam2?.ToString(CultureInfo.InvariantCulture) ?? "")" />
+                                        <span asp-validation-for="Students[i].Exam2" class="text-danger small"></span>
+                                    </td>
+                                    <td>
+                                        <strong class="exam-average" data-row="@i">
+                                            @(row.Average?.ToString("0.##", CultureInfo.InvariantCulture) ?? "—")
+                                        </strong>
+                                    </td>
+                                    <td>
+                                        <input asp-for="Students[i].Comment" class="form-control" placeholder="@Localizer["Optional comment..."]" />
+                                        <span asp-validation-for="Students[i].Comment" class="text-danger small"></span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             }
         </div>

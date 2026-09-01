@@ -92,7 +92,8 @@ public class GradesController : TeacherControllerBase
                         StudentId = s.Id,
                         StudentName = $"{s.FirstName} {s.LastName}",
                         Exam1 = exam?.Exam1,
-                        Exam2 = exam?.Exam2
+                        Exam2 = exam?.Exam2,
+                        Comment = exam?.Comment
                     };
                 })
                 .ToList()
@@ -143,7 +144,8 @@ public class GradesController : TeacherControllerBase
             {
                 StudentId = row.StudentId,
                 Exam1 = row.Exam1,
-                Exam2 = row.Exam2
+                Exam2 = row.Exam2,
+                Comment = row.Comment
             }));
 
         TempData["Success"] = _localizer["Grades saved."].Value;

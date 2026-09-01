@@ -60,81 +60,36 @@ html[data-theme="dark"] .form-actions .btn-outline-secondary:hover {
     border-color: rgba(129, 140, 248, .55) !important;
 }
 
-/* ---------- Teacher grade entry ---------- */
-.teacher-grade-entry-list {
-    display: flex;
-    flex-direction: column;
+/* ---------- Teacher grade entry (exam sheet) ---------- */
+.exam-grades-table th,
+.exam-grades-table td {
+    vertical-align: middle;
 }
 
-.teacher-grade-entry-row {
-    display: grid;
-    grid-template-columns: minmax(200px, 1fr) minmax(320px, 1.6fr);
-    align-items: center;
-    gap: 20px;
-    padding: 18px 4px;
-    border-bottom: 1px solid var(--ui-border, #e6eaf0);
+.exam-grades-table .exam-input {
+    min-width: 90px;
+    max-width: 110px;
 }
 
-.teacher-grade-entry-row:last-child {
-    border-bottom: 0;
-}
-
-.teacher-grade-input,
-.teacher-grade-comment,
-.teacher-grade-exams {
-    min-width: 0;
-}
-
-.teacher-grade-exams {
-    display: flex;
-    gap: 12px;
-}
-
-.teacher-exam-field,
-.teacher-exam-average {
-    min-width: 0;
-    flex: 1;
-}
-
-.teacher-exam-average label {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--ui-muted, #64748b);
-}
-
-.teacher-exam-average strong {
-    display: block;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
+.exam-grades-table .exam-average {
+    display: inline-block;
+    min-width: 50px;
     font-size: 15px;
 }
 
-.teacher-grade-input label,
-.teacher-grade-comment label {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--ui-muted, #64748b);
+.exam-grades-table td:last-child .form-control {
+    min-width: 200px;
 }
 
-.teacher-grade-entry-row .form-control,
-.teacher-grade-entry-row .form-select {
+.exam-grades-table .form-control {
     min-height: 44px;
 }
 
-.teacher-grade-entry-row .person-avatar {
-    width: 44px;
-    height: 44px;
+.exam-grades-table .person-avatar {
+    width: 40px;
+    height: 40px;
     border-radius: 12px;
     box-shadow: inset 0 0 0 1px rgba(79, 70, 229, .12);
-}
-
-html[data-theme="dark"] .teacher-grade-entry-row {
-    border-color: #2b3950 !important;
 }
 
 /* ---------- Parent dashboard ---------- */
@@ -828,16 +783,6 @@ html[data-theme="dark"] .details-child-row:hover {
     }
 }
 
-@media (max-width: 700px) {
-    .teacher-grade-entry-row {
-        grid-template-columns: 1fr;
-    }
-
-    .teacher-grade-exams {
-        flex-wrap: wrap;
-    }
-}
-
 @media (max-width: 720px) {
     .parent-summary-bar,
     .details-summary {
@@ -873,15 +818,6 @@ html[data-theme="dark"] .details-child-row:hover {
 }
 
 @media (max-width: 560px) {
-    .teacher-grade-entry-row {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .teacher-grade-comment {
-        grid-column: auto;
-    }
-
     .parent-child-header {
         align-items: flex-start;
         flex-direction: column;
