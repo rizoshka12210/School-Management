@@ -1864,6 +1864,12 @@
   <data name="Show" xml:space="preserve">
     <value>Show</value>
   </data>
+  <data name="Show password" xml:space="preserve">
+    <value>Show password</value>
+  </data>
+  <data name="Hide password" xml:space="preserve">
+    <value>Hide password</value>
+  </data>
   <data name="Showing {0} attendance record(s)" xml:space="preserve">
     <value>Showing {0} attendance record(s)</value>
   </data>

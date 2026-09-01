@@ -247,6 +247,57 @@
             color: #9ca3af;
         }
 
+        .login-password-field {
+            position: relative;
+        }
+
+        .login-password-field .login-input {
+            padding-right: 42px;
+        }
+
+        .login-password-toggle {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            background: transparent;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .login-password-toggle:hover {
+            color: #6366f1;
+        }
+
+        .login-password-toggle:focus-visible {
+            outline: 2px solid #6366f1;
+            outline-offset: -2px;
+            border-radius: 8px;
+        }
+
+        .login-password-toggle svg {
+            width: 19px;
+            height: 19px;
+        }
+
+        .login-password-toggle .icon-eye-off {
+            display: none;
+        }
+
+        .login-password-toggle.is-visible .icon-eye {
+            display: none;
+        }
+
+        .login-password-toggle.is-visible .icon-eye-off {
+            display: block;
+        }
+
         .login-field {
             margin-bottom: 20px;
         }
@@ -417,6 +468,14 @@
             box-shadow: 0 0 0 4px rgba(99, 102, 241, .16);
         }
 
+        html[data-theme="dark"] .login-password-toggle {
+            color: #64748b;
+        }
+
+        html[data-theme="dark"] .login-password-toggle:hover {
+            color: #818cf8;
+        }
+
         html[data-theme="dark"] .login-validation,
         html[data-theme="dark"] .field-validation-error {
             color: #fca5a5;
@@ -558,10 +617,30 @@
                             @Localizer["Password"]
                         </label>
 
-                        <input asp-for="Password"
-                               class="login-input"
-                               placeholder="@Localizer["Enter your password"]"
-                               autocomplete="current-password" />
+                        <div class="login-password-field">
+                            <input asp-for="Password"
+                                   id="loginPasswordInput"
+                                   class="login-input"
+                                   placeholder="@Localizer["Enter your password"]"
+                                   autocomplete="current-password" />
+
+                            <button type="button"
+                                    id="loginPasswordToggle"
+                                    class="login-password-toggle"
+                                    aria-label="@Localizer["Show password"]"
+                                    aria-pressed="false"
+                                    data-show-label="@Localizer["Show password"]"
+                                    data-hide-label="@Localizer["Hide password"]">
+                                <svg class="icon-eye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a20.3 20.3 0 0 1 5.06-6.06M9.9 4.24A10.4 10.4 0 0 1 12 4c7 0 11 8 11 8a20.3 20.3 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                            </button>
+                        </div>
 
                         <span asp-validation-for="Password"></span>
                     </div>
@@ -592,6 +671,22 @@
 <script src="~/js/pwa.js" asp-append-version="true"></script>
 <script>
     document.getElementById("loginBackBtn").onclick = () => history.back();
+
+    (() => {
+        const toggle = document.getElementById("loginPasswordToggle");
+        const input = document.getElementById("loginPasswordInput");
+        if (!toggle || !input) return;
+
+        toggle.addEventListener("click", () => {
+            const isVisible = input.type === "text";
+            input.type = isVisible ? "password" : "text";
+            toggle.classList.toggle("is-visible", !isVisible);
+            toggle.setAttribute("aria-pressed", (!isVisible).toString());
+            const label = !isVisible ? toggle.dataset.hideLabel : toggle.dataset.showLabel;
+            toggle.setAttribute("aria-label", label);
+            toggle.title = label;
+        });
+    })();
 </script>
 </body>
 </html>

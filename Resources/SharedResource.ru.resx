@@ -1861,6 +1861,12 @@
   <data name="Show" xml:space="preserve">
     <value>Показать</value>
   </data>
+  <data name="Show password" xml:space="preserve">
+    <value>Показать пароль</value>
+  </data>
+  <data name="Hide password" xml:space="preserve">
+    <value>Скрыть пароль</value>
+  </data>
   <data name="Showing {0} attendance record(s)" xml:space="preserve">
     <value>Показано записей о посещаемости: {0}</value>
   </data>

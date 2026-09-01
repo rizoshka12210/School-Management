@@ -1864,6 +1864,12 @@
   <data name="Show" xml:space="preserve">
     <value>Нишон додан</value>
   </data>
+  <data name="Show password" xml:space="preserve">
+    <value>Нишон додани парол</value>
+  </data>
+  <data name="Hide password" xml:space="preserve">
+    <value>Пинҳон кардани парол</value>
+  </data>
   <data name="Showing {0} attendance record(s)" xml:space="preserve">
     <value>Нишон дода мешавад: {0} сабти ҳозирӣ</value>
   </data>
