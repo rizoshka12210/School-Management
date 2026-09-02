@@ -628,15 +628,6 @@ html[data-theme="dark"] .journal-cell-empty {
     color: #64748b !important;
 }
 
-html[data-theme="dark"] .line-chart-grid {
-    stroke: #334155 !important;
-}
-
-html[data-theme="dark"] .line-chart-axis-label,
-html[data-theme="dark"] .line-chart-x-label {
-    fill: #94a3b8 !important;
-}
-
 html[data-theme="dark"] .ai-assistant-panel {
     background: #111827 !important;
     border-color: var(--dm-border) !important;

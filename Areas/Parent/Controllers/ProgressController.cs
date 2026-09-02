@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
-using SchoolManagementSystem.Web.Models.Entities;
 using SchoolManagementSystem.Web.Models.Enums;
 using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Parent;
@@ -25,7 +24,7 @@ public class ProgressController : ParentControllerBase
         _attendanceService = attendanceService;
     }
 
-    public async Task<IActionResult> Index(int? studentId, int? subjectId)
+    public async Task<IActionResult> Index(int? studentId)
     {
         var resolvedId =
             await ResolveStudentIdAsync(studentId);
@@ -116,81 +115,6 @@ public class ProgressController : ParentControllerBase
             .OrderBy(s => s.SubjectName)
             .ToList();
 
-        int? comparisonSubjectId = null;
-        string? comparisonSubjectName = null;
-        GroupComparisonChartViewModel? groupComparison = null;
-
-        if (student.GroupId.HasValue && subjects.Any())
-        {
-            comparisonSubjectId = subjectId.HasValue &&
-                subjects.Any(s => s.SubjectId == subjectId.Value)
-                    ? subjectId
-                    : subjects
-                        .OrderByDescending(s => s.GradesCount)
-                        .First()
-                        .SubjectId;
-
-            comparisonSubjectName = subjects
-                .First(s => s.SubjectId == comparisonSubjectId)
-                .SubjectName;
-
-            var groupGrades = await Context.Grades
-                .Where(g =>
-                    g.SubjectId == comparisonSubjectId.Value &&
-                    g.Student.GroupId == student.GroupId)
-                .Select(g => new
-                {
-                    g.Date,
-                    g.Value,
-                    g.StudentId,
-                    g.Student.FirstName,
-                    g.Student.LastName
-                })
-                .ToListAsync();
-
-            var buckets = groupGrades
-                .Select(g => g.Date.Date)
-                .Distinct()
-                .OrderBy(d => d)
-                .ToList();
-
-            // One line per student in the group (not a blended average),
-            // so the parent can see exactly where their child stands
-            // among their actual classmates - the child's own line is
-            // flagged via IsChild for the view to highlight it. Points
-            // are per grading date rather than per month, so the chart
-            // is as dense as the group's actual grade history.
-            var series = groupGrades
-                .GroupBy(g => new { g.StudentId, g.FirstName, g.LastName })
-                .Select(g => new StudentSeriesViewModel
-                {
-                    StudentId = g.Key.StudentId,
-                    StudentName = $"{g.Key.FirstName} {g.Key.LastName}",
-                    IsChild = g.Key.StudentId == student.Id,
-                    Values = buckets
-                        .Select(bucket =>
-                        {
-                            var onDate = g
-                                .Where(x => x.Date.Date == bucket)
-                                .ToList();
-
-                            return onDate.Any()
-                                ? (double?)Math.Round(onDate.Average(x => x.Value), 2)
-                                : null;
-                        })
-                        .ToList()
-                })
-                .OrderByDescending(s => s.IsChild)
-                .ThenBy(s => s.StudentName)
-                .ToList();
-
-            groupComparison = new GroupComparisonChartViewModel
-            {
-                PointLabels = buckets.Select(b => b.ToString("dd MMM")).ToList(),
-                Series = series
-            };
-        }
-
         var model = new ProgressViewModel
         {
             StudentId = student.Id,
@@ -218,13 +142,7 @@ public class ProgressController : ParentControllerBase
 
             AttendanceRate = attendanceRate,
 
-            Subjects = subjects,
-
-            ComparisonSubjectId = comparisonSubjectId,
-
-            ComparisonSubjectName = comparisonSubjectName,
-
-            GroupComparison = groupComparison
+            Subjects = subjects
         };
 
         return View(model);
