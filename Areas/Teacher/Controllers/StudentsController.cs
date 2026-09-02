@@ -4,6 +4,7 @@ using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
 using SchoolManagementSystem.Web.Services;
+using SchoolManagementSystem.Web.ViewModels.Teacher;
 
 namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
@@ -88,13 +89,41 @@ public class StudentsController : TeacherControllerBase
             .Where(e =>
                 e.StudentId == id &&
                 e.TeacherId == teacherId)
+            .Include(e => e.Subject)
             .ToListAsync();
 
         ViewBag.Grades = grades;
 
-        ViewBag.AverageGrade = GradeAveragingHelper.Combine(
-            grades.Select(g => g.Value),
-            examGrades.Select(e => e.Average)) ?? 0;
+        var subjectIds = grades.Select(g => g.SubjectId)
+            .Union(examGrades.Select(e => e.SubjectId))
+            .Distinct();
+
+        ViewBag.SubjectBreakdown = subjectIds
+            .Select(subjectId =>
+            {
+                var subjectGrades = grades
+                    .Where(g => g.SubjectId == subjectId)
+                    .ToList();
+
+                var exam = examGrades
+                    .FirstOrDefault(e => e.SubjectId == subjectId);
+
+                var subjectName = subjectGrades.FirstOrDefault()?.Subject.Name
+                    ?? exam?.Subject.Name
+                    ?? string.Empty;
+
+                var average = GradeAveragingHelper.Combine(
+                    subjectGrades.Select(g => g.Value),
+                    exam == null ? Array.Empty<decimal?>() : new[] { exam.Average });
+
+                return new StudentSubjectAverageViewModel
+                {
+                    SubjectName = subjectName,
+                    Average = average
+                };
+            })
+            .OrderBy(s => s.SubjectName)
+            .ToList();
 
         return View(student);
     }

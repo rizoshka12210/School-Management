@@ -5,10 +5,19 @@
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
 
     var grades = ViewBag.Grades as List<Grade> ?? new List<Grade>();
+    var subjectBreakdown = ViewBag.SubjectBreakdown as List<SchoolManagementSystem.Web.ViewModels.Teacher.StudentSubjectAverageViewModel>
+        ?? new List<SchoolManagementSystem.Web.ViewModels.Teacher.StudentSubjectAverageViewModel>();
     double attendanceRate = Convert.ToDouble(ViewBag.AttendanceRate);
-    double averageGrade = Convert.ToDouble(ViewBag.AverageGrade);
     int presentCount = Convert.ToInt32(ViewBag.PresentCount);
     int totalLessons = Convert.ToInt32(ViewBag.TotalLessons);
+
+    string GradeClass(decimal? value) => value switch
+    {
+        null => string.Empty,
+        >= 90 => "grade-high",
+        >= 75 => "grade-good",
+        _ => "grade-low"
+    };
 }
 
 <link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
@@ -71,11 +80,28 @@
             </div>
             <div class="entity-panel-body">
                 <div class="entity-facts">
-                    <div class="entity-fact"><span>@Localizer["Average Grade"]</span><strong>@averageGrade.ToString("0.##")</strong></div>
                     <div class="entity-fact"><span>@Localizer["Attendance"]</span><strong>@attendanceRate.ToString("0.#")%</strong></div>
-                    <div class="entity-fact"><span>@Localizer["Grades"]</span><strong>@grades.Count</strong></div>
                     <div class="entity-fact"><span>@Localizer["Recorded Lessons"]</span><strong>@totalLessons</strong></div>
                 </div>
+
+                @if (subjectBreakdown.Any())
+                {
+                    <div class="entity-subject-breakdown">
+                        @foreach (var subject in subjectBreakdown)
+                        {
+                            <div class="entity-subject-row">
+                                <span class="subject-badge">@subject.SubjectName</span>
+                                <span class="grade-badge @GradeClass(subject.Average)">
+                                    @(subject.Average?.ToString("0.##") ?? "—")
+                                </span>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted small mt-3 mb-0">@Localizer["No grades recorded yet"]</p>
+                }
             </div>
         </section>
     </div>

@@ -400,6 +400,29 @@
 
 .entity-fact a:hover { color: #6366f1; }
 
+.entity-subject-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.entity-subject-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--ui-border, #e6eaf0);
+    border-radius: 12px;
+    background: var(--ui-surface-soft, #f8fafc);
+}
+
+html[data-theme="dark"] .entity-subject-row {
+    background: #172033;
+    border-color: #2b3950;
+}
+
 .entity-empty {
     min-height: 150px;
     display: grid;
