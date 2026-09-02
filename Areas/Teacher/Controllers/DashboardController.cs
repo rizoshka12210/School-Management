@@ -53,6 +53,8 @@ public class DashboardController : TeacherControllerBase
             .Select(l => new TeacherLessonSummary
             {
                 LessonId = l.Id,
+                GroupId = l.GroupId,
+                SubjectId = l.SubjectId,
                 GroupName = l.Group.Name,
                 SubjectName = l.Subject.Name,
                 StartTime = l.StartTime,

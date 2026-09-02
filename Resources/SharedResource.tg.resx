@@ -2314,7 +2314,13 @@
   <data name="Average" xml:space="preserve">
     <value>Балли миёна</value>
   </data>
-  <data name="Enter two exam scores from 0 to 100 - the average is calculated automatically" xml:space="preserve">
-    <value>Ду натиҷаи имтиҳонро аз 0 то 100 ворид кунед - балли миёна худкор ҳисоб карда мешавад</value>
+  <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
+    <value>Гурӯҳро, сипас фанро интихоб кунед, то ба хонандагон баҳо гузоред</value>
+  </data>
+  <data name="Groups you teach will appear here once you have lessons scheduled." xml:space="preserve">
+    <value>Гурӯҳҳое, ки шумо дарс медиҳед, пас аз таъин шудани дарсҳо дар ин ҷо пайдо мешаванд.</value>
+  </data>
+  <data name="The grade sheet contains invalid values." xml:space="preserve">
+    <value>Дар варақаи баҳоҳо қиматҳои нодуруст мавҷуданд.</value>
   </data>
 </root>

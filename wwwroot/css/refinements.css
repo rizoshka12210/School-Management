@@ -92,6 +92,72 @@ html[data-theme="dark"] .form-actions .btn-outline-secondary:hover {
     box-shadow: inset 0 0 0 1px rgba(79, 70, 229, .12);
 }
 
+.teacher-grade-group-card {
+    min-height: 0;
+}
+
+.teacher-grade-subject-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.teacher-grade-subject-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--ui-border, #e5e7eb);
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+    transition: border-color .15s ease, background .15s ease;
+}
+
+.teacher-grade-subject-link:hover {
+    border-color: #c7d2fe;
+    background: rgba(79, 70, 229, .05);
+    color: inherit;
+}
+
+.teacher-grade-subject-status {
+    margin-left: auto;
+}
+
+.teacher-grade-subject-link > .bi-chevron-right {
+    color: #cbd5e1;
+}
+
+.teacher-grade-subject-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.teacher-grade-subject-tab {
+    padding: 8px 16px;
+    border: 1px solid var(--ui-border, #e5e7eb);
+    border-radius: 999px;
+    text-decoration: none;
+    color: var(--ui-muted, #64748b);
+    font-size: 13px;
+    font-weight: 650;
+    transition: border-color .15s ease, background .15s ease, color .15s ease;
+}
+
+.teacher-grade-subject-tab:hover {
+    border-color: #c7d2fe;
+    color: inherit;
+}
+
+.teacher-grade-subject-tab.active {
+    border-color: #4f46e5;
+    background: #4f46e5;
+    color: white;
+}
+
 /* ---------- Parent dashboard ---------- */
 .parent-dashboard-header {
     margin-bottom: 24px;

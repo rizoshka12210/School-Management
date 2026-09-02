@@ -1,45 +1,46 @@
-@model SchoolManagementSystem.Web.ViewModels.Teacher.GradeEntryViewModel
+@model SchoolManagementSystem.Web.ViewModels.Shared.ExamSheetViewModel
 @using System.Globalization
+@using SchoolManagementSystem.Web.ViewModels.Teacher
 
 @{
-    ViewData["Title"] = Localizer["Enter Grades"];
+    ViewData["Title"] = Model.SubjectName;
+    var subjects = (List<GradesSubjectViewModel>)ViewBag.Subjects;
 }
 
-<div class="form-page-header">
-
-    <a asp-action="Index" class="back-link">← @Localizer["Grades"]</a>
-
-    <div class="teacher-lesson-form-header mt-3">
-        <div class="teacher-lesson-form-icon grade-form-icon"><i class="bi bi-journal-check"></i></div>
-        <div>
-            <h1 class="page-title mb-1">@Localizer["Enter Grades"]</h1>
-            <div class="teacher-lesson-meta">
-                <span class="subject-badge">@Model.SubjectName</span>
-                <span class="group-badge">@Model.GroupName</span>
-                <span>@Model.LessonDate.ToString("dd MMM yyyy")</span>
-            </div>
-        </div>
+<div class="page-header">
+    <div>
+        <a asp-action="Index" class="back-link">← @Localizer["Grades"]</a>
+        <h1 class="page-title mt-2">@Model.GroupName</h1>
+        <p class="page-subtitle">@Model.SubjectName · @Model.Date.ToString("dd MMM yyyy")</p>
     </div>
-
 </div>
 
-<form asp-action="Add" method="post">
+@if (subjects.Count > 1)
+{
+    <div class="teacher-grade-subject-tabs">
+        @foreach (var subject in subjects)
+        {
+            <a asp-action="Group"
+               asp-route-groupId="@Model.GroupId"
+               asp-route-subjectId="@subject.SubjectId"
+               class="teacher-grade-subject-tab @(subject.SubjectId == Model.SubjectId ? "active" : "")">
+                @subject.SubjectName
+            </a>
+        }
+    </div>
+}
+
+<form asp-action="Group" method="post">
     @Html.AntiForgeryToken()
-    <input type="hidden" asp-for="LessonId" />
+    <input type="hidden" name="GroupId" value="@Model.GroupId" />
+    <input type="hidden" name="SubjectId" value="@Model.SubjectId" />
 
     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
     <div class="card border-0 shadow-sm">
         <div class="card-body">
-            <div class="section-header">
-                <div>
-                    <h5 class="section-title">@Localizer["Student Grades"]</h5>
-                    <p class="section-subtitle">@Localizer["Enter two exam scores from 0 to 100 - the average is calculated automatically"]</p>
-                </div>
-                <div class="teacher-count-label">@Localizer["{0} student(s)", Model.Students.Count]</div>
-            </div>
 
-            @if (!Model.Students.Any())
+            @if (!Model.Rows.Any())
             {
                 <div class="teacher-empty">
                     <div class="teacher-empty-icon"><i class="bi bi-people-fill"></i></div>
@@ -61,14 +62,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @for (var i = 0; i < Model.Students.Count; i++)
+                            @for (var i = 0; i < Model.Rows.Count; i++)
                             {
-                                var row = Model.Students[i];
+                                var row = Model.Rows[i];
 
                                 <tr>
                                     <td>
-                                        <input type="hidden" asp-for="Students[i].StudentId" />
-                                        <input type="hidden" asp-for="Students[i].StudentName" />
+                                        <input type="hidden" name="Rows[@i].StudentId" value="@row.StudentId" />
                                         <div class="teacher-attendance-student">
                                             <div class="person-avatar">
                                                 @(string.IsNullOrWhiteSpace(row.StudentName)
@@ -83,22 +83,20 @@
                                     <td>
                                         <input type="text"
                                                inputmode="decimal"
-                                               name="Students[@i].Exam1"
+                                               name="Rows[@i].Exam1"
                                                class="form-control exam-input"
                                                data-row="@i"
                                                placeholder="0-100"
                                                value="@(row.Exam1?.ToString(CultureInfo.InvariantCulture) ?? "")" />
-                                        <span asp-validation-for="Students[i].Exam1" class="text-danger small"></span>
                                     </td>
                                     <td>
                                         <input type="text"
                                                inputmode="decimal"
-                                               name="Students[@i].Exam2"
+                                               name="Rows[@i].Exam2"
                                                class="form-control exam-input"
                                                data-row="@i"
                                                placeholder="0-100"
                                                value="@(row.Exam2?.ToString(CultureInfo.InvariantCulture) ?? "")" />
-                                        <span asp-validation-for="Students[i].Exam2" class="text-danger small"></span>
                                     </td>
                                     <td>
                                         <strong class="exam-average" data-row="@i">
@@ -106,31 +104,29 @@
                                         </strong>
                                     </td>
                                     <td>
-                                        <input asp-for="Students[i].Comment" class="form-control" placeholder="@Localizer["Optional comment..."]" />
-                                        <span asp-validation-for="Students[i].Comment" class="text-danger small"></span>
+                                        <input type="text"
+                                               name="Rows[@i].Comment"
+                                               class="form-control"
+                                               maxlength="300"
+                                               placeholder="@Localizer["Optional comment..."]"
+                                               value="@row.Comment" />
                                     </td>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check2-circle"></i>
+                        @Localizer["Save Grades"]
+                    </button>
+                </div>
             }
+
         </div>
     </div>
-
-    @if (Model.Students.Any())
-    {
-        <div class="form-actions">
-            <a asp-action="Index" class="btn btn-light">
-                <i class="bi bi-x-lg"></i>
-                @Localizer["Cancel"]
-            </a>
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-check2-circle"></i>
-                @Localizer["Save Grades"]
-            </button>
-        </div>
-    }
 
 </form>
 
@@ -148,8 +144,8 @@
             };
 
             const refreshRow = row => {
-                const exam1 = parse(document.querySelector(`.exam-input[name="Students[${row}].Exam1"]`)?.value);
-                const exam2 = parse(document.querySelector(`.exam-input[name="Students[${row}].Exam2"]`)?.value);
+                const exam1 = parse(document.querySelector(`.exam-input[name="Rows[${row}].Exam1"]`)?.value);
+                const exam2 = parse(document.querySelector(`.exam-input[name="Rows[${row}].Exam2"]`)?.value);
                 const target = document.querySelector(`.exam-average[data-row="${row}"]`);
 
                 if (!target) return;

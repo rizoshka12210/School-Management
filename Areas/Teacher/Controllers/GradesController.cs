@@ -10,6 +10,12 @@ using SchoolManagementSystem.Web.ViewModels.Teacher;
 
 namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
+/// <summary>
+/// Grades are organized by group -> subject -> students, matching how
+/// exam results actually belong (to a subject a teacher teaches a group,
+/// not to any one lesson). Index lists the teacher's groups; Group shows
+/// the student sheet for a chosen subject within that group.
+/// </summary>
 public class GradesController : TeacherControllerBase
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
@@ -35,18 +41,139 @@ public class GradesController : TeacherControllerBase
             return Forbid();
         }
 
-        var lessons = await Context.Lessons
-            .Where(l => l.TeacherId == teacherId)
-            .Include(l => l.Group)
-                .ThenInclude(g => g.Students)
-            .Include(l => l.Subject)
-            .Include(l => l.Grades)
-            .OrderByDescending(l => l.StartTime)
+        var groups = await Context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.Groups)
+            .Include(g => g.Students)
+            .OrderBy(g => g.Name)
             .ToListAsync();
 
-        return View(lessons);
+        var combos = await Context.Lessons
+            .Where(l => l.TeacherId == teacherId)
+            .Select(l => new { l.GroupId, l.SubjectId, l.Subject.Name })
+            .Distinct()
+            .ToListAsync();
+
+        var examGrades = await Context.ExamGrades
+            .Where(e => e.TeacherId == teacherId)
+            .ToListAsync();
+
+        var model = groups
+            .Select(g => new GradesGroupViewModel
+            {
+                GroupId = g.Id,
+                GroupName = g.Name,
+                StudentsCount = g.Students.Count,
+                Subjects = combos
+                    .Where(c => c.GroupId == g.Id)
+                    .Select(c => new GradesSubjectViewModel
+                    {
+                        SubjectId = c.SubjectId,
+                        SubjectName = c.Name,
+                        StudentsGraded = examGrades.Count(e =>
+                            e.GroupId == g.Id &&
+                            e.SubjectId == c.SubjectId &&
+                            (e.Exam1.HasValue || e.Exam2.HasValue))
+                    })
+                    .OrderBy(s => s.SubjectName)
+                    .ToList()
+            })
+            .Where(g => g.Subjects.Any())
+            .OrderBy(g => g.GroupName)
+            .ToList();
+
+        return View(model);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Group(int groupId, int? subjectId)
+    {
+        var teacherId = await GetTeacherIdAsync();
+
+        if (teacherId == null)
+        {
+            return Forbid();
+        }
+
+        var subjects = await Context.Lessons
+            .Where(l => l.TeacherId == teacherId && l.GroupId == groupId)
+            .Select(l => new { l.SubjectId, l.Subject.Name })
+            .Distinct()
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+
+        if (!subjects.Any())
+        {
+            return Forbid();
+        }
+
+        var resolvedSubjectId = subjectId.HasValue && subjects.Any(s => s.SubjectId == subjectId.Value)
+            ? subjectId.Value
+            : subjects.First().SubjectId;
+
+        var model = await _examSheetService.BuildAsync(groupId, resolvedSubjectId);
+
+        if (model == null)
+        {
+            return NotFound();
+        }
+
+        ViewBag.Subjects = subjects
+            .Select(s => new GradesSubjectViewModel { SubjectId = s.SubjectId, SubjectName = s.Name })
+            .ToList();
+
+        return View(model);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Group(ExamSheetSaveViewModel model)
+    {
+        var teacherId = await GetTeacherIdAsync();
+
+        if (teacherId == null)
+        {
+            return Forbid();
+        }
+
+        var teachesCombo = await Context.Lessons
+            .AnyAsync(l =>
+                l.TeacherId == teacherId &&
+                l.GroupId == model.GroupId &&
+                l.SubjectId == model.SubjectId);
+
+        if (!teachesCombo)
+        {
+            return Forbid();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            TempData["Error"] = _localizer["The grade sheet contains invalid values."].Value;
+
+            return RedirectToAction(
+                nameof(Group),
+                new { groupId = model.GroupId, subjectId = model.SubjectId });
+        }
+
+        await _examSheetService.SaveAsync(
+            model.GroupId,
+            model.SubjectId,
+            teacherId.Value,
+            model.Rows);
+
+        TempData["Success"] = _localizer["Grades saved."].Value;
+
+        return RedirectToAction(
+            nameof(Group),
+            new { groupId = model.GroupId, subjectId = model.SubjectId });
+    }
+
+    /// <summary>
+    /// Kept so existing "grade this lesson" shortcuts (lesson list, lesson
+    /// details, dashboard) still work - they just land on that lesson's
+    /// group/subject sheet instead of a lesson-scoped form.
+    /// </summary>
     [HttpGet]
     public async Task<IActionResult> Add(int lessonId)
     {
@@ -58,9 +185,6 @@ public class GradesController : TeacherControllerBase
         }
 
         var lesson = await Context.Lessons
-            .Include(l => l.Group)
-                .ThenInclude(g => g.Students)
-            .Include(l => l.Subject)
             .FirstOrDefaultAsync(l => l.Id == lessonId);
 
         if (lesson == null)
@@ -68,90 +192,8 @@ public class GradesController : TeacherControllerBase
             return NotFound();
         }
 
-        var examGrades = await Context.ExamGrades
-            .Where(e => e.GroupId == lesson.GroupId && e.SubjectId == lesson.SubjectId)
-            .ToListAsync();
-
-        var model = new GradeEntryViewModel
-        {
-            LessonId = lesson.Id,
-            GroupName = lesson.Group.Name,
-            SubjectName = lesson.Subject.Name,
-            LessonDate = lesson.StartTime,
-
-            Students = lesson.Group.Students
-                .OrderBy(s => s.FirstName)
-                .ThenBy(s => s.LastName)
-                .Select(s =>
-                {
-                    var exam = examGrades
-                        .FirstOrDefault(e => e.StudentId == s.Id);
-
-                    return new GradeRow
-                    {
-                        StudentId = s.Id,
-                        StudentName = $"{s.FirstName} {s.LastName}",
-                        Exam1 = exam?.Exam1,
-                        Exam2 = exam?.Exam2,
-                        Comment = exam?.Comment
-                    };
-                })
-                .ToList()
-        };
-
-        return View(model);
-    }
-
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Add(GradeEntryViewModel model)
-    {
-        var owns = await Ownership.TeacherOwnsLessonAsync(
-            User,
-            model.LessonId);
-
-        if (!owns)
-        {
-            return Forbid();
-        }
-
-        var teacherId = await GetTeacherIdAsync();
-
-        var lesson = await Context.Lessons
-            .Include(l => l.Group)
-            .Include(l => l.Subject)
-            .FirstOrDefaultAsync(l => l.Id == model.LessonId);
-
-        if (lesson == null)
-        {
-            return NotFound();
-        }
-
-        if (!ModelState.IsValid)
-        {
-            model.GroupName = lesson.Group.Name;
-            model.SubjectName = lesson.Subject.Name;
-            model.LessonDate = lesson.StartTime;
-
-            return View(model);
-        }
-
-        await _examSheetService.SaveAsync(
-            lesson.GroupId,
-            lesson.SubjectId,
-            teacherId!.Value,
-            model.Students.Select(row => new ExamSheetRowViewModel
-            {
-                StudentId = row.StudentId,
-                Exam1 = row.Exam1,
-                Exam2 = row.Exam2,
-                Comment = row.Comment
-            }));
-
-        TempData["Success"] = _localizer["Grades saved."].Value;
-
         return RedirectToAction(
-            nameof(Add),
-            new { lessonId = lesson.Id });
+            nameof(Group),
+            new { groupId = lesson.GroupId, subjectId = lesson.SubjectId });
     }
 }

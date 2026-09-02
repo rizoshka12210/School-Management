@@ -41,3 +41,12 @@ public class ExamSheetRowViewModel
             ? Math.Round((Exam1.Value + Exam2.Value) / 2, 2)
             : Exam1 ?? Exam2;
 }
+
+public class ExamSheetSaveViewModel
+{
+    public int GroupId { get; set; }
+
+    public int SubjectId { get; set; }
+
+    public List<ExamSheetRowViewModel> Rows { get; set; } = new();
+}

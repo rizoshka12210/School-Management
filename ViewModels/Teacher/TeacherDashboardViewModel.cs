@@ -29,6 +29,10 @@ public class TeacherLessonSummary
 {
     public int LessonId { get; set; }
 
+    public int GroupId { get; set; }
+
+    public int SubjectId { get; set; }
+
     public string GroupName { get; set; } = string.Empty;
 
     public string SubjectName { get; set; } = string.Empty;

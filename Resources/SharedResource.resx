@@ -2314,7 +2314,13 @@
   <data name="Average" xml:space="preserve">
     <value>Average</value>
   </data>
-  <data name="Enter two exam scores from 0 to 100 - the average is calculated automatically" xml:space="preserve">
-    <value>Enter two exam scores from 0 to 100 - the average is calculated automatically</value>
+  <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
+    <value>Choose a group, then a subject, to enter student grades</value>
+  </data>
+  <data name="Groups you teach will appear here once you have lessons scheduled." xml:space="preserve">
+    <value>Groups you teach will appear here once you have lessons scheduled.</value>
+  </data>
+  <data name="The grade sheet contains invalid values." xml:space="preserve">
+    <value>The grade sheet contains invalid values.</value>
   </data>
 </root>
