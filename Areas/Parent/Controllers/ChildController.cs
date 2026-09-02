@@ -55,6 +55,10 @@ public class ChildController : ParentControllerBase
             .Where(g => g.StudentId == resolvedId)
             .ToListAsync();
 
+        var examGrades = await Context.ExamGrades
+            .Where(e => e.StudentId == resolvedId)
+            .ToListAsync();
+
         ViewBag.TeacherComments = grades
             .Where(g => !string.IsNullOrWhiteSpace(g.Comment))
             .OrderByDescending(g => g.Date)
@@ -75,9 +79,9 @@ public class ChildController : ParentControllerBase
             ? 0
             : Math.Round(present * 100.0 / total, 1);
 
-        ViewBag.AverageGrade = grades.Any()
-            ? Math.Round(grades.Average(g => g.Value), 2)
-            : 0;
+        ViewBag.AverageGrade = GradeAveragingHelper.Combine(
+            grades.Select(g => g.Value),
+            examGrades.Select(e => e.Average)) ?? 0;
 
         ViewBag.Achievements = await _achievements.GetBadgesAsync(resolvedId.Value);
 

@@ -342,10 +342,9 @@ public class AiAssistantService
             .CountAsync(l => l.StartTime >= today && l.StartTime < tomorrow);
 
         var allGrades = await _context.Grades.Select(g => g.Value).ToListAsync();
+        var allExamGrades = await _context.ExamGrades.Select(e => e.Average).ToListAsync();
 
-        var averageGrade = allGrades.Any()
-            ? Math.Round(allGrades.Average(), 2)
-            : 0;
+        var averageGrade = GradeAveragingHelper.Combine(allGrades, allExamGrades) ?? 0;
 
         var absentToday = await _context.Attendances
             .Where(a =>
@@ -433,13 +432,20 @@ public class AiAssistantService
                 .Select(g => g.Value)
                 .ToListAsync();
 
+            var studentExamGrades = await _context.ExamGrades
+                .Where(e => e.StudentId == student.Id)
+                .Select(e => e.Average)
+                .ToListAsync();
+
             var studentAttendances = await _context.Attendances
                 .Where(a => a.StudentId == student.Id)
                 .Select(a => a.Status)
                 .ToListAsync();
 
-            var avgGrade = studentGrades.Any()
-                ? Math.Round(studentGrades.Average(), 2).ToString()
+            var studentAverage = GradeAveragingHelper.Combine(studentGrades, studentExamGrades);
+
+            var avgGrade = studentAverage.HasValue
+                ? studentAverage.Value.ToString()
                 : "нет оценок";
 
             var attRate = studentAttendances.Any()
@@ -580,9 +586,14 @@ public class AiAssistantService
                 .OrderByDescending(g => g.Date)
                 .ToListAsync();
 
-            var averageGrade = grades.Any()
-                ? Math.Round(grades.Average(g => g.Value), 2)
-                : 0;
+            var examGrades = await _context.ExamGrades
+                .Where(e => e.StudentId == student.Id)
+                .Select(e => e.Average)
+                .ToListAsync();
+
+            var averageGrade = GradeAveragingHelper.Combine(
+                grades.Select(g => g.Value),
+                examGrades) ?? 0;
 
             var lessonsToday = student.GroupId == null
                 ? 0

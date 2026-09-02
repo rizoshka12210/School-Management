@@ -37,16 +37,22 @@ public class AchievementService
             .Select(g => new { g.Value, SubjectName = g.Subject.Name })
             .ToListAsync();
 
+        var examGrades = await _context.ExamGrades
+            .Where(e => e.StudentId == studentId)
+            .Select(e => new { e.Average, SubjectName = e.Subject.Name })
+            .ToListAsync();
+
         var attendances = await _context.Attendances
             .Where(a => a.StudentId == studentId)
             .Select(a => new { a.Status, LessonStart = a.Lesson.StartTime })
             .ToListAsync();
 
-        var averageGrade = grades.Any()
-            ? grades.Average(g => g.Value)
-            : 0;
+        var averageGrade = GradeAveragingHelper.Combine(
+            grades.Select(g => g.Value),
+            examGrades.Select(e => e.Average)) ?? 0;
 
-        var excellentGradesCount = grades.Count(g => g.Value >= 90);
+        var excellentGradesCount = grades.Count(g => g.Value >= 90) +
+            examGrades.Count(e => e.Average >= 90);
 
         var thirtyDaysAgo = DateTime.UtcNow.AddDays(-30);
 
@@ -59,10 +65,15 @@ public class AchievementService
 
         var mathGrades = grades
             .Where(g => g.SubjectName == "Mathematics")
-            .ToList();
+            .Select(g => g.Value);
 
-        var mathMaster = mathGrades.Any() &&
-            mathGrades.Average(g => g.Value) >= 90;
+        var mathExamGrades = examGrades
+            .Where(e => e.SubjectName == "Mathematics")
+            .Select(e => e.Average);
+
+        var mathAverage = GradeAveragingHelper.Combine(mathGrades, mathExamGrades);
+
+        var mathMaster = mathAverage >= 90;
 
         var perfectAttendance = attendances.Any() &&
             attendances.All(a => a.Status != AttendanceStatus.Absent);
@@ -74,7 +85,7 @@ public class AchievementService
                 Icon = "bi-trophy-fill",
                 NameKey = "Excellent Student",
                 DescriptionKey = "Average grade of 90 or higher",
-                Earned = grades.Any() && averageGrade >= 90
+                Earned = (grades.Any() || examGrades.Any()) && averageGrade >= 90
             },
             new()
             {

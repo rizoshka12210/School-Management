@@ -7,9 +7,11 @@ public class StudentRiskService
 {
     public StudentRiskResult Evaluate(Student student)
     {
-        var averageGrade = student.Grades.Any()
-            ? student.Grades.Average(g => g.Value)
-            : 0;
+        var hasGradeData = student.Grades.Any() || student.ExamGrades.Any(e => e.Average.HasValue);
+
+        var averageGrade = GradeAveragingHelper.Combine(
+            student.Grades.Select(g => g.Value),
+            student.ExamGrades.Select(e => e.Average)) ?? 0;
 
         var attendanceTotal = student.Attendances.Count;
         var attended = student.Attendances.Count(a =>
@@ -34,7 +36,7 @@ public class StudentRiskService
             reasons.Add("Attendance below 85%");
         }
 
-        if (!student.Grades.Any())
+        if (!hasGradeData)
         {
             reasons.Add("No grades recorded yet");
         }
@@ -49,12 +51,12 @@ public class StudentRiskService
 
         var status = StudentRiskStatus.Good;
 
-        if ((student.Grades.Any() && averageGrade < 60) ||
+        if ((hasGradeData && averageGrade < 60) ||
             (attendanceTotal > 0 && attendanceRate < 70))
         {
             status = StudentRiskStatus.AtRisk;
         }
-        else if (!student.Grades.Any() ||
+        else if (!hasGradeData ||
                  attendanceTotal == 0 ||
                  averageGrade < 70 ||
                  attendanceRate < 85)

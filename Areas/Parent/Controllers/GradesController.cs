@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
+using SchoolManagementSystem.Web.Services;
 
 namespace SchoolManagementSystem.Web.Areas.Parent.Controllers;
 
@@ -39,18 +40,28 @@ public class GradesController : ParentControllerBase
             .OrderByDescending(g => g.Date)
             .ToListAsync();
 
+        var examGrades = await Context.ExamGrades
+            .Where(e => e.StudentId == resolvedId)
+            .Include(e => e.Subject)
+            .ToListAsync();
+
         ViewBag.StudentName = $"{student.FirstName} {student.LastName}";
 
-        ViewBag.AverageBySubject = grades
-            .GroupBy(g => g.Subject.Name)
-            .OrderBy(g => g.Key)
-            .ToDictionary(
-                g => g.Key,
-                g => Math.Round(g.Average(x => x.Value), 2));
+        var subjectNames = grades.Select(g => g.Subject.Name)
+            .Union(examGrades.Select(e => e.Subject.Name))
+            .Distinct()
+            .OrderBy(name => name);
 
-        ViewBag.OverallAverage = grades.Any()
-            ? Math.Round(grades.Average(g => g.Value), 2)
-            : 0;
+        ViewBag.AverageBySubject = subjectNames
+            .ToDictionary(
+                name => name,
+                name => GradeAveragingHelper.Combine(
+                    grades.Where(g => g.Subject.Name == name).Select(g => g.Value),
+                    examGrades.Where(e => e.Subject.Name == name).Select(e => e.Average)) ?? 0);
+
+        ViewBag.OverallAverage = GradeAveragingHelper.Combine(
+            grades.Select(g => g.Value),
+            examGrades.Select(e => e.Average)) ?? 0;
 
         return View(grades);
     }

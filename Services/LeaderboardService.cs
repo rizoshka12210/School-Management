@@ -44,16 +44,58 @@ public class LeaderboardService
                 .ThenInclude(s => s.Group)
             .ToListAsync();
 
-        return grades
-            .GroupBy(g => g.StudentId)
-            .Where(g => g.Count() >= MinSampleSize)
-            .Select(g => new LeaderboardEntry
+        var examGrades = await _context.ExamGrades
+            .Where(e => e.UpdatedAt >= start && e.UpdatedAt < end)
+            .Include(e => e.Student)
+                .ThenInclude(s => s.Group)
+            .ToListAsync();
+
+        var studentIds = grades.Select(g => g.StudentId)
+            .Union(examGrades.Select(e => e.StudentId))
+            .Distinct();
+
+        var entries = new List<LeaderboardEntry>();
+
+        foreach (var studentId in studentIds)
+        {
+            var studentGrades = grades
+                .Where(g => g.StudentId == studentId)
+                .ToList();
+
+            var studentExamGrades = examGrades
+                .Where(e => e.StudentId == studentId)
+                .ToList();
+
+            var sampleSize = studentGrades.Count +
+                studentExamGrades.Count(e => e.Average.HasValue);
+
+            if (sampleSize < MinSampleSize)
             {
-                StudentId = g.Key,
-                Name = FullName(g.First().Student),
-                GroupName = g.First().Student.Group?.Name ?? "-",
-                Score = Math.Round((decimal)g.Average(x => x.Value), 2)
-            })
+                continue;
+            }
+
+            var average = GradeAveragingHelper.Combine(
+                studentGrades.Select(g => g.Value),
+                studentExamGrades.Select(e => e.Average));
+
+            if (average == null)
+            {
+                continue;
+            }
+
+            var student = studentGrades.FirstOrDefault()?.Student
+                ?? studentExamGrades.First().Student;
+
+            entries.Add(new LeaderboardEntry
+            {
+                StudentId = studentId,
+                Name = FullName(student),
+                GroupName = student.Group?.Name ?? "-",
+                Score = average.Value
+            });
+        }
+
+        return entries
             .OrderByDescending(e => e.Score)
             .Take(take)
             .ToList();

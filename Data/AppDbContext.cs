@@ -168,7 +168,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
         builder.Entity<ExamGrade>()
             .HasOne(e => e.Student)
-            .WithMany()
+            .WithMany(s => s.ExamGrades)
             .HasForeignKey(e => e.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
 

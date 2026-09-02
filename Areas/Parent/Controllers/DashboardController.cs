@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
+using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Parent;
 
 namespace SchoolManagementSystem.Web.Areas.Parent.Controllers;
@@ -64,6 +65,10 @@ public class DashboardController : ParentControllerBase
                 .OrderByDescending(g => g.Date)
                 .ToListAsync();
 
+            var examGrades = await Context.ExamGrades
+                .Where(e => e.StudentId == student.Id)
+                .ToListAsync();
+
             var lessonsTodayCount = student.GroupId == null
                 ? 0
                 : await Context.Lessons
@@ -95,9 +100,9 @@ public class DashboardController : ParentControllerBase
                     ? 0
                     : Math.Round(present * 100.0 / total, 1),
 
-                AverageGrade = grades.Any()
-                    ? (double)Math.Round(grades.Average(g => g.Value), 2)
-                    : 0,
+                AverageGrade = (double)(GradeAveragingHelper.Combine(
+                    grades.Select(g => g.Value),
+                    examGrades.Select(e => e.Average)) ?? 0),
 
                 RecentGrades = grades
                     .Take(5)

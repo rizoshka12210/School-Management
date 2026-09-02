@@ -201,7 +201,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ActivityLogEntries");
+                    b.ToTable("ActivityLogEntries", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Attendance", b =>
@@ -231,7 +231,7 @@ namespace SchoolManagementSystem.Web.Migrations
                     b.HasIndex("StudentId", "LessonId")
                         .IsUnique();
 
-                    b.ToTable("Attendances");
+                    b.ToTable("Attendances", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.CalendarEvent", b =>
@@ -254,7 +254,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CalendarEvents");
+                    b.ToTable("CalendarEvents", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.ExamGrade", b =>
@@ -300,7 +300,7 @@ namespace SchoolManagementSystem.Web.Migrations
                     b.HasIndex("StudentId", "SubjectId")
                         .IsUnique();
 
-                    b.ToTable("ExamGrades");
+                    b.ToTable("ExamGrades", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Grade", b =>
@@ -342,7 +342,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Group", b =>
@@ -359,7 +359,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Lesson", b =>
@@ -396,7 +396,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Parent", b =>
@@ -416,7 +416,7 @@ namespace SchoolManagementSystem.Web.Migrations
                     b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
-                    b.ToTable("Parents");
+                    b.ToTable("Parents", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.ParentSummon", b =>
@@ -443,7 +443,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("ParentSummons");
+                    b.ToTable("ParentSummons", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Schedule", b =>
@@ -480,7 +480,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Schedules");
+                    b.ToTable("Schedules", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Student", b =>
@@ -515,7 +515,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Subject", b =>
@@ -532,7 +532,7 @@ namespace SchoolManagementSystem.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Entities.Teacher", b =>
@@ -555,7 +555,7 @@ namespace SchoolManagementSystem.Web.Migrations
                     b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagementSystem.Web.Models.Identity.ApplicationUser", b =>

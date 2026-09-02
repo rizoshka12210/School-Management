@@ -54,6 +54,7 @@ public class DashboardController : Controller
         var students = await _context.Students
             .Include(s => s.Group)
             .Include(s => s.Grades)
+            .Include(s => s.ExamGrades)
             .Include(s => s.Attendances)
             .OrderBy(s => s.FirstName)
             .ThenBy(s => s.LastName)
@@ -80,9 +81,9 @@ public class DashboardController : Controller
             })
             .ToList();
 
-        var allGrades = await _context.Grades
-            .Select(g => g.Value)
-            .ToListAsync();
+        var schoolWideAverage = GradeAveragingHelper.Combine(
+            students.SelectMany(s => s.Grades).Select(g => g.Value),
+            students.SelectMany(s => s.ExamGrades).Select(e => e.Average));
 
         var allAttendance = await _context.Attendances
             .Select(a => a.Status)
@@ -128,7 +129,7 @@ public class DashboardController : Controller
             GroupsCount = await _context.Groups.CountAsync(),
             SubjectsCount = await _context.Subjects.CountAsync(),
             TodayLessonsCount = todayLessons.Count,
-            AverageGrade = allGrades.Count == 0 ? 0 : (double)allGrades.Average(),
+            AverageGrade = (double)(schoolWideAverage ?? 0),
             AttendanceRate = allAttendance.Count == 0
                 ? 0
                 : allAttendance.Count(a => a != AttendanceStatus.Absent) * 100.0 / allAttendance.Count,

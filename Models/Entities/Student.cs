@@ -20,6 +20,8 @@ public class Student
 
     public ICollection<Grade> Grades { get; set; } = new List<Grade>();
 
+    public ICollection<ExamGrade> ExamGrades { get; set; } = new List<ExamGrade>();
+
     /// <summary>
     /// Students are soft-deleted so their history (grades, attendance,
     /// comments) stays intact and visible in the "deleted" list instead

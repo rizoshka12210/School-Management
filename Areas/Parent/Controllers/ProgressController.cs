@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
+using SchoolManagementSystem.Web.Models.Entities;
 using SchoolManagementSystem.Web.Models.Enums;
 using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Parent;
@@ -48,6 +49,11 @@ public class ProgressController : ParentControllerBase
             await _gradeService
                 .GetByStudentAsync(student.Id);
 
+        var examGrades = await Context.ExamGrades
+            .Where(e => e.StudentId == student.Id)
+            .Include(e => e.Subject)
+            .ToListAsync();
+
         var attendances =
             await _attendanceService
                 .GetByStudentAsync(student.Id);
@@ -77,23 +83,35 @@ public class ProgressController : ParentControllerBase
                     totalAttendance,
                     1);
 
-        var subjects = grades
-            .GroupBy(g => new
+        var subjectIds = grades.Select(g => g.SubjectId)
+            .Union(examGrades.Select(e => e.SubjectId))
+            .Distinct();
+
+        var subjects = subjectIds
+            .Select(subjectId =>
             {
-                g.SubjectId,
-                g.Subject.Name
-            })
-            .Select(g => new SubjectProgressViewModel
-            {
-                SubjectId = g.Key.SubjectId,
+                var subjectGrades = grades
+                    .Where(g => g.SubjectId == subjectId)
+                    .ToList();
 
-                SubjectName = g.Key.Name,
+                var exam = examGrades
+                    .FirstOrDefault(e => e.SubjectId == subjectId);
 
-                GradesCount = g.Count(),
+                var subjectName = subjectGrades.FirstOrDefault()?.Subject.Name
+                    ?? exam?.Subject.Name
+                    ?? string.Empty;
 
-                AverageGrade = (double)Math.Round(
-                    g.Average(x => x.Value),
-                    2)
+                var average = GradeAveragingHelper.Combine(
+                    subjectGrades.Select(g => g.Value),
+                    exam == null ? Array.Empty<decimal?>() : new[] { exam.Average });
+
+                return new SubjectProgressViewModel
+                {
+                    SubjectId = subjectId,
+                    SubjectName = subjectName,
+                    GradesCount = subjectGrades.Count,
+                    AverageGrade = (double)(average ?? 0)
+                };
             })
             .OrderBy(s => s.SubjectName)
             .ToList();
@@ -191,11 +209,9 @@ public class ProgressController : ParentControllerBase
 
             GradesCount = grades.Count,
 
-            AverageGrade = grades.Count == 0
-                ? 0
-                : (double)Math.Round(
-                    grades.Average(g => g.Value),
-                    2),
+            AverageGrade = (double)(GradeAveragingHelper.Combine(
+                grades.Select(g => g.Value),
+                examGrades.Select(e => e.Average)) ?? 0),
 
             TotalLessons = totalAttendance,
 

@@ -80,6 +80,7 @@ public class StudentsController : Controller
             .Include(s => s.Grades)
                 .ThenInclude(g => g.Teacher)
                     .ThenInclude(t => t.ApplicationUser)
+            .Include(s => s.ExamGrades)
             .Include(s => s.Attendances)
                 .ThenInclude(a => a.Lesson)
                     .ThenInclude(l => l.Subject)

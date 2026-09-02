@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Enums;
+using SchoolManagementSystem.Web.Services;
 
 namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
@@ -83,11 +84,17 @@ public class StudentsController : TeacherControllerBase
             .OrderByDescending(g => g.Date)
             .ToListAsync();
 
+        var examGrades = await Context.ExamGrades
+            .Where(e =>
+                e.StudentId == id &&
+                e.TeacherId == teacherId)
+            .ToListAsync();
+
         ViewBag.Grades = grades;
 
-        ViewBag.AverageGrade = grades.Any()
-            ? Math.Round(grades.Average(g => g.Value), 2)
-            : 0;
+        ViewBag.AverageGrade = GradeAveragingHelper.Combine(
+            grades.Select(g => g.Value),
+            examGrades.Select(e => e.Average)) ?? 0;
 
         return View(student);
     }
