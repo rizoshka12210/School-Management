@@ -1,0 +1,89 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.TeacherNoticeFormViewModel
+
+@{
+    ViewData["Title"] = Localizer["Edit Message"];
+}
+
+<div class="form-page-header">
+
+    <a asp-action="Details"
+       asp-route-id="@Model.TeacherId"
+       class="back-link">
+        ← @Model.TeacherName
+    </a>
+
+    <h1 class="page-title mt-2">
+        @Localizer["Edit Message"]
+    </h1>
+
+    <p class="page-subtitle">
+        @Localizer["Update the message sent to {0}.", Model.TeacherName]
+    </p>
+
+</div>
+
+<form asp-action="EditNotice"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input asp-for="Id"
+           type="hidden" />
+
+    <input asp-for="TeacherId"
+           type="hidden" />
+
+    <div asp-validation-summary="ModelOnly"
+         class="alert alert-danger">
+    </div>
+
+    <div class="form-card">
+
+        <div class="form-card-body">
+
+            <div class="row g-4">
+
+                <div class="col-12">
+
+                    <label asp-for="Message"
+                           class="form-label">
+                        @Localizer["Message"]
+                    </label>
+
+                    <textarea asp-for="Message"
+                              rows="4"
+                              class="form-control"></textarea>
+
+                    <span asp-validation-for="Message"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="form-actions">
+
+        <a asp-action="Details"
+           asp-route-id="@Model.TeacherId"
+           class="btn btn-light">
+            @Localizer["Cancel"]
+        </a>
+
+        <button type="submit"
+                class="btn btn-primary">
+            @Localizer["Save Changes"]
+        </button>
+
+    </div>
+
+</form>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

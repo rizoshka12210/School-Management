@@ -149,6 +149,14 @@
                                     <strong>@notice.CreatedAt.ToString("g")</strong>
                                     <span>@notice.Message</span>
                                 </div>
+                                <div class="entity-list-side">
+                                    <a asp-action="EditNotice" asp-route-id="@notice.Id" title="@Localizer["Edit"]">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a asp-action="DeleteNotice" asp-route-id="@notice.Id" title="@Localizer["Delete"]" class="text-danger">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div>
                             </div>
                         }
                     </div>

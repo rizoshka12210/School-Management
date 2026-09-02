@@ -4,6 +4,8 @@ namespace SchoolManagementSystem.Web.ViewModels.Admin;
 
 public class TeacherNoticeFormViewModel
 {
+    public int Id { get; set; }
+
     public int TeacherId { get; set; }
 
     public string TeacherName { get; set; } = string.Empty;

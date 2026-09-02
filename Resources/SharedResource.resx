@@ -2350,4 +2350,22 @@
   <data name="Message from admin" xml:space="preserve">
     <value>Message from admin</value>
   </data>
+  <data name="Edit Message" xml:space="preserve">
+    <value>Edit Message</value>
+  </data>
+  <data name="Update the message sent to {0}." xml:space="preserve">
+    <value>Update the message sent to {0}.</value>
+  </data>
+  <data name="Message updated." xml:space="preserve">
+    <value>Message updated.</value>
+  </data>
+  <data name="Delete Message" xml:space="preserve">
+    <value>Delete Message</value>
+  </data>
+  <data name="Are you sure you want to delete this message?" xml:space="preserve">
+    <value>Are you sure you want to delete this message?</value>
+  </data>
+  <data name="Message deleted." xml:space="preserve">
+    <value>Message deleted.</value>
+  </data>
 </root>

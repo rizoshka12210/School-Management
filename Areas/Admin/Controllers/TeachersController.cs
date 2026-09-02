@@ -164,6 +164,125 @@ public class TeachersController : Controller
 
 
     // ==========================================
+    // EDIT NOTICE GET
+    // ==========================================
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> EditNotice(int id)
+    {
+        var notice = await _context.TeacherNotices
+            .Include(n => n.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .FirstOrDefaultAsync(n => n.Id == id);
+
+        if (notice == null)
+        {
+            return NotFound();
+        }
+
+        return View(new TeacherNoticeFormViewModel
+        {
+            Id = notice.Id,
+            TeacherId = notice.TeacherId,
+            TeacherName = notice.Teacher.ApplicationUser.FullName,
+            Message = notice.Message
+        });
+    }
+
+
+    // ==========================================
+    // EDIT NOTICE POST
+    // ==========================================
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> EditNotice(TeacherNoticeFormViewModel model)
+    {
+        var notice = await _context.TeacherNotices
+            .Include(n => n.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .FirstOrDefaultAsync(n => n.Id == model.Id);
+
+        if (notice == null)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            model.TeacherName = notice.Teacher.ApplicationUser.FullName;
+            return View(model);
+        }
+
+        notice.Message = model.Message.Trim();
+
+        await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync(
+            $"Admin edited a message sent to teacher \"{notice.Teacher.ApplicationUser.FullName}\"");
+
+        TempData["Success"] =
+            _localizer["Message updated."].Value;
+
+        return RedirectToAction(nameof(Details), new { id = notice.TeacherId });
+    }
+
+
+    // ==========================================
+    // DELETE NOTICE GET
+    // ==========================================
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> DeleteNotice(int id)
+    {
+        var notice = await _context.TeacherNotices
+            .Include(n => n.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .FirstOrDefaultAsync(n => n.Id == id);
+
+        if (notice == null)
+        {
+            return NotFound();
+        }
+
+        return View(notice);
+    }
+
+
+    // ==========================================
+    // DELETE NOTICE POST
+    // ==========================================
+
+    [HttpPost]
+    [ActionName("DeleteNotice")]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> DeleteNoticeConfirmed(int id)
+    {
+        var notice = await _context.TeacherNotices
+            .FirstOrDefaultAsync(n => n.Id == id);
+
+        if (notice == null)
+        {
+            return NotFound();
+        }
+
+        var teacherId = notice.TeacherId;
+
+        _context.TeacherNotices.Remove(notice);
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            _localizer["Message deleted."].Value;
+
+        return RedirectToAction(nameof(Details), new { id = teacherId });
+    }
+
+
+    // ==========================================
     // CREATE GET
     // ==========================================
 
