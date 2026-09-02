@@ -25,6 +25,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<CalendarEvent> CalendarEvents => Set<CalendarEvent>();
     public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
     public DbSet<ParentSummon> ParentSummons => Set<ParentSummon>();
+    public DbSet<TeacherNotice> TeacherNotices => Set<TeacherNotice>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -71,6 +72,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasOne(s => s.Parent)
             .WithMany()
             .HasForeignKey(s => s.ParentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<TeacherNotice>()
+            .HasOne(s => s.Teacher)
+            .WithMany()
+            .HasForeignKey(s => s.TeacherId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.Entity<Teacher>()

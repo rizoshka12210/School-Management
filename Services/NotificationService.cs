@@ -218,7 +218,31 @@ public class NotificationService
             FingerprintKey = $"teacher:attendance:{l.Id}:{l.Attendances.Count}:{l.Group.Students.Count}"
         }).ToList();
 
-        return items.Take(take).ToList();
+        // A direct message an admin sent to this teacher (a remark, a
+        // note about something to improve) - the teacher-facing
+        // counterpart to ParentSummon, but a plain message rather than
+        // a scheduled request.
+        var notices = await _context.TeacherNotices
+            .Where(n => n.TeacherId == teacherId.Value)
+            .OrderByDescending(n => n.CreatedAt)
+            .Take(5)
+            .ToListAsync();
+
+        items.AddRange(notices.Select(n => new NotificationItemViewModel
+        {
+            Icon = "📩",
+            Title = "Message from admin",
+            Message = n.Message,
+            Url = "/Teacher",
+            OccurredAt = n.CreatedAt,
+            Kind = "info",
+            FingerprintKey = $"teacher:notice:{n.Id}"
+        }));
+
+        return items
+            .OrderByDescending(i => i.OccurredAt ?? DateTime.UtcNow)
+            .Take(take)
+            .ToList();
     }
 
     private async Task<List<NotificationItemViewModel>> GetParentNotificationsAsync(

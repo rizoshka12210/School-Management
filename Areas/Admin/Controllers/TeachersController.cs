@@ -85,7 +85,81 @@ public class TeachersController : Controller
             return NotFound();
         }
 
+        ViewBag.Notices = await _context.TeacherNotices
+            .Where(n => n.TeacherId == id)
+            .OrderByDescending(n => n.CreatedAt)
+            .Take(10)
+            .ToListAsync();
+
         return View(teacher);
+    }
+
+
+    // ==========================================
+    // NOTIFY (SEND MESSAGE) GET
+    // ==========================================
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Notify(int id)
+    {
+        var teacher = await _context.Teachers
+            .Include(t => t.ApplicationUser)
+            .FirstOrDefaultAsync(t => t.Id == id);
+
+        if (teacher == null)
+        {
+            return NotFound();
+        }
+
+        return View(new TeacherNoticeFormViewModel
+        {
+            TeacherId = teacher.Id,
+            TeacherName = teacher.ApplicationUser.FullName
+        });
+    }
+
+
+    // ==========================================
+    // NOTIFY (SEND MESSAGE) POST
+    // ==========================================
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> Notify(TeacherNoticeFormViewModel model)
+    {
+        var teacher = await _context.Teachers
+            .Include(t => t.ApplicationUser)
+            .FirstOrDefaultAsync(t => t.Id == model.TeacherId);
+
+        if (teacher == null)
+        {
+            return NotFound();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            model.TeacherName = teacher.ApplicationUser.FullName;
+            return View(model);
+        }
+
+        var notice = new Models.Entities.TeacherNotice
+        {
+            TeacherId = teacher.Id,
+            Message = model.Message.Trim()
+        };
+
+        _context.TeacherNotices.Add(notice);
+        await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync(
+            $"Admin sent a message to teacher \"{teacher.ApplicationUser.FullName}\"");
+
+        TempData["Success"] =
+            _localizer["Message sent to teacher."].Value;
+
+        return RedirectToAction(nameof(Details), new { id = teacher.Id });
     }
 
 

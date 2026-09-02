@@ -2326,4 +2326,28 @@
   <data name="The grade sheet contains invalid values." xml:space="preserve">
     <value>В ведомости оценок есть некорректные значения.</value>
   </data>
+  <data name="Send Message" xml:space="preserve">
+    <value>Отправить сообщение</value>
+  </data>
+  <data name="Send a message directly to {0} - it will appear in their notifications." xml:space="preserve">
+    <value>Отправьте сообщение напрямую {0} - оно появится в его уведомлениях.</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="Example: Please submit your grades on time." xml:space="preserve">
+    <value>Например: Пожалуйста, вовремя выставляйте оценки.</value>
+  </data>
+  <data name="Message sent to teacher." xml:space="preserve">
+    <value>Сообщение отправлено учителю.</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Сообщения</value>
+  </data>
+  <data name="No messages sent yet." xml:space="preserve">
+    <value>Пока нет отправленных сообщений.</value>
+  </data>
+  <data name="Message from admin" xml:space="preserve">
+    <value>Сообщение от администрации</value>
+  </data>
 </root>

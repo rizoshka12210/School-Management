@@ -2326,4 +2326,28 @@
   <data name="The grade sheet contains invalid values." xml:space="preserve">
     <value>The grade sheet contains invalid values.</value>
   </data>
+  <data name="Send Message" xml:space="preserve">
+    <value>Send Message</value>
+  </data>
+  <data name="Send a message directly to {0} - it will appear in their notifications." xml:space="preserve">
+    <value>Send a message directly to {0} - it will appear in their notifications.</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Example: Please submit your grades on time." xml:space="preserve">
+    <value>Example: Please submit your grades on time.</value>
+  </data>
+  <data name="Message sent to teacher." xml:space="preserve">
+    <value>Message sent to teacher.</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Messages</value>
+  </data>
+  <data name="No messages sent yet." xml:space="preserve">
+    <value>No messages sent yet.</value>
+  </data>
+  <data name="Message from admin" xml:space="preserve">
+    <value>Message from admin</value>
+  </data>
 </root>

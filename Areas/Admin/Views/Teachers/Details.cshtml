@@ -40,6 +40,10 @@
         <div class="entity-details-actions">
             @if (User.IsInRole("Admin"))
             {
+                <a asp-action="Notify" asp-route-id="@Model.Id" class="btn btn-warning">
+                    <i class="bi bi-chat-left-text-fill"></i>
+                    @Localizer["Send Message"]
+                </a>
                 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
                     <i class="bi bi-pencil-square"></i>
                     @Localizer["Edit"]
@@ -122,6 +126,36 @@
                 else
                 {
                     <div class="entity-empty"><div><i class="bi bi-book"></i>@Localizer["No subjects assigned."]</div></div>
+                }
+            </div>
+        </section>
+
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-bell-fill"></i>@Localizer["Messages"]</h2>
+                </div>
+                <span class="entity-panel-count">@ViewBag.Notices.Count</span>
+            </div>
+            <div class="entity-panel-body">
+                @if (ViewBag.Notices.Count > 0)
+                {
+                    <div class="entity-list">
+                        @foreach (var notice in ViewBag.Notices)
+                        {
+                            <div class="entity-list-row">
+                                <div class="entity-list-avatar"><i class="bi bi-chat-left-text-fill"></i></div>
+                                <div class="entity-list-main">
+                                    <strong>@notice.CreatedAt.ToString("g")</strong>
+                                    <span>@notice.Message</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="entity-empty"><div><i class="bi bi-bell"></i>@Localizer["No messages sent yet."]</div></div>
                 }
             </div>
         </section>

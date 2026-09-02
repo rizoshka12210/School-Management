@@ -2326,4 +2326,28 @@
   <data name="The grade sheet contains invalid values." xml:space="preserve">
     <value>Дар варақаи баҳоҳо қиматҳои нодуруст мавҷуданд.</value>
   </data>
+  <data name="Send Message" xml:space="preserve">
+    <value>Фиристодани хабар</value>
+  </data>
+  <data name="Send a message directly to {0} - it will appear in their notifications." xml:space="preserve">
+    <value>Ба {0} мустақиман хабар фиристед - он дар огоҳиномаҳояш пайдо мешавад.</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Хабар</value>
+  </data>
+  <data name="Example: Please submit your grades on time." xml:space="preserve">
+    <value>Мисол: Лутфан, баҳоҳоро сари вақт пешниҳод кунед.</value>
+  </data>
+  <data name="Message sent to teacher." xml:space="preserve">
+    <value>Хабар ба муаллим фиристода шуд.</value>
+  </data>
+  <data name="Messages" xml:space="preserve">
+    <value>Хабарҳо</value>
+  </data>
+  <data name="No messages sent yet." xml:space="preserve">
+    <value>Ҳанӯз ягон хабар фиристода нашудааст.</value>
+  </data>
+  <data name="Message from admin" xml:space="preserve">
+    <value>Хабар аз маъмурият</value>
+  </data>
 </root>
