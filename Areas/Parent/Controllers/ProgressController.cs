@@ -149,14 +149,7 @@ public class ProgressController : ParentControllerBase
                 .ToListAsync();
 
             var buckets = groupGrades
-                .Select(g => new DateTime(
-                    g.Date.Year,
-                    g.Date.Month,
-                    1,
-                    0,
-                    0,
-                    0,
-                    DateTimeKind.Utc))
+                .Select(g => g.Date.Date)
                 .Distinct()
                 .OrderBy(d => d)
                 .ToList();
@@ -164,7 +157,9 @@ public class ProgressController : ParentControllerBase
             // One line per student in the group (not a blended average),
             // so the parent can see exactly where their child stands
             // among their actual classmates - the child's own line is
-            // flagged via IsChild for the view to highlight it.
+            // flagged via IsChild for the view to highlight it. Points
+            // are per grading date rather than per month, so the chart
+            // is as dense as the group's actual grade history.
             var series = groupGrades
                 .GroupBy(g => new { g.StudentId, g.FirstName, g.LastName })
                 .Select(g => new StudentSeriesViewModel
@@ -175,14 +170,12 @@ public class ProgressController : ParentControllerBase
                     Values = buckets
                         .Select(bucket =>
                         {
-                            var inBucket = g
-                                .Where(x =>
-                                    x.Date.Year == bucket.Year &&
-                                    x.Date.Month == bucket.Month)
+                            var onDate = g
+                                .Where(x => x.Date.Date == bucket)
                                 .ToList();
 
-                            return inBucket.Any()
-                                ? (double?)Math.Round(inBucket.Average(x => x.Value), 2)
+                            return onDate.Any()
+                                ? (double?)Math.Round(onDate.Average(x => x.Value), 2)
                                 : null;
                         })
                         .ToList()
@@ -193,7 +186,7 @@ public class ProgressController : ParentControllerBase
 
             groupComparison = new GroupComparisonChartViewModel
             {
-                MonthLabels = buckets.Select(b => b.ToString("MMM yyyy")).ToList(),
+                PointLabels = buckets.Select(b => b.ToString("dd MMM")).ToList(),
                 Series = series
             };
         }

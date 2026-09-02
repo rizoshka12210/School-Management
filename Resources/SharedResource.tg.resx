@@ -1480,6 +1480,9 @@
   <data name="{0} grades by month" xml:space="preserve">
     <value>Баҳоҳо аз рӯи моҳ: {0}</value>
   </data>
+  <data name="{0} grades over time" xml:space="preserve">
+    <value>Динамикаи баҳоҳо: {0}</value>
+  </data>
   <data name="{0} group(s)" xml:space="preserve">
     <value>{0} гурӯҳ</value>
   </data>

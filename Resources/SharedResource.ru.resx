@@ -1477,6 +1477,9 @@
   <data name="{0} grades by month" xml:space="preserve">
     <value>Оценки по месяцам: {0}</value>
   </data>
+  <data name="{0} grades over time" xml:space="preserve">
+    <value>Динамика оценок: {0}</value>
+  </data>
   <data name="{0} group(s)" xml:space="preserve">
     <value>{0} групп(ы)</value>
   </data>

@@ -46,12 +46,14 @@ public class SubjectProgressViewModel
 
 /// <summary>
 /// One line per student in the group (the parent's child highlighted),
-/// all aligned to the same month buckets - not a single blended group
-/// average line.
+/// each with its own color - not a single blended group average line.
+/// Points are aligned to every distinct date a grade was recorded for
+/// the subject, not calendar months, so the chart is as dense as the
+/// group's actual grading history.
 /// </summary>
 public class GroupComparisonChartViewModel
 {
-    public List<string> MonthLabels { get; set; } = new();
+    public List<string> PointLabels { get; set; } = new();
 
     public List<StudentSeriesViewModel> Series { get; set; } = new();
 }
@@ -64,6 +66,17 @@ public class StudentSeriesViewModel
 
     public bool IsChild { get; set; }
 
-    /// <summary>Aligned by index with GroupComparisonChartViewModel.MonthLabels.</summary>
+    /// <summary>Aligned by index with GroupComparisonChartViewModel.PointLabels.</summary>
     public List<double?> Values { get; set; } = new();
+
+    /// <summary>Average of this student's recorded points, for the legend.</summary>
+    public double? AverageValue
+    {
+        get
+        {
+            var recorded = Values.Where(v => v.HasValue).Select(v => v!.Value).ToList();
+
+            return recorded.Count == 0 ? null : Math.Round(recorded.Average(), 0);
+        }
+    }
 }

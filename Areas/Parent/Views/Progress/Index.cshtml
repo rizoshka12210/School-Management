@@ -53,14 +53,14 @@
     </div>
 </div>
 
-@if (Model.GroupComparison != null && Model.GroupComparison.MonthLabels.Any())
+@if (Model.GroupComparison != null && Model.GroupComparison.PointLabels.Any())
 {
     <div class="card border-0 shadow-sm">
         <div class="card-body">
             <div class="section-header">
                 <div>
                     <h5 class="section-title">@Localizer["Your Child Among Classmates"]</h5>
-                    <p class="section-subtitle">@Localizer["{0} grades by month", Model.ComparisonSubjectName ?? string.Empty]</p>
+                    <p class="section-subtitle">@Localizer["{0} grades over time", Model.ComparisonSubjectName ?? string.Empty]</p>
                 </div>
 
                 @if (Model.Subjects.Count > 1)

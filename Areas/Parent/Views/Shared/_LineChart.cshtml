@@ -15,7 +15,7 @@
     const double maxValue = 100.0;
     const double gridStep = 20.0;
 
-    var count = Model.MonthLabels.Count;
+    var count = Model.PointLabels.Count;
 
     var plotWidth = width - padLeft - padRight;
     var plotHeight = height - padTop - padBottom;
@@ -52,13 +52,39 @@
         return string.Join(" ", points);
     }
 
-    // Every classmate gets the same muted color/weight so the child's
-    // own line (drawn last, on top) is what stands out.
+    // Every student gets its own color (cycling through a fixed palette)
+    // so each classmate's line and legend entry are individually
+    // identifiable, matching the group journal chart students already
+    // see in the register app - the child still gets a bolder line.
+    string ColorClass(int index, bool isChild) => isChild
+        ? "line-chart-color-child"
+        : $"line-chart-color-{index % 8}";
+
     var classmates = Model.Series.Where(s => !s.IsChild).ToList();
     var child = Model.Series.FirstOrDefault(s => s.IsChild);
+
+    var legendOrder = Model.Series
+        .OrderByDescending(s => s.AverageValue ?? -1)
+        .ToList();
 }
 
 <div class="line-chart-wrap">
+
+    <div class="line-chart-legend">
+        @foreach (var entry in legendOrder)
+        {
+            var index = classmates.IndexOf(entry);
+
+            <span class="line-chart-legend-item @(entry.IsChild ? "is-child" : "")">
+                <span class="line-chart-legend-swatch @ColorClass(index, entry.IsChild)"></span>
+                @entry.StudentName@(entry.AverageValue.HasValue ? $" - {entry.AverageValue.Value.ToString("0", inv)}" : "")
+                @if (entry.IsChild)
+                {
+                    <text>(@Localizer["Your child"])</text>
+                }
+            </span>
+        }
+    </div>
 
     <svg viewBox="0 0 @width @height"
          class="line-chart"
@@ -77,14 +103,15 @@
                 $"<text x=\"4\" y=\"{Y(grid)}\" class=\"line-chart-axis-label\">{grid:0}</text>")
         }
 
-        @foreach (var classmate in classmates)
+        @for (var i = 0; i < classmates.Count; i++)
         {
+            var classmate = classmates[i];
             var points = BuildPolyline(classmate.Values);
 
             if (!string.IsNullOrEmpty(points))
             {
                 <polyline points="@points"
-                          class="line-chart-series line-chart-series-classmate"
+                          class="line-chart-series @ColorClass(i, false)"
                           fill="none">
                     <title>@classmate.StudentName</title>
                 </polyline>
@@ -98,23 +125,27 @@
             if (!string.IsNullOrEmpty(childPoints))
             {
                 <polyline points="@childPoints"
-                          class="line-chart-series line-chart-series-child"
-                          fill="none" />
+                          class="line-chart-series line-chart-series-child line-chart-color-child"
+                          fill="none">
+                    <title>@child.StudentName</title>
+                </polyline>
             }
         }
 
-        @foreach (var classmate in classmates)
+        @for (var i = 0; i < classmates.Count; i++)
         {
-            for (var i = 0; i < count; i++)
+            var classmate = classmates[i];
+
+            for (var p = 0; p < count; p++)
             {
-                var value = i < classmate.Values.Count ? classmate.Values[i] : null;
+                var value = p < classmate.Values.Count ? classmate.Values[p] : null;
 
                 if (value.HasValue)
                 {
-                    <circle cx="@X(i)"
+                    <circle cx="@X(p)"
                             cy="@Y(value.Value)"
                             r="3"
-                            class="line-chart-dot line-chart-dot-classmate">
+                            class="line-chart-dot @ColorClass(i, false)">
                         <title>@classmate.StudentName</title>
                     </circle>
                 }
@@ -132,39 +163,19 @@
                     <circle cx="@X(i)"
                             cy="@Y(value.Value)"
                             r="4"
-                            class="line-chart-dot line-chart-dot-child" />
+                            class="line-chart-dot line-chart-dot-child line-chart-color-child" />
                 }
             }
         }
 
         @for (var i = 0; i < count; i++)
         {
-            var xLabel = System.Net.WebUtility.HtmlEncode(Model.MonthLabels[i]);
+            var xLabel = System.Net.WebUtility.HtmlEncode(Model.PointLabels[i]);
 
             @Html.Raw(
                 $"<text x=\"{X(i)}\" y=\"{(height - 6).ToString(inv)}\" class=\"line-chart-x-label\">{xLabel}</text>")
         }
 
     </svg>
-
-    <div class="line-chart-legend">
-
-        @if (child != null)
-        {
-            <span class="line-chart-legend-item">
-                <span class="line-chart-legend-swatch line-chart-legend-child"></span>
-                @child.StudentName (@Localizer["Your child"])
-            </span>
-        }
-
-        @if (classmates.Any())
-        {
-            <span class="line-chart-legend-item">
-                <span class="line-chart-legend-swatch line-chart-legend-classmate"></span>
-                @Localizer["Classmates"] (@classmates.Count)
-            </span>
-        }
-
-    </div>
 
 </div>
