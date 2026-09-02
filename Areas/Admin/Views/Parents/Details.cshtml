@@ -131,6 +131,14 @@
                                     <strong>@summon.ScheduledAt.ToString("g")</strong>
                                     <span>@(string.IsNullOrWhiteSpace(summon.Message) ? Localizer["No message"].Value : summon.Message)</span>
                                 </div>
+                                <div class="entity-list-side">
+                                    <a asp-action="EditSummon" asp-route-id="@summon.Id" title="@Localizer["Edit"]">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <a asp-action="DeleteSummon" asp-route-id="@summon.Id" title="@Localizer["Delete"]" class="text-danger">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </a>
+                                </div>
                             </div>
                         }
                     </div>

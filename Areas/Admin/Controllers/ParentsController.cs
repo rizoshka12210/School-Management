@@ -156,6 +156,116 @@ public class ParentsController : Controller
 
     [HttpGet]
     [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> EditSummon(int id)
+    {
+        var summon = await _context.ParentSummons
+            .Include(s => s.Parent)
+                .ThenInclude(p => p.ApplicationUser)
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (summon == null)
+        {
+            return NotFound();
+        }
+
+        return View(new ParentSummonFormViewModel
+        {
+            Id = summon.Id,
+            ParentId = summon.ParentId,
+            ParentName = summon.Parent.ApplicationUser.FullName,
+            ScheduledAt = summon.ScheduledAt.ToLocalTime(),
+            Message = summon.Message
+        });
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> EditSummon(ParentSummonFormViewModel model)
+    {
+        var summon = await _context.ParentSummons
+            .Include(s => s.Parent)
+                .ThenInclude(p => p.ApplicationUser)
+            .FirstOrDefaultAsync(s => s.Id == model.Id);
+
+        if (summon == null)
+        {
+            return NotFound();
+        }
+
+        if (model.ScheduledAt <= DateTime.Now)
+        {
+            ModelState.AddModelError(
+                nameof(model.ScheduledAt),
+                _localizer["The scheduled time must be in the future."].Value);
+        }
+
+        if (!ModelState.IsValid)
+        {
+            model.ParentName = summon.Parent.ApplicationUser.FullName;
+            return View(model);
+        }
+
+        summon.ScheduledAt = DateTime.SpecifyKind(model.ScheduledAt, DateTimeKind.Utc);
+        summon.Message = string.IsNullOrWhiteSpace(model.Message)
+            ? null
+            : model.Message.Trim();
+
+        await _context.SaveChangesAsync();
+
+        await _activityLog.LogAsync(
+            $"Admin edited a summon for parent \"{summon.Parent.ApplicationUser.FullName}\"");
+
+        TempData["Success"] =
+            _localizer["Summon updated."].Value;
+
+        return RedirectToAction(nameof(Details), new { id = summon.ParentId });
+    }
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> DeleteSummon(int id)
+    {
+        var summon = await _context.ParentSummons
+            .Include(s => s.Parent)
+                .ThenInclude(p => p.ApplicationUser)
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (summon == null)
+        {
+            return NotFound();
+        }
+
+        return View(summon);
+    }
+
+    [HttpPost]
+    [ActionName("DeleteSummon")]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> DeleteSummonConfirmed(int id)
+    {
+        var summon = await _context.ParentSummons
+            .FirstOrDefaultAsync(s => s.Id == id);
+
+        if (summon == null)
+        {
+            return NotFound();
+        }
+
+        var parentId = summon.ParentId;
+
+        _context.ParentSummons.Remove(summon);
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] =
+            _localizer["Summon deleted."].Value;
+
+        return RedirectToAction(nameof(Details), new { id = parentId });
+    }
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create()
     {
         await LoadStudentsAsync();

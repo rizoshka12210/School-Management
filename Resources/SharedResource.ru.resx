@@ -2368,4 +2368,22 @@
   <data name="Message deleted." xml:space="preserve">
     <value>Сообщение удалено.</value>
   </data>
+  <data name="Edit Summon" xml:space="preserve">
+    <value>Изменить вызов</value>
+  </data>
+  <data name="Update the scheduled visit for {0}." xml:space="preserve">
+    <value>Измените запланированный визит для {0}.</value>
+  </data>
+  <data name="Summon updated." xml:space="preserve">
+    <value>Вызов обновлён.</value>
+  </data>
+  <data name="Delete Summon" xml:space="preserve">
+    <value>Удалить вызов</value>
+  </data>
+  <data name="Are you sure you want to delete this scheduled visit?" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот запланированный визит?</value>
+  </data>
+  <data name="Summon deleted." xml:space="preserve">
+    <value>Вызов удалён.</value>
+  </data>
 </root>

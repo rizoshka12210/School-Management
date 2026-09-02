@@ -4,6 +4,8 @@ namespace SchoolManagementSystem.Web.ViewModels.Admin;
 
 public class ParentSummonFormViewModel
 {
+    public int Id { get; set; }
+
     public int ParentId { get; set; }
 
     public string ParentName { get; set; } = string.Empty;
