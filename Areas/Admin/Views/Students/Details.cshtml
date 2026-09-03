@@ -4,6 +4,14 @@
 @{
     ViewData["Title"] = Localizer["Student Profile 360°"];
     var student = Model.Student;
+
+    string GradeClass(decimal? value) => value switch
+    {
+        null => string.Empty,
+        >= 90 => "grade-high",
+        >= 75 => "grade-good",
+        _ => "grade-low"
+    };
 }
 
 <div class="profile360-header">
@@ -238,6 +246,66 @@
                         <p>@comment.Comment</p>
                     </div>
                 }
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+        <div class="section-header">
+            <div>
+                <h5 class="section-title">@Localizer["Exam Grade History"]</h5>
+                <p class="section-subtitle">@Localizer["Every exam result ever saved for this student, kept permanently. The current result for each subject is highlighted."]</p>
+            </div>
+        </div>
+
+        @if (!Model.ExamGradeHistory.Any())
+        {
+            <div class="dashboard-empty"><p>@Localizer["This student does not have any exam grades recorded yet."]</p></div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table align-middle management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Date"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Teacher"]</th>
+                            <th>@Localizer["Exam 1"]</th>
+                            <th>@Localizer["Exam 2"]</th>
+                            <th>@Localizer["Average"]</th>
+                            <th>@Localizer["Comment"]</th>
+                            <th>@Localizer["Status"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var exam in Model.ExamGradeHistory)
+                        {
+                            bool isCurrent = Model.CurrentExamGradeIds.Contains(exam.Id);
+                            <tr class="@(isCurrent ? "" : "text-muted")">
+                                <td>@exam.UpdatedAt.ToString("dd MMM yyyy HH:mm")</td>
+                                <td><span class="subject-badge">@exam.Subject.Name</span></td>
+                                <td>@exam.Teacher.ApplicationUser.FullName</td>
+                                <td>@(exam.Exam1?.ToString("0.##") ?? "—")</td>
+                                <td>@(exam.Exam2?.ToString("0.##") ?? "—")</td>
+                                <td><span class="grade-badge @GradeClass(exam.Average)">@(exam.Average?.ToString("0.##") ?? "—")</span></td>
+                                <td>@(string.IsNullOrWhiteSpace(exam.Comment) ? "—" : exam.Comment)</td>
+                                <td>
+                                    @if (isCurrent)
+                                    {
+                                        <span class="badge bg-success">@Localizer["Current"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@Localizer["History"]</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         }
     </div>

@@ -2332,6 +2332,21 @@
   <data name="History" xml:space="preserve">
     <value>History</value>
   </data>
+  <data name="Every exam result you have ever saved for this group and subject, kept permanently. The current result for each student is highlighted." xml:space="preserve">
+    <value>Every exam result you have ever saved for this group and subject, kept permanently. The current result for each student is highlighted.</value>
+  </data>
+  <data name="No history yet" xml:space="preserve">
+    <value>No history yet</value>
+  </data>
+  <data name="Save grades for this group and subject to start building history." xml:space="preserve">
+    <value>Save grades for this group and subject to start building history.</value>
+  </data>
+  <data name="Every exam result ever saved for this student, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Every exam result ever saved for this student, kept permanently. The current result for each subject is highlighted.</value>
+  </data>
+  <data name="This student does not have any exam grades recorded yet." xml:space="preserve">
+    <value>This student does not have any exam grades recorded yet.</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Choose a group, then a subject, to enter student grades</value>
   </data>

@@ -12,6 +12,8 @@ public class StudentProfile360ViewModel
     public List<Grade> RecentGrades { get; set; } = new();
     public List<Attendance> RecentAttendance { get; set; } = new();
     public List<TeacherCommentViewModel> TeacherComments { get; set; } = new();
+    public List<ExamGrade> ExamGradeHistory { get; set; } = new();
+    public HashSet<int> CurrentExamGradeIds { get; set; } = new();
 }
 
 public class TeacherCommentViewModel

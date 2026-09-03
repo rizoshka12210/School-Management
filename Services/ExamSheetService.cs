@@ -55,6 +55,12 @@ public class ExamSheetService
             .LatestPerStudentSubject(existing)
             .ToDictionary(e => e.StudentId);
 
+        var currentIds = latestByStudent.Values.Select(e => e.Id).ToHashSet();
+
+        var studentNames = students.ToDictionary(
+            s => s.Id,
+            s => $"{s.FirstName} {s.LastName}");
+
         var model = new ExamSheetViewModel
         {
             GroupId = group.Id,
@@ -76,6 +82,20 @@ public class ExamSheetService
                 Comment = record?.Comment
             });
         }
+
+        model.History = existing
+            .OrderByDescending(e => e.UpdatedAt)
+            .ThenByDescending(e => e.Id)
+            .Select(e => new ExamGradeHistoryEntryViewModel
+            {
+                StudentName = studentNames.TryGetValue(e.StudentId, out var name) ? name : "—",
+                Exam1 = e.Exam1,
+                Exam2 = e.Exam2,
+                Comment = e.Comment,
+                UpdatedAt = e.UpdatedAt,
+                IsCurrent = currentIds.Contains(e.Id)
+            })
+            .ToList();
 
         return model;
     }

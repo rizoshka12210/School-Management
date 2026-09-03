@@ -81,6 +81,10 @@ public class StudentsController : Controller
                 .ThenInclude(g => g.Teacher)
                     .ThenInclude(t => t.ApplicationUser)
             .Include(s => s.ExamGrades)
+                .ThenInclude(e => e.Subject)
+            .Include(s => s.ExamGrades)
+                .ThenInclude(e => e.Teacher)
+                    .ThenInclude(t => t.ApplicationUser)
             .Include(s => s.Attendances)
                 .ThenInclude(a => a.Lesson)
                     .ThenInclude(l => l.Subject)
@@ -118,7 +122,15 @@ public class StudentsController : Controller
                     Comment = g.Comment!,
                     Date = g.Date
                 })
-                .ToList()
+                .ToList(),
+            ExamGradeHistory = student.ExamGrades
+                .OrderByDescending(e => e.UpdatedAt)
+                .ThenByDescending(e => e.Id)
+                .ToList(),
+            CurrentExamGradeIds = GradeAveragingHelper
+                .LatestPerStudentSubject(student.ExamGrades)
+                .Select(e => e.Id)
+                .ToHashSet()
         };
 
         ViewBag.Achievements = await _achievements.GetBadgesAsync(student.Id);

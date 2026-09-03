@@ -17,6 +17,28 @@ public class ExamSheetViewModel
     public DateTime Date { get; set; } = DateTime.UtcNow;
 
     public List<ExamSheetRowViewModel> Rows { get; set; } = new();
+
+    public List<ExamGradeHistoryEntryViewModel> History { get; set; } = new();
+}
+
+public class ExamGradeHistoryEntryViewModel
+{
+    public string StudentName { get; set; } = string.Empty;
+
+    public decimal? Exam1 { get; set; }
+
+    public decimal? Exam2 { get; set; }
+
+    public string? Comment { get; set; }
+
+    public DateTime UpdatedAt { get; set; }
+
+    public bool IsCurrent { get; set; }
+
+    public decimal? Average =>
+        Exam1.HasValue && Exam2.HasValue
+            ? Math.Round((Exam1.Value + Exam2.Value) / 2, 2)
+            : Exam1 ?? Exam2;
 }
 
 public class ExamSheetRowViewModel

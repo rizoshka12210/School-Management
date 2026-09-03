@@ -5,6 +5,14 @@
 @{
     ViewData["Title"] = Model.SubjectName;
     var subjects = (List<GradesSubjectViewModel>)ViewBag.Subjects;
+
+    string GradeClass(decimal? value) => value switch
+    {
+        null => string.Empty,
+        >= 90 => "grade-high",
+        >= 75 => "grade-good",
+        _ => "grade-low"
+    };
 }
 
 <div class="page-header">
@@ -129,6 +137,68 @@
     </div>
 
 </form>
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+        <div class="section-header">
+            <div>
+                <h5 class="section-title">@Localizer["Exam Grade History"]</h5>
+                <p class="section-subtitle">@Localizer["Every exam result you have ever saved for this group and subject, kept permanently. The current result for each student is highlighted."]</p>
+            </div>
+            <span class="entity-panel-count">@Model.History.Count</span>
+        </div>
+
+        @if (!Model.History.Any())
+        {
+            <div class="teacher-empty">
+                <div class="teacher-empty-icon"><i class="bi bi-journal-x"></i></div>
+                <h5>@Localizer["No history yet"]</h5>
+                <p>@Localizer["Save grades for this group and subject to start building history."]</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Date"]</th>
+                            <th>@Localizer["Student"]</th>
+                            <th>@Localizer["Exam 1"]</th>
+                            <th>@Localizer["Exam 2"]</th>
+                            <th>@Localizer["Average"]</th>
+                            <th>@Localizer["Comment"]</th>
+                            <th>@Localizer["Status"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var entry in Model.History)
+                        {
+                            <tr class="@(entry.IsCurrent ? "" : "text-muted")">
+                                <td>@entry.UpdatedAt.ToString("dd MMM yyyy HH:mm")</td>
+                                <td>@entry.StudentName</td>
+                                <td>@(entry.Exam1?.ToString("0.##", CultureInfo.InvariantCulture) ?? "—")</td>
+                                <td>@(entry.Exam2?.ToString("0.##", CultureInfo.InvariantCulture) ?? "—")</td>
+                                <td><span class="grade-badge @GradeClass(entry.Average)">@(entry.Average?.ToString("0.##", CultureInfo.InvariantCulture) ?? "—")</span></td>
+                                <td>@(string.IsNullOrWhiteSpace(entry.Comment) ? "—" : entry.Comment)</td>
+                                <td>
+                                    @if (entry.IsCurrent)
+                                    {
+                                        <span class="badge bg-success">@Localizer["Current"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@Localizer["History"]</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
 
 @section Scripts
 {

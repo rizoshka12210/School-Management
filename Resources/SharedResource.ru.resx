@@ -2332,6 +2332,21 @@
   <data name="History" xml:space="preserve">
     <value>История</value>
   </data>
+  <data name="Every exam result you have ever saved for this group and subject, kept permanently. The current result for each student is highlighted." xml:space="preserve">
+    <value>Все результаты экзаменов, которые вы когда-либо сохраняли для этой группы и предмета, хранятся без ограничения срока. Текущий результат каждого ученика выделен.</value>
+  </data>
+  <data name="No history yet" xml:space="preserve">
+    <value>Истории пока нет</value>
+  </data>
+  <data name="Save grades for this group and subject to start building history." xml:space="preserve">
+    <value>Сохраните оценки по этой группе и предмету, чтобы начала накапливаться история.</value>
+  </data>
+  <data name="Every exam result ever saved for this student, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Все результаты экзаменов, когда-либо сохранённые для этого ученика, хранятся без ограничения срока. Текущий результат по каждому предмету выделен.</value>
+  </data>
+  <data name="This student does not have any exam grades recorded yet." xml:space="preserve">
+    <value>У этого ученика пока нет экзаменационных оценок.</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Выберите группу, затем предмет, чтобы выставить оценки ученикам</value>
   </data>

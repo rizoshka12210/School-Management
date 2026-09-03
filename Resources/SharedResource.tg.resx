@@ -2332,6 +2332,21 @@
   <data name="History" xml:space="preserve">
     <value>Таърих</value>
   </data>
+  <data name="Every exam result you have ever saved for this group and subject, kept permanently. The current result for each student is highlighted." xml:space="preserve">
+    <value>Ҳамаи натиҷаҳои имтиҳонӣ, ки шумо барои ин гурӯҳ ва фан сабт кардаед, ҳамеша нигоҳ дошта мешаванд. Натиҷаи ҷории ҳар донишомӯз ҷудо нишон дода мешавад.</value>
+  </data>
+  <data name="No history yet" xml:space="preserve">
+    <value>Таърих ҳанӯз нест</value>
+  </data>
+  <data name="Save grades for this group and subject to start building history." xml:space="preserve">
+    <value>Барои сабти таърих, бахоҳои ин гурӯҳу фанро нигоҳ доред.</value>
+  </data>
+  <data name="Every exam result ever saved for this student, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Ҳамаи натиҷаҳои имтиҳонии барои ин донишомӯз сабтшуда ҳамеша нигоҳ дошта мешаванд. Натиҷаи ҷории ҳар фан ҷудо нишон дода мешавад.</value>
+  </data>
+  <data name="This student does not have any exam grades recorded yet." xml:space="preserve">
+    <value>Ин донишомӯз ҳанӯз бахои имтиҳонӣ надорад.</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Гурӯҳро, сипас фанро интихоб кунед, то ба хонандагон баҳо гузоред</value>
   </data>
