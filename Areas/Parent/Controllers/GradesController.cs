@@ -40,13 +40,20 @@ public class GradesController : ParentControllerBase
             .OrderByDescending(g => g.Date)
             .ToListAsync();
 
-        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(
-            await Context.ExamGrades
-                .Where(e => e.StudentId == resolvedId)
-                .Include(e => e.Subject)
-                .ToListAsync());
+        var examGradeHistory = await Context.ExamGrades
+            .Where(e => e.StudentId == resolvedId)
+            .Include(e => e.Subject)
+            .Include(e => e.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .OrderByDescending(e => e.UpdatedAt)
+            .ThenByDescending(e => e.Id)
+            .ToListAsync();
+
+        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(examGradeHistory);
 
         ViewBag.StudentName = $"{student.FirstName} {student.LastName}";
+        ViewBag.ExamGradeHistory = examGradeHistory;
+        ViewBag.CurrentExamGradeIds = examGrades.Select(e => e.Id).ToHashSet();
 
         var subjectNames = grades.Select(g => g.Subject.Name)
             .Union(examGrades.Select(e => e.Subject.Name))

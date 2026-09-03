@@ -2347,6 +2347,24 @@
   <data name="This student does not have any exam grades recorded yet." xml:space="preserve">
     <value>Ин донишомӯз ҳанӯз бахои имтиҳонӣ надорад.</value>
   </data>
+  <data name="Every exam result ever saved for {0}, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Ҳамаи натиҷаҳои имтиҳонии барои {0} сабтшуда ҳамеша нигоҳ дошта мешаванд. Натиҷаи ҷории ҳар фан ҷудо нишон дода мешавад.</value>
+  </data>
+  <data name="No exam grades yet" xml:space="preserve">
+    <value>Ҳанӯз бахои имтиҳонӣ нест</value>
+  </data>
+  <data name="Exam results recorded by teachers will appear here." xml:space="preserve">
+    <value>Натиҷаҳои имтиҳонии аз ҷониби омӯзгорон сабтшуда дар ин ҷо пайдо мешаванд.</value>
+  </data>
+  <data name="Every exam result ever saved across the school, kept permanently. The current result for each student and subject is highlighted." xml:space="preserve">
+    <value>Ҳамаи натиҷаҳои имтиҳонии дар тамоми мактаб сабтшуда ҳамеша нигоҳ дошта мешаванд. Натиҷаи ҷории ҳар донишомӯз ва фан ҷудо нишон дода мешавад.</value>
+  </data>
+  <data name="No exam grades found" xml:space="preserve">
+    <value>Бахои имтиҳонӣ ёфт нашуд</value>
+  </data>
+  <data name="There are no exam grades matching the selected filters." xml:space="preserve">
+    <value>Бо филтрҳои интихобшуда бахои имтиҳонӣ ёфт нашуд.</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Гурӯҳро, сипас фанро интихоб кунед, то ба хонандагон баҳо гузоред</value>
   </data>

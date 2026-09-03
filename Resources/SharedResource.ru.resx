@@ -2347,6 +2347,24 @@
   <data name="This student does not have any exam grades recorded yet." xml:space="preserve">
     <value>У этого ученика пока нет экзаменационных оценок.</value>
   </data>
+  <data name="Every exam result ever saved for {0}, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Все результаты экзаменов, когда-либо сохранённые для {0}, хранятся без ограничения срока. Текущий результат по каждому предмету выделен.</value>
+  </data>
+  <data name="No exam grades yet" xml:space="preserve">
+    <value>Пока нет экзаменационных оценок</value>
+  </data>
+  <data name="Exam results recorded by teachers will appear here." xml:space="preserve">
+    <value>Здесь появятся результаты экзаменов, внесённые учителями.</value>
+  </data>
+  <data name="Every exam result ever saved across the school, kept permanently. The current result for each student and subject is highlighted." xml:space="preserve">
+    <value>Все результаты экзаменов, когда-либо сохранённые по школе, хранятся без ограничения срока. Текущий результат по каждому ученику и предмету выделен.</value>
+  </data>
+  <data name="No exam grades found" xml:space="preserve">
+    <value>Экзаменационные оценки не найдены</value>
+  </data>
+  <data name="There are no exam grades matching the selected filters." xml:space="preserve">
+    <value>Нет экзаменационных оценок, соответствующих выбранным фильтрам.</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Выберите группу, затем предмет, чтобы выставить оценки ученикам</value>
   </data>

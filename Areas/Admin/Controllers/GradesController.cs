@@ -72,6 +72,46 @@ public class GradesController : Controller
         ViewBag.Search = search;
         ViewBag.SubjectId = subjectId;
 
+        var examGradeHistory = await _context.ExamGrades
+            .Include(e => e.Student)
+            .Include(e => e.Subject)
+            .Include(e => e.Teacher)
+                .ThenInclude(t => t.ApplicationUser)
+            .ToListAsync();
+
+        ViewBag.CurrentExamGradeIds = GradeAveragingHelper
+            .LatestPerStudentSubject(examGradeHistory)
+            .Select(e => e.Id)
+            .ToHashSet();
+
+        var examQuery = examGradeHistory.AsEnumerable();
+
+        if (!string.IsNullOrWhiteSpace(search))
+        {
+            var value = search.Trim().ToLower();
+
+            examQuery = examQuery.Where(e =>
+                $"{e.Student.FirstName} {e.Student.LastName}"
+                    .ToLower()
+                    .Contains(value) ||
+                e.Subject.Name
+                    .ToLower()
+                    .Contains(value) ||
+                e.Teacher.ApplicationUser.FullName
+                    .ToLower()
+                    .Contains(value));
+        }
+
+        if (subjectId.HasValue)
+        {
+            examQuery = examQuery.Where(e => e.SubjectId == subjectId.Value);
+        }
+
+        ViewBag.ExamGradeHistory = examQuery
+            .OrderByDescending(e => e.UpdatedAt)
+            .ThenByDescending(e => e.Id)
+            .ToList();
+
         return View(
             query
                 .OrderByDescending(g => g.Date)

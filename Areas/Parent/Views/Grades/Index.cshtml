@@ -1,13 +1,25 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Grade>
 
+@using SchoolManagementSystem.Web.Models.Entities
+
 @{
     ViewData["Title"] = Localizer["Grades"];
 
-    var averages = ViewBag.AverageBySubject as Dictionary<string, double> ?? new Dictionary<string, double>();
+    var averages = ViewBag.AverageBySubject as Dictionary<string, decimal> ?? new Dictionary<string, decimal>();
     double overallAverage = Convert.ToDouble(ViewBag.OverallAverage);
     var totalGrades = Model.Count();
     var highestGrade = Model.Any() ? Model.Max(g => g.Value) : 0;
     var subjectsCount = Model.Select(g => g.SubjectId).Distinct().Count();
+    var examGradeHistory = ViewBag.ExamGradeHistory as List<ExamGrade> ?? new List<ExamGrade>();
+    var currentExamGradeIds = ViewBag.CurrentExamGradeIds as HashSet<int> ?? new HashSet<int>();
+
+    string GradeClass(decimal? value) => value switch
+    {
+        null => string.Empty,
+        >= 90 => "grade-high",
+        >= 75 => "grade-good",
+        _ => "grade-low"
+    };
 }
 
 <div class="page-header">
@@ -135,6 +147,80 @@
                                     else
                                     {
                                         <span class="text-muted">—</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+        <div class="section-header">
+            <div>
+                <h5 class="section-title">@Localizer["Exam Grade History"]</h5>
+                <p class="section-subtitle">@Localizer["Every exam result ever saved for {0}, kept permanently. The current result for each subject is highlighted.", ViewBag.StudentName]</p>
+            </div>
+            <div class="teacher-count-label">@Localizer["{0} record(s)", examGradeHistory.Count]</div>
+        </div>
+
+        @if (!examGradeHistory.Any())
+        {
+            <div class="parent-empty">
+                <div class="parent-empty-icon"><i class="bi bi-journal-check"></i></div>
+                <h5>@Localizer["No exam grades yet"]</h5>
+                <p>@Localizer["Exam results recorded by teachers will appear here."]</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Date"]</th>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Teacher"]</th>
+                            <th>@Localizer["Exam 1"]</th>
+                            <th>@Localizer["Exam 2"]</th>
+                            <th>@Localizer["Average"]</th>
+                            <th>@Localizer["Comment"]</th>
+                            <th>@Localizer["Status"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var exam in examGradeHistory)
+                        {
+                            bool isCurrent = currentExamGradeIds.Contains(exam.Id);
+                            <tr class="@(isCurrent ? "" : "text-muted")">
+                                <td><div class="record-date">@exam.UpdatedAt.ToString("dd MMM yyyy HH:mm")</div></td>
+                                <td><span class="subject-badge">@exam.Subject.Name</span></td>
+                                <td>
+                                    <div class="person-cell">
+                                        <div class="mini-avatar">
+                                            @(string.IsNullOrWhiteSpace(exam.Teacher.ApplicationUser.FullName)
+                                                ? "T"
+                                                : exam.Teacher.ApplicationUser.FullName.Substring(0, 1).ToUpper())
+                                        </div>
+                                        <span class="fw-semibold">@exam.Teacher.ApplicationUser.FullName</span>
+                                    </div>
+                                </td>
+                                <td>@(exam.Exam1?.ToString("0.##") ?? "—")</td>
+                                <td>@(exam.Exam2?.ToString("0.##") ?? "—")</td>
+                                <td><span class="grade-badge @GradeClass(exam.Average)">@(exam.Average?.ToString("0.##") ?? "—")</span></td>
+                                <td>@(string.IsNullOrWhiteSpace(exam.Comment) ? "—" : exam.Comment)</td>
+                                <td>
+                                    @if (isCurrent)
+                                    {
+                                        <span class="badge bg-success">@Localizer["Current"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@Localizer["History"]</span>
                                     }
                                 </td>
                             </tr>

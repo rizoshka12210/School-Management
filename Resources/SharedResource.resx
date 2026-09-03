@@ -2347,6 +2347,24 @@
   <data name="This student does not have any exam grades recorded yet." xml:space="preserve">
     <value>This student does not have any exam grades recorded yet.</value>
   </data>
+  <data name="Every exam result ever saved for {0}, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Every exam result ever saved for {0}, kept permanently. The current result for each subject is highlighted.</value>
+  </data>
+  <data name="No exam grades yet" xml:space="preserve">
+    <value>No exam grades yet</value>
+  </data>
+  <data name="Exam results recorded by teachers will appear here." xml:space="preserve">
+    <value>Exam results recorded by teachers will appear here.</value>
+  </data>
+  <data name="Every exam result ever saved across the school, kept permanently. The current result for each student and subject is highlighted." xml:space="preserve">
+    <value>Every exam result ever saved across the school, kept permanently. The current result for each student and subject is highlighted.</value>
+  </data>
+  <data name="No exam grades found" xml:space="preserve">
+    <value>No exam grades found</value>
+  </data>
+  <data name="There are no exam grades matching the selected filters." xml:space="preserve">
+    <value>There are no exam grades matching the selected filters.</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Choose a group, then a subject, to enter student grades</value>
   </data>
