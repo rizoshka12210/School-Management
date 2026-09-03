@@ -2386,4 +2386,58 @@
   <data name="Summon deleted." xml:space="preserve">
     <value>Summon deleted.</value>
   </data>
+  <data name="Directors" xml:space="preserve">
+    <value>Directors</value>
+  </data>
+  <data name="Manage director accounts" xml:space="preserve">
+    <value>Manage director accounts</value>
+  </data>
+  <data name="Add Director" xml:space="preserve">
+    <value>Add Director</value>
+  </data>
+  <data name="Search director or email..." xml:space="preserve">
+    <value>Search director or email...</value>
+  </data>
+  <data name="No directors found" xml:space="preserve">
+    <value>No directors found</value>
+  </data>
+  <data name="Add a director account or change your search." xml:space="preserve">
+    <value>Add a director account or change your search.</value>
+  </data>
+  <data name="Showing {0} director(s)" xml:space="preserve">
+    <value>Showing {0} director(s)</value>
+  </data>
+  <data name="Director Information" xml:space="preserve">
+    <value>Director Information</value>
+  </data>
+  <data name="Account information for the director" xml:space="preserve">
+    <value>Account information for the director</value>
+  </data>
+  <data name="Create a director account" xml:space="preserve">
+    <value>Create a director account</value>
+  </data>
+  <data name="Create Director" xml:space="preserve">
+    <value>Create Director</value>
+  </data>
+  <data name="Edit Director" xml:space="preserve">
+    <value>Edit Director</value>
+  </data>
+  <data name="Update director information" xml:space="preserve">
+    <value>Update director information</value>
+  </data>
+  <data name="Director Details" xml:space="preserve">
+    <value>Director Details</value>
+  </data>
+  <data name="Delete Director" xml:space="preserve">
+    <value>Delete Director</value>
+  </data>
+  <data name="Director created successfully." xml:space="preserve">
+    <value>Director created successfully.</value>
+  </data>
+  <data name="Director updated successfully." xml:space="preserve">
+    <value>Director updated successfully.</value>
+  </data>
+  <data name="Director deleted successfully." xml:space="preserve">
+    <value>Director deleted successfully.</value>
+  </data>
 </root>

@@ -1,0 +1,65 @@
+@model SchoolManagementSystem.Web.Models.Identity.ApplicationUser
+
+@{
+    ViewData["Title"] = Localizer["Director Details"];
+
+    var initials = string.IsNullOrWhiteSpace(Model.FullName)
+        ? "D"
+        : string.Concat(Model.FullName
+            .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+            .Take(2)
+            .Select(value => char.ToUpperInvariant(value[0])));
+}
+
+<link rel="stylesheet" href="~/css/details.css" asp-append-version="true" />
+
+<div class="entity-details-page">
+    <a asp-action="Index" class="entity-details-back">
+        <i class="bi bi-arrow-left"></i>
+        @Localizer["Directors"]
+    </a>
+
+    <section class="entity-details-hero">
+        <div class="entity-details-identity">
+            <div class="entity-details-icon">
+                @initials
+            </div>
+            <div>
+                <span class="entity-details-eyebrow">@Localizer["Director Details"]</span>
+                <h1 class="entity-details-title">@Model.FullName</h1>
+                <p class="entity-details-subtitle">@(Model.Email ?? "—")</p>
+                <div class="entity-details-meta">
+                    <span class="entity-meta-badge"><i class="bi bi-person-badge-fill"></i>@Localizer["Director"]</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="entity-details-actions">
+            @if (User.IsInRole("Admin"))
+            {
+                <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                    <i class="bi bi-pencil-square"></i>
+                    @Localizer["Edit"]
+                </a>
+            }
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i>
+                @Localizer["Back"]
+            </a>
+        </div>
+    </section>
+
+    <section class="entity-panel">
+        <div class="entity-panel-head">
+            <div>
+                <h2 class="entity-panel-title"><i class="bi bi-person-badge-fill"></i>@Localizer["Director Details"]</h2>
+            </div>
+        </div>
+        <div class="entity-panel-body">
+            <div class="entity-facts">
+                <div class="entity-fact"><span>@Localizer["Director"]</span><strong>@Model.FullName</strong></div>
+                <div class="entity-fact"><span>@Localizer["Email"]</span><strong>@(Model.Email ?? "—")</strong></div>
+            </div>
+        </div>
+    </section>
+</div>

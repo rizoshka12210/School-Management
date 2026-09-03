@@ -108,7 +108,7 @@ public class AuthController : Controller
 
     private IActionResult RedirectByRole()
     {
-        if (User.IsInRole(Roles.Admin))
+        if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Director))
         {
             return RedirectToAction(
                 "Index",
@@ -141,7 +141,8 @@ public class AuthController : Controller
     private async Task<IActionResult> RedirectByRoleAsync(
         ApplicationUser user)
     {
-        if (await _userManager.IsInRoleAsync(user, Roles.Admin))
+        if (await _userManager.IsInRoleAsync(user, Roles.Admin) ||
+            await _userManager.IsInRoleAsync(user, Roles.Director))
         {
             return RedirectToAction(
                 "Index",

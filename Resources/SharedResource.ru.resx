@@ -2386,4 +2386,58 @@
   <data name="Summon deleted." xml:space="preserve">
     <value>Вызов удалён.</value>
   </data>
+  <data name="Directors" xml:space="preserve">
+    <value>Директора</value>
+  </data>
+  <data name="Manage director accounts" xml:space="preserve">
+    <value>Управление аккаунтами директоров</value>
+  </data>
+  <data name="Add Director" xml:space="preserve">
+    <value>Добавить директора</value>
+  </data>
+  <data name="Search director or email..." xml:space="preserve">
+    <value>Поиск директора или email...</value>
+  </data>
+  <data name="No directors found" xml:space="preserve">
+    <value>Директора не найдены</value>
+  </data>
+  <data name="Add a director account or change your search." xml:space="preserve">
+    <value>Добавьте аккаунт директора или измените поиск.</value>
+  </data>
+  <data name="Showing {0} director(s)" xml:space="preserve">
+    <value>Показано директоров: {0}</value>
+  </data>
+  <data name="Director Information" xml:space="preserve">
+    <value>Информация о директоре</value>
+  </data>
+  <data name="Account information for the director" xml:space="preserve">
+    <value>Информация об аккаунте директора</value>
+  </data>
+  <data name="Create a director account" xml:space="preserve">
+    <value>Создайте аккаунт директора</value>
+  </data>
+  <data name="Create Director" xml:space="preserve">
+    <value>Создать директора</value>
+  </data>
+  <data name="Edit Director" xml:space="preserve">
+    <value>Изменить директора</value>
+  </data>
+  <data name="Update director information" xml:space="preserve">
+    <value>Обновите информацию о директоре</value>
+  </data>
+  <data name="Director Details" xml:space="preserve">
+    <value>Информация о директоре</value>
+  </data>
+  <data name="Delete Director" xml:space="preserve">
+    <value>Удалить директора</value>
+  </data>
+  <data name="Director created successfully." xml:space="preserve">
+    <value>Директор успешно создан.</value>
+  </data>
+  <data name="Director updated successfully." xml:space="preserve">
+    <value>Директор успешно обновлён.</value>
+  </data>
+  <data name="Director deleted successfully." xml:space="preserve">
+    <value>Директор успешно удалён.</value>
+  </data>
 </root>

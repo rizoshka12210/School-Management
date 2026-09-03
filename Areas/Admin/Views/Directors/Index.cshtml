@@ -1,0 +1,162 @@
+@model List<SchoolManagementSystem.Web.Models.Identity.ApplicationUser>
+
+@{
+    ViewData["Title"] = Localizer["Directors"];
+}
+
+<div class="page-header">
+
+    <div>
+        <h1 class="page-title">
+            @Localizer["Directors"]
+        </h1>
+
+        <p class="page-subtitle">
+            @Localizer["Manage director accounts"]
+        </p>
+    </div>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a asp-action="Create"
+           class="btn btn-primary">
+            + @Localizer["Add Director"]
+        </a>
+    }
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <form method="get"
+              asp-action="Index"
+              class="management-toolbar">
+
+            <div class="management-search">
+
+                <input type="text"
+                       name="search"
+                       value="@ViewBag.Search"
+                       class="form-control"
+                       placeholder="@Localizer["Search director or email..."]" />
+
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                @Localizer["Search"]
+            </button>
+
+            @if (!string.IsNullOrWhiteSpace(ViewBag.Search as string))
+            {
+                <a asp-action="Index"
+                   class="btn btn-light">
+                    @Localizer["Clear"]
+                </a>
+            }
+
+        </form>
+
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+
+                <div class="management-empty-icon"><i class="bi bi-person-badge-fill"></i></div>
+
+                <h5>
+                    @Localizer["No directors found"]
+                </h5>
+
+                <p>
+                    @Localizer["Add a director account or change your search."]
+                </p>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-action="Create"
+                       class="btn btn-primary">
+                        + @Localizer["Add Director"]
+                    </a>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+
+                <table class="table table-hover management-table">
+
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Director"]</th>
+                            <th>@Localizer["Email"]</th>
+                            <th class="text-end">@Localizer["Actions"]</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var director in Model)
+                        {
+                            <tr class="clickable-row" data-href="@Url.Action("Details", new { id = director.Id })">
+
+                                <td>
+                                    <div class="person-cell">
+                                        <div class="person-avatar">
+                                            @(string.IsNullOrWhiteSpace(director.FullName)
+                                                ? "D"
+                                                : director.FullName.Substring(0, 1).ToUpper())
+                                        </div>
+                                        <div class="person-name">
+                                            @director.FullName
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td>
+                                    @director.Email
+                                </td>
+
+                                <td class="text-end">
+
+                                    @if (User.IsInRole("Admin"))
+                                    {
+                                        <div class="action-buttons">
+
+                                            <a asp-action="Edit"
+                                               asp-route-id="@director.Id"
+                                               class="action-btn action-edit">
+                                                @Localizer["Edit"]
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@director.Id"
+                                               class="action-btn action-delete">
+                                                @Localizer["Delete"]
+                                            </a>
+
+                                        </div>
+                                    }
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <div class="table-footer">
+                @Localizer["Showing {0} director(s)", Model.Count]
+            </div>
+        }
+
+    </div>
+
+</div>

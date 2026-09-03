@@ -1,0 +1,102 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.DirectorFormViewModel
+
+<div asp-validation-summary="ModelOnly"
+     class="alert alert-danger">
+</div>
+
+<div class="form-card">
+
+    <div class="form-card-header">
+
+        <h5>
+            @Localizer["Director Information"]
+        </h5>
+
+        <p>
+            @Localizer["Account information for the director"]
+        </p>
+
+    </div>
+
+    <div class="form-card-body">
+
+        <div class="row g-4">
+
+            <div class="col-md-6">
+
+                <label asp-for="FullName"
+                       class="form-label">
+                    @Localizer["Full Name"]
+                </label>
+
+                <input asp-for="FullName"
+                       class="form-control"
+                       placeholder="@Localizer["Example: Michael Smith"]" />
+
+                <span asp-validation-for="FullName"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label asp-for="Email"
+                       class="form-label">
+                    @Localizer["Email"]
+                </label>
+
+                <input asp-for="Email"
+                       type="email"
+                       class="form-control"
+                       placeholder="director@school.com" />
+
+                <span asp-validation-for="Email"
+                      class="text-danger small">
+                </span>
+
+            </div>
+
+            <div class="col-md-6">
+
+                <label asp-for="Password"
+                       class="form-label">
+
+                    @Localizer["Password"]
+
+                    @if (!string.IsNullOrWhiteSpace(Model.Id))
+                    {
+                        <span class="text-muted fw-normal">
+                            (@Localizer["optional"])
+                        </span>
+                    }
+
+                </label>
+
+                <div class="password-field">
+                    <input asp-for="Password"
+                           type="password"
+                           class="form-control"
+                           placeholder="@Localizer["Enter password"]" />
+
+                    <partial name="_PasswordToggle" />
+                </div>
+
+                <span asp-validation-for="Password"
+                      class="text-danger small">
+                </span>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Id))
+                {
+                    <div class="form-hint">
+                        @Localizer["Leave empty to keep the current password."]
+                    </div>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,55 @@
+@model SchoolManagementSystem.Web.Models.Identity.ApplicationUser
+
+@{
+    ViewData["Title"] = Localizer["Delete Director"];
+}
+
+<div class="container mt-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-body p-4">
+
+                    <h2 class="text-danger fw-bold">
+                        @Localizer["Delete Director"]
+                    </h2>
+
+                    <p class="mt-3">
+                        @Localizer["Are you sure you want to delete"]
+                        <strong>
+                            @Model.FullName
+                        </strong>?
+                    </p>
+
+                    <p>
+                        @Model.Email
+                    </p>
+
+                    <form asp-action="Delete"
+                          asp-route-id="@Model.Id"
+                          method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-danger">
+                            @Localizer["Yes, Delete"]
+                        </button>
+
+                        <a asp-action="Index"
+                           class="btn btn-outline-secondary">
+                            @Localizer["Cancel"]
+                        </a>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
