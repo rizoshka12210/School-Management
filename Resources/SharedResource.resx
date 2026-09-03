@@ -2317,6 +2317,123 @@
   <data name="Average" xml:space="preserve">
     <value>Average</value>
   </data>
+  <data name="Big Exam" xml:space="preserve">
+    <value>Big Exam</value>
+  </data>
+  <data name="Big Exam Information" xml:space="preserve">
+    <value>Big Exam Information</value>
+  </data>
+  <data name="Big Exam score" xml:space="preserve">
+    <value>Big Exam score</value>
+  </data>
+  <data name="Big Exam scores will appear here once graded." xml:space="preserve">
+    <value>Big Exam scores will appear here once graded.</value>
+  </data>
+  <data name="Choose a group to enter scores" xml:space="preserve">
+    <value>Choose a group to enter scores</value>
+  </data>
+  <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
+    <value>Choose at most one teacher. Selecting a different teacher revokes access from the previous one.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>
+  </data>
+  <data name="Create the first Big Exam to start grading." xml:space="preserve">
+    <value>Create the first Big Exam to start grading.</value>
+  </data>
+  <data name="Delete Big Exam" xml:space="preserve">
+    <value>Delete Big Exam</value>
+  </data>
+  <data name="Are you sure you want to delete this Big Exam? All grades and history for it will be deleted too." xml:space="preserve">
+    <value>Are you sure you want to delete this Big Exam? All grades and history for it will be deleted too.</value>
+  </data>
+  <data name="Designated Grader" xml:space="preserve">
+    <value>Designated Grader</value>
+  </data>
+  <data name="Designated Teacher" xml:space="preserve">
+    <value>Designated Teacher</value>
+  </data>
+  <data name="Edit Big Exam" xml:space="preserve">
+    <value>Edit Big Exam</value>
+  </data>
+  <data name="Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student is highlighted." xml:space="preserve">
+    <value>Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student is highlighted.</value>
+  </data>
+  <data name="Example: Big Exam - September 2026" xml:space="preserve">
+    <value>Example: Big Exam - September 2026</value>
+  </data>
+  <data name="Graded By" xml:space="preserve">
+    <value>Graded By</value>
+  </data>
+  <data name="Grader Access" xml:space="preserve">
+    <value>Grader Access</value>
+  </data>
+  <data name="Group Rank" xml:space="preserve">
+    <value>Group Rank</value>
+  </data>
+  <data name="New Big Exam" xml:space="preserve">
+    <value>New Big Exam</value>
+  </data>
+  <data name="No Big Exam results yet" xml:space="preserve">
+    <value>No Big Exam results yet</value>
+  </data>
+  <data name="No Big Exams yet" xml:space="preserve">
+    <value>No Big Exams yet</value>
+  </data>
+  <data name="No groups yet" xml:space="preserve">
+    <value>No groups yet</value>
+  </data>
+  <data name="No scores yet" xml:space="preserve">
+    <value>No scores yet</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="None assigned" xml:space="preserve">
+    <value>None assigned</value>
+  </data>
+  <data name="Only Admin and one teacher you choose can enter Big Exam grades" xml:space="preserve">
+    <value>Only Admin and one teacher you choose can enter Big Exam grades</value>
+  </data>
+  <data name="Only Admin can grade the Big Exam" xml:space="preserve">
+    <value>Only Admin can grade the Big Exam</value>
+  </data>
+  <data name="Overall Rank" xml:space="preserve">
+    <value>Overall Rank</value>
+  </data>
+  <data name="Periodic school-wide exam - you have been granted grading access" xml:space="preserve">
+    <value>Periodic school-wide exam - you have been granted grading access</value>
+  </data>
+  <data name="Periodic school-wide exam, separate from regular subject exams" xml:space="preserve">
+    <value>Periodic school-wide exam, separate from regular subject exams</value>
+  </data>
+  <data name="Rankings" xml:space="preserve">
+    <value>Rankings</value>
+  </data>
+  <data name="Rankings will appear once grades are entered." xml:space="preserve">
+    <value>Rankings will appear once grades are entered.</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
+  </data>
+  <data name="Score History" xml:space="preserve">
+    <value>Score History</value>
+  </data>
+  <data name="Student's place by group and across the whole center" xml:space="preserve">
+    <value>Student's place by group and across the whole center</value>
+  </data>
+  <data name="The admin has not created a Big Exam yet." xml:space="preserve">
+    <value>The admin has not created a Big Exam yet.</value>
+  </data>
+  <data name="Title and date for this exam session" xml:space="preserve">
+    <value>Title and date for this exam session</value>
+  </data>
+  <data name="of {0}" xml:space="preserve">
+    <value>of {0}</value>
+  </data>
+  <data name="{0}'s results in the periodic school-wide exam" xml:space="preserve">
+    <value>{0}'s results in the periodic school-wide exam</value>
+  </data>
   <data name="Exam Grade History" xml:space="preserve">
     <value>Exam Grade History</value>
   </data>

@@ -1,0 +1,60 @@
+@model int?
+@using SchoolManagementSystem.Web.Models.Entities
+
+@{
+    ViewData["Title"] = Localizer["Grader Access"];
+    var teachers = ViewBag.Teachers as List<Teacher> ?? new List<Teacher>();
+}
+
+<div class="page-header">
+    <div>
+        <a asp-action="Index" class="back-link">← @Localizer["Big Exam"]</a>
+        <h1 class="page-title mt-2">@Localizer["Grader Access"]</h1>
+        <p class="page-subtitle">@Localizer["Only Admin and one teacher you choose can enter Big Exam grades"]</p>
+    </div>
+</div>
+
+<form asp-action="GraderAccess" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-card">
+        <div class="form-card-header">
+            <h5>@Localizer["Designated Teacher"]</h5>
+            <p>@Localizer["Choose at most one teacher. Selecting a different teacher revokes access from the previous one."]</p>
+        </div>
+
+        <div class="form-card-body">
+            <div class="relation-selector">
+                <label class="relation-option">
+                    <input type="radio" name="teacherId" value="" checked="@(Model == null)" />
+                    <div class="relation-icon teacher-relation-icon"><i class="bi bi-slash-circle"></i></div>
+                    <div class="relation-info">
+                        <strong>@Localizer["None"]</strong>
+                        <span>@Localizer["Only Admin can grade the Big Exam"]</span>
+                    </div>
+                </label>
+
+                @foreach (var teacher in teachers)
+                {
+                    var selected = Model.HasValue && Model.Value == teacher.Id;
+
+                    <label class="relation-option">
+                        <input type="radio" name="teacherId" value="@teacher.Id" checked="@selected" />
+                        <div class="relation-icon teacher-relation-icon">
+                            @(string.IsNullOrWhiteSpace(teacher.ApplicationUser.FullName) ? "T" : teacher.ApplicationUser.FullName.Substring(0, 1).ToUpper())
+                        </div>
+                        <div class="relation-info">
+                            <strong>@teacher.ApplicationUser.FullName</strong>
+                            <span>@teacher.ApplicationUser.Email</span>
+                        </div>
+                    </label>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">@Localizer["Cancel"]</a>
+        <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+    </div>
+</form>

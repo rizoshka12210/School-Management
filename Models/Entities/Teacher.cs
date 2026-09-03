@@ -21,4 +21,11 @@ public class Teacher
     public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();
 
     public ICollection<Grade> Grades { get; set; } = new List<Grade>();
+
+    /// <summary>
+    /// True for at most one teacher at a time - the single teacher the
+    /// admin has designated to grade the periodic Big Exam alongside
+    /// Admin. Toggled exclusively via Admin > Big Exam > Grader Access.
+    /// </summary>
+    public bool IsBigExamGrader { get; set; }
 }

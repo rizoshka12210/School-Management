@@ -2317,6 +2317,123 @@
   <data name="Average" xml:space="preserve">
     <value>Средний балл</value>
   </data>
+  <data name="Big Exam" xml:space="preserve">
+    <value>Большой экзамен</value>
+  </data>
+  <data name="Big Exam Information" xml:space="preserve">
+    <value>Информация о большом экзамене</value>
+  </data>
+  <data name="Big Exam score" xml:space="preserve">
+    <value>Оценка большого экзамена</value>
+  </data>
+  <data name="Big Exam scores will appear here once graded." xml:space="preserve">
+    <value>Оценки большого экзамена появятся здесь после выставления.</value>
+  </data>
+  <data name="Choose a group to enter scores" xml:space="preserve">
+    <value>Выберите группу, чтобы выставить оценки</value>
+  </data>
+  <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
+    <value>Выберите не более одного учителя. Выбор другого учителя отзывает доступ у предыдущего.</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="Create the first Big Exam to start grading." xml:space="preserve">
+    <value>Создайте первый большой экзамен, чтобы начать выставление оценок.</value>
+  </data>
+  <data name="Delete Big Exam" xml:space="preserve">
+    <value>Удалить большой экзамен</value>
+  </data>
+  <data name="Are you sure you want to delete this Big Exam? All grades and history for it will be deleted too." xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот большой экзамен? Все оценки и история по нему также будут удалены.</value>
+  </data>
+  <data name="Designated Grader" xml:space="preserve">
+    <value>Назначенный учитель</value>
+  </data>
+  <data name="Designated Teacher" xml:space="preserve">
+    <value>Назначенный учитель</value>
+  </data>
+  <data name="Edit Big Exam" xml:space="preserve">
+    <value>Изменить большой экзамен</value>
+  </data>
+  <data name="Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student is highlighted." xml:space="preserve">
+    <value>Все оценки, когда-либо сохранённые для этой группы в этом большом экзамене, хранятся без ограничения срока. Текущий результат каждого ученика выделен.</value>
+  </data>
+  <data name="Example: Big Exam - September 2026" xml:space="preserve">
+    <value>Например: Большой экзамен — сентябрь 2026</value>
+  </data>
+  <data name="Graded By" xml:space="preserve">
+    <value>Кто поставил</value>
+  </data>
+  <data name="Grader Access" xml:space="preserve">
+    <value>Доступ к оцениванию</value>
+  </data>
+  <data name="Group Rank" xml:space="preserve">
+    <value>Место в группе</value>
+  </data>
+  <data name="New Big Exam" xml:space="preserve">
+    <value>Новый большой экзамен</value>
+  </data>
+  <data name="No Big Exam results yet" xml:space="preserve">
+    <value>Пока нет результатов большого экзамена</value>
+  </data>
+  <data name="No Big Exams yet" xml:space="preserve">
+    <value>Пока нет больших экзаменов</value>
+  </data>
+  <data name="No groups yet" xml:space="preserve">
+    <value>Пока нет групп</value>
+  </data>
+  <data name="No scores yet" xml:space="preserve">
+    <value>Пока нет оценок</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="None assigned" xml:space="preserve">
+    <value>Не назначен</value>
+  </data>
+  <data name="Only Admin and one teacher you choose can enter Big Exam grades" xml:space="preserve">
+    <value>Только админ и один выбранный вами учитель могут выставлять оценки большого экзамена</value>
+  </data>
+  <data name="Only Admin can grade the Big Exam" xml:space="preserve">
+    <value>Только админ может выставлять оценки большого экзамена</value>
+  </data>
+  <data name="Overall Rank" xml:space="preserve">
+    <value>Место по центру</value>
+  </data>
+  <data name="Periodic school-wide exam - you have been granted grading access" xml:space="preserve">
+    <value>Периодический общешкольный экзамен — вам предоставлен доступ к выставлению оценок</value>
+  </data>
+  <data name="Periodic school-wide exam, separate from regular subject exams" xml:space="preserve">
+    <value>Периодический общешкольный экзамен, отдельный от обычных предметных экзаменов</value>
+  </data>
+  <data name="Rankings" xml:space="preserve">
+    <value>Рейтинг</value>
+  </data>
+  <data name="Rankings will appear once grades are entered." xml:space="preserve">
+    <value>Рейтинг появится после выставления оценок.</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Балл</value>
+  </data>
+  <data name="Score History" xml:space="preserve">
+    <value>История оценок</value>
+  </data>
+  <data name="Student's place by group and across the whole center" xml:space="preserve">
+    <value>Место ученика по группе и по всему центру</value>
+  </data>
+  <data name="The admin has not created a Big Exam yet." xml:space="preserve">
+    <value>Админ ещё не создал большой экзамен.</value>
+  </data>
+  <data name="Title and date for this exam session" xml:space="preserve">
+    <value>Название и дата этого экзамена</value>
+  </data>
+  <data name="of {0}" xml:space="preserve">
+    <value>из {0}</value>
+  </data>
+  <data name="{0}'s results in the periodic school-wide exam" xml:space="preserve">
+    <value>Результаты {0} в периодическом общешкольном экзамене</value>
+  </data>
   <data name="Exam Grade History" xml:space="preserve">
     <value>История экзаменационных оценок</value>
   </data>

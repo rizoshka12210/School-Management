@@ -1,0 +1,22 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.BigExamFormViewModel
+
+<div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+<input type="hidden" asp-for="Id" />
+
+<div class="form-card">
+    <div class="form-card-header">
+        <h5>@Localizer["Big Exam Information"]</h5>
+        <p>@Localizer["Title and date for this exam session"]</p>
+    </div>
+
+    <div class="form-card-body">
+        <label asp-for="Title" class="form-label">@Localizer["Title"]</label>
+        <input asp-for="Title" class="form-control" placeholder="@Localizer["Example: Big Exam - September 2026"]" />
+        <span asp-validation-for="Title" class="text-danger small"></span>
+
+        <label asp-for="Date" class="form-label mt-3">@Localizer["Date"]</label>
+        <input asp-for="Date" type="date" class="form-control" />
+        <span asp-validation-for="Date" class="text-danger small"></span>
+    </div>
+</div>

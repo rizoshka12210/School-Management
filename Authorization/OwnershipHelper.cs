@@ -95,6 +95,24 @@ public class OwnershipHelper
         return teacher?.Id;
     }
 
+    /// <summary>
+    /// True only for the single teacher (if any) the admin has
+    /// designated via Admin > Big Exam > Grader Access.
+    /// </summary>
+    public async Task<bool> IsCurrentUserBigExamGraderAsync(
+        ClaimsPrincipal user)
+    {
+        var userId = _userManager.GetUserId(user);
+
+        if (userId == null)
+            return false;
+
+        return await _context.Teachers
+            .AnyAsync(t =>
+                t.ApplicationUserId == userId &&
+                t.IsBigExamGrader);
+    }
+
     public async Task<int?> GetCurrentParentIdAsync(
         ClaimsPrincipal user)
     {

@@ -86,6 +86,7 @@ builder.Services.AddScoped<ActivityLogService>();
 builder.Services.AddScoped<StudentRiskService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<AiAssistantService>();
+builder.Services.AddScoped<BigExamService>();
 
 builder.Services.AddHttpClient("Gemini");
 

@@ -26,6 +26,8 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ActivityLogEntry> ActivityLogEntries => Set<ActivityLogEntry>();
     public DbSet<ParentSummon> ParentSummons => Set<ParentSummon>();
     public DbSet<TeacherNotice> TeacherNotices => Set<TeacherNotice>();
+    public DbSet<BigExam> BigExams => Set<BigExam>();
+    public DbSet<BigExamGrade> BigExamGrades => Set<BigExamGrade>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -198,5 +200,35 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(e => e.TeacherId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        // Not unique: BigExamGrade is append-only history, same as
+        // ExamGrade - a student can have several rows for the same big
+        // exam over time, with the latest one being the current score.
+        builder.Entity<BigExamGrade>()
+            .HasIndex(e => new { e.BigExamId, e.StudentId });
+
+        builder.Entity<BigExamGrade>()
+            .HasOne(e => e.BigExam)
+            .WithMany(b => b.Grades)
+            .HasForeignKey(e => e.BigExamId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<BigExamGrade>()
+            .HasOne(e => e.Student)
+            .WithMany()
+            .HasForeignKey(e => e.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<BigExamGrade>()
+            .HasOne(e => e.Group)
+            .WithMany()
+            .HasForeignKey(e => e.GroupId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<BigExamGrade>()
+            .HasOne(e => e.Teacher)
+            .WithMany()
+            .HasForeignKey(e => e.TeacherId)
+            .OnDelete(DeleteBehavior.SetNull);
     }
 }

@@ -1,0 +1,101 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.BigExam>
+@using SchoolManagementSystem.Web.Models.Entities
+
+@{
+    ViewData["Title"] = Localizer["Big Exam"];
+    var grader = ViewBag.Grader as Teacher;
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Localizer["Big Exam"]</h1>
+        <p class="page-subtitle">@Localizer["Periodic school-wide exam, separate from regular subject exams"]</p>
+    </div>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <div class="d-flex gap-2">
+            <a asp-action="GraderAccess" class="btn btn-outline-secondary">
+                <i class="bi bi-person-check-fill"></i>
+                @Localizer["Grader Access"]
+            </a>
+            <a asp-action="Create" class="btn btn-primary">
+                <i class="bi bi-plus-circle"></i>
+                @Localizer["New Big Exam"]
+            </a>
+        </div>
+    }
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body">
+        <div class="entity-fact">
+            <span>@Localizer["Designated Grader"]</span>
+            <strong>
+                @if (grader != null)
+                {
+                    @grader.ApplicationUser.FullName
+                }
+                else
+                {
+                    <span class="text-muted">@Localizer["None assigned"]</span>
+                }
+            </strong>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <div class="management-empty">
+                <div class="management-empty-icon"><i class="bi bi-award"></i></div>
+                <h5>@Localizer["No Big Exams yet"]</h5>
+                <p>@Localizer["Create the first Big Exam to start grading."]</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Title"]</th>
+                            <th>@Localizer["Date"]</th>
+                            <th class="text-end">@Localizer["Actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var exam in Model)
+                        {
+                            <tr>
+                                <td><strong>@exam.Title</strong></td>
+                                <td><div class="record-date">@exam.Date.ToString("dd MMM yyyy")</div></td>
+                                <td class="text-end">
+                                    <div class="action-buttons">
+                                        <a asp-action="Groups" asp-route-examId="@exam.Id" class="action-btn action-edit" title="@Localizer["Enter Grades"]">
+                                            @Localizer["Enter Grades"]
+                                        </a>
+                                        <a asp-action="Rankings" asp-route-examId="@exam.Id" class="action-btn" title="@Localizer["Rankings"]">
+                                            @Localizer["Rankings"]
+                                        </a>
+                                        @if (User.IsInRole("Admin"))
+                                        {
+                                            <a asp-action="Edit" asp-route-id="@exam.Id" class="action-btn action-edit" title="@Localizer["Edit"]">
+                                                @Localizer["Edit"]
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@exam.Id" class="action-btn action-delete" title="@Localizer["Delete"]">
+                                                @Localizer["Delete"]
+                                            </a>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

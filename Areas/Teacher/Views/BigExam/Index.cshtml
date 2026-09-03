@@ -1,0 +1,58 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.BigExam>
+
+@{
+    ViewData["Title"] = Localizer["Big Exam"];
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Localizer["Big Exam"]</h1>
+        <p class="page-subtitle">@Localizer["Periodic school-wide exam - you have been granted grading access"]</p>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        @if (!Model.Any())
+        {
+            <div class="teacher-empty">
+                <div class="teacher-empty-icon"><i class="bi bi-award"></i></div>
+                <h5>@Localizer["No Big Exams yet"]</h5>
+                <p>@Localizer["The admin has not created a Big Exam yet."]</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Title"]</th>
+                            <th>@Localizer["Date"]</th>
+                            <th class="text-end">@Localizer["Actions"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var exam in Model)
+                        {
+                            <tr>
+                                <td><strong>@exam.Title</strong></td>
+                                <td><div class="record-date">@exam.Date.ToString("dd MMM yyyy")</div></td>
+                                <td class="text-end">
+                                    <div class="action-buttons">
+                                        <a asp-action="Groups" asp-route-examId="@exam.Id" class="action-btn action-edit">
+                                            @Localizer["Enter Grades"]
+                                        </a>
+                                        <a asp-action="Rankings" asp-route-examId="@exam.Id" class="action-btn">
+                                            @Localizer["Rankings"]
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>

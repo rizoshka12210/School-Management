@@ -1,0 +1,47 @@
+@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Group>
+@using SchoolManagementSystem.Web.Models.Entities
+
+@{
+    var exam = ViewBag.Exam as BigExam;
+    ViewData["Title"] = exam?.Title;
+}
+
+<div class="page-header">
+    <div>
+        <a asp-action="Index" class="back-link">← @Localizer["Big Exam"]</a>
+        <h1 class="page-title mt-2">@exam?.Title</h1>
+        <p class="page-subtitle">@Localizer["Choose a group to enter scores"]</p>
+    </div>
+
+    <a asp-action="Rankings" asp-route-examId="@exam?.Id" class="btn btn-outline-primary">
+        <i class="bi bi-bar-chart-fill"></i>
+        @Localizer["Rankings"]
+    </a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="card border-0 shadow-sm">
+        <div class="teacher-empty">
+            <div class="teacher-empty-icon"><i class="bi bi-collection-fill"></i></div>
+            <h5>@Localizer["No groups yet"]</h5>
+        </div>
+    </div>
+}
+else
+{
+    <div class="teacher-groups-grid">
+        @foreach (var group in Model)
+        {
+            <a asp-action="Group" asp-route-examId="@exam?.Id" asp-route-groupId="@group.Id" class="teacher-group-card">
+                <div class="teacher-group-top">
+                    <div class="teacher-group-icon"><i class="bi bi-collection-fill"></i></div>
+                    <div class="teacher-group-arrow">→</div>
+                </div>
+
+                <div class="teacher-group-name">@group.Name</div>
+                <div class="teacher-group-subtitle">@Localizer["{0} student(s)", group.Students.Count]</div>
+            </a>
+        }
+    </div>
+}

@@ -1,0 +1,162 @@
+@model SchoolManagementSystem.Web.ViewModels.Shared.BigExamSheetViewModel
+@using System.Globalization
+
+@{
+    ViewData["Title"] = Model.BigExamTitle;
+
+    string GradeClass(decimal? value) => value switch
+    {
+        null => string.Empty,
+        >= 90 => "grade-high",
+        >= 75 => "grade-good",
+        _ => "grade-low"
+    };
+}
+
+<div class="page-header">
+    <div>
+        <a asp-action="Groups" asp-route-examId="@Model.BigExamId" class="back-link">← @Model.BigExamTitle</a>
+        <h1 class="page-title mt-2">@Model.GroupName</h1>
+        <p class="page-subtitle">@Localizer["Big Exam score"]</p>
+    </div>
+
+    <a asp-action="Rankings" asp-route-examId="@Model.BigExamId" class="btn btn-outline-primary">
+        <i class="bi bi-bar-chart-fill"></i>
+        @Localizer["Rankings"]
+    </a>
+</div>
+
+<form asp-action="Group" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="BigExamId" value="@Model.BigExamId" />
+    <input type="hidden" name="GroupId" value="@Model.GroupId" />
+
+    <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            @if (!Model.Rows.Any())
+            {
+                <div class="teacher-empty">
+                    <div class="teacher-empty-icon"><i class="bi bi-people-fill"></i></div>
+                    <h5>@Localizer["No students"]</h5>
+                    <p>@Localizer["This group does not have any students."]</p>
+                </div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover management-table exam-grades-table">
+                        <thead>
+                            <tr>
+                                <th>@Localizer["Student"]</th>
+                                <th>@Localizer["Score"]</th>
+                                <th>@Localizer["Comment"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (var i = 0; i < Model.Rows.Count; i++)
+                            {
+                                var row = Model.Rows[i];
+
+                                <tr>
+                                    <td>
+                                        <input type="hidden" name="Rows[@i].StudentId" value="@row.StudentId" />
+                                        <div class="teacher-attendance-student">
+                                            <div class="person-avatar">
+                                                @(string.IsNullOrWhiteSpace(row.StudentName) ? "S" : row.StudentName.Substring(0, 1).ToUpper())
+                                            </div>
+                                            <div><strong>@row.StudentName</strong></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                               inputmode="decimal"
+                                               name="Rows[@i].Score"
+                                               class="form-control"
+                                               placeholder="0-100"
+                                               value="@(row.Score?.ToString(CultureInfo.InvariantCulture) ?? "")" />
+                                    </td>
+                                    <td>
+                                        <input type="text"
+                                               name="Rows[@i].Comment"
+                                               class="form-control"
+                                               maxlength="300"
+                                               placeholder="@Localizer["Optional comment..."]"
+                                               value="@row.Comment" />
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check2-circle"></i>
+                        @Localizer["Save Grades"]
+                    </button>
+                </div>
+            }
+        </div>
+    </div>
+</form>
+
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-body">
+        <div class="section-header">
+            <div>
+                <h5 class="section-title">@Localizer["Score History"]</h5>
+                <p class="section-subtitle">@Localizer["Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student is highlighted."]</p>
+            </div>
+            <span class="entity-panel-count">@Model.History.Count</span>
+        </div>
+
+        @if (!Model.History.Any())
+        {
+            <div class="teacher-empty">
+                <div class="teacher-empty-icon"><i class="bi bi-journal-x"></i></div>
+                <h5>@Localizer["No history yet"]</h5>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive">
+                <table class="table table-hover management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Date"]</th>
+                            <th>@Localizer["Student"]</th>
+                            <th>@Localizer["Score"]</th>
+                            <th>@Localizer["Comment"]</th>
+                            <th>@Localizer["Graded By"]</th>
+                            <th>@Localizer["Status"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var entry in Model.History)
+                        {
+                            <tr class="@(entry.IsCurrent ? "" : "text-muted")">
+                                <td>@entry.UpdatedAt.ToString("dd MMM yyyy HH:mm")</td>
+                                <td>@entry.StudentName</td>
+                                <td><span class="grade-badge @GradeClass(entry.Score)">@(entry.Score?.ToString("0.##", CultureInfo.InvariantCulture) ?? "—")</span></td>
+                                <td>@(string.IsNullOrWhiteSpace(entry.Comment) ? "—" : entry.Comment)</td>
+                                <td>@entry.GradedBy</td>
+                                <td>
+                                    @if (entry.IsCurrent)
+                                    {
+                                        <span class="badge bg-success">@Localizer["Current"]</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">@Localizer["History"]</span>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+</div>
