@@ -15,6 +15,10 @@
     @if (User.IsInRole("Admin"))
     {
         <div class="d-flex gap-2">
+            <a asp-action="SubjectWeights" class="btn btn-outline-secondary">
+                <i class="bi bi-sliders"></i>
+                @Localizer["Subject Weights"]
+            </a>
             <a asp-action="GraderAccess" class="btn btn-outline-secondary">
                 <i class="bi bi-person-check-fill"></i>
                 @Localizer["Grader Access"]

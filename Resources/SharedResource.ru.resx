@@ -2338,6 +2338,39 @@
   <data name="Overall Total" xml:space="preserve">
     <value>Общий итог</value>
   </data>
+  <data name="Big Exam scores - every subject for this group" xml:space="preserve">
+    <value>Оценки большого экзамена — все предметы для этой группы</value>
+  </data>
+  <data name="Choose a group to enter scores for every subject" xml:space="preserve">
+    <value>Выберите группу, чтобы выставить оценки по всем предметам</value>
+  </data>
+  <data name="Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student and subject is highlighted." xml:space="preserve">
+    <value>Все оценки, когда-либо сохранённые для этой группы в этом большом экзамене, хранятся без ограничения срока. Текущий результат по каждому ученику и предмету выделен.</value>
+  </data>
+  <data name="Example: raw score out of 40, weighted up to 175 means a raw score of 35 converts to 35 / 40 * 175 = 153.125." xml:space="preserve">
+    <value>Пример: сырой балл из 40, взвешенный максимум 175 — сырой балл 35 пересчитывается в 35 / 40 × 175 = 153,125.</value>
+  </data>
+  <data name="Max Raw Score" xml:space="preserve">
+    <value>Максимальный сырой балл</value>
+  </data>
+  <data name="Max Weighted Score" xml:space="preserve">
+    <value>Максимальный взвешенный балл</value>
+  </data>
+  <data name="Raw" xml:space="preserve">
+    <value>Сырой</value>
+  </data>
+  <data name="Set the raw score scale and importance weight the Big Exam uses for each subject" xml:space="preserve">
+    <value>Задайте шкалу сырого балла и вес важности, которые большой экзамен использует для каждого предмета</value>
+  </data>
+  <data name="Subject Weights" xml:space="preserve">
+    <value>Веса предметов</value>
+  </data>
+  <data name="Total Score" xml:space="preserve">
+    <value>Итоговый балл</value>
+  </data>
+  <data name="graded" xml:space="preserve">
+    <value>оценено</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Выберите не более одного учителя. Выбор другого учителя отзывает доступ у предыдущего.</value>
   </data>

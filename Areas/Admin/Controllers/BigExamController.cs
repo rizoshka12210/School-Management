@@ -151,9 +151,9 @@ public class BigExamController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Group(int examId, int groupId, int subjectId)
+    public async Task<IActionResult> Group(int examId, int groupId)
     {
-        var model = await _bigExamService.BuildSheetAsync(examId, groupId, subjectId);
+        var model = await _bigExamService.BuildGroupSheetAsync(examId, groupId);
 
         if (model == null)
         {
@@ -166,7 +166,7 @@ public class BigExamController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = Roles.Admin)]
-    public async Task<IActionResult> Group(BigExamSheetSaveViewModel model)
+    public async Task<IActionResult> Group(BigExamGroupSheetSaveViewModel model)
     {
         if (!ModelState.IsValid)
         {
@@ -174,13 +174,12 @@ public class BigExamController : Controller
 
             return RedirectToAction(
                 nameof(Group),
-                new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
+                new { examId = model.BigExamId, groupId = model.GroupId });
         }
 
-        var saved = await _bigExamService.SaveSheetAsync(
+        var saved = await _bigExamService.SaveGroupSheetAsync(
             model.BigExamId,
             model.GroupId,
-            model.SubjectId,
             teacherId: null,
             model.Rows);
 
@@ -193,7 +192,7 @@ public class BigExamController : Controller
 
         return RedirectToAction(
             nameof(Group),
-            new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
+            new { examId = model.BigExamId, groupId = model.GroupId });
     }
 
     [HttpGet]
@@ -236,5 +235,26 @@ public class BigExamController : Controller
         TempData["Success"] = _localizer["Big Exam grader access updated."].Value;
 
         return RedirectToAction(nameof(GraderAccess));
+    }
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> SubjectWeights()
+    {
+        var weights = await _bigExamService.GetSubjectWeightsAsync();
+
+        return View(weights);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> SubjectWeights(List<BigExamSubjectWeightViewModel> weights)
+    {
+        await _bigExamService.SetSubjectWeightsAsync(weights);
+
+        TempData["Success"] = _localizer["Subject weights updated."].Value;
+
+        return RedirectToAction(nameof(SubjectWeights));
     }
 }

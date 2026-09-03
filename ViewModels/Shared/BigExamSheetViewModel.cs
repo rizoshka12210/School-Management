@@ -4,7 +4,13 @@ using SchoolManagementSystem.Web.ModelBinding;
 
 namespace SchoolManagementSystem.Web.ViewModels.Shared;
 
-public class BigExamSheetViewModel
+/// <summary>
+/// One group's Big Exam sheet - every subject taught at the center as
+/// a column, one row per student, matching the school's paper grading
+/// sheet (raw score per subject, converted to a weighted score using
+/// each subject's own weight, summed into a Балли умумӣ grand total).
+/// </summary>
+public class BigExamGroupSheetViewModel
 {
     public int BigExamId { get; set; }
 
@@ -14,45 +20,72 @@ public class BigExamSheetViewModel
 
     public string GroupName { get; set; } = string.Empty;
 
-    public int SubjectId { get; set; }
+    public List<BigExamSubjectColumnViewModel> Subjects { get; set; } = new();
 
-    public string SubjectName { get; set; } = string.Empty;
-
-    public List<BigExamSheetRowViewModel> Rows { get; set; } = new();
+    public List<BigExamGroupSheetRowViewModel> Rows { get; set; } = new();
 
     public List<BigExamHistoryEntryViewModel> History { get; set; } = new();
 }
 
-public class BigExamSheetRowViewModel
+public class BigExamSubjectColumnViewModel
+{
+    public int SubjectId { get; set; }
+
+    public string SubjectName { get; set; } = string.Empty;
+
+    public decimal MaxRawScore { get; set; }
+
+    public decimal MaxWeightedScore { get; set; }
+}
+
+public class BigExamGroupSheetRowViewModel
 {
     public int StudentId { get; set; }
 
     public string StudentName { get; set; } = string.Empty;
 
-    [Range(0, 100, ErrorMessage = "Score must be between 0 and 100")]
-    [ModelBinder(typeof(DecimalCommaModelBinder))]
-    public decimal? Score { get; set; }
+    public List<BigExamCellViewModel> Cells { get; set; } = new();
 
-    [StringLength(300)]
-    public string? Comment { get; set; }
+    public decimal TotalWeightedScore =>
+        Cells.Where(c => c.WeightedScore.HasValue).Sum(c => c.WeightedScore!.Value);
 }
 
-public class BigExamSheetSaveViewModel
+public class BigExamCellViewModel
+{
+    public int SubjectId { get; set; }
+
+    [Range(0, 1000, ErrorMessage = "Score must be zero or a positive number")]
+    [ModelBinder(typeof(DecimalCommaModelBinder))]
+    public decimal? RawScore { get; set; }
+
+    public decimal MaxRawScore { get; set; }
+
+    public decimal MaxWeightedScore { get; set; }
+
+    public decimal? WeightedScore =>
+        RawScore.HasValue && MaxRawScore > 0
+            ? Math.Round(RawScore.Value / MaxRawScore * MaxWeightedScore, 3)
+            : null;
+}
+
+public class BigExamGroupSheetSaveViewModel
 {
     public int BigExamId { get; set; }
 
     public int GroupId { get; set; }
 
-    public int SubjectId { get; set; }
-
-    public List<BigExamSheetRowViewModel> Rows { get; set; } = new();
+    public List<BigExamGroupSheetRowViewModel> Rows { get; set; } = new();
 }
 
 public class BigExamHistoryEntryViewModel
 {
     public string StudentName { get; set; } = string.Empty;
 
-    public decimal? Score { get; set; }
+    public string SubjectName { get; set; } = string.Empty;
+
+    public decimal? RawScore { get; set; }
+
+    public decimal? WeightedScore { get; set; }
 
     public string? Comment { get; set; }
 

@@ -1,0 +1,57 @@
+@model List<SchoolManagementSystem.Web.ViewModels.Admin.BigExamSubjectWeightViewModel>
+
+@{
+    ViewData["Title"] = Localizer["Subject Weights"];
+}
+
+<div class="page-header">
+    <div>
+        <a asp-action="Index" class="back-link">← @Localizer["Big Exam"]</a>
+        <h1 class="page-title mt-2">@Localizer["Subject Weights"]</h1>
+        <p class="page-subtitle">@Localizer["Set the raw score scale and importance weight the Big Exam uses for each subject"]</p>
+    </div>
+</div>
+
+<form asp-action="SubjectWeights" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Max Raw Score"]</th>
+                            <th>@Localizer["Max Weighted Score"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    <input type="hidden" name="weights[@i].SubjectId" value="@Model[i].SubjectId" />
+                                    <span class="subject-badge">@Model[i].SubjectName</span>
+                                </td>
+                                <td>
+                                    <input type="number" step="0.01" min="0.01" name="weights[@i].MaxRawScore" class="form-control" value="@Model[i].MaxRawScore.ToString(System.Globalization.CultureInfo.InvariantCulture)" style="max-width: 140px;" />
+                                </td>
+                                <td>
+                                    <input type="number" step="0.01" min="0.01" name="weights[@i].MaxWeightedScore" class="form-control" value="@Model[i].MaxWeightedScore.ToString(System.Globalization.CultureInfo.InvariantCulture)" style="max-width: 140px;" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="text-muted small mb-0">@Localizer["Example: raw score out of 40, weighted up to 175 means a raw score of 35 converts to 35 / 40 * 175 = 153.125."]</p>
+        </div>
+    </div>
+
+    <div class="form-actions">
+        <a asp-action="Index" class="btn btn-light">@Localizer["Cancel"]</a>
+        <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+    </div>
+</form>

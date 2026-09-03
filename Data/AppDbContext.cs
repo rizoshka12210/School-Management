@@ -201,6 +201,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(e => e.TeacherId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Entity<BigExamGrade>()
+            .Ignore(e => e.WeightedScore);
+
         // Not unique: BigExamGrade is append-only history, same as
         // ExamGrade - a student can have several rows for the same big
         // exam and subject over time, with the latest one being the

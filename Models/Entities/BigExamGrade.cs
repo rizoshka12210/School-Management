@@ -32,7 +32,8 @@ public class BigExamGrade
 
     public Group Group { get; set; } = null!;
 
-    public decimal? Score { get; set; }
+    /// <summary>The raw exam score, marked out of Subject.BigExamMaxRawScore.</summary>
+    public decimal? RawScore { get; set; }
 
     public string? Comment { get; set; }
 
@@ -42,4 +43,16 @@ public class BigExamGrade
     public Teacher? Teacher { get; set; }
 
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// The raw score converted to the subject's weighted scale:
+    /// RawScore / Subject.BigExamMaxRawScore * Subject.BigExamMaxWeightedScore.
+    /// Not stored - always computed from the current subject weight
+    /// configuration, same "compute don't store" approach as
+    /// ExamGrade.Average. Requires Subject to be loaded.
+    /// </summary>
+    public decimal? WeightedScore =>
+        RawScore.HasValue && Subject != null && Subject.BigExamMaxRawScore > 0
+            ? Math.Round(RawScore.Value / Subject.BigExamMaxRawScore * Subject.BigExamMaxWeightedScore, 3)
+            : null;
 }

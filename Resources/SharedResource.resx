@@ -2338,6 +2338,39 @@
   <data name="Overall Total" xml:space="preserve">
     <value>Overall Total</value>
   </data>
+  <data name="Big Exam scores - every subject for this group" xml:space="preserve">
+    <value>Big Exam scores - every subject for this group</value>
+  </data>
+  <data name="Choose a group to enter scores for every subject" xml:space="preserve">
+    <value>Choose a group to enter scores for every subject</value>
+  </data>
+  <data name="Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student and subject is highlighted." xml:space="preserve">
+    <value>Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student and subject is highlighted.</value>
+  </data>
+  <data name="Example: raw score out of 40, weighted up to 175 means a raw score of 35 converts to 35 / 40 * 175 = 153.125." xml:space="preserve">
+    <value>Example: raw score out of 40, weighted up to 175 means a raw score of 35 converts to 35 / 40 * 175 = 153.125.</value>
+  </data>
+  <data name="Max Raw Score" xml:space="preserve">
+    <value>Max Raw Score</value>
+  </data>
+  <data name="Max Weighted Score" xml:space="preserve">
+    <value>Max Weighted Score</value>
+  </data>
+  <data name="Raw" xml:space="preserve">
+    <value>Raw</value>
+  </data>
+  <data name="Set the raw score scale and importance weight the Big Exam uses for each subject" xml:space="preserve">
+    <value>Set the raw score scale and importance weight the Big Exam uses for each subject</value>
+  </data>
+  <data name="Subject Weights" xml:space="preserve">
+    <value>Subject Weights</value>
+  </data>
+  <data name="Total Score" xml:space="preserve">
+    <value>Total Score</value>
+  </data>
+  <data name="graded" xml:space="preserve">
+    <value>graded</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Choose at most one teacher. Selecting a different teacher revokes access from the previous one.</value>
   </data>

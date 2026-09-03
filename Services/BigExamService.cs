@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Models.Entities;
+using SchoolManagementSystem.Web.ViewModels.Admin;
 using SchoolManagementSystem.Web.ViewModels.Shared;
 
 namespace SchoolManagementSystem.Web.Services;
@@ -26,6 +27,7 @@ public class BigExamRankingEntry
 
     public string GroupName { get; set; } = string.Empty;
 
+    /// <summary>The weighted score - what rankings are always based on.</summary>
     public decimal Score { get; set; }
 
     public int GroupRank { get; set; }
@@ -37,15 +39,6 @@ public class BigExamRankingEntry
     public int OverallSize { get; set; }
 }
 
-public class BigExamSubjectStatus
-{
-    public int SubjectId { get; set; }
-
-    public string SubjectName { get; set; } = string.Empty;
-
-    public int StudentsGraded { get; set; }
-}
-
 public class BigExamGroupOverview
 {
     public int GroupId { get; set; }
@@ -54,18 +47,24 @@ public class BigExamGroupOverview
 
     public int StudentsCount { get; set; }
 
-    public List<BigExamSubjectStatus> Subjects { get; set; } = new();
+    public int StudentsGraded { get; set; }
+
+    public int SubjectsCount { get; set; }
 }
 
 /// <summary>
 /// Manages the periodic school-wide Big Exam: it covers every subject
 /// taught at the center (4 subjects means 4 scores per student, not
-/// one blended number), organized the same way as the regular exam
-/// sheets - Group -> Subject -> students. Only Admin and the single
-/// designated teacher (Teacher.IsBigExamGrader) are ever allowed to
-/// call the write methods here - that check happens in the calling
-/// controllers. Everyone (Admin, Director, the designated teacher and
-/// parents) can read rankings and history.
+/// one blended number), graded as one spreadsheet per group - a row
+/// per student, a column per subject - matching the school's paper
+/// grading sheet. Each subject has its own raw-score scale and weight
+/// (e.g. raw out of 40, weighted up to 175 for Chemistry vs 100 for
+/// Physics); a student's Балли умумӣ is the sum of their weighted
+/// scores. Only Admin and the single designated teacher
+/// (Teacher.IsBigExamGrader) are ever allowed to call the write methods
+/// here - that check happens in the calling controllers. Everyone
+/// (Admin, Director, the designated teacher and parents) can read
+/// rankings and history.
 /// </summary>
 public class BigExamService
 {
@@ -160,7 +159,7 @@ public class BigExamService
             .OrderBy(g => g.Name)
             .ToListAsync();
 
-        var subjects = await ListSubjectsAsync();
+        var subjectsCount = await _context.Subjects.CountAsync();
 
         var history = LatestPerStudentSubject(
             await _context.BigExamGrades
@@ -172,19 +171,16 @@ public class BigExamService
             GroupId = group.Id,
             GroupName = group.Name,
             StudentsCount = group.Students.Count,
-            Subjects = subjects.Select(subject => new BigExamSubjectStatus
-            {
-                SubjectId = subject.Id,
-                SubjectName = subject.Name,
-                StudentsGraded = history.Count(g =>
-                    g.GroupId == group.Id &&
-                    g.SubjectId == subject.Id &&
-                    g.Score.HasValue)
-            }).ToList()
+            SubjectsCount = subjectsCount,
+            StudentsGraded = history
+                .Where(g => g.GroupId == group.Id && g.RawScore.HasValue)
+                .Select(g => g.StudentId)
+                .Distinct()
+                .Count()
         }).ToList();
     }
 
-    public async Task<BigExamSheetViewModel?> BuildSheetAsync(int examId, int groupId, int subjectId)
+    public async Task<BigExamGroupSheetViewModel?> BuildGroupSheetAsync(int examId, int groupId)
     {
         var exam = await _context.BigExams
             .AsNoTracking()
@@ -194,14 +190,12 @@ public class BigExamService
             .AsNoTracking()
             .FirstOrDefaultAsync(g => g.Id == groupId);
 
-        var subject = await _context.Subjects
-            .AsNoTracking()
-            .FirstOrDefaultAsync(s => s.Id == subjectId);
-
-        if (exam == null || group == null || subject == null)
+        if (exam == null || group == null)
         {
             return null;
         }
+
+        var subjects = await ListSubjectsAsync();
 
         var students = await _context.Students
             .AsNoTracking()
@@ -212,39 +206,58 @@ public class BigExamService
 
         var history = await _context.BigExamGrades
             .AsNoTracking()
-            .Where(g => g.BigExamId == examId && g.GroupId == groupId && g.SubjectId == subjectId)
+            .Where(g => g.BigExamId == examId && g.GroupId == groupId)
+            .Include(g => g.Subject)
             .Include(g => g.Teacher)
                 .ThenInclude(t => t!.ApplicationUser)
             .ToListAsync();
 
-        var latestByStudent = LatestPerStudentSubject(history).ToDictionary(g => g.StudentId);
-        var currentIds = latestByStudent.Values.Select(g => g.Id).ToHashSet();
+        var latest = LatestPerStudentSubject(history)
+            .ToDictionary(g => (g.StudentId, g.SubjectId));
+
+        var currentIds = latest.Values.Select(g => g.Id).ToHashSet();
 
         var studentNames = students.ToDictionary(
             s => s.Id,
             s => $"{s.FirstName} {s.LastName}");
 
-        var model = new BigExamSheetViewModel
+        var model = new BigExamGroupSheetViewModel
         {
             BigExamId = exam.Id,
             BigExamTitle = exam.Title,
             GroupId = group.Id,
             GroupName = group.Name,
-            SubjectId = subject.Id,
-            SubjectName = subject.Name
+            Subjects = subjects.Select(s => new BigExamSubjectColumnViewModel
+            {
+                SubjectId = s.Id,
+                SubjectName = s.Name,
+                MaxRawScore = s.BigExamMaxRawScore,
+                MaxWeightedScore = s.BigExamMaxWeightedScore
+            }).ToList()
         };
 
         foreach (var student in students)
         {
-            latestByStudent.TryGetValue(student.Id, out var record);
-
-            model.Rows.Add(new BigExamSheetRowViewModel
+            var row = new BigExamGroupSheetRowViewModel
             {
                 StudentId = student.Id,
-                StudentName = $"{student.FirstName} {student.LastName}",
-                Score = record?.Score,
-                Comment = record?.Comment
-            });
+                StudentName = $"{student.FirstName} {student.LastName}"
+            };
+
+            foreach (var subject in subjects)
+            {
+                latest.TryGetValue((student.Id, subject.Id), out var record);
+
+                row.Cells.Add(new BigExamCellViewModel
+                {
+                    SubjectId = subject.Id,
+                    RawScore = record?.RawScore,
+                    MaxRawScore = subject.BigExamMaxRawScore,
+                    MaxWeightedScore = subject.BigExamMaxWeightedScore
+                });
+            }
+
+            model.Rows.Add(row);
         }
 
         model.History = history
@@ -253,7 +266,9 @@ public class BigExamService
             .Select(g => new BigExamHistoryEntryViewModel
             {
                 StudentName = studentNames.TryGetValue(g.StudentId, out var name) ? name : "—",
-                Score = g.Score,
+                SubjectName = g.Subject.Name,
+                RawScore = g.RawScore,
+                WeightedScore = g.WeightedScore,
                 Comment = g.Comment,
                 GradedBy = g.Teacher?.ApplicationUser.FullName ?? "Admin",
                 UpdatedAt = g.UpdatedAt,
@@ -264,18 +279,16 @@ public class BigExamService
         return model;
     }
 
-    public async Task<bool> SaveSheetAsync(
+    public async Task<bool> SaveGroupSheetAsync(
         int examId,
         int groupId,
-        int subjectId,
         int? teacherId,
-        IEnumerable<BigExamSheetRowViewModel> rows)
+        IEnumerable<BigExamGroupSheetRowViewModel> rows)
     {
         var examExists = await _context.BigExams.AnyAsync(e => e.Id == examId);
         var groupExists = await _context.Groups.AnyAsync(g => g.Id == groupId);
-        var subjectExists = await _context.Subjects.AnyAsync(s => s.Id == subjectId);
 
-        if (!examExists || !groupExists || !subjectExists)
+        if (!examExists || !groupExists)
         {
             return false;
         }
@@ -286,11 +299,17 @@ public class BigExamService
                 .ToListAsync())
             .ToHashSet();
 
+        var validSubjectIds = (await _context.Subjects
+                .Select(s => s.Id)
+                .ToListAsync())
+            .ToHashSet();
+
         var existing = await _context.BigExamGrades
-            .Where(g => g.BigExamId == examId && g.GroupId == groupId && g.SubjectId == subjectId)
+            .Where(g => g.BigExamId == examId && g.GroupId == groupId)
             .ToListAsync();
 
-        var latestByStudent = LatestPerStudentSubject(existing).ToDictionary(g => g.StudentId);
+        var latest = LatestPerStudentSubject(existing)
+            .ToDictionary(g => (g.StudentId, g.SubjectId));
 
         var now = DateTime.UtcNow;
 
@@ -301,39 +320,40 @@ public class BigExamService
                 continue;
             }
 
-            var hasContent = row.Score.HasValue || !string.IsNullOrWhiteSpace(row.Comment);
-
-            if (!hasContent)
+            foreach (var cell in row.Cells)
             {
-                // Nothing entered - leave whatever history already
-                // exists untouched rather than erasing it.
-                continue;
+                if (!validSubjectIds.Contains(cell.SubjectId))
+                {
+                    continue;
+                }
+
+                if (!cell.RawScore.HasValue)
+                {
+                    // Nothing entered - leave whatever history already
+                    // exists untouched rather than erasing it.
+                    continue;
+                }
+
+                latest.TryGetValue((row.StudentId, cell.SubjectId), out var existingLatest);
+
+                var unchanged = existingLatest != null && existingLatest.RawScore == cell.RawScore;
+
+                if (unchanged)
+                {
+                    continue;
+                }
+
+                _context.BigExamGrades.Add(new BigExamGrade
+                {
+                    BigExamId = examId,
+                    StudentId = row.StudentId,
+                    SubjectId = cell.SubjectId,
+                    GroupId = groupId,
+                    TeacherId = teacherId,
+                    RawScore = cell.RawScore,
+                    UpdatedAt = now
+                });
             }
-
-            latestByStudent.TryGetValue(row.StudentId, out var latest);
-
-            var comment = string.IsNullOrWhiteSpace(row.Comment) ? null : row.Comment;
-
-            var unchanged = latest != null &&
-                latest.Score == row.Score &&
-                latest.Comment == comment;
-
-            if (unchanged)
-            {
-                continue;
-            }
-
-            _context.BigExamGrades.Add(new BigExamGrade
-            {
-                BigExamId = examId,
-                StudentId = row.StudentId,
-                SubjectId = subjectId,
-                GroupId = groupId,
-                TeacherId = teacherId,
-                Score = row.Score,
-                Comment = comment,
-                UpdatedAt = now
-            });
         }
 
         await _context.SaveChangesAsync();
@@ -342,11 +362,12 @@ public class BigExamService
     }
 
     /// <summary>
-    /// Group and overall rankings for one Big Exam, using competition
-    /// ranking (ties share a rank, the next rank skips the tied count).
-    /// Pass a subjectId for that subject's ranking, or null for the
-    /// "Overall Total" ranking - the sum of each student's latest score
-    /// across every subject they have been graded in for this exam.
+    /// Group and overall rankings for one Big Exam, based on each
+    /// student's weighted score, using competition ranking (ties share
+    /// a rank, the next rank skips the tied count). Pass a subjectId
+    /// for that subject's ranking, or null for the "Overall Total"
+    /// ranking - the sum of a student's latest weighted score across
+    /// every subject they have been graded in for this exam.
     /// </summary>
     public async Task<List<BigExamRankingEntry>> GetRankingsAsync(int examId, int? subjectId)
     {
@@ -367,7 +388,7 @@ public class BigExamService
             .ToListAsync();
 
         var latest = LatestPerStudentSubject(history)
-            .Where(g => g.Score.HasValue)
+            .Where(g => g.WeightedScore.HasValue)
             .ToList();
 
         List<(int StudentId, int GroupId, string GroupName, string StudentName, decimal Score)> scored;
@@ -389,7 +410,7 @@ public class BigExamService
                     g.GroupId,
                     g.Group.Name,
                     $"{g.Student.FirstName} {g.Student.LastName}",
-                    g.Score!.Value))
+                    g.WeightedScore!.Value))
                 .ToList();
         }
         else
@@ -407,7 +428,7 @@ public class BigExamService
                         GroupId: first.GroupId,
                         GroupName: first.Group.Name,
                         StudentName: $"{first.Student.FirstName} {first.Student.LastName}",
-                        Score: group.Sum(g => g.Score!.Value));
+                        Score: group.Sum(g => g.WeightedScore!.Value));
                 })
                 .ToList();
         }
@@ -507,6 +528,44 @@ public class BigExamService
         foreach (var teacher in teachers)
         {
             teacher.IsBigExamGrader = teacherId.HasValue && teacher.Id == teacherId.Value;
+        }
+
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<BigExamSubjectWeightViewModel>> GetSubjectWeightsAsync()
+    {
+        var subjects = await ListSubjectsAsync();
+
+        return subjects.Select(s => new BigExamSubjectWeightViewModel
+        {
+            SubjectId = s.Id,
+            SubjectName = s.Name,
+            MaxRawScore = s.BigExamMaxRawScore,
+            MaxWeightedScore = s.BigExamMaxWeightedScore
+        }).ToList();
+    }
+
+    public async Task SetSubjectWeightsAsync(IEnumerable<BigExamSubjectWeightViewModel> weights)
+    {
+        var subjects = await _context.Subjects.ToDictionaryAsync(s => s.Id);
+
+        foreach (var weight in weights)
+        {
+            if (!subjects.TryGetValue(weight.SubjectId, out var subject))
+            {
+                continue;
+            }
+
+            if (weight.MaxRawScore > 0)
+            {
+                subject.BigExamMaxRawScore = weight.MaxRawScore;
+            }
+
+            if (weight.MaxWeightedScore > 0)
+            {
+                subject.BigExamMaxWeightedScore = weight.MaxWeightedScore;
+            }
         }
 
         await _context.SaveChangesAsync();

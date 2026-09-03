@@ -56,9 +56,9 @@ public class BigExamController : TeacherControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> Group(int examId, int groupId, int subjectId)
+    public async Task<IActionResult> Group(int examId, int groupId)
     {
-        var model = await _bigExamService.BuildSheetAsync(examId, groupId, subjectId);
+        var model = await _bigExamService.BuildGroupSheetAsync(examId, groupId);
 
         if (model == null)
         {
@@ -72,7 +72,7 @@ public class BigExamController : TeacherControllerBase
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Group(BigExamSheetSaveViewModel model)
+    public async Task<IActionResult> Group(BigExamGroupSheetSaveViewModel model)
     {
         if (!await Ownership.IsCurrentUserBigExamGraderAsync(User))
         {
@@ -85,15 +85,14 @@ public class BigExamController : TeacherControllerBase
 
             return RedirectToAction(
                 nameof(Group),
-                new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
+                new { examId = model.BigExamId, groupId = model.GroupId });
         }
 
         var teacherId = await GetTeacherIdAsync();
 
-        var saved = await _bigExamService.SaveSheetAsync(
+        var saved = await _bigExamService.SaveGroupSheetAsync(
             model.BigExamId,
             model.GroupId,
-            model.SubjectId,
             teacherId,
             model.Rows);
 
@@ -106,7 +105,7 @@ public class BigExamController : TeacherControllerBase
 
         return RedirectToAction(
             nameof(Group),
-            new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
+            new { examId = model.BigExamId, groupId = model.GroupId });
     }
 
     [HttpGet]

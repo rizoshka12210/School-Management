@@ -2338,6 +2338,39 @@
   <data name="Overall Total" xml:space="preserve">
     <value>Ҷамъи умумӣ</value>
   </data>
+  <data name="Big Exam scores - every subject for this group" xml:space="preserve">
+    <value>Бахоҳои имтиҳони калон — ҳамаи фанҳо барои ин гурӯҳ</value>
+  </data>
+  <data name="Choose a group to enter scores for every subject" xml:space="preserve">
+    <value>Барои гузоштани бахо аз ҳамаи фанҳо гурӯҳро интихоб кунед</value>
+  </data>
+  <data name="Every score ever saved for this group in this Big Exam, kept permanently. The current result for each student and subject is highlighted." xml:space="preserve">
+    <value>Ҳамаи бахоҳои барои ин гурӯҳ дар ин имтиҳони калон сабтшуда ҳамеша нигоҳ дошта мешаванд. Натиҷаи ҷории ҳар донишомӯз ва фан ҷудо нишон дода мешавад.</value>
+  </data>
+  <data name="Example: raw score out of 40, weighted up to 175 means a raw score of 35 converts to 35 / 40 * 175 = 153.125." xml:space="preserve">
+    <value>Мисол: бахои хом аз 40, ҳадди аксари вазнин 175 — бахои хоми 35 ба 35 / 40 × 175 = 153,125 табдил меёбад.</value>
+  </data>
+  <data name="Max Raw Score" xml:space="preserve">
+    <value>Бахои ҳадди аксари хом</value>
+  </data>
+  <data name="Max Weighted Score" xml:space="preserve">
+    <value>Бахои ҳадди аксари вазнин</value>
+  </data>
+  <data name="Raw" xml:space="preserve">
+    <value>Хом</value>
+  </data>
+  <data name="Set the raw score scale and importance weight the Big Exam uses for each subject" xml:space="preserve">
+    <value>Миқёси бахои хом ва вазни аҳамияти ҳар фанро барои имтиҳони калон танзим кунед</value>
+  </data>
+  <data name="Subject Weights" xml:space="preserve">
+    <value>Вазни фанҳо</value>
+  </data>
+  <data name="Total Score" xml:space="preserve">
+    <value>Балли умумӣ</value>
+  </data>
+  <data name="graded" xml:space="preserve">
+    <value>бахогузошта</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Аз як омӯзгор зиёд интихоб накунед. Интихоби омӯзгори дигар дастрасии қаблиро бекор мекунад.</value>
   </data>
