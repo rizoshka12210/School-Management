@@ -3,6 +3,8 @@
 
 @{
     var exam = ViewBag.Exam as BigExam;
+    var subjects = ViewBag.Subjects as List<Subject> ?? new List<Subject>();
+    int? subjectId = ViewBag.SubjectId;
     ViewData["Title"] = exam?.Title;
 }
 
@@ -12,6 +14,18 @@
         <h1 class="page-title mt-2">@Localizer["Rankings"]</h1>
         <p class="page-subtitle">@Localizer["Student's place by group and across the whole center"]</p>
     </div>
+</div>
+
+<div class="teacher-grade-subject-tabs mb-4">
+    <a asp-action="Rankings" asp-route-examId="@exam?.Id" class="teacher-grade-subject-tab @(subjectId == null ? "active" : "")">
+        @Localizer["Overall Total"]
+    </a>
+    @foreach (var subject in subjects)
+    {
+        <a asp-action="Rankings" asp-route-examId="@exam?.Id" asp-route-subjectId="@subject.Id" class="teacher-grade-subject-tab @(subjectId == subject.Id ? "active" : "")">
+            @subject.Name
+        </a>
+    }
 </div>
 
 <div class="card border-0 shadow-sm">

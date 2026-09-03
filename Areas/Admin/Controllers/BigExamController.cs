@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
-using SchoolManagementSystem.Web.Data;
 using SchoolManagementSystem.Web.Services;
 using SchoolManagementSystem.Web.ViewModels.Admin;
 using SchoolManagementSystem.Web.ViewModels.Shared;
@@ -24,16 +22,13 @@ namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 public class BigExamController : Controller
 {
     private readonly BigExamService _bigExamService;
-    private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
 
     public BigExamController(
         BigExamService bigExamService,
-        AppDbContext context,
         IStringLocalizer<SharedResource> localizer)
     {
         _bigExamService = bigExamService;
-        _context = context;
         _localizer = localizer;
     }
 
@@ -150,18 +145,15 @@ public class BigExamController : Controller
 
         ViewBag.Exam = exam;
 
-        var groups = await _context.Groups
-            .Include(g => g.Students)
-            .OrderBy(g => g.Name)
-            .ToListAsync();
+        var overview = await _bigExamService.GetGroupOverviewAsync(examId);
 
-        return View(groups);
+        return View(overview);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Group(int examId, int groupId)
+    public async Task<IActionResult> Group(int examId, int groupId, int subjectId)
     {
-        var model = await _bigExamService.BuildSheetAsync(examId, groupId);
+        var model = await _bigExamService.BuildSheetAsync(examId, groupId, subjectId);
 
         if (model == null)
         {
@@ -182,12 +174,13 @@ public class BigExamController : Controller
 
             return RedirectToAction(
                 nameof(Group),
-                new { examId = model.BigExamId, groupId = model.GroupId });
+                new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
         }
 
         var saved = await _bigExamService.SaveSheetAsync(
             model.BigExamId,
             model.GroupId,
+            model.SubjectId,
             teacherId: null,
             model.Rows);
 
@@ -200,11 +193,11 @@ public class BigExamController : Controller
 
         return RedirectToAction(
             nameof(Group),
-            new { examId = model.BigExamId, groupId = model.GroupId });
+            new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
     }
 
     [HttpGet]
-    public async Task<IActionResult> Rankings(int examId)
+    public async Task<IActionResult> Rankings(int examId, int? subjectId)
     {
         var exam = await _bigExamService.GetAsync(examId);
 
@@ -214,8 +207,10 @@ public class BigExamController : Controller
         }
 
         ViewBag.Exam = exam;
+        ViewBag.Subjects = await _bigExamService.ListSubjectsAsync();
+        ViewBag.SubjectId = subjectId;
 
-        var rankings = await _bigExamService.GetRankingsAsync(examId);
+        var rankings = await _bigExamService.GetRankingsAsync(examId, subjectId);
 
         return View(rankings);
     }

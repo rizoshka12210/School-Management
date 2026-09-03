@@ -47,12 +47,7 @@ public class BigExamController : ParentControllerBase
 
         foreach (var exam in exams)
         {
-            var entry = await _bigExamService.GetStudentRankingAsync(exam.Id, resolvedId.Value);
-
-            if (entry != null)
-            {
-                results.Add(entry);
-            }
+            results.AddRange(await _bigExamService.GetStudentRankingsAsync(exam.Id, resolvedId.Value));
         }
 
         return View(results);

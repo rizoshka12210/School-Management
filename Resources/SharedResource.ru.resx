@@ -2332,6 +2332,12 @@
   <data name="Choose a group to enter scores" xml:space="preserve">
     <value>Выберите группу, чтобы выставить оценки</value>
   </data>
+  <data name="Choose a group and subject to enter scores" xml:space="preserve">
+    <value>Выберите группу и предмет, чтобы выставить оценки</value>
+  </data>
+  <data name="Overall Total" xml:space="preserve">
+    <value>Общий итог</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Выберите не более одного учителя. Выбор другого учителя отзывает доступ у предыдущего.</value>
   </data>

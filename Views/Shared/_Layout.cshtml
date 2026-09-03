@@ -1,5 +1,4 @@
 @inject SchoolManagementSystem.Web.Services.NotificationService NotificationService
-@inject SchoolManagementSystem.Web.Authorization.OwnershipHelper LayoutOwnership
 @{
     var area = ViewContext.RouteData.Values["area"]?.ToString();
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
@@ -14,8 +13,6 @@
             ? 0
             : await NotificationService.GetUnreadCountAsync(User, seenNotificationFingerprint))
         : 0;
-    var isBigExamGrader = User.IsInRole("Teacher") &&
-        await LayoutOwnership.IsCurrentUserBigExamGraderAsync(User);
     var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
     var returnUrl = Context.Request.Path + Context.Request.QueryString;
 
@@ -92,10 +89,7 @@
             <a class="sidebar-link @Active("Teacher", "Lessons")" asp-area="Teacher" asp-controller="Lessons" asp-action="Index"><i class="bi bi-easel2-fill sidebar-link-icon"></i><span>@Localizer["Lessons"]</span></a>
             <a class="sidebar-link @Active("Teacher", "Attendance")" asp-area="Teacher" asp-controller="Attendance" asp-action="Index"><i class="bi bi-clipboard2-check-fill sidebar-link-icon"></i><span>@Localizer["Attendance"]</span></a>
             <a class="sidebar-link @Active("Teacher", "Grades")" asp-area="Teacher" asp-controller="Grades" asp-action="Index"><i class="bi bi-journal-check sidebar-link-icon"></i><span>@Localizer["Grades"]</span></a>
-            @if (isBigExamGrader)
-            {
-                <a class="sidebar-link @Active("Teacher", "BigExam")" asp-area="Teacher" asp-controller="BigExam" asp-action="Index"><i class="bi bi-award-fill sidebar-link-icon"></i><span>@Localizer["Big Exam"]</span></a>
-            }
+            <a class="sidebar-link @Active("Teacher", "BigExam")" asp-area="Teacher" asp-controller="BigExam" asp-action="Index"><i class="bi bi-award-fill sidebar-link-icon"></i><span>@Localizer["Big Exam"]</span></a>
             <a class="sidebar-link @Active("Teacher", "Topics")" asp-area="Teacher" asp-controller="Topics" asp-action="Index"><i class="bi bi-book-half sidebar-link-icon"></i><span>@Localizer["Topics"]</span></a>
             <a class="sidebar-link @Active("Teacher", "Schedule")" asp-area="Teacher" asp-controller="Schedule" asp-action="Index"><i class="bi bi-calendar3-week-fill sidebar-link-icon"></i><span>@Localizer["Schedule"]</span></a>
             <a class="sidebar-link @Active("Teacher", "Salary")" asp-area="Teacher" asp-controller="Salary" asp-action="Index"><i class="bi bi-cash-stack sidebar-link-icon"></i><span>@Localizer["My Salary"]</span></a>

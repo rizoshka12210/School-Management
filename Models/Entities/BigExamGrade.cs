@@ -1,14 +1,16 @@
 namespace SchoolManagementSystem.Web.Models.Entities;
 
 /// <summary>
-/// One student's score for one <see cref="BigExam"/>. Append-only, same
-/// design as <see cref="ExamGrade"/>: a new row is added whenever the
-/// score actually changes instead of overwriting the previous one, so
-/// the full grading history survives. The row with the latest
-/// <see cref="UpdatedAt"/> per (BigExamId, StudentId) is the current
-/// score. GroupId is a snapshot of the student's group at grading time,
-/// so group rankings stay correct even if a student later moves to a
-/// different group.
+/// One student's score for one subject within one <see cref="BigExam"/>.
+/// The Big Exam covers every subject taught at the center - e.g. 4
+/// subjects means 4 scores per student per exam session - not a single
+/// blended number. Append-only, same design as <see cref="ExamGrade"/>:
+/// a new row is added whenever the score actually changes instead of
+/// overwriting the previous one, so the full grading history survives.
+/// The row with the latest <see cref="UpdatedAt"/> per
+/// (BigExamId, StudentId, SubjectId) is the current score. GroupId is a
+/// snapshot of the student's group at grading time, so group rankings
+/// stay correct even if a student later moves to a different group.
 /// </summary>
 public class BigExamGrade
 {
@@ -21,6 +23,10 @@ public class BigExamGrade
     public int StudentId { get; set; }
 
     public Student Student { get; set; } = null!;
+
+    public int SubjectId { get; set; }
+
+    public Subject Subject { get; set; } = null!;
 
     public int GroupId { get; set; }
 

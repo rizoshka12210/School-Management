@@ -1,4 +1,4 @@
-@model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Group>
+@model List<SchoolManagementSystem.Web.Services.BigExamGroupOverview>
 @using SchoolManagementSystem.Web.Models.Entities
 
 @{
@@ -10,7 +10,7 @@
     <div>
         <a asp-action="Index" class="back-link">← @Localizer["Big Exam"]</a>
         <h1 class="page-title mt-2">@exam?.Title</h1>
-        <p class="page-subtitle">@Localizer["Choose a group to enter scores"]</p>
+        <p class="page-subtitle">@Localizer["Choose a group and subject to enter scores"]</p>
     </div>
 
     <a asp-action="Rankings" asp-route-examId="@exam?.Id" class="btn btn-outline-primary">
@@ -33,15 +33,38 @@ else
     <div class="teacher-groups-grid">
         @foreach (var group in Model)
         {
-            <a asp-action="Group" asp-route-examId="@exam?.Id" asp-route-groupId="@group.Id" class="teacher-group-card">
+            <div class="teacher-group-card teacher-grade-group-card">
                 <div class="teacher-group-top">
                     <div class="teacher-group-icon"><i class="bi bi-collection-fill"></i></div>
-                    <div class="teacher-group-arrow">→</div>
                 </div>
 
-                <div class="teacher-group-name">@group.Name</div>
-                <div class="teacher-group-subtitle">@Localizer["{0} student(s)", group.Students.Count]</div>
-            </a>
+                <div class="teacher-group-name">@group.GroupName</div>
+                <div class="teacher-group-subtitle">@Localizer["{0} student(s)", group.StudentsCount]</div>
+
+                <div class="teacher-grade-subject-list">
+                    @foreach (var subject in group.Subjects)
+                    {
+                        <a asp-action="Group"
+                           asp-route-examId="@exam?.Id"
+                           asp-route-groupId="@group.GroupId"
+                           asp-route-subjectId="@subject.SubjectId"
+                           class="teacher-grade-subject-link">
+                            <span class="subject-badge">@subject.SubjectName</span>
+                            <span class="teacher-grade-subject-status">
+                                @if (subject.StudentsGraded == 0)
+                                {
+                                    <span class="status-badge teacher-status-pending">@Localizer["No grades"]</span>
+                                }
+                                else
+                                {
+                                    <span class="status-badge status-present">@subject.StudentsGraded / @group.StudentsCount</span>
+                                }
+                            </span>
+                            <i class="bi bi-chevron-right"></i>
+                        </a>
+                    }
+                </div>
+            </div>
         }
     </div>
 }

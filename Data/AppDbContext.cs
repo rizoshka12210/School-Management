@@ -203,9 +203,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
         // Not unique: BigExamGrade is append-only history, same as
         // ExamGrade - a student can have several rows for the same big
-        // exam over time, with the latest one being the current score.
+        // exam and subject over time, with the latest one being the
+        // current score.
         builder.Entity<BigExamGrade>()
-            .HasIndex(e => new { e.BigExamId, e.StudentId });
+            .HasIndex(e => new { e.BigExamId, e.StudentId, e.SubjectId });
 
         builder.Entity<BigExamGrade>()
             .HasOne(e => e.BigExam)
@@ -218,6 +219,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(e => e.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<BigExamGrade>()
+            .HasOne(e => e.Subject)
+            .WithMany()
+            .HasForeignKey(e => e.SubjectId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         builder.Entity<BigExamGrade>()
             .HasOne(e => e.Group)

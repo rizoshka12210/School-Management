@@ -2332,6 +2332,12 @@
   <data name="Choose a group to enter scores" xml:space="preserve">
     <value>Барои гузоштани бахо гурӯҳро интихоб кунед</value>
   </data>
+  <data name="Choose a group and subject to enter scores" xml:space="preserve">
+    <value>Барои гузоштани бахо гурӯҳ ва фанро интихоб кунед</value>
+  </data>
+  <data name="Overall Total" xml:space="preserve">
+    <value>Ҷамъи умумӣ</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Аз як омӯзгор зиёд интихоб накунед. Интихоби омӯзгори дигар дастрасии қаблиро бекор мекунад.</value>
   </data>

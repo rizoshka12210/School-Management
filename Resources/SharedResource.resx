@@ -2332,6 +2332,12 @@
   <data name="Choose a group to enter scores" xml:space="preserve">
     <value>Choose a group to enter scores</value>
   </data>
+  <data name="Choose a group and subject to enter scores" xml:space="preserve">
+    <value>Choose a group and subject to enter scores</value>
+  </data>
+  <data name="Overall Total" xml:space="preserve">
+    <value>Overall Total</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Choose at most one teacher. Selecting a different teacher revokes access from the previous one.</value>
   </data>

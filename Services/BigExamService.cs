@@ -13,6 +13,11 @@ public class BigExamRankingEntry
 
     public DateTime BigExamDate { get; set; }
 
+    /// <summary>Null means this entry is the total across every subject.</summary>
+    public int? SubjectId { get; set; }
+
+    public string SubjectName { get; set; } = string.Empty;
+
     public int StudentId { get; set; }
 
     public string StudentName { get; set; } = string.Empty;
@@ -32,13 +37,35 @@ public class BigExamRankingEntry
     public int OverallSize { get; set; }
 }
 
+public class BigExamSubjectStatus
+{
+    public int SubjectId { get; set; }
+
+    public string SubjectName { get; set; } = string.Empty;
+
+    public int StudentsGraded { get; set; }
+}
+
+public class BigExamGroupOverview
+{
+    public int GroupId { get; set; }
+
+    public string GroupName { get; set; } = string.Empty;
+
+    public int StudentsCount { get; set; }
+
+    public List<BigExamSubjectStatus> Subjects { get; set; } = new();
+}
+
 /// <summary>
-/// Manages the periodic school-wide Big Exam: exam sessions, the
-/// append-only grade sheet per group (mirrors ExamSheetService), and
-/// the group/overall rankings derived from the latest score per
-/// student. Only Admin and the single designated teacher
-/// (Teacher.IsBigExamGrader) are ever allowed to call the write methods
-/// here - that check happens in the calling controllers.
+/// Manages the periodic school-wide Big Exam: it covers every subject
+/// taught at the center (4 subjects means 4 scores per student, not
+/// one blended number), organized the same way as the regular exam
+/// sheets - Group -> Subject -> students. Only Admin and the single
+/// designated teacher (Teacher.IsBigExamGrader) are ever allowed to
+/// call the write methods here - that check happens in the calling
+/// controllers. Everyone (Admin, Director, the designated teacher and
+/// parents) can read rankings and history.
 /// </summary>
 public class BigExamService
 {
@@ -108,11 +135,11 @@ public class BigExamService
         return true;
     }
 
-    /// <summary>Collapses append-only history down to the latest row per student.</summary>
-    public static List<BigExamGrade> LatestPerStudent(IEnumerable<BigExamGrade> grades)
+    /// <summary>Collapses append-only history down to the latest row per student+subject.</summary>
+    public static List<BigExamGrade> LatestPerStudentSubject(IEnumerable<BigExamGrade> grades)
     {
         return grades
-            .GroupBy(g => g.StudentId)
+            .GroupBy(g => new { g.StudentId, g.SubjectId })
             .Select(g => g
                 .OrderByDescending(x => x.UpdatedAt)
                 .ThenByDescending(x => x.Id)
@@ -120,7 +147,44 @@ public class BigExamService
             .ToList();
     }
 
-    public async Task<BigExamSheetViewModel?> BuildSheetAsync(int examId, int groupId)
+    /// <summary>Every subject taught at the center - the Big Exam always covers all of them.</summary>
+    public Task<List<Subject>> ListSubjectsAsync()
+    {
+        return _context.Subjects.OrderBy(s => s.Name).ToListAsync();
+    }
+
+    public async Task<List<BigExamGroupOverview>> GetGroupOverviewAsync(int examId)
+    {
+        var groups = await _context.Groups
+            .Include(g => g.Students)
+            .OrderBy(g => g.Name)
+            .ToListAsync();
+
+        var subjects = await ListSubjectsAsync();
+
+        var history = LatestPerStudentSubject(
+            await _context.BigExamGrades
+                .Where(g => g.BigExamId == examId)
+                .ToListAsync());
+
+        return groups.Select(group => new BigExamGroupOverview
+        {
+            GroupId = group.Id,
+            GroupName = group.Name,
+            StudentsCount = group.Students.Count,
+            Subjects = subjects.Select(subject => new BigExamSubjectStatus
+            {
+                SubjectId = subject.Id,
+                SubjectName = subject.Name,
+                StudentsGraded = history.Count(g =>
+                    g.GroupId == group.Id &&
+                    g.SubjectId == subject.Id &&
+                    g.Score.HasValue)
+            }).ToList()
+        }).ToList();
+    }
+
+    public async Task<BigExamSheetViewModel?> BuildSheetAsync(int examId, int groupId, int subjectId)
     {
         var exam = await _context.BigExams
             .AsNoTracking()
@@ -130,7 +194,11 @@ public class BigExamService
             .AsNoTracking()
             .FirstOrDefaultAsync(g => g.Id == groupId);
 
-        if (exam == null || group == null)
+        var subject = await _context.Subjects
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == subjectId);
+
+        if (exam == null || group == null || subject == null)
         {
             return null;
         }
@@ -144,12 +212,12 @@ public class BigExamService
 
         var history = await _context.BigExamGrades
             .AsNoTracking()
-            .Where(g => g.BigExamId == examId && g.GroupId == groupId)
+            .Where(g => g.BigExamId == examId && g.GroupId == groupId && g.SubjectId == subjectId)
             .Include(g => g.Teacher)
                 .ThenInclude(t => t!.ApplicationUser)
             .ToListAsync();
 
-        var latestByStudent = LatestPerStudent(history).ToDictionary(g => g.StudentId);
+        var latestByStudent = LatestPerStudentSubject(history).ToDictionary(g => g.StudentId);
         var currentIds = latestByStudent.Values.Select(g => g.Id).ToHashSet();
 
         var studentNames = students.ToDictionary(
@@ -161,7 +229,9 @@ public class BigExamService
             BigExamId = exam.Id,
             BigExamTitle = exam.Title,
             GroupId = group.Id,
-            GroupName = group.Name
+            GroupName = group.Name,
+            SubjectId = subject.Id,
+            SubjectName = subject.Name
         };
 
         foreach (var student in students)
@@ -197,13 +267,15 @@ public class BigExamService
     public async Task<bool> SaveSheetAsync(
         int examId,
         int groupId,
+        int subjectId,
         int? teacherId,
         IEnumerable<BigExamSheetRowViewModel> rows)
     {
         var examExists = await _context.BigExams.AnyAsync(e => e.Id == examId);
         var groupExists = await _context.Groups.AnyAsync(g => g.Id == groupId);
+        var subjectExists = await _context.Subjects.AnyAsync(s => s.Id == subjectId);
 
-        if (!examExists || !groupExists)
+        if (!examExists || !groupExists || !subjectExists)
         {
             return false;
         }
@@ -215,10 +287,10 @@ public class BigExamService
             .ToHashSet();
 
         var existing = await _context.BigExamGrades
-            .Where(g => g.BigExamId == examId && g.GroupId == groupId)
+            .Where(g => g.BigExamId == examId && g.GroupId == groupId && g.SubjectId == subjectId)
             .ToListAsync();
 
-        var latestByStudent = LatestPerStudent(existing).ToDictionary(g => g.StudentId);
+        var latestByStudent = LatestPerStudentSubject(existing).ToDictionary(g => g.StudentId);
 
         var now = DateTime.UtcNow;
 
@@ -255,6 +327,7 @@ public class BigExamService
             {
                 BigExamId = examId,
                 StudentId = row.StudentId,
+                SubjectId = subjectId,
                 GroupId = groupId,
                 TeacherId = teacherId,
                 Score = row.Score,
@@ -271,8 +344,11 @@ public class BigExamService
     /// <summary>
     /// Group and overall rankings for one Big Exam, using competition
     /// ranking (ties share a rank, the next rank skips the tied count).
+    /// Pass a subjectId for that subject's ranking, or null for the
+    /// "Overall Total" ranking - the sum of each student's latest score
+    /// across every subject they have been graded in for this exam.
     /// </summary>
-    public async Task<List<BigExamRankingEntry>> GetRankingsAsync(int examId)
+    public async Task<List<BigExamRankingEntry>> GetRankingsAsync(int examId, int? subjectId)
     {
         var exam = await _context.BigExams
             .AsNoTracking()
@@ -287,35 +363,79 @@ public class BigExamService
             .Where(g => g.BigExamId == examId)
             .Include(g => g.Student)
             .Include(g => g.Group)
+            .Include(g => g.Subject)
             .ToListAsync();
 
-        var latest = LatestPerStudent(history)
+        var latest = LatestPerStudentSubject(history)
             .Where(g => g.Score.HasValue)
             .ToList();
 
-        var overallSize = latest.Count;
+        List<(int StudentId, int GroupId, string GroupName, string StudentName, decimal Score)> scored;
+        string subjectName;
 
+        if (subjectId.HasValue)
+        {
+            subjectName = latest.FirstOrDefault(g => g.SubjectId == subjectId.Value)?.Subject.Name
+                ?? await _context.Subjects
+                    .Where(s => s.Id == subjectId.Value)
+                    .Select(s => s.Name)
+                    .FirstOrDefaultAsync()
+                ?? string.Empty;
+
+            scored = latest
+                .Where(g => g.SubjectId == subjectId.Value)
+                .Select(g => (
+                    g.StudentId,
+                    g.GroupId,
+                    g.Group.Name,
+                    $"{g.Student.FirstName} {g.Student.LastName}",
+                    g.Score!.Value))
+                .ToList();
+        }
+        else
+        {
+            subjectName = "Overall Total";
+
+            scored = latest
+                .GroupBy(g => g.StudentId)
+                .Select(group =>
+                {
+                    var first = group.First();
+
+                    return (
+                        StudentId: group.Key,
+                        GroupId: first.GroupId,
+                        GroupName: first.Group.Name,
+                        StudentName: $"{first.Student.FirstName} {first.Student.LastName}",
+                        Score: group.Sum(g => g.Score!.Value));
+                })
+                .ToList();
+        }
+
+        var overallSize = scored.Count;
         var entries = new List<BigExamRankingEntry>();
 
-        foreach (var group in latest.GroupBy(g => g.GroupId))
+        foreach (var group in scored.GroupBy(s => s.GroupId))
         {
             var groupSize = group.Count();
 
-            foreach (var g in group)
+            foreach (var s in group)
             {
-                var overallRank = 1 + latest.Count(o => o.Score!.Value > g.Score!.Value);
-                var groupRank = 1 + group.Count(o => o.Score!.Value > g.Score!.Value);
+                var overallRank = 1 + scored.Count(o => o.Score > s.Score);
+                var groupRank = 1 + group.Count(o => o.Score > s.Score);
 
                 entries.Add(new BigExamRankingEntry
                 {
                     BigExamId = exam.Id,
                     BigExamTitle = exam.Title,
                     BigExamDate = exam.Date,
-                    StudentId = g.StudentId,
-                    StudentName = $"{g.Student.FirstName} {g.Student.LastName}",
-                    GroupId = g.GroupId,
-                    GroupName = g.Group.Name,
-                    Score = g.Score!.Value,
+                    SubjectId = subjectId,
+                    SubjectName = subjectName,
+                    StudentId = s.StudentId,
+                    StudentName = s.StudentName,
+                    GroupId = s.GroupId,
+                    GroupName = s.GroupName,
+                    Score = s.Score,
                     GroupRank = groupRank,
                     GroupSize = groupSize,
                     OverallRank = overallRank,
@@ -330,11 +450,35 @@ public class BigExamService
             .ToList();
     }
 
-    public async Task<BigExamRankingEntry?> GetStudentRankingAsync(int examId, int studentId)
+    /// <summary>
+    /// Every ranking entry (one per subject, plus the overall total) for
+    /// one student in one Big Exam - used by the parent's read-only view.
+    /// </summary>
+    public async Task<List<BigExamRankingEntry>> GetStudentRankingsAsync(int examId, int studentId)
     {
-        var all = await GetRankingsAsync(examId);
+        var subjects = await ListSubjectsAsync();
+        var results = new List<BigExamRankingEntry>();
 
-        return all.FirstOrDefault(e => e.StudentId == studentId);
+        foreach (var subject in subjects)
+        {
+            var all = await GetRankingsAsync(examId, subject.Id);
+            var mine = all.FirstOrDefault(e => e.StudentId == studentId);
+
+            if (mine != null)
+            {
+                results.Add(mine);
+            }
+        }
+
+        var total = await GetRankingsAsync(examId, null);
+        var myTotal = total.FirstOrDefault(e => e.StudentId == studentId);
+
+        if (myTotal != null)
+        {
+            results.Add(myTotal);
+        }
+
+        return results;
     }
 
     public Task<List<Teacher>> ListTeachersForGraderAsync()

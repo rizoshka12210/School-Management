@@ -14,6 +14,10 @@ public class BigExamSheetViewModel
 
     public string GroupName { get; set; } = string.Empty;
 
+    public int SubjectId { get; set; }
+
+    public string SubjectName { get; set; } = string.Empty;
+
     public List<BigExamSheetRowViewModel> Rows { get; set; } = new();
 
     public List<BigExamHistoryEntryViewModel> History { get; set; } = new();
@@ -38,6 +42,8 @@ public class BigExamSheetSaveViewModel
     public int BigExamId { get; set; }
 
     public int GroupId { get; set; }
+
+    public int SubjectId { get; set; }
 
     public List<BigExamSheetRowViewModel> Rows { get; set; } = new();
 }

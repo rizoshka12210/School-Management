@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = Localizer["Big Exam"];
+
+    var byExam = Model
+        .GroupBy(e => new { e.BigExamId, e.BigExamTitle, e.BigExamDate })
+        .OrderByDescending(g => g.Key.BigExamDate)
+        .ToList();
 }
 
 <div class="page-header">
@@ -11,47 +16,68 @@
     </div>
 </div>
 
-<div class="card border-0 shadow-sm">
-    <div class="card-body">
-        @if (!Model.Any())
-        {
+@if (!byExam.Any())
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
             <div class="parent-empty">
                 <div class="parent-empty-icon"><i class="bi bi-award"></i></div>
                 <h5>@Localizer["No Big Exam results yet"]</h5>
                 <p>@Localizer["Big Exam scores will appear here once graded."]</p>
             </div>
-        }
-        else
-        {
-            <div class="table-responsive">
-                <table class="table table-hover management-table">
-                    <thead>
-                        <tr>
-                            <th>@Localizer["Title"]</th>
-                            <th>@Localizer["Date"]</th>
-                            <th>@Localizer["Score"]</th>
-                            <th>@Localizer["Group Rank"]</th>
-                            <th>@Localizer["Overall Rank"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var entry in Model.OrderByDescending(e => e.BigExamDate))
-                        {
-                            <tr>
-                                <td><strong>@entry.BigExamTitle</strong></td>
-                                <td><div class="record-date">@entry.BigExamDate.ToString("dd MMM yyyy")</div></td>
-                                <td>
-                                    <span class="grade-badge @(entry.Score >= 90 ? "grade-high" : entry.Score >= 75 ? "grade-good" : "grade-low")">
-                                        @entry.Score.ToString("0.##")
-                                    </span>
-                                </td>
-                                <td><span class="status-badge status-present">#@entry.GroupRank @Localizer["of {0}", entry.GroupSize]</span> <span class="text-muted">(@entry.GroupName)</span></td>
-                                <td><span class="status-badge status-present">#@entry.OverallRank @Localizer["of {0}", entry.OverallSize]</span></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
+        </div>
     </div>
-</div>
+}
+else
+{
+    @foreach (var exam in byExam)
+    {
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="section-header">
+                    <div>
+                        <h5 class="section-title">@exam.Key.BigExamTitle</h5>
+                        <p class="section-subtitle">@exam.Key.BigExamDate.ToString("dd MMM yyyy")</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover management-table">
+                        <thead>
+                            <tr>
+                                <th>@Localizer["Subject"]</th>
+                                <th>@Localizer["Score"]</th>
+                                <th>@Localizer["Group Rank"]</th>
+                                <th>@Localizer["Overall Rank"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var entry in exam.OrderBy(e => e.SubjectId == null).ThenBy(e => e.SubjectName))
+                            {
+                                <tr class="@(entry.SubjectId == null ? "fw-bold" : "")">
+                                    <td>
+                                        @if (entry.SubjectId == null)
+                                        {
+                                            <span class="status-badge status-present">@Localizer["Overall Total"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="subject-badge">@entry.SubjectName</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="grade-badge @(entry.Score >= 90 ? "grade-high" : entry.Score >= 75 ? "grade-good" : "grade-low")">
+                                            @entry.Score.ToString("0.##")
+                                        </span>
+                                    </td>
+                                    <td><span class="status-badge status-present">#@entry.GroupRank @Localizer["of {0}", entry.GroupSize]</span></td>
+                                    <td><span class="status-badge status-present">#@entry.OverallRank @Localizer["of {0}", entry.OverallSize]</span></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}

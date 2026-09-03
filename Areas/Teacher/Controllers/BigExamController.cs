@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
@@ -10,12 +9,11 @@ using SchoolManagementSystem.Web.ViewModels.Shared;
 namespace SchoolManagementSystem.Web.Areas.Teacher.Controllers;
 
 /// <summary>
-/// Grading for the periodic school-wide Big Exam, available only to
-/// the single teacher the admin has designated
-/// (Teacher.IsBigExamGrader) - every action here checks that flag
-/// itself since it cuts across the usual "teacher owns this group"
-/// rule (the designated grader can grade every group, not just their
-/// own classes).
+/// Every teacher can browse the periodic school-wide Big Exam - exam
+/// list, sheets and rankings - but only the single teacher the admin
+/// has designated (Teacher.IsBigExamGrader) can actually save grades.
+/// The designated grader can grade every group, not just their own
+/// classes, since the exam is school-wide.
 /// </summary>
 public class BigExamController : TeacherControllerBase
 {
@@ -35,11 +33,6 @@ public class BigExamController : TeacherControllerBase
 
     public async Task<IActionResult> Index()
     {
-        if (!await Ownership.IsCurrentUserBigExamGraderAsync(User))
-        {
-            return Forbid();
-        }
-
         var exams = await _bigExamService.ListAsync();
 
         return View(exams);
@@ -48,11 +41,6 @@ public class BigExamController : TeacherControllerBase
     [HttpGet]
     public async Task<IActionResult> Groups(int examId)
     {
-        if (!await Ownership.IsCurrentUserBigExamGraderAsync(User))
-        {
-            return Forbid();
-        }
-
         var exam = await _bigExamService.GetAsync(examId);
 
         if (exam == null)
@@ -62,28 +50,22 @@ public class BigExamController : TeacherControllerBase
 
         ViewBag.Exam = exam;
 
-        var groups = await Context.Groups
-            .Include(g => g.Students)
-            .OrderBy(g => g.Name)
-            .ToListAsync();
+        var overview = await _bigExamService.GetGroupOverviewAsync(examId);
 
-        return View(groups);
+        return View(overview);
     }
 
     [HttpGet]
-    public async Task<IActionResult> Group(int examId, int groupId)
+    public async Task<IActionResult> Group(int examId, int groupId, int subjectId)
     {
-        if (!await Ownership.IsCurrentUserBigExamGraderAsync(User))
-        {
-            return Forbid();
-        }
-
-        var model = await _bigExamService.BuildSheetAsync(examId, groupId);
+        var model = await _bigExamService.BuildSheetAsync(examId, groupId, subjectId);
 
         if (model == null)
         {
             return NotFound();
         }
+
+        ViewBag.CanEdit = await Ownership.IsCurrentUserBigExamGraderAsync(User);
 
         return View(model);
     }
@@ -103,7 +85,7 @@ public class BigExamController : TeacherControllerBase
 
             return RedirectToAction(
                 nameof(Group),
-                new { examId = model.BigExamId, groupId = model.GroupId });
+                new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
         }
 
         var teacherId = await GetTeacherIdAsync();
@@ -111,6 +93,7 @@ public class BigExamController : TeacherControllerBase
         var saved = await _bigExamService.SaveSheetAsync(
             model.BigExamId,
             model.GroupId,
+            model.SubjectId,
             teacherId,
             model.Rows);
 
@@ -123,17 +106,12 @@ public class BigExamController : TeacherControllerBase
 
         return RedirectToAction(
             nameof(Group),
-            new { examId = model.BigExamId, groupId = model.GroupId });
+            new { examId = model.BigExamId, groupId = model.GroupId, subjectId = model.SubjectId });
     }
 
     [HttpGet]
-    public async Task<IActionResult> Rankings(int examId)
+    public async Task<IActionResult> Rankings(int examId, int? subjectId)
     {
-        if (!await Ownership.IsCurrentUserBigExamGraderAsync(User))
-        {
-            return Forbid();
-        }
-
         var exam = await _bigExamService.GetAsync(examId);
 
         if (exam == null)
@@ -142,8 +120,10 @@ public class BigExamController : TeacherControllerBase
         }
 
         ViewBag.Exam = exam;
+        ViewBag.Subjects = await _bigExamService.ListSubjectsAsync();
+        ViewBag.SubjectId = subjectId;
 
-        var rankings = await _bigExamService.GetRankingsAsync(examId);
+        var rankings = await _bigExamService.GetRankingsAsync(examId, subjectId);
 
         return View(rankings);
     }

@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = Model.BigExamTitle;
+    bool canEdit = ViewBag.CanEdit ?? false;
 
     string GradeClass(decimal? value) => value switch
     {
@@ -16,20 +17,23 @@
 <div class="page-header">
     <div>
         <a asp-action="Groups" asp-route-examId="@Model.BigExamId" class="back-link">← @Model.BigExamTitle</a>
-        <h1 class="page-title mt-2">@Model.GroupName</h1>
+        <h1 class="page-title mt-2">@Model.GroupName · @Model.SubjectName</h1>
         <p class="page-subtitle">@Localizer["Big Exam score"]</p>
     </div>
 
-    <a asp-action="Rankings" asp-route-examId="@Model.BigExamId" class="btn btn-outline-primary">
+    <a asp-action="Rankings" asp-route-examId="@Model.BigExamId" asp-route-subjectId="@Model.SubjectId" class="btn btn-outline-primary">
         <i class="bi bi-bar-chart-fill"></i>
         @Localizer["Rankings"]
     </a>
 </div>
 
+@if (canEdit)
+{
 <form asp-action="Group" method="post">
     @Html.AntiForgeryToken()
     <input type="hidden" name="BigExamId" value="@Model.BigExamId" />
     <input type="hidden" name="GroupId" value="@Model.GroupId" />
+    <input type="hidden" name="SubjectId" value="@Model.SubjectId" />
 
     <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
 
@@ -101,6 +105,35 @@
         </div>
     </div>
 </form>
+}
+else
+{
+    <div class="card border-0 shadow-sm">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table management-table">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Student"]</th>
+                            <th>@Localizer["Score"]</th>
+                            <th>@Localizer["Comment"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var row in Model.Rows)
+                        {
+                            <tr>
+                                <td>@row.StudentName</td>
+                                <td><span class="grade-badge @GradeClass(row.Score)">@(row.Score?.ToString("0.##") ?? "—")</span></td>
+                                <td>@(string.IsNullOrWhiteSpace(row.Comment) ? "—" : row.Comment)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+}
 
 <div class="card border-0 shadow-sm mt-4">
     <div class="card-body">
