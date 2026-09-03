@@ -1,3 +1,5 @@
+using SchoolManagementSystem.Web.Models.Entities;
+
 namespace SchoolManagementSystem.Web.Services;
 
 /// <summary>
@@ -25,5 +27,23 @@ public static class GradeAveragingHelper
         }
 
         return values.Count == 0 ? null : Math.Round(values.Average(), 2);
+    }
+
+    /// <summary>
+    /// ExamGrade is append-only (every change to a student's exam scores
+    /// keeps the previous row instead of overwriting it, so nothing is
+    /// ever lost), so any place that needs the *current* exam result -
+    /// averages, achievements, the leaderboard - must first collapse the
+    /// history down to the single latest row per student/subject.
+    /// </summary>
+    public static List<ExamGrade> LatestPerStudentSubject(IEnumerable<ExamGrade> examGrades)
+    {
+        return examGrades
+            .GroupBy(e => new { e.StudentId, e.SubjectId })
+            .Select(g => g
+                .OrderByDescending(e => e.UpdatedAt)
+                .ThenByDescending(e => e.Id)
+                .First())
+            .ToList();
     }
 }

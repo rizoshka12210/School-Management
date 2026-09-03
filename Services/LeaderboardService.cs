@@ -44,11 +44,12 @@ public class LeaderboardService
                 .ThenInclude(s => s.Group)
             .ToListAsync();
 
-        var examGrades = await _context.ExamGrades
-            .Where(e => e.UpdatedAt >= start && e.UpdatedAt < end)
-            .Include(e => e.Student)
-                .ThenInclude(s => s.Group)
-            .ToListAsync();
+        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(
+            await _context.ExamGrades
+                .Where(e => e.UpdatedAt >= start && e.UpdatedAt < end)
+                .Include(e => e.Student)
+                    .ThenInclude(s => s.Group)
+                .ToListAsync());
 
         var studentIds = grades.Select(g => g.StudentId)
             .Union(examGrades.Select(e => e.StudentId))

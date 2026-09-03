@@ -85,14 +85,20 @@ public class StudentsController : TeacherControllerBase
             .OrderByDescending(g => g.Date)
             .ToListAsync();
 
-        var examGrades = await Context.ExamGrades
+        var examGradeHistory = await Context.ExamGrades
             .Where(e =>
                 e.StudentId == id &&
                 e.TeacherId == teacherId)
             .Include(e => e.Subject)
+            .OrderByDescending(e => e.UpdatedAt)
+            .ThenByDescending(e => e.Id)
             .ToListAsync();
 
+        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(examGradeHistory);
+
         ViewBag.Grades = grades;
+        ViewBag.ExamGradeHistory = examGradeHistory;
+        ViewBag.CurrentExamGradeIds = examGrades.Select(e => e.Id).ToHashSet();
 
         var subjectIds = grades.Select(g => g.SubjectId)
             .Union(examGrades.Select(e => e.SubjectId))

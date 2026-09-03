@@ -65,9 +65,10 @@ public class DashboardController : ParentControllerBase
                 .OrderByDescending(g => g.Date)
                 .ToListAsync();
 
-            var examGrades = await Context.ExamGrades
-                .Where(e => e.StudentId == student.Id)
-                .ToListAsync();
+            var examGrades = GradeAveragingHelper.LatestPerStudentSubject(
+                await Context.ExamGrades
+                    .Where(e => e.StudentId == student.Id)
+                    .ToListAsync());
 
             var lessonsTodayCount = student.GroupId == null
                 ? 0

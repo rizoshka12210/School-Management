@@ -55,9 +55,10 @@ public class ChildController : ParentControllerBase
             .Where(g => g.StudentId == resolvedId)
             .ToListAsync();
 
-        var examGrades = await Context.ExamGrades
-            .Where(e => e.StudentId == resolvedId)
-            .ToListAsync();
+        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(
+            await Context.ExamGrades
+                .Where(e => e.StudentId == resolvedId)
+                .ToListAsync());
 
         ViewBag.TeacherComments = grades
             .Where(g => !string.IsNullOrWhiteSpace(g.Comment))

@@ -169,9 +169,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.Entity<ExamGrade>()
             .Ignore(e => e.Average);
 
+        // Not unique: ExamGrade is append-only history, so a student can
+        // have several rows for the same subject over time. The latest
+        // one per (StudentId, SubjectId) is always the current result.
         builder.Entity<ExamGrade>()
-            .HasIndex(e => new { e.StudentId, e.SubjectId })
-            .IsUnique();
+            .HasIndex(e => new { e.StudentId, e.SubjectId });
 
         builder.Entity<ExamGrade>()
             .HasOne(e => e.Student)

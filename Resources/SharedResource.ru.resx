@@ -2317,6 +2317,21 @@
   <data name="Average" xml:space="preserve">
     <value>Средний балл</value>
   </data>
+  <data name="Exam Grade History" xml:space="preserve">
+    <value>История экзаменационных оценок</value>
+  </data>
+  <data name="Every exam result you have ever saved for this student, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Все результаты экзаменов, которые вы когда-либо сохраняли для этого ученика, хранятся без ограничения срока. Текущий результат по каждому предмету выделен.</value>
+  </data>
+  <data name="This student does not have any exam grades recorded by you." xml:space="preserve">
+    <value>У этого ученика нет экзаменационных оценок, поставленных вами.</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Текущая</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>История</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Выберите группу, затем предмет, чтобы выставить оценки ученикам</value>
   </data>

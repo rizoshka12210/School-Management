@@ -5,6 +5,8 @@
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
 
     var grades = ViewBag.Grades as List<Grade> ?? new List<Grade>();
+    var examGradeHistory = ViewBag.ExamGradeHistory as List<ExamGrade> ?? new List<ExamGrade>();
+    var currentExamGradeIds = ViewBag.CurrentExamGradeIds as HashSet<int> ?? new HashSet<int>();
     var subjectBreakdown = ViewBag.SubjectBreakdown as List<SchoolManagementSystem.Web.ViewModels.Teacher.StudentSubjectAverageViewModel>
         ?? new List<SchoolManagementSystem.Web.ViewModels.Teacher.StudentSubjectAverageViewModel>();
     double attendanceRate = Convert.ToDouble(ViewBag.AttendanceRate);
@@ -141,6 +143,68 @@
                                         <span class="grade-badge @(grade.Value >= 90 ? "grade-high" : grade.Value >= 75 ? "grade-good" : "grade-low")">@grade.Value.ToString("0.##")</span>
                                     </td>
                                     <td>@(string.IsNullOrWhiteSpace(grade.Comment) ? "—" : grade.Comment)</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="entity-panel mt-4">
+        <div class="entity-panel-head">
+            <div>
+                <h2 class="entity-panel-title"><i class="bi bi-clock-history"></i>@Localizer["Exam Grade History"]</h2>
+                <p class="entity-panel-subtitle">@Localizer["Every exam result you have ever saved for this student, kept permanently. The current result for each subject is highlighted."]</p>
+            </div>
+            <span class="entity-panel-count">@examGradeHistory.Count</span>
+        </div>
+        <div class="entity-panel-body">
+            @if (!examGradeHistory.Any())
+            {
+                <div class="entity-empty"><div><i class="bi bi-journal-x"></i>@Localizer["This student does not have any exam grades recorded by you."]</div></div>
+            }
+            else
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover management-table">
+                        <thead>
+                            <tr>
+                                <th>@Localizer["Date"]</th>
+                                <th>@Localizer["Subject"]</th>
+                                <th>@Localizer["Exam 1"]</th>
+                                <th>@Localizer["Exam 2"]</th>
+                                <th>@Localizer["Average"]</th>
+                                <th>@Localizer["Comment"]</th>
+                                <th>@Localizer["Status"]</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var exam in examGradeHistory)
+                            {
+                                bool isCurrent = currentExamGradeIds.Contains(exam.Id);
+                                <tr class="@(isCurrent ? "" : "text-muted")">
+                                    <td><div class="record-date">@exam.UpdatedAt.ToString("dd MMM yyyy HH:mm")</div></td>
+                                    <td><span class="subject-badge">@exam.Subject.Name</span></td>
+                                    <td>@(exam.Exam1?.ToString("0.##") ?? "—")</td>
+                                    <td>@(exam.Exam2?.ToString("0.##") ?? "—")</td>
+                                    <td>
+                                        <span class="grade-badge @GradeClass(exam.Average)">
+                                            @(exam.Average?.ToString("0.##") ?? "—")
+                                        </span>
+                                    </td>
+                                    <td>@(string.IsNullOrWhiteSpace(exam.Comment) ? "—" : exam.Comment)</td>
+                                    <td>
+                                        @if (isCurrent)
+                                        {
+                                            <span class="badge bg-success">@Localizer["Current"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-secondary">@Localizer["History"]</span>
+                                        }
+                                    </td>
                                 </tr>
                             }
                         </tbody>

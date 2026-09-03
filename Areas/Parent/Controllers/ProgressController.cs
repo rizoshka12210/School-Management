@@ -48,10 +48,11 @@ public class ProgressController : ParentControllerBase
             await _gradeService
                 .GetByStudentAsync(student.Id);
 
-        var examGrades = await Context.ExamGrades
-            .Where(e => e.StudentId == student.Id)
-            .Include(e => e.Subject)
-            .ToListAsync();
+        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(
+            await Context.ExamGrades
+                .Where(e => e.StudentId == student.Id)
+                .Include(e => e.Subject)
+                .ToListAsync());
 
         var attendances =
             await _attendanceService

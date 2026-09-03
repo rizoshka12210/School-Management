@@ -342,7 +342,12 @@ public class AiAssistantService
             .CountAsync(l => l.StartTime >= today && l.StartTime < tomorrow);
 
         var allGrades = await _context.Grades.Select(g => g.Value).ToListAsync();
-        var allExamGrades = await _context.ExamGrades.Select(e => e.Average).ToListAsync();
+
+        var allExamGradeEntities = await _context.ExamGrades.ToListAsync();
+
+        var allExamGrades = GradeAveragingHelper
+            .LatestPerStudentSubject(allExamGradeEntities)
+            .Select(e => e.Average);
 
         var averageGrade = GradeAveragingHelper.Combine(allGrades, allExamGrades) ?? 0;
 
@@ -432,10 +437,13 @@ public class AiAssistantService
                 .Select(g => g.Value)
                 .ToListAsync();
 
-            var studentExamGrades = await _context.ExamGrades
+            var studentExamGradeEntities = await _context.ExamGrades
                 .Where(e => e.StudentId == student.Id)
-                .Select(e => e.Average)
                 .ToListAsync();
+
+            var studentExamGrades = GradeAveragingHelper
+                .LatestPerStudentSubject(studentExamGradeEntities)
+                .Select(e => e.Average);
 
             var studentAttendances = await _context.Attendances
                 .Where(a => a.StudentId == student.Id)
@@ -586,10 +594,13 @@ public class AiAssistantService
                 .OrderByDescending(g => g.Date)
                 .ToListAsync();
 
-            var examGrades = await _context.ExamGrades
+            var examGradeEntities = await _context.ExamGrades
                 .Where(e => e.StudentId == student.Id)
-                .Select(e => e.Average)
                 .ToListAsync();
+
+            var examGrades = GradeAveragingHelper
+                .LatestPerStudentSubject(examGradeEntities)
+                .Select(e => e.Average);
 
             var averageGrade = GradeAveragingHelper.Combine(
                 grades.Select(g => g.Value),

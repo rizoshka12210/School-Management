@@ -40,10 +40,11 @@ public class GradesController : ParentControllerBase
             .OrderByDescending(g => g.Date)
             .ToListAsync();
 
-        var examGrades = await Context.ExamGrades
-            .Where(e => e.StudentId == resolvedId)
-            .Include(e => e.Subject)
-            .ToListAsync();
+        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(
+            await Context.ExamGrades
+                .Where(e => e.StudentId == resolvedId)
+                .Include(e => e.Subject)
+                .ToListAsync());
 
         ViewBag.StudentName = $"{student.FirstName} {student.LastName}";
 

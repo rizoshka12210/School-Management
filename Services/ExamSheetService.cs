@@ -9,6 +9,11 @@ namespace SchoolManagementSystem.Web.Services;
 /// Builds and saves the two-exam sheet for a group/subject pair
 /// (Имтихони №1, Имтихони №2, Балли миёна) - one row per student,
 /// mirroring the spreadsheet teachers already keep by hand.
+///
+/// ExamGrade is append-only: saving never overwrites a student's
+/// previous result, it adds a new row only when something actually
+/// changed, so the exam history is never lost - the sheet always
+/// shows the latest row per student as the "current" value.
 /// </summary>
 public class ExamSheetService
 {
@@ -46,6 +51,10 @@ public class ExamSheetService
             .Where(e => e.GroupId == groupId && e.SubjectId == subjectId)
             .ToListAsync();
 
+        var latestByStudent = GradeAveragingHelper
+            .LatestPerStudentSubject(existing)
+            .ToDictionary(e => e.StudentId);
+
         var model = new ExamSheetViewModel
         {
             GroupId = group.Id,
@@ -56,7 +65,7 @@ public class ExamSheetService
 
         foreach (var student in students)
         {
-            var record = existing.FirstOrDefault(e => e.StudentId == student.Id);
+            latestByStudent.TryGetValue(student.Id, out var record);
 
             model.Rows.Add(new ExamSheetRowViewModel
             {
@@ -95,6 +104,12 @@ public class ExamSheetService
             .Where(e => e.GroupId == groupId && e.SubjectId == subjectId)
             .ToListAsync();
 
+        var latestByStudent = GradeAveragingHelper
+            .LatestPerStudentSubject(existing)
+            .ToDictionary(e => e.StudentId);
+
+        var now = DateTime.UtcNow;
+
         foreach (var row in rows)
         {
             if (!validStudentIds.Contains(row.StudentId))
@@ -102,43 +117,42 @@ public class ExamSheetService
                 continue;
             }
 
-            var record = existing.FirstOrDefault(e => e.StudentId == row.StudentId);
             var hasContent = row.Exam1.HasValue ||
                 row.Exam2.HasValue ||
                 !string.IsNullOrWhiteSpace(row.Comment);
 
             if (!hasContent)
             {
-                if (record != null)
-                {
-                    _context.ExamGrades.Remove(record);
-                }
-
+                // Nothing entered - leave whatever history already exists
+                // untouched rather than erasing the student's last result.
                 continue;
             }
 
-            if (record == null)
+            latestByStudent.TryGetValue(row.StudentId, out var latest);
+
+            var comment = string.IsNullOrWhiteSpace(row.Comment) ? null : row.Comment;
+
+            var unchanged = latest != null &&
+                latest.Exam1 == row.Exam1 &&
+                latest.Exam2 == row.Exam2 &&
+                latest.Comment == comment;
+
+            if (unchanged)
             {
-                _context.ExamGrades.Add(new ExamGrade
-                {
-                    StudentId = row.StudentId,
-                    SubjectId = subjectId,
-                    GroupId = groupId,
-                    TeacherId = teacherId,
-                    Exam1 = row.Exam1,
-                    Exam2 = row.Exam2,
-                    Comment = row.Comment,
-                    UpdatedAt = DateTime.UtcNow
-                });
+                continue;
             }
-            else
+
+            _context.ExamGrades.Add(new ExamGrade
             {
-                record.Exam1 = row.Exam1;
-                record.Exam2 = row.Exam2;
-                record.Comment = row.Comment;
-                record.TeacherId = teacherId;
-                record.UpdatedAt = DateTime.UtcNow;
-            }
+                StudentId = row.StudentId,
+                SubjectId = subjectId,
+                GroupId = groupId,
+                TeacherId = teacherId,
+                Exam1 = row.Exam1,
+                Exam2 = row.Exam2,
+                Comment = comment,
+                UpdatedAt = now
+            });
         }
 
         await _context.SaveChangesAsync();

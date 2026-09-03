@@ -2317,6 +2317,21 @@
   <data name="Average" xml:space="preserve">
     <value>Балли миёна</value>
   </data>
+  <data name="Exam Grade History" xml:space="preserve">
+    <value>Таърихи бахоҳои имтиҳонӣ</value>
+  </data>
+  <data name="Every exam result you have ever saved for this student, kept permanently. The current result for each subject is highlighted." xml:space="preserve">
+    <value>Ҳамаи натиҷаҳои имтиҳонӣ, ки шумо барои ин донишомӯз сабт кардаед, ҳамеша нигоҳ дошта мешаванд. Натиҷаи ҷории ҳар фан ҷудо нишон дода мешавад.</value>
+  </data>
+  <data name="This student does not have any exam grades recorded by you." xml:space="preserve">
+    <value>Ин донишомӯз ҳанӯз бахои имтиҳонии аз ҷониби шумо сабтшуда надорад.</value>
+  </data>
+  <data name="Current" xml:space="preserve">
+    <value>Ҷорӣ</value>
+  </data>
+  <data name="History" xml:space="preserve">
+    <value>Таърих</value>
+  </data>
   <data name="Choose a group, then a subject, to enter student grades" xml:space="preserve">
     <value>Гурӯҳро, сипас фанро интихоб кунед, то ба хонандагон баҳо гузоред</value>
   </data>

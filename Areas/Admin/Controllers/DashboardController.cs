@@ -83,7 +83,9 @@ public class DashboardController : Controller
 
         var schoolWideAverage = GradeAveragingHelper.Combine(
             students.SelectMany(s => s.Grades).Select(g => g.Value),
-            students.SelectMany(s => s.ExamGrades).Select(e => e.Average));
+            students
+                .SelectMany(s => GradeAveragingHelper.LatestPerStudentSubject(s.ExamGrades))
+                .Select(e => e.Average));
 
         var allAttendance = await _context.Attendances
             .Select(a => a.Status)

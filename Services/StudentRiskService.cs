@@ -7,11 +7,13 @@ public class StudentRiskService
 {
     public StudentRiskResult Evaluate(Student student)
     {
-        var hasGradeData = student.Grades.Any() || student.ExamGrades.Any(e => e.Average.HasValue);
+        var currentExamGrades = GradeAveragingHelper.LatestPerStudentSubject(student.ExamGrades);
+
+        var hasGradeData = student.Grades.Any() || currentExamGrades.Any(e => e.Average.HasValue);
 
         var averageGrade = GradeAveragingHelper.Combine(
             student.Grades.Select(g => g.Value),
-            student.ExamGrades.Select(e => e.Average)) ?? 0;
+            currentExamGrades.Select(e => e.Average)) ?? 0;
 
         var attendanceTotal = student.Attendances.Count;
         var attended = student.Attendances.Count(a =>

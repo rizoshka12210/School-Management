@@ -54,9 +54,10 @@ public class GradesController : TeacherControllerBase
             .Distinct()
             .ToListAsync();
 
-        var examGrades = await Context.ExamGrades
-            .Where(e => e.TeacherId == teacherId)
-            .ToListAsync();
+        var examGrades = GradeAveragingHelper.LatestPerStudentSubject(
+            await Context.ExamGrades
+                .Where(e => e.TeacherId == teacherId)
+                .ToListAsync());
 
         var model = groups
             .Select(g => new GradesGroupViewModel

@@ -37,10 +37,15 @@ public class AchievementService
             .Select(g => new { g.Value, SubjectName = g.Subject.Name })
             .ToListAsync();
 
-        var examGrades = await _context.ExamGrades
+        var examGradeEntities = await _context.ExamGrades
             .Where(e => e.StudentId == studentId)
-            .Select(e => new { e.Average, SubjectName = e.Subject.Name })
+            .Include(e => e.Subject)
             .ToListAsync();
+
+        var examGrades = GradeAveragingHelper
+            .LatestPerStudentSubject(examGradeEntities)
+            .Select(e => new { e.Average, SubjectName = e.Subject.Name })
+            .ToList();
 
         var attendances = await _context.Attendances
             .Where(a => a.StudentId == studentId)
