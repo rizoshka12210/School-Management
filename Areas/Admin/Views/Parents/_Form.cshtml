@@ -57,7 +57,8 @@
                     <input asp-for="Email"
                            type="email"
                            class="form-control"
-                           placeholder="parent@school.com" />
+                           placeholder="parent@school.com"
+                           autocomplete="off" />
 
                     <span asp-validation-for="Email"
                           class="text-danger small">
@@ -103,7 +104,8 @@
                         <input asp-for="Password"
                                type="password"
                                class="form-control"
-                               placeholder="@Localizer["Enter password"]" />
+                               placeholder="@Localizer["Enter password"]"
+                               autocomplete="new-password" />
 
                         <partial name="_PasswordToggle" />
                     </div>
