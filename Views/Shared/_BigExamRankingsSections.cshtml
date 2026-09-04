@@ -25,9 +25,12 @@
         _ => "grade-low"
     };
 
+    string Band(int index) => index % 2 == 0 ? "big-exam-band-a" : "big-exam-band-b";
+
     var sectionId = Guid.NewGuid().ToString("N");
 }
 
+<div class="big-exam-rankings">
 @if (!Model.Any())
 {
     <div class="management-empty">
@@ -40,34 +43,36 @@ else
 {
     <div class="teacher-grade-subject-tabs mb-4" data-big-exam-scope="@sectionId">
         <button type="button" class="teacher-grade-subject-tab active" data-scope-target="center">
+            <i class="bi bi-globe-americas"></i>
             @Localizer["Whole Center"]
         </button>
         <button type="button" class="teacher-grade-subject-tab" data-scope-target="group">
+            <i class="bi bi-collection-fill"></i>
             @Localizer["By Group"]
         </button>
     </div>
 
     <div data-scope-panel="center" data-scope-id="@sectionId">
-        <div class="table-responsive">
-            <table class="table table-hover management-table">
+        <div class="table-responsive big-exam-table-wrap">
+            <table class="table table-hover management-table big-exam-table">
                 <thead>
                     <tr>
-                        <th rowspan="2">@Localizer["Overall Rank"]</th>
+                        <th rowspan="2" class="big-exam-rank-col">@Localizer["Overall Rank"]</th>
                         <th rowspan="2">@Localizer["Student"]</th>
                         <th rowspan="2">@Localizer["Group"]</th>
-                        @foreach (var subject in subjectColumns)
+                        @for (var i = 0; i < subjectColumns.Count; i++)
                         {
-                            <th colspan="2" class="text-center">@subject.SubjectName</th>
+                            <th colspan="2" class="big-exam-subject-header @Band(i)">@subjectColumns[i].SubjectName</th>
                         }
-                        <th rowspan="2">@Localizer["Score"]</th>
+                        <th rowspan="2" class="big-exam-total-col">@Localizer["Score"]</th>
                     </tr>
                     @if (subjectColumns.Any())
                     {
                         <tr>
-                            @foreach (var subject in subjectColumns)
+                            @for (var i = 0; i < subjectColumns.Count; i++)
                             {
-                                <th class="text-center small text-muted">@Localizer["Raw"]</th>
-                                <th class="text-center small text-muted">@Localizer["Score"]</th>
+                                <th class="big-exam-subcol @Band(i)">@Localizer["Raw"]</th>
+                                <th class="big-exam-subcol big-exam-subcol-last @Band(i)">@Localizer["Score"]</th>
                             }
                         </tr>
                     }
@@ -78,17 +83,28 @@ else
                         var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
 
                         <tr>
-                            <td><span class="status-badge status-present">#@entry.OverallRank @Localizer["of {0}", entry.OverallSize]</span></td>
+                            <td class="big-exam-rank-col"><span class="big-exam-rank-badge @(entry.OverallRank == 1 ? "is-first" : "")">#@entry.OverallRank</span> <span class="text-muted small">@Localizer["of {0}", entry.OverallSize]</span></td>
                             <td><strong>@entry.StudentName</strong></td>
                             <td><span class="subject-badge">@entry.GroupName</span></td>
-                            @foreach (var subject in subjectColumns)
+                            @for (var i = 0; i < subjectColumns.Count; i++)
                             {
-                                bySubject.TryGetValue(subject.SubjectId, out var s);
-                                <td>@(s?.RawScore?.ToString("0.##") ?? "—")</td>
-                                <td><span class="grade-badge @ScoreClass(s?.WeightedScore)">@(s?.WeightedScore?.ToString("0.###") ?? "—")</span></td>
+                                bySubject.TryGetValue(subjectColumns[i].SubjectId, out var s);
+                                <td class="big-exam-subcol text-center @Band(i)">
+                                    <span class="big-exam-raw">@(s?.RawScore?.ToString("0.##") ?? "—")</span>
+                                </td>
+                                <td class="big-exam-subcol big-exam-subcol-last text-center @Band(i)">
+                                    @if (s?.WeightedScore.HasValue == true)
+                                    {
+                                        <span class="grade-badge @ScoreClass(s.WeightedScore)">@s.WeightedScore.Value.ToString("0.###")</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="big-exam-raw">—</span>
+                                    }
+                                </td>
                             }
-                            <td>
-                                <span class="grade-badge @ScoreClass(entry.Score)">
+                            <td class="big-exam-total-col">
+                                <span class="grade-badge big-exam-total-badge @ScoreClass(entry.Score)">
                                     @entry.Score.ToString("0.##")
                                 </span>
                             </td>
@@ -102,28 +118,28 @@ else
     <div data-scope-panel="group" data-scope-id="@sectionId" hidden>
         @foreach (var group in byGroup)
         {
-            <div class="card border-0 shadow-sm mb-3">
+            <div class="card border-0 shadow-sm mb-3 big-exam-group-card">
                 <div class="card-body">
-                    <h6 class="section-title mb-3">@group.Key.GroupName</h6>
-                    <div class="table-responsive">
-                        <table class="table table-hover management-table">
+                    <h6 class="section-title mb-3"><i class="bi bi-collection-fill"></i> @group.Key.GroupName</h6>
+                    <div class="table-responsive big-exam-table-wrap">
+                        <table class="table table-hover management-table big-exam-table">
                             <thead>
                                 <tr>
-                                    <th rowspan="2">@Localizer["Group Rank"]</th>
+                                    <th rowspan="2" class="big-exam-rank-col">@Localizer["Group Rank"]</th>
                                     <th rowspan="2">@Localizer["Student"]</th>
-                                    @foreach (var subject in subjectColumns)
+                                    @for (var i = 0; i < subjectColumns.Count; i++)
                                     {
-                                        <th colspan="2" class="text-center">@subject.SubjectName</th>
+                                        <th colspan="2" class="big-exam-subject-header @Band(i)">@subjectColumns[i].SubjectName</th>
                                     }
-                                    <th rowspan="2">@Localizer["Score"]</th>
+                                    <th rowspan="2" class="big-exam-total-col">@Localizer["Score"]</th>
                                 </tr>
                                 @if (subjectColumns.Any())
                                 {
                                     <tr>
-                                        @foreach (var subject in subjectColumns)
+                                        @for (var i = 0; i < subjectColumns.Count; i++)
                                         {
-                                            <th class="text-center small text-muted">@Localizer["Raw"]</th>
-                                            <th class="text-center small text-muted">@Localizer["Score"]</th>
+                                            <th class="big-exam-subcol @Band(i)">@Localizer["Raw"]</th>
+                                            <th class="big-exam-subcol big-exam-subcol-last @Band(i)">@Localizer["Score"]</th>
                                         }
                                     </tr>
                                 }
@@ -134,16 +150,27 @@ else
                                     var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
 
                                     <tr>
-                                        <td><span class="status-badge status-present">#@entry.GroupRank @Localizer["of {0}", entry.GroupSize]</span></td>
+                                        <td class="big-exam-rank-col"><span class="big-exam-rank-badge @(entry.GroupRank == 1 ? "is-first" : "")">#@entry.GroupRank</span> <span class="text-muted small">@Localizer["of {0}", entry.GroupSize]</span></td>
                                         <td><strong>@entry.StudentName</strong></td>
-                                        @foreach (var subject in subjectColumns)
+                                        @for (var i = 0; i < subjectColumns.Count; i++)
                                         {
-                                            bySubject.TryGetValue(subject.SubjectId, out var s);
-                                            <td>@(s?.RawScore?.ToString("0.##") ?? "—")</td>
-                                            <td><span class="grade-badge @ScoreClass(s?.WeightedScore)">@(s?.WeightedScore?.ToString("0.###") ?? "—")</span></td>
+                                            bySubject.TryGetValue(subjectColumns[i].SubjectId, out var s);
+                                            <td class="big-exam-subcol text-center @Band(i)">
+                                                <span class="big-exam-raw">@(s?.RawScore?.ToString("0.##") ?? "—")</span>
+                                            </td>
+                                            <td class="big-exam-subcol big-exam-subcol-last text-center @Band(i)">
+                                                @if (s?.WeightedScore.HasValue == true)
+                                                {
+                                                    <span class="grade-badge @ScoreClass(s.WeightedScore)">@s.WeightedScore.Value.ToString("0.###")</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="big-exam-raw">—</span>
+                                                }
+                                            </td>
                                         }
-                                        <td>
-                                            <span class="grade-badge @ScoreClass(entry.Score)">
+                                        <td class="big-exam-total-col">
+                                            <span class="grade-badge big-exam-total-badge @ScoreClass(entry.Score)">
                                                 @entry.Score.ToString("0.##")
                                             </span>
                                         </td>
@@ -156,29 +183,165 @@ else
             </div>
         }
     </div>
+}
+</div>
 
-    @if (!ViewData.ContainsKey("BigExamRankingsScriptRendered"))
-    {
-        ViewData["BigExamRankingsScriptRendered"] = true;
+@if (Model.Any() && !ViewData.ContainsKey("BigExamRankingsScriptRendered"))
+{
+    ViewData["BigExamRankingsScriptRendered"] = true;
 
-        <script>
-            (() => {
-                document.querySelectorAll('[data-big-exam-scope]').forEach(tabs => {
-                    const scopeId = tabs.dataset.bigExamScope;
+    <script>
+        (() => {
+            document.querySelectorAll('[data-big-exam-scope]').forEach(tabs => {
+                const scopeId = tabs.dataset.bigExamScope;
 
-                    tabs.querySelectorAll('.teacher-grade-subject-tab').forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            tabs.querySelectorAll('.teacher-grade-subject-tab').forEach(b => b.classList.remove('active'));
-                            btn.classList.add('active');
+                tabs.querySelectorAll('.teacher-grade-subject-tab').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        tabs.querySelectorAll('.teacher-grade-subject-tab').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
 
-                            const target = btn.dataset.scopeTarget;
-                            document.querySelectorAll(`[data-scope-id="${scopeId}"]`).forEach(panel => {
-                                panel.hidden = panel.dataset.scopePanel !== target;
-                            });
+                        const target = btn.dataset.scopeTarget;
+                        document.querySelectorAll(`[data-scope-id="${scopeId}"]`).forEach(panel => {
+                            panel.hidden = panel.dataset.scopePanel !== target;
                         });
                     });
                 });
-            })();
-        </script>
-    }
+            });
+        })();
+    </script>
+}
+
+@if (!ViewData.ContainsKey("BigExamRankingsStyleRendered"))
+{
+    ViewData["BigExamRankingsStyleRendered"] = true;
+
+    <style>
+        .big-exam-rankings .big-exam-table thead tr:first-child th {
+            font-size: 12.5px;
+        }
+
+        .big-exam-rankings .big-exam-subject-header {
+            text-align: center;
+            font-weight: 700;
+            border-bottom: none;
+            letter-spacing: .03em;
+        }
+
+        .big-exam-rankings .big-exam-subcol {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: .02em;
+            padding-top: 6px;
+            padding-bottom: 10px;
+        }
+
+        .big-exam-rankings .big-exam-band-a {
+            background: #f5f7ff;
+        }
+
+        .big-exam-rankings .big-exam-band-b {
+            background: #f8fafc;
+        }
+
+        .big-exam-rankings td.big-exam-band-a,
+        .big-exam-rankings td.big-exam-band-b {
+            border-bottom: 1px solid #eef1f6;
+        }
+
+        .big-exam-rankings .big-exam-subcol-last {
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .big-exam-rankings .big-exam-raw {
+            color: #94a3b8;
+            font-weight: 600;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .big-exam-rankings .big-exam-total-col {
+            background: #eef2ff;
+            text-align: center;
+            border-left: 2px solid #c7d2fe;
+        }
+
+        .big-exam-rankings th.big-exam-total-col {
+            color: #4338ca;
+            font-weight: 800;
+        }
+
+        .big-exam-rankings .big-exam-total-badge {
+            width: auto;
+            min-width: 56px;
+            padding: 0 10px;
+            font-size: 15px;
+        }
+
+        .big-exam-rankings .big-exam-rank-col {
+            white-space: nowrap;
+        }
+
+        .big-exam-rankings .big-exam-rank-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 30px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #f1f5f9;
+            color: #475569;
+            font-weight: 800;
+            font-size: 12.5px;
+        }
+
+        .big-exam-rankings .big-exam-rank-badge.is-first {
+            background: linear-gradient(135deg, #fde68a, #f59e0b);
+            color: #78350f;
+        }
+
+        .big-exam-rankings .big-exam-group-card .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings .big-exam-band-a {
+            background: #131b2e;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings .big-exam-band-b {
+            background: #0f1626;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings td.big-exam-band-a,
+        html[data-theme="dark"] .big-exam-rankings td.big-exam-band-b {
+            border-bottom: 1px solid #1e293b;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings .big-exam-subcol-last {
+            border-right: 1px solid #253047;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings .big-exam-raw {
+            color: #64748b;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings .big-exam-total-col {
+            background: #1e1b4b;
+            border-left: 2px solid #4338ca;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings th.big-exam-total-col {
+            color: #c7d2fe;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings .big-exam-rank-badge {
+            background: #1e293b;
+            color: #cbd5e1;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings .big-exam-rank-badge.is-first {
+            background: linear-gradient(135deg, #fbbf24, #d97706);
+            color: #451a03;
+        }
+    </style>
 }
