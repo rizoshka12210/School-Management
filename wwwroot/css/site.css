@@ -1982,13 +1982,15 @@ h1 {
 
 .grade-badge {
     display: inline-flex;
-    width: 37px;
+    min-width: 37px;
     height: 37px;
+    padding: 0 8px;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     font-size: 14px;
     font-weight: 800;
+    white-space: nowrap;
 }
 
 .grade-high {
