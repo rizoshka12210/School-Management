@@ -2371,6 +2371,12 @@
   <data name="graded" xml:space="preserve">
     <value>бахогузошта</value>
   </data>
+  <data name="View all students' rankings" xml:space="preserve">
+    <value>Дидани рейтинги ҳамаи донишомӯзон</value>
+  </data>
+  <data name="No score for {0} in this Big Exam yet." xml:space="preserve">
+    <value>{0} ҳанӯз барои ин имтиҳони калон бахо надорад.</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Аз як омӯзгор зиёд интихоб накунед. Интихоби омӯзгори дигар дастрасии қаблиро бекор мекунад.</value>
   </data>

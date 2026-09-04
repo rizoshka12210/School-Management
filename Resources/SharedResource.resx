@@ -2371,6 +2371,12 @@
   <data name="graded" xml:space="preserve">
     <value>graded</value>
   </data>
+  <data name="View all students' rankings" xml:space="preserve">
+    <value>View all students' rankings</value>
+  </data>
+  <data name="No score for {0} in this Big Exam yet." xml:space="preserve">
+    <value>No score for {0} in this Big Exam yet.</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Choose at most one teacher. Selecting a different teacher revokes access from the previous one.</value>
   </data>

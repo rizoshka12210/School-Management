@@ -43,6 +43,8 @@ public class BigExamController : ParentControllerBase
 
         var exams = await _bigExamService.ListAsync();
 
+        ViewBag.Exams = exams;
+
         var results = new List<BigExamRankingEntry>();
 
         foreach (var exam in exams)
@@ -51,5 +53,24 @@ public class BigExamController : ParentControllerBase
         }
 
         return View(results);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Rankings(int examId, int? subjectId)
+    {
+        var exam = await _bigExamService.GetAsync(examId);
+
+        if (exam == null)
+        {
+            return NotFound();
+        }
+
+        ViewBag.Exam = exam;
+        ViewBag.Subjects = await _bigExamService.ListSubjectsAsync();
+        ViewBag.SubjectId = subjectId;
+
+        var rankings = await _bigExamService.GetRankingsAsync(examId, subjectId);
+
+        return View(rankings);
     }
 }
