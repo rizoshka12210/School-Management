@@ -30,45 +30,6 @@
 
 <div class="card border-0 shadow-sm">
     <div class="card-body">
-        @if (!Model.Any())
-        {
-            <div class="management-empty">
-                <div class="management-empty-icon"><i class="bi bi-bar-chart"></i></div>
-                <h5>@Localizer["No scores yet"]</h5>
-                <p>@Localizer["Rankings will appear once grades are entered."]</p>
-            </div>
-        }
-        else
-        {
-            <div class="table-responsive">
-                <table class="table table-hover management-table">
-                    <thead>
-                        <tr>
-                            <th>@Localizer["Overall Rank"]</th>
-                            <th>@Localizer["Student"]</th>
-                            <th>@Localizer["Group"]</th>
-                            <th>@Localizer["Group Rank"]</th>
-                            <th>@Localizer["Score"]</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var entry in Model)
-                        {
-                            <tr>
-                                <td><span class="status-badge status-present">#@entry.OverallRank @Localizer["of {0}", entry.OverallSize]</span></td>
-                                <td><strong>@entry.StudentName</strong></td>
-                                <td><span class="subject-badge">@entry.GroupName</span></td>
-                                <td>#@entry.GroupRank @Localizer["of {0}", entry.GroupSize]</td>
-                                <td>
-                                    <span class="grade-badge @(entry.Score >= 90 ? "grade-high" : entry.Score >= 75 ? "grade-good" : "grade-low")">
-                                        @entry.Score.ToString("0.##")
-                                    </span>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        }
+        <partial name="_BigExamRankingsSections" model="Model" />
     </div>
 </div>

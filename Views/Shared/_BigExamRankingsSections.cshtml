@@ -1,0 +1,129 @@
+@using SchoolManagementSystem.Web.Services
+@model List<BigExamRankingEntry>
+
+@{
+    var byGroup = Model
+        .GroupBy(e => new { e.GroupId, e.GroupName })
+        .OrderBy(g => g.Key.GroupName)
+        .ToList();
+
+    string ScoreClass(decimal score) => score switch
+    {
+        >= 90 => "grade-high",
+        >= 75 => "grade-good",
+        _ => "grade-low"
+    };
+
+    var sectionId = Guid.NewGuid().ToString("N");
+}
+
+@if (!Model.Any())
+{
+    <div class="management-empty">
+        <div class="management-empty-icon"><i class="bi bi-bar-chart"></i></div>
+        <h5>@Localizer["No scores yet"]</h5>
+        <p>@Localizer["Rankings will appear once grades are entered."]</p>
+    </div>
+}
+else
+{
+    <div class="teacher-grade-subject-tabs mb-4" data-big-exam-scope="@sectionId">
+        <button type="button" class="teacher-grade-subject-tab active" data-scope-target="center">
+            @Localizer["Whole Center"]
+        </button>
+        <button type="button" class="teacher-grade-subject-tab" data-scope-target="group">
+            @Localizer["By Group"]
+        </button>
+    </div>
+
+    <div data-scope-panel="center" data-scope-id="@sectionId">
+        <div class="table-responsive">
+            <table class="table table-hover management-table">
+                <thead>
+                    <tr>
+                        <th>@Localizer["Overall Rank"]</th>
+                        <th>@Localizer["Student"]</th>
+                        <th>@Localizer["Group"]</th>
+                        <th>@Localizer["Score"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var entry in Model.OrderBy(e => e.OverallRank).ThenBy(e => e.StudentName))
+                    {
+                        <tr>
+                            <td><span class="status-badge status-present">#@entry.OverallRank @Localizer["of {0}", entry.OverallSize]</span></td>
+                            <td><strong>@entry.StudentName</strong></td>
+                            <td><span class="subject-badge">@entry.GroupName</span></td>
+                            <td>
+                                <span class="grade-badge @ScoreClass(entry.Score)">
+                                    @entry.Score.ToString("0.##")
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div data-scope-panel="group" data-scope-id="@sectionId" hidden>
+        @foreach (var group in byGroup)
+        {
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-body">
+                    <h6 class="section-title mb-3">@group.Key.GroupName</h6>
+                    <div class="table-responsive">
+                        <table class="table table-hover management-table">
+                            <thead>
+                                <tr>
+                                    <th>@Localizer["Group Rank"]</th>
+                                    <th>@Localizer["Student"]</th>
+                                    <th>@Localizer["Score"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var entry in group.OrderBy(e => e.GroupRank).ThenBy(e => e.StudentName))
+                                {
+                                    <tr>
+                                        <td><span class="status-badge status-present">#@entry.GroupRank @Localizer["of {0}", entry.GroupSize]</span></td>
+                                        <td><strong>@entry.StudentName</strong></td>
+                                        <td>
+                                            <span class="grade-badge @ScoreClass(entry.Score)">
+                                                @entry.Score.ToString("0.##")
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @if (!ViewData.ContainsKey("BigExamRankingsScriptRendered"))
+    {
+        ViewData["BigExamRankingsScriptRendered"] = true;
+
+        <script>
+            (() => {
+                document.querySelectorAll('[data-big-exam-scope]').forEach(tabs => {
+                    const scopeId = tabs.dataset.bigExamScope;
+
+                    tabs.querySelectorAll('.teacher-grade-subject-tab').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            tabs.querySelectorAll('.teacher-grade-subject-tab').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+
+                            const target = btn.dataset.scopeTarget;
+                            document.querySelectorAll(`[data-scope-id="${scopeId}"]`).forEach(panel => {
+                                panel.hidden = panel.dataset.scopePanel !== target;
+                            });
+                        });
+                    });
+                });
+            })();
+        </script>
+    }
+}

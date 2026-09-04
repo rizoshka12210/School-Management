@@ -2377,6 +2377,12 @@
   <data name="No score for {0} in this Big Exam yet." xml:space="preserve">
     <value>У {0} пока нет оценки за этот большой экзамен.</value>
   </data>
+  <data name="Whole Center" xml:space="preserve">
+    <value>Весь центр</value>
+  </data>
+  <data name="By Group" xml:space="preserve">
+    <value>По группе</value>
+  </data>
   <data name="Choose at most one teacher. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
     <value>Выберите не более одного учителя. Выбор другого учителя отзывает доступ у предыдущего.</value>
   </data>
