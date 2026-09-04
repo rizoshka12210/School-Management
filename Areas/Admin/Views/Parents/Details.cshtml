@@ -75,6 +75,7 @@
                     <div class="entity-fact"><span>ID</span><strong>#@Model.Id</strong></div>
                     <div class="entity-fact"><span>@Localizer["Parent"]</span><strong>@fullName</strong></div>
                     <div class="entity-fact"><span>@Localizer["Email"]</span><strong>@(Model.ApplicationUser.Email ?? "—")</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Phone Number"]</span><strong>@(string.IsNullOrWhiteSpace(Model.ApplicationUser.PhoneNumber) ? "—" : Model.ApplicationUser.PhoneNumber)</strong></div>
                     <div class="entity-fact"><span>@Localizer["Children"]</span><strong>@Model.Students.Count</strong></div>
                     <div class="entity-fact"><span>@Localizer["Groups"]</span><strong>@groupCount</strong></div>
                 </div>

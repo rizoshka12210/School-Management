@@ -14,6 +14,10 @@ public class ParentFormViewModel
     [EmailAddress]
     public string Email { get; set; } = string.Empty;
 
+    [Phone]
+    [StringLength(30)]
+    public string? PhoneNumber { get; set; }
+
     [DataType(DataType.Password)]
     public string? Password { get; set; }
 

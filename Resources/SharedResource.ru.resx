@@ -169,6 +169,15 @@
   <data name="Email" xml:space="preserve">
     <value>Email</value>
   </data>
+  <data name="Phone Number" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="Parent Phone" xml:space="preserve">
+    <value>Телефон родителя</value>
+  </data>
+  <data name="Not provided" xml:space="preserve">
+    <value>Не указан</value>
+  </data>
   <data name="Enter your email" xml:space="preserve">
     <value>Введите email</value>
   </data>

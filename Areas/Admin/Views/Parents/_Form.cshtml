@@ -61,6 +61,24 @@
 
                 <div class="col-md-6">
 
+                    <label asp-for="PhoneNumber"
+                           class="form-label">
+                        @Localizer["Phone Number"]
+                    </label>
+
+                    <input asp-for="PhoneNumber"
+                           type="tel"
+                           class="form-control"
+                           placeholder="+992 00 000 0000" />
+
+                    <span asp-validation-for="PhoneNumber"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6">
+
                     <label asp-for="Password"
                            class="form-label">
 

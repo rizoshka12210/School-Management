@@ -169,6 +169,15 @@
   <data name="Email" xml:space="preserve">
     <value>Почтаи электронӣ</value>
   </data>
+  <data name="Phone Number" xml:space="preserve">
+    <value>Рақами телефон</value>
+  </data>
+  <data name="Parent Phone" xml:space="preserve">
+    <value>Телефони волидайн</value>
+  </data>
+  <data name="Not provided" xml:space="preserve">
+    <value>Дода нашудааст</value>
+  </data>
   <data name="Enter your email" xml:space="preserve">
     <value>Почтаи электрониро ворид кунед</value>
   </data>

@@ -308,6 +308,9 @@ public class ParentsController : Controller
             FullName = model.FullName.Trim(),
             Email = model.Email.Trim(),
             UserName = model.Email.Trim(),
+            PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber)
+                ? null
+                : model.PhoneNumber.Trim(),
             EmailConfirmed = true
         };
 
@@ -381,6 +384,7 @@ public class ParentsController : Controller
             Id = parent.Id,
             FullName = parent.ApplicationUser.FullName,
             Email = parent.ApplicationUser.Email ?? string.Empty,
+            PhoneNumber = parent.ApplicationUser.PhoneNumber,
             StudentIds = parent.Students
                 .Select(s => s.Id)
                 .ToList()
@@ -432,6 +436,9 @@ public class ParentsController : Controller
         user.FullName = model.FullName.Trim();
         user.Email = model.Email.Trim();
         user.UserName = model.Email.Trim();
+        user.PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber)
+            ? null
+            : model.PhoneNumber.Trim();
 
         var updateResult =
             await _userManager.UpdateAsync(user);

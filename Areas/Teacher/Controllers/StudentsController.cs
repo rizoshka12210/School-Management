@@ -31,6 +31,8 @@ public class StudentsController : TeacherControllerBase
             .SelectMany(t => t.Groups)
             .SelectMany(g => g.Students)
             .Include(s => s.Group)
+            .Include(s => s.Parents)
+                .ThenInclude(p => p.ApplicationUser)
             .Distinct()
             .OrderBy(s => s.FirstName)
             .ThenBy(s => s.LastName)

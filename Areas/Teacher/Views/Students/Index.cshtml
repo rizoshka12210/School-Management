@@ -46,6 +46,7 @@ else
                             <th>@Localizer["Student"]</th>
                             <th>@Localizer["Group"]</th>
                             <th>@Localizer["Date of Birth"]</th>
+                            <th>@Localizer["Parent Phone"]</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -76,6 +77,22 @@ else
                                     }
                                 </td>
                                 <td>@student.DateOfBirth.ToString("dd MMM yyyy")</td>
+                                <td>
+                                    @{
+                                        var phones = student.Parents
+                                            .Select(p => p.ApplicationUser.PhoneNumber)
+                                            .Where(p => !string.IsNullOrWhiteSpace(p))
+                                            .ToList();
+                                    }
+                                    @if (phones.Any())
+                                    {
+                                        @string.Join(", ", phones)
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">@Localizer["Not provided"]</span>
+                                    }
+                                </td>
                             </tr>
                         }
                     </tbody>

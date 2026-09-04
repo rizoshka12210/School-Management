@@ -132,6 +132,13 @@
                                                 @parent.ApplicationUser.Email
                                             </div>
 
+                                            @if (!string.IsNullOrWhiteSpace(parent.ApplicationUser.PhoneNumber))
+                                            {
+                                                <div class="person-id">
+                                                    @parent.ApplicationUser.PhoneNumber
+                                                </div>
+                                            }
+
                                         </div>
 
                                     </div>
