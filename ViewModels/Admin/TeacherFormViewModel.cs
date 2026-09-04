@@ -10,9 +10,13 @@ public class TeacherFormViewModel
     [StringLength(150)]
     public string FullName { get; set; } = string.Empty;
 
-    [Required]
     [EmailAddress]
-    public string Email { get; set; } = string.Empty;
+    public string? Email { get; set; }
+
+    [Required]
+    [Phone]
+    [StringLength(30)]
+    public string PhoneNumber { get; set; } = string.Empty;
 
     [Range(0, 100000)]
     public decimal HourlyRate { get; set; }

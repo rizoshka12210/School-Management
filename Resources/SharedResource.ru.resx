@@ -181,6 +181,12 @@
   <data name="Enter your email" xml:space="preserve">
     <value>Введите email</value>
   </data>
+  <data name="Email or Phone Number" xml:space="preserve">
+    <value>Email или номер телефона</value>
+  </data>
+  <data name="Enter your email or phone number" xml:space="preserve">
+    <value>Введите email или номер телефона</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Пароль</value>
   </data>
@@ -195,6 +201,9 @@
   </data>
   <data name="School Management System" xml:space="preserve">
     <value>School Management System</value>
+  </data>
+  <data name="Invalid email/phone or password." xml:space="preserve">
+    <value>Неверный email/телефон или пароль.</value>
   </data>
   <data name="Invalid email or password." xml:space="preserve">
     <value>Неверный email или пароль.</value>

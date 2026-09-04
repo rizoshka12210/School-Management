@@ -30,7 +30,11 @@ builder.Services
         options.Password.RequireNonAlphanumeric = true;
         options.Password.RequiredLength = 6;
 
-        options.User.RequireUniqueEmail = true;
+        // Email is optional (phone number is the required contact/login
+        // identifier for teachers and parents), so uniqueness can't be
+        // enforced by Identity itself - duplicate real emails are still
+        // rejected manually wherever an email is actually entered.
+        options.User.RequireUniqueEmail = false;
 
         options.Lockout.MaxFailedAccessAttempts = 5;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);

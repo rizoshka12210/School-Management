@@ -286,14 +286,27 @@ public class ParentsController : Controller
                 "Password is required.");
         }
 
-        var existingUser =
-            await _userManager.FindByEmailAsync(model.Email);
+        if (!string.IsNullOrWhiteSpace(model.Email))
+        {
+            var existingByEmail =
+                await _userManager.FindByEmailAsync(model.Email);
 
-        if (existingUser != null)
+            if (existingByEmail != null)
+            {
+                ModelState.AddModelError(
+                    nameof(model.Email),
+                    "A user with this email already exists.");
+            }
+        }
+
+        var existingByPhone = await _context.Users
+            .FirstOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+
+        if (existingByPhone != null)
         {
             ModelState.AddModelError(
-                nameof(model.Email),
-                "A user with this email already exists.");
+                nameof(model.PhoneNumber),
+                "A user with this phone number already exists.");
         }
 
         if (!ModelState.IsValid)
@@ -303,15 +316,15 @@ public class ParentsController : Controller
             return View(model);
         }
 
+        var hasEmail = !string.IsNullOrWhiteSpace(model.Email);
+
         var user = new ApplicationUser
         {
             FullName = model.FullName.Trim(),
-            Email = model.Email.Trim(),
-            UserName = model.Email.Trim(),
-            PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber)
-                ? null
-                : model.PhoneNumber.Trim(),
-            EmailConfirmed = true
+            Email = hasEmail ? model.Email!.Trim() : null,
+            UserName = hasEmail ? model.Email!.Trim() : model.PhoneNumber.Trim(),
+            PhoneNumber = model.PhoneNumber.Trim(),
+            EmailConfirmed = hasEmail
         };
 
         var result = await _userManager.CreateAsync(
@@ -383,8 +396,8 @@ public class ParentsController : Controller
         {
             Id = parent.Id,
             FullName = parent.ApplicationUser.FullName,
-            Email = parent.ApplicationUser.Email ?? string.Empty,
-            PhoneNumber = parent.ApplicationUser.PhoneNumber,
+            Email = parent.ApplicationUser.Email,
+            PhoneNumber = parent.ApplicationUser.PhoneNumber ?? string.Empty,
             StudentIds = parent.Students
                 .Select(s => s.Id)
                 .ToList()
@@ -412,16 +425,30 @@ public class ParentsController : Controller
             return NotFound();
         }
 
-        var existingUser =
-            await _userManager.FindByEmailAsync(
-                model.Email);
+        if (!string.IsNullOrWhiteSpace(model.Email))
+        {
+            var existingByEmail =
+                await _userManager.FindByEmailAsync(model.Email);
 
-        if (existingUser != null &&
-            existingUser.Id != parent.ApplicationUserId)
+            if (existingByEmail != null &&
+                existingByEmail.Id != parent.ApplicationUserId)
+            {
+                ModelState.AddModelError(
+                    nameof(model.Email),
+                    "A user with this email already exists.");
+            }
+        }
+
+        var existingByPhone = await _context.Users
+            .FirstOrDefaultAsync(u =>
+                u.PhoneNumber == model.PhoneNumber &&
+                u.Id != parent.ApplicationUserId);
+
+        if (existingByPhone != null)
         {
             ModelState.AddModelError(
-                nameof(model.Email),
-                "A user with this email already exists.");
+                nameof(model.PhoneNumber),
+                "A user with this phone number already exists.");
         }
 
         if (!ModelState.IsValid)
@@ -432,13 +459,13 @@ public class ParentsController : Controller
         }
 
         var user = parent.ApplicationUser;
+        var hasEmail = !string.IsNullOrWhiteSpace(model.Email);
 
         user.FullName = model.FullName.Trim();
-        user.Email = model.Email.Trim();
-        user.UserName = model.Email.Trim();
-        user.PhoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber)
-            ? null
-            : model.PhoneNumber.Trim();
+        user.Email = hasEmail ? model.Email!.Trim() : null;
+        user.UserName = hasEmail ? model.Email!.Trim() : model.PhoneNumber.Trim();
+        user.PhoneNumber = model.PhoneNumber.Trim();
+        user.EmailConfirmed = hasEmail;
 
         var updateResult =
             await _userManager.UpdateAsync(user);

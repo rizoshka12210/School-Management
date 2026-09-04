@@ -600,16 +600,16 @@
                     <div asp-validation-summary="ModelOnly" class="login-validation"></div>
 
                     <div class="login-field">
-                        <label asp-for="Email" class="login-label">
-                            @Localizer["Email"]
+                        <label asp-for="EmailOrPhone" class="login-label">
+                            @Localizer["Email or Phone Number"]
                         </label>
 
-                        <input asp-for="Email"
+                        <input asp-for="EmailOrPhone"
                                class="login-input"
-                               placeholder="@Localizer["Enter your email"]"
-                               autocomplete="email" />
+                               placeholder="@Localizer["Enter your email or phone number"]"
+                               autocomplete="username" />
 
-                        <span asp-validation-for="Email"></span>
+                        <span asp-validation-for="EmailOrPhone"></span>
                     </div>
 
                     <div class="login-field">

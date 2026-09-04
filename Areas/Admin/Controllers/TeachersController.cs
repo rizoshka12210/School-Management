@@ -313,15 +313,27 @@ public class TeachersController : Controller
                 "Password is required.");
         }
 
-        var existingUser =
-            await _userManager.FindByEmailAsync(
-                model.Email);
+        if (!string.IsNullOrWhiteSpace(model.Email))
+        {
+            var existingByEmail =
+                await _userManager.FindByEmailAsync(model.Email);
 
-        if (existingUser != null)
+            if (existingByEmail != null)
+            {
+                ModelState.AddModelError(
+                    nameof(model.Email),
+                    "A user with this email already exists.");
+            }
+        }
+
+        var existingByPhone = await _context.Users
+            .FirstOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+
+        if (existingByPhone != null)
         {
             ModelState.AddModelError(
-                nameof(model.Email),
-                "A user with this email already exists.");
+                nameof(model.PhoneNumber),
+                "A user with this phone number already exists.");
         }
 
         if (!ModelState.IsValid)
@@ -331,13 +343,15 @@ public class TeachersController : Controller
             return View(model);
         }
 
+        var hasEmail = !string.IsNullOrWhiteSpace(model.Email);
 
         var user = new ApplicationUser
         {
             FullName = model.FullName.Trim(),
-            Email = model.Email.Trim(),
-            UserName = model.Email.Trim(),
-            EmailConfirmed = true
+            Email = hasEmail ? model.Email!.Trim() : null,
+            UserName = hasEmail ? model.Email!.Trim() : model.PhoneNumber.Trim(),
+            PhoneNumber = model.PhoneNumber.Trim(),
+            EmailConfirmed = hasEmail
         };
 
 
@@ -442,7 +456,10 @@ public class TeachersController : Controller
                 teacher.ApplicationUser.FullName,
 
             Email =
-                teacher.ApplicationUser.Email ?? string.Empty,
+                teacher.ApplicationUser.Email,
+
+            PhoneNumber =
+                teacher.ApplicationUser.PhoneNumber ?? string.Empty,
 
             HourlyRate =
                 teacher.HourlyRate,
@@ -488,17 +505,30 @@ public class TeachersController : Controller
         }
 
 
-        var existingUser =
-            await _userManager.FindByEmailAsync(
-                model.Email);
+        if (!string.IsNullOrWhiteSpace(model.Email))
+        {
+            var existingByEmail =
+                await _userManager.FindByEmailAsync(model.Email);
 
-        if (existingUser != null &&
-            existingUser.Id !=
-            teacher.ApplicationUserId)
+            if (existingByEmail != null &&
+                existingByEmail.Id != teacher.ApplicationUserId)
+            {
+                ModelState.AddModelError(
+                    nameof(model.Email),
+                    "A user with this email already exists.");
+            }
+        }
+
+        var existingByPhone = await _context.Users
+            .FirstOrDefaultAsync(u =>
+                u.PhoneNumber == model.PhoneNumber &&
+                u.Id != teacher.ApplicationUserId);
+
+        if (existingByPhone != null)
         {
             ModelState.AddModelError(
-                nameof(model.Email),
-                "A user with this email already exists.");
+                nameof(model.PhoneNumber),
+                "A user with this phone number already exists.");
         }
 
 
@@ -511,15 +541,21 @@ public class TeachersController : Controller
 
 
         var user = teacher.ApplicationUser;
+        var hasEmail = !string.IsNullOrWhiteSpace(model.Email);
 
         user.FullName =
             model.FullName.Trim();
 
         user.Email =
-            model.Email.Trim();
+            hasEmail ? model.Email!.Trim() : null;
 
         user.UserName =
-            model.Email.Trim();
+            hasEmail ? model.Email!.Trim() : model.PhoneNumber.Trim();
+
+        user.PhoneNumber =
+            model.PhoneNumber.Trim();
+
+        user.EmailConfirmed = hasEmail;
 
 
         var userUpdateResult =

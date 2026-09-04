@@ -181,6 +181,12 @@
   <data name="Enter your email" xml:space="preserve">
     <value>Почтаи электрониро ворид кунед</value>
   </data>
+  <data name="Email or Phone Number" xml:space="preserve">
+    <value>Почтаи электронӣ ё рақами телефон</value>
+  </data>
+  <data name="Enter your email or phone number" xml:space="preserve">
+    <value>Почтаи электронӣ ё рақами телефонро ворид кунед</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Парол</value>
   </data>
@@ -195,6 +201,9 @@
   </data>
   <data name="School Management System" xml:space="preserve">
     <value>Системаи идоракунии мактаб</value>
+  </data>
+  <data name="Invalid email/phone or password." xml:space="preserve">
+    <value>Почтаи электронӣ/телефон ё парол нодуруст аст.</value>
   </data>
   <data name="Invalid email or password." xml:space="preserve">
     <value>Почтаи электронӣ ё парол нодуруст аст.</value>

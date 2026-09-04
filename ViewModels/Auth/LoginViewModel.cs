@@ -4,9 +4,8 @@ namespace SchoolManagementSystem.Web.ViewModels.Auth;
 
 public class LoginViewModel
 {
-    [Required(ErrorMessage = "Email is required")]
-    [EmailAddress]
-    public string Email { get; set; } = string.Empty;
+    [Required(ErrorMessage = "Email or phone number is required")]
+    public string EmailOrPhone { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Password is required")]
     [DataType(DataType.Password)]

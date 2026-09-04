@@ -45,7 +45,13 @@
 
                     <label asp-for="Email"
                            class="form-label">
+
                         @Localizer["Email"]
+
+                        <span class="text-muted fw-normal">
+                            (@Localizer["optional"])
+                        </span>
+
                     </label>
 
                     <input asp-for="Email"

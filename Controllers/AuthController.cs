@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
@@ -47,13 +48,17 @@ public class AuthController : Controller
             return View(model);
         }
 
-        var user = await _userManager.FindByEmailAsync(model.Email);
+        var input = model.EmailOrPhone.Trim();
+
+        var user = await _userManager.FindByEmailAsync(input)
+            ?? await _userManager.Users
+                .FirstOrDefaultAsync(u => u.PhoneNumber == input);
 
         if (user == null)
         {
             ModelState.AddModelError(
                 string.Empty,
-                _localizer["Invalid email or password."]);
+                _localizer["Invalid email/phone or password."]);
 
             return View(model);
         }
@@ -77,7 +82,7 @@ public class AuthController : Controller
         {
             ModelState.AddModelError(
                 string.Empty,
-                _localizer["Invalid email or password."]);
+                _localizer["Invalid email/phone or password."]);
 
             return View(model);
         }
