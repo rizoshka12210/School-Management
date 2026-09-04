@@ -40,7 +40,7 @@
                        name="search"
                        value="@ViewBag.Search"
                        class="form-control"
-                       placeholder="@Localizer["Search director or email..."]" />
+                       placeholder="@Localizer["Search director, email or phone..."]" />
 
             </div>
 
@@ -92,6 +92,7 @@
                     <thead>
                         <tr>
                             <th>@Localizer["Director"]</th>
+                            <th>@Localizer["Phone Number"]</th>
                             <th>@Localizer["Email"]</th>
                             <th class="text-end">@Localizer["Actions"]</th>
                         </tr>
@@ -117,7 +118,11 @@
                                 </td>
 
                                 <td>
-                                    @director.Email
+                                    @(director.PhoneNumber ?? "—")
+                                </td>
+
+                                <td>
+                                    @(director.Email ?? "—")
                                 </td>
 
                                 <td class="text-end">

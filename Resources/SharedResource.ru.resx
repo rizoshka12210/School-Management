@@ -2632,6 +2632,9 @@
   <data name="Search director or email..." xml:space="preserve">
     <value>Поиск директора или email...</value>
   </data>
+  <data name="Search director, email or phone..." xml:space="preserve">
+    <value>Поиск директора, email или телефона...</value>
+  </data>
   <data name="No directors found" xml:space="preserve">
     <value>Директора не найдены</value>
   </data>

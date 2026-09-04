@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using SchoolManagementSystem.Web;
 using SchoolManagementSystem.Web.Authorization;
@@ -46,7 +47,8 @@ public class DirectorsController : Controller
 
             directors = directors.Where(u =>
                 u.FullName.ToLower().Contains(value) ||
-                (u.Email != null && u.Email.ToLower().Contains(value)));
+                (u.Email != null && u.Email.ToLower().Contains(value)) ||
+                (u.PhoneNumber != null && u.PhoneNumber.Contains(value)));
         }
 
         ViewBag.Search = search;
@@ -89,13 +91,26 @@ public class DirectorsController : Controller
                 "Password is required.");
         }
 
-        var existingUser = await _userManager.FindByEmailAsync(model.Email);
+        if (!string.IsNullOrWhiteSpace(model.Email))
+        {
+            var existingByEmail = await _userManager.FindByEmailAsync(model.Email);
 
-        if (existingUser != null)
+            if (existingByEmail != null)
+            {
+                ModelState.AddModelError(
+                    nameof(model.Email),
+                    "A user with this email already exists.");
+            }
+        }
+
+        var existingByPhone = await _userManager.Users
+            .FirstOrDefaultAsync(u => u.PhoneNumber == model.PhoneNumber);
+
+        if (existingByPhone != null)
         {
             ModelState.AddModelError(
-                nameof(model.Email),
-                "A user with this email already exists.");
+                nameof(model.PhoneNumber),
+                "A user with this phone number already exists.");
         }
 
         if (!ModelState.IsValid)
@@ -103,12 +118,15 @@ public class DirectorsController : Controller
             return View(model);
         }
 
+        var hasEmail = !string.IsNullOrWhiteSpace(model.Email);
+
         var user = new ApplicationUser
         {
             FullName = model.FullName.Trim(),
-            Email = model.Email.Trim(),
-            UserName = model.Email.Trim(),
-            EmailConfirmed = true
+            Email = hasEmail ? model.Email!.Trim() : null,
+            UserName = hasEmail ? model.Email!.Trim() : model.PhoneNumber.Trim(),
+            PhoneNumber = model.PhoneNumber.Trim(),
+            EmailConfirmed = hasEmail
         };
 
         var result = await _userManager.CreateAsync(user, model.Password!);
@@ -149,7 +167,8 @@ public class DirectorsController : Controller
         {
             Id = user.Id,
             FullName = user.FullName,
-            Email = user.Email ?? string.Empty
+            Email = user.Email,
+            PhoneNumber = user.PhoneNumber ?? string.Empty
         });
     }
 
@@ -165,13 +184,28 @@ public class DirectorsController : Controller
             return NotFound();
         }
 
-        var existingUser = await _userManager.FindByEmailAsync(model.Email);
+        if (!string.IsNullOrWhiteSpace(model.Email))
+        {
+            var existingByEmail = await _userManager.FindByEmailAsync(model.Email);
 
-        if (existingUser != null && existingUser.Id != user.Id)
+            if (existingByEmail != null && existingByEmail.Id != user.Id)
+            {
+                ModelState.AddModelError(
+                    nameof(model.Email),
+                    "A user with this email already exists.");
+            }
+        }
+
+        var existingByPhone = await _userManager.Users
+            .FirstOrDefaultAsync(u =>
+                u.PhoneNumber == model.PhoneNumber &&
+                u.Id != user.Id);
+
+        if (existingByPhone != null)
         {
             ModelState.AddModelError(
-                nameof(model.Email),
-                "A user with this email already exists.");
+                nameof(model.PhoneNumber),
+                "A user with this phone number already exists.");
         }
 
         if (!ModelState.IsValid)
@@ -179,9 +213,13 @@ public class DirectorsController : Controller
             return View(model);
         }
 
+        var hasEmail = !string.IsNullOrWhiteSpace(model.Email);
+
         user.FullName = model.FullName.Trim();
-        user.Email = model.Email.Trim();
-        user.UserName = model.Email.Trim();
+        user.Email = hasEmail ? model.Email!.Trim() : null;
+        user.UserName = hasEmail ? model.Email!.Trim() : model.PhoneNumber.Trim();
+        user.PhoneNumber = model.PhoneNumber.Trim();
+        user.EmailConfirmed = hasEmail;
 
         var updateResult = await _userManager.UpdateAsync(user);
 

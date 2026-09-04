@@ -2632,6 +2632,9 @@
   <data name="Search director or email..." xml:space="preserve">
     <value>Ҷустуҷӯи директор ё email...</value>
   </data>
+  <data name="Search director, email or phone..." xml:space="preserve">
+    <value>Ҷустуҷӯи директор, email ё телефон...</value>
+  </data>
   <data name="No directors found" xml:space="preserve">
     <value>Ягон директор ёфт нашуд</value>
   </data>
