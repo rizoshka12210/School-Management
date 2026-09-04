@@ -37,6 +37,25 @@ public class BigExamRankingEntry
     public int OverallRank { get; set; }
 
     public int OverallSize { get; set; }
+
+    /// <summary>
+    /// Per-subject raw and weighted scores for this student in this
+    /// exam - only populated on Overall Total entries (SubjectId ==
+    /// null), so the rankings list can show the full breakdown next to
+    /// the total without a separate lookup per subject tab.
+    /// </summary>
+    public List<BigExamSubjectScore> SubjectBreakdown { get; set; } = new();
+}
+
+public class BigExamSubjectScore
+{
+    public int SubjectId { get; set; }
+
+    public string SubjectName { get; set; } = string.Empty;
+
+    public decimal? RawScore { get; set; }
+
+    public decimal? WeightedScore { get; set; }
 }
 
 public class BigExamGroupOverview
@@ -391,6 +410,21 @@ public class BigExamService
             .Where(g => g.WeightedScore.HasValue)
             .ToList();
 
+        var breakdownByStudent = latest
+            .GroupBy(g => g.StudentId)
+            .ToDictionary(
+                g => g.Key,
+                g => g
+                    .OrderBy(x => x.Subject.Name)
+                    .Select(x => new BigExamSubjectScore
+                    {
+                        SubjectId = x.SubjectId,
+                        SubjectName = x.Subject.Name,
+                        RawScore = x.RawScore,
+                        WeightedScore = x.WeightedScore
+                    })
+                    .ToList());
+
         List<(int StudentId, int GroupId, string GroupName, string StudentName, decimal Score)> scored;
         string subjectName;
 
@@ -460,7 +494,10 @@ public class BigExamService
                     GroupRank = groupRank,
                     GroupSize = groupSize,
                     OverallRank = overallRank,
-                    OverallSize = overallSize
+                    OverallSize = overallSize,
+                    SubjectBreakdown = !subjectId.HasValue && breakdownByStudent.TryGetValue(s.StudentId, out var breakdown)
+                        ? breakdown
+                        : new List<BigExamSubjectScore>()
                 });
             }
         }

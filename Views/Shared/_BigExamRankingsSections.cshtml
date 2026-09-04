@@ -7,8 +7,19 @@
         .OrderBy(g => g.Key.GroupName)
         .ToList();
 
-    string ScoreClass(decimal score) => score switch
+    // Subject columns are only populated on Overall Total entries -
+    // collect the distinct set (any entry's breakdown has them all)
+    // so every row renders the same columns in the same order.
+    var subjectColumns = Model
+        .SelectMany(e => e.SubjectBreakdown)
+        .GroupBy(s => new { s.SubjectId, s.SubjectName })
+        .Select(g => g.Key)
+        .OrderBy(s => s.SubjectName)
+        .ToList();
+
+    string ScoreClass(decimal? score) => score switch
     {
+        null => string.Empty,
         >= 90 => "grade-high",
         >= 75 => "grade-good",
         _ => "grade-low"
@@ -41,19 +52,41 @@ else
             <table class="table table-hover management-table">
                 <thead>
                     <tr>
-                        <th>@Localizer["Overall Rank"]</th>
-                        <th>@Localizer["Student"]</th>
-                        <th>@Localizer["Group"]</th>
-                        <th>@Localizer["Score"]</th>
+                        <th rowspan="2">@Localizer["Overall Rank"]</th>
+                        <th rowspan="2">@Localizer["Student"]</th>
+                        <th rowspan="2">@Localizer["Group"]</th>
+                        @foreach (var subject in subjectColumns)
+                        {
+                            <th colspan="2" class="text-center">@subject.SubjectName</th>
+                        }
+                        <th rowspan="2">@Localizer["Score"]</th>
                     </tr>
+                    @if (subjectColumns.Any())
+                    {
+                        <tr>
+                            @foreach (var subject in subjectColumns)
+                            {
+                                <th class="text-center small text-muted">@Localizer["Raw"]</th>
+                                <th class="text-center small text-muted">@Localizer["Score"]</th>
+                            }
+                        </tr>
+                    }
                 </thead>
                 <tbody>
                     @foreach (var entry in Model.OrderBy(e => e.OverallRank).ThenBy(e => e.StudentName))
                     {
+                        var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
+
                         <tr>
                             <td><span class="status-badge status-present">#@entry.OverallRank @Localizer["of {0}", entry.OverallSize]</span></td>
                             <td><strong>@entry.StudentName</strong></td>
                             <td><span class="subject-badge">@entry.GroupName</span></td>
+                            @foreach (var subject in subjectColumns)
+                            {
+                                bySubject.TryGetValue(subject.SubjectId, out var s);
+                                <td>@(s?.RawScore?.ToString("0.##") ?? "—")</td>
+                                <td><span class="grade-badge @ScoreClass(s?.WeightedScore)">@(s?.WeightedScore?.ToString("0.###") ?? "—")</span></td>
+                            }
                             <td>
                                 <span class="grade-badge @ScoreClass(entry.Score)">
                                     @entry.Score.ToString("0.##")
@@ -76,17 +109,39 @@ else
                         <table class="table table-hover management-table">
                             <thead>
                                 <tr>
-                                    <th>@Localizer["Group Rank"]</th>
-                                    <th>@Localizer["Student"]</th>
-                                    <th>@Localizer["Score"]</th>
+                                    <th rowspan="2">@Localizer["Group Rank"]</th>
+                                    <th rowspan="2">@Localizer["Student"]</th>
+                                    @foreach (var subject in subjectColumns)
+                                    {
+                                        <th colspan="2" class="text-center">@subject.SubjectName</th>
+                                    }
+                                    <th rowspan="2">@Localizer["Score"]</th>
                                 </tr>
+                                @if (subjectColumns.Any())
+                                {
+                                    <tr>
+                                        @foreach (var subject in subjectColumns)
+                                        {
+                                            <th class="text-center small text-muted">@Localizer["Raw"]</th>
+                                            <th class="text-center small text-muted">@Localizer["Score"]</th>
+                                        }
+                                    </tr>
+                                }
                             </thead>
                             <tbody>
                                 @foreach (var entry in group.OrderBy(e => e.GroupRank).ThenBy(e => e.StudentName))
                                 {
+                                    var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
+
                                     <tr>
                                         <td><span class="status-badge status-present">#@entry.GroupRank @Localizer["of {0}", entry.GroupSize]</span></td>
                                         <td><strong>@entry.StudentName</strong></td>
+                                        @foreach (var subject in subjectColumns)
+                                        {
+                                            bySubject.TryGetValue(subject.SubjectId, out var s);
+                                            <td>@(s?.RawScore?.ToString("0.##") ?? "—")</td>
+                                            <td><span class="grade-badge @ScoreClass(s?.WeightedScore)">@(s?.WeightedScore?.ToString("0.###") ?? "—")</span></td>
+                                        }
                                         <td>
                                             <span class="grade-badge @ScoreClass(entry.Score)">
                                                 @entry.Score.ToString("0.##")
