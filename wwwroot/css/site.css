@@ -2061,6 +2061,25 @@ tr.exam-blacklisted .exam-average {
     color: #ef4444;
 }
 
+/* .person-name/.record-date/.person-id each set their own dark text
+   color for the normal light-theme table (meant for a white/light row
+   background), which the blacklisted row's always-dark background
+   never overrides on its own - without this, the name and date read as
+   near-black on near-black. Same specificity as the dark-theme rules
+   for these classes (features.css), so which one wins is decided by
+   source order: this file loads first, so the dark-theme override
+   (declared later, in features.css) still applies its own color when
+   the app itself is in dark mode - this rule only takes effect in the
+   default light theme. */
+tr.exam-blacklisted .person-name,
+tr.exam-blacklisted .record-date {
+    color: #f1f5f9 !important;
+}
+
+tr.exam-blacklisted .person-id {
+    color: #94a3b8 !important;
+}
+
 .salary-period {
     display: flex;
     align-items: center;
