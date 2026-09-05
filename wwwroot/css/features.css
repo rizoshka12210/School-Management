@@ -482,6 +482,11 @@ html[data-theme="dark"] .parent-contact-name {
     color: var(--dm-heading) !important;
 }
 
+html[data-theme="dark"] .parent-relation-badge {
+    background: #10372c;
+    color: #6ee7b7;
+}
+
 html[data-theme="dark"] .parent-contact-email {
     color: #94a3b8;
 }

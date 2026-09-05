@@ -1,5 +1,6 @@
 @model SchoolManagementSystem.Web.Models.Entities.Student
 @using SchoolManagementSystem.Web.Models.Entities
+@using SchoolManagementSystem.Web.Models.Enums
 
 @{
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
@@ -19,6 +20,14 @@
         >= 90 => "grade-high",
         >= 75 => "grade-good",
         _ => "grade-low"
+    };
+
+    string RelationLabel(ParentRelation relation) => relation switch
+    {
+        ParentRelation.Mother => Localizer["Mother"].Value,
+        ParentRelation.Father => Localizer["Father"].Value,
+        ParentRelation.Guardian => Localizer["Guardian"].Value,
+        _ => string.Empty
     };
 }
 
@@ -91,7 +100,13 @@
                         @foreach (var parent in Model.Parents)
                         {
                             <div class="parent-contact-item">
-                                <div class="parent-contact-name">@parent.ApplicationUser.FullName</div>
+                                <div class="parent-contact-name">
+                                    @parent.ApplicationUser.FullName
+                                    @if (parent.Relation != ParentRelation.Unspecified)
+                                    {
+                                        <span class="parent-relation-badge">@RelationLabel(parent.Relation)</span>
+                                    }
+                                </div>
                                 <div class="parent-contact-details">
                                     <partial name="_PhoneActions" model="parent.ApplicationUser.PhoneNumber" />
                                     @if (!string.IsNullOrWhiteSpace(parent.ApplicationUser.Email))

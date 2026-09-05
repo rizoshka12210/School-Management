@@ -1,7 +1,16 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Parent>
+@using SchoolManagementSystem.Web.Models.Enums
 
 @{
     ViewData["Title"] = Localizer["Parents"];
+
+    string RelationLabel(ParentRelation relation) => relation switch
+    {
+        ParentRelation.Mother => Localizer["Mother"].Value,
+        ParentRelation.Father => Localizer["Father"].Value,
+        ParentRelation.Guardian => Localizer["Guardian"].Value,
+        _ => string.Empty
+    };
 }
 
 <div class="page-header">
@@ -126,6 +135,10 @@
 
                                             <div class="person-name">
                                                 @parent.ApplicationUser.FullName
+                                                @if (parent.Relation != ParentRelation.Unspecified)
+                                                {
+                                                    <span class="parent-relation-badge">@RelationLabel(parent.Relation)</span>
+                                                }
                                             </div>
 
                                             <div class="person-id">

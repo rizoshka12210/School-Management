@@ -32,6 +32,8 @@ public class ChildController : ParentControllerBase
 
         var student = await Context.Students
             .Include(s => s.Group)
+            .Include(s => s.Parents)
+                .ThenInclude(p => p.ApplicationUser)
             .FirstOrDefaultAsync(s => s.Id == resolvedId);
 
         if (student == null)

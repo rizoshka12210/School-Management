@@ -351,7 +351,8 @@ public class ParentsController : Controller
 
         var parent = new ParentEntity
         {
-            ApplicationUserId = user.Id
+            ApplicationUserId = user.Id,
+            Relation = model.Relation
         };
 
         if (model.StudentIds != null &&
@@ -398,6 +399,7 @@ public class ParentsController : Controller
             FullName = parent.ApplicationUser.FullName,
             Email = parent.ApplicationUser.Email,
             PhoneNumber = parent.ApplicationUser.PhoneNumber ?? string.Empty,
+            Relation = parent.Relation,
             StudentIds = parent.Students
                 .Select(s => s.Id)
                 .ToList()
@@ -466,6 +468,8 @@ public class ParentsController : Controller
         user.UserName = hasEmail ? model.Email!.Trim() : model.PhoneNumber.Trim();
         user.PhoneNumber = model.PhoneNumber.Trim();
         user.EmailConfirmed = hasEmail;
+
+        parent.Relation = model.Relation;
 
         var updateResult =
             await _userManager.UpdateAsync(user);

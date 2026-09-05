@@ -1,4 +1,5 @@
 @model SchoolManagementSystem.Web.ViewModels.Admin.ParentFormViewModel
+@using SchoolManagementSystem.Web.Models.Enums
 
 <div asp-validation-summary="ModelOnly"
      class="alert alert-danger">
@@ -36,6 +37,26 @@
                            placeholder="@Localizer["Example: Michael Smith"]" />
 
                     <span asp-validation-for="FullName"
+                          class="text-danger small">
+                    </span>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <label asp-for="Relation"
+                           class="form-label">
+                        @Localizer["Relation to Child"]
+                    </label>
+
+                    <select asp-for="Relation" class="form-select">
+                        <option value="@ParentRelation.Unspecified">@Localizer["Not specified"]</option>
+                        <option value="@ParentRelation.Mother">@Localizer["Mother"]</option>
+                        <option value="@ParentRelation.Father">@Localizer["Father"]</option>
+                        <option value="@ParentRelation.Guardian">@Localizer["Guardian"]</option>
+                    </select>
+
+                    <span asp-validation-for="Relation"
                           class="text-danger small">
                     </span>
 

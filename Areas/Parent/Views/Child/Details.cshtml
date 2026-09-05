@@ -1,7 +1,16 @@
 @model SchoolManagementSystem.Web.Models.Entities.Student
+@using SchoolManagementSystem.Web.Models.Enums
 
 @{
     ViewData["Title"] = $"{Model.FirstName} {Model.LastName}";
+
+    string RelationLabel(ParentRelation relation) => relation switch
+    {
+        ParentRelation.Mother => Localizer["Mother"].Value,
+        ParentRelation.Father => Localizer["Father"].Value,
+        ParentRelation.Guardian => Localizer["Guardian"].Value,
+        _ => string.Empty
+    };
 
     double attendanceRate = Convert.ToDouble(ViewBag.AttendanceRate);
     double averageGrade = Convert.ToDouble(ViewBag.AverageGrade);
@@ -163,6 +172,40 @@
         </div>
     </div>
 </div>
+
+@if (Model.Parents.Any())
+{
+    <div class="form-card mb-4">
+        <div class="form-card-header">
+            <h5>@Localizer["Parents"]</h5>
+            <p>@Localizer["Contact information for this child's parents"]</p>
+        </div>
+
+        <div class="form-card-body">
+            <div class="parent-contact-list">
+                @foreach (var parent in Model.Parents)
+                {
+                    <div class="parent-contact-item">
+                        <div class="parent-contact-name">
+                            @parent.ApplicationUser.FullName
+                            @if (parent.Relation != ParentRelation.Unspecified)
+                            {
+                                <span class="parent-relation-badge">@RelationLabel(parent.Relation)</span>
+                            }
+                        </div>
+                        <div class="parent-contact-details">
+                            <partial name="_PhoneActions" model="parent.ApplicationUser.PhoneNumber" />
+                            @if (!string.IsNullOrWhiteSpace(parent.ApplicationUser.Email))
+                            {
+                                <span class="parent-contact-email"><i class="bi bi-envelope-fill"></i> @parent.ApplicationUser.Email</span>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
 
 @{
     var teacherComments = (List<SchoolManagementSystem.Web.ViewModels.Admin.TeacherCommentViewModel>)ViewBag.TeacherComments;

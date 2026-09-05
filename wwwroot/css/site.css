@@ -1046,6 +1046,19 @@ h1 {
     color: #111827;
 }
 
+.parent-relation-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 8px;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: #ecfdf5;
+    color: #15803d;
+    font-size: 11px;
+    font-weight: 700;
+    vertical-align: middle;
+}
+
 .parent-contact-details {
     display: flex;
     align-items: center;

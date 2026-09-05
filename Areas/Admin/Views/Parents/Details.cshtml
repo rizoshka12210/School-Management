@@ -1,7 +1,16 @@
 @model SchoolManagementSystem.Web.Models.Entities.Parent
+@using SchoolManagementSystem.Web.Models.Enums
 
 @{
     ViewData["Title"] = Localizer["Parent Details"];
+
+    string RelationLabel(ParentRelation relation) => relation switch
+    {
+        ParentRelation.Mother => Localizer["Mother"].Value,
+        ParentRelation.Father => Localizer["Father"].Value,
+        ParentRelation.Guardian => Localizer["Guardian"].Value,
+        _ => Localizer["Not specified"].Value
+    };
 
     var fullName = string.IsNullOrWhiteSpace(Model.ApplicationUser.FullName)
         ? Localizer["Parent"].Value
@@ -74,6 +83,7 @@
                 <div class="entity-facts">
                     <div class="entity-fact"><span>ID</span><strong>#@Model.Id</strong></div>
                     <div class="entity-fact"><span>@Localizer["Parent"]</span><strong>@fullName</strong></div>
+                    <div class="entity-fact"><span>@Localizer["Relation to Child"]</span><strong>@RelationLabel(Model.Relation)</strong></div>
                     <div class="entity-fact"><span>@Localizer["Email"]</span><strong>@(Model.ApplicationUser.Email ?? "—")</strong></div>
                     <div class="entity-fact"><span>@Localizer["Phone Number"]</span><strong>@(string.IsNullOrWhiteSpace(Model.ApplicationUser.PhoneNumber) ? "—" : Model.ApplicationUser.PhoneNumber)</strong></div>
                     <div class="entity-fact"><span>@Localizer["Children"]</span><strong>@Model.Students.Count</strong></div>

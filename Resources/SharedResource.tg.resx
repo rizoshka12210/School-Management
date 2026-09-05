@@ -2695,4 +2695,22 @@
   <data name="Call" xml:space="preserve">
     <value>Занг задан</value>
   </data>
+  <data name="Relation to Child" xml:space="preserve">
+    <value>Хешигарӣ бо фарзанд</value>
+  </data>
+  <data name="Not specified" xml:space="preserve">
+    <value>Муайян нашудааст</value>
+  </data>
+  <data name="Mother" xml:space="preserve">
+    <value>Модар</value>
+  </data>
+  <data name="Father" xml:space="preserve">
+    <value>Падар</value>
+  </data>
+  <data name="Guardian" xml:space="preserve">
+    <value>Васӣ</value>
+  </data>
+  <data name="Contact information for this child's parents" xml:space="preserve">
+    <value>Маълумоти тамос бо волидайни ин фарзанд</value>
+  </data>
 </root>

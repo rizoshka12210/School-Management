@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using SchoolManagementSystem.Web.Models.Enums;
 
 namespace SchoolManagementSystem.Web.ViewModels.Admin;
 
@@ -20,6 +21,8 @@ public class ParentFormViewModel
 
     [DataType(DataType.Password)]
     public string? Password { get; set; }
+
+    public ParentRelation Relation { get; set; } = ParentRelation.Unspecified;
 
     public List<int> StudentIds { get; set; } = new();
 }
