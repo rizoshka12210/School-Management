@@ -12,13 +12,7 @@
     var currentExamGradeIds = ViewBag.CurrentExamGradeIds as HashSet<int> ?? new HashSet<int>();
     var blacklistThresholds = ViewBag.ExamBlacklistThresholds as Dictionary<(int GroupId, int SubjectId), decimal> ?? new Dictionary<(int, int), decimal>();
 
-    string GradeClass(decimal? value) => value switch
-    {
-        null => string.Empty,
-        >= 90 => "grade-high",
-        >= 75 => "grade-good",
-        _ => "grade-low"
-    };
+    string GradeClass(decimal? value) => value.HasValue ? "grade-neutral" : string.Empty;
 
     string ExamRowClass(ExamGrade exam) =>
         blacklistThresholds.TryGetValue((exam.GroupId, exam.SubjectId), out var threshold) &&

@@ -25,13 +25,7 @@
         .OrderBy(s => s.SubjectName)
         .ToList();
 
-    string ScoreClass(decimal? score) => score switch
-    {
-        null => string.Empty,
-        >= 90 => "grade-high",
-        >= 75 => "grade-good",
-        _ => "grade-low"
-    };
+    string ScoreClass(decimal? score) => score.HasValue ? "grade-neutral" : string.Empty;
 
     string Band(int index) => index % 2 == 0 ? "big-exam-band-a" : "big-exam-band-b";
 

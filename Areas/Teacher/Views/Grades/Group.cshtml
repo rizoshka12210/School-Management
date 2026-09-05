@@ -6,13 +6,7 @@
     ViewData["Title"] = Model.SubjectName;
     var subjects = (List<GradesSubjectViewModel>)ViewBag.Subjects;
 
-    string GradeClass(decimal? value) => value switch
-    {
-        null => string.Empty,
-        >= 90 => "grade-high",
-        >= 75 => "grade-good",
-        _ => "grade-low"
-    };
+    string GradeClass(decimal? value) => value.HasValue ? "grade-neutral" : string.Empty;
 
     string RowClass(decimal? average) =>
         Model.BlacklistThreshold.HasValue && average.HasValue && average.Value < Model.BlacklistThreshold.Value

@@ -458,10 +458,17 @@ html[data-theme="dark"] .grade-good {
     color: #a5b4fc !important;
 }
 
+html[data-theme="dark"] .grade-neutral {
+    background: #1e293b !important;
+    color: #cbd5e1 !important;
+}
+
 /* A blacklisted student's average always reads as an alert, regardless
-   of the grade-low/good/high color it would otherwise get. */
+   of the grade-low/good/high/neutral color it would otherwise get. */
 tr.exam-blacklisted .grade-badge,
-html[data-theme="dark"] tr.exam-blacklisted .grade-badge {
+html[data-theme="dark"] tr.exam-blacklisted .grade-badge,
+.big-exam-rankings tr.big-exam-blacklisted .grade-badge,
+html[data-theme="dark"] .big-exam-rankings tr.big-exam-blacklisted .grade-badge {
     background: #dc2626 !important;
     color: #fff !important;
 }

@@ -2008,6 +2008,14 @@ h1 {
     color: #c2410c;
 }
 
+/* Used wherever a blacklist threshold exists (regular exam sheets, Big
+   Exam rankings) so every score reads the same regardless of value -
+   only a blacklisted student's row/badge should stand out. */
+.grade-neutral {
+    background: #f1f5f9;
+    color: #334155;
+}
+
 /* Row background for a student scoring below the configured blacklist
    threshold on a regular exam sheet or its history (same treatment as
    the Big Exam rankings' .big-exam-blacklisted). */
