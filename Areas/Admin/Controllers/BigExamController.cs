@@ -214,6 +214,23 @@ public class BigExamController : Controller
         return View(rankings);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> SetBlacklistThreshold(int examId, decimal? threshold, int? subjectId)
+    {
+        var updated = await _bigExamService.SetBlacklistThresholdAsync(examId, threshold);
+
+        if (!updated)
+        {
+            return NotFound();
+        }
+
+        TempData["Success"] = _localizer["Blacklist threshold updated."].Value;
+
+        return RedirectToAction(nameof(Rankings), new { examId, subjectId });
+    }
+
     [HttpGet]
     [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> GraderAccess()

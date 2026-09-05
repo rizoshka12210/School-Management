@@ -138,6 +138,22 @@ public class BigExamService
         return true;
     }
 
+    public async Task<bool> SetBlacklistThresholdAsync(int id, decimal? threshold)
+    {
+        var exam = await _context.BigExams.FindAsync(id);
+
+        if (exam == null)
+        {
+            return false;
+        }
+
+        exam.BlacklistThreshold = threshold;
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
     public async Task<bool> DeleteAsync(int id)
     {
         var exam = await _context.BigExams.FindAsync(id);

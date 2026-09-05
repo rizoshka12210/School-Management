@@ -2677,4 +2677,19 @@
   <data name="Director deleted successfully." xml:space="preserve">
     <value>Директор успешно удалён.</value>
   </data>
+  <data name="Blacklist Threshold" xml:space="preserve">
+    <value>Порог чёрного списка</value>
+  </data>
+  <data name="e.g. 60" xml:space="preserve">
+    <value>например 60</value>
+  </data>
+  <data name="Students scoring below this value are marked in the list." xml:space="preserve">
+    <value>Ученики, набравшие меньше этого балла, выделяются в списке.</value>
+  </data>
+  <data name="Blacklist threshold updated." xml:space="preserve">
+    <value>Порог чёрного списка обновлён.</value>
+  </data>
+  <data name="Below the blacklist threshold" xml:space="preserve">
+    <value>Ниже порога чёрного списка</value>
+  </data>
 </root>

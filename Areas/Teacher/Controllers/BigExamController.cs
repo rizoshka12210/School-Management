@@ -121,9 +121,31 @@ public class BigExamController : TeacherControllerBase
         ViewBag.Exam = exam;
         ViewBag.Subjects = await _bigExamService.ListSubjectsAsync();
         ViewBag.SubjectId = subjectId;
+        ViewBag.CanEdit = await Ownership.IsCurrentUserBigExamGraderAsync(User);
 
         var rankings = await _bigExamService.GetRankingsAsync(examId, subjectId);
 
         return View(rankings);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SetBlacklistThreshold(int examId, decimal? threshold, int? subjectId)
+    {
+        if (!await Ownership.IsCurrentUserBigExamGraderAsync(User))
+        {
+            return Forbid();
+        }
+
+        var updated = await _bigExamService.SetBlacklistThresholdAsync(examId, threshold);
+
+        if (!updated)
+        {
+            return NotFound();
+        }
+
+        TempData["Success"] = _localizer["Blacklist threshold updated."].Value;
+
+        return RedirectToAction(nameof(Rankings), new { examId, subjectId });
     }
 }

@@ -1,7 +1,15 @@
 @using SchoolManagementSystem.Web.Services
+@using SchoolManagementSystem.Web.Models.Entities
 @model List<BigExamRankingEntry>
 
 @{
+    var blacklistThreshold = (ViewBag.Exam as BigExam)?.BlacklistThreshold;
+
+    string RowClass(decimal score) =>
+        blacklistThreshold.HasValue && score < blacklistThreshold.Value
+            ? "big-exam-blacklisted"
+            : string.Empty;
+
     var byGroup = Model
         .GroupBy(e => new { e.GroupId, e.GroupName })
         .OrderBy(g => g.Key.GroupName)
@@ -82,9 +90,17 @@ else
                     {
                         var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
 
-                        <tr>
+                        <tr class="@RowClass(entry.Score)">
                             <td class="big-exam-rank-col"><span class="big-exam-rank-badge @(entry.OverallRank == 1 ? "is-first" : "")">#@entry.OverallRank</span> <span class="text-muted small">@Localizer["of {0}", entry.OverallSize]</span></td>
-                            <td><strong>@entry.StudentName</strong></td>
+                            <td>
+                                <strong>@entry.StudentName</strong>
+                                @if (!string.IsNullOrEmpty(RowClass(entry.Score)))
+                                {
+                                    <span class="big-exam-blacklist-badge" title="@Localizer["Below the blacklist threshold"]">
+                                        <i class="bi bi-flag-fill"></i>
+                                    </span>
+                                }
+                            </td>
                             <td><span class="subject-badge">@entry.GroupName</span></td>
                             @for (var i = 0; i < subjectColumns.Count; i++)
                             {
@@ -149,9 +165,17 @@ else
                                 {
                                     var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
 
-                                    <tr>
+                                    <tr class="@RowClass(entry.Score)">
                                         <td class="big-exam-rank-col"><span class="big-exam-rank-badge @(entry.GroupRank == 1 ? "is-first" : "")">#@entry.GroupRank</span> <span class="text-muted small">@Localizer["of {0}", entry.GroupSize]</span></td>
-                                        <td><strong>@entry.StudentName</strong></td>
+                                        <td>
+                                            <strong>@entry.StudentName</strong>
+                                            @if (!string.IsNullOrEmpty(RowClass(entry.Score)))
+                                            {
+                                                <span class="big-exam-blacklist-badge" title="@Localizer["Below the blacklist threshold"]">
+                                                    <i class="bi bi-flag-fill"></i>
+                                                </span>
+                                            }
+                                        </td>
                                         @for (var i = 0; i < subjectColumns.Count; i++)
                                         {
                                             bySubject.TryGetValue(subjectColumns[i].SubjectId, out var s);
@@ -302,6 +326,36 @@ else
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .big-exam-rankings tr.big-exam-blacklisted td {
+            background: #1f2430 !important;
+            color: #cbd5e1;
+        }
+
+        .big-exam-rankings tr.big-exam-blacklisted .big-exam-raw {
+            color: #94a3b8;
+        }
+
+        .big-exam-rankings tr.big-exam-blacklisted td.big-exam-total-col {
+            border-left: 2px solid #475569;
+        }
+
+        .big-exam-blacklist-badge {
+            display: inline-flex;
+            align-items: center;
+            margin-left: 6px;
+            color: #f87171;
+            font-size: 12px;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings tr.big-exam-blacklisted td {
+            background: #05070c !important;
+            color: #94a3b8;
+        }
+
+        html[data-theme="dark"] .big-exam-rankings tr.big-exam-blacklisted td.big-exam-total-col {
+            border-left: 2px solid #334155;
         }
 
         html[data-theme="dark"] .big-exam-rankings .big-exam-band-a {

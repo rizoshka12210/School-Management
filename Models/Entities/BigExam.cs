@@ -22,5 +22,13 @@ public class BigExam
 
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
+    /// <summary>
+    /// Students whose Overall Total (or per-subject, when viewing a
+    /// subject tab) score falls below this value are highlighted in the
+    /// rankings list. Null means no blacklist is configured. Settable by
+    /// Admin or the designated Big Exam grading teacher.
+    /// </summary>
+    public decimal? BlacklistThreshold { get; set; }
+
     public ICollection<BigExamGrade> Grades { get; set; } = new List<BigExamGrade>();
 }
