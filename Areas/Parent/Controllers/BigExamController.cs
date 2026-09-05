@@ -68,6 +68,7 @@ public class BigExamController : ParentControllerBase
         ViewBag.Exam = exam;
         ViewBag.Subjects = await _bigExamService.ListSubjectsAsync();
         ViewBag.SubjectId = subjectId;
+        ViewBag.MyStudentIds = await GetOwnedStudentIdsAsync();
 
         var rankings = await _bigExamService.GetRankingsAsync(examId, subjectId);
 

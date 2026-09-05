@@ -2016,6 +2016,34 @@ h1 {
     color: #334155;
 }
 
+/* Lets a parent spot their own child at a glance in a shared ranking
+   or leaderboard that lists every student. No !important, so a
+   blacklisted row's (also !important) dark background still wins if
+   a student happens to be both. */
+tr.big-exam-row-mine td,
+tr.leaderboard-row-mine td {
+    background: #eef2ff;
+}
+
+.my-child-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 8px;
+    padding: 2px 9px;
+    border-radius: 999px;
+    background: #6366f1;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+
+.my-child-badge i {
+    font-size: 10px;
+}
+
 /* Row background for a student scoring below the configured blacklist
    threshold on a regular exam sheet or its history (same treatment as
    the Big Exam rankings' .big-exam-blacklisted). */

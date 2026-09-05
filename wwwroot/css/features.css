@@ -473,6 +473,11 @@ html[data-theme="dark"] .big-exam-rankings tr.big-exam-blacklisted .grade-badge 
     color: #fff !important;
 }
 
+html[data-theme="dark"] tr.big-exam-row-mine td,
+html[data-theme="dark"] tr.leaderboard-row-mine td {
+    background: #1e1b4b;
+}
+
 html[data-theme="dark"] .teacher-status-pending,
 html[data-theme="dark"] .readonly-badge,
 html[data-theme="dark"] .teacher-count-label,

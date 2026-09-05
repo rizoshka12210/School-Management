@@ -4,6 +4,7 @@
 @{
     var entries = Model.Entries;
     var suffix = Model.Suffix;
+    var myStudentIds = ViewBag.MyStudentIds as HashSet<int> ?? new HashSet<int>();
 }
 
 @if (!entries.Any())
@@ -21,7 +22,9 @@ else
             @{ var rank = 1; }
             @foreach (var entry in entries)
             {
-                <tr>
+                var isMine = myStudentIds.Contains(entry.StudentId);
+
+                <tr class="@(isMine ? "leaderboard-row-mine" : "")">
                     <td class="leaderboard-rank-cell">
                         <span class="leaderboard-rank leaderboard-rank-@(rank <= 3 ? rank.ToString() : "other")">
                             @rank
@@ -33,7 +36,13 @@ else
                                 @(string.IsNullOrWhiteSpace(entry.Name) ? "S" : entry.Name.Substring(0, 1).ToUpper())
                             </div>
                             <div>
-                                <div class="person-name">@entry.Name</div>
+                                <div class="person-name">
+                                    @entry.Name
+                                    @if (isMine)
+                                    {
+                                        <span class="my-child-badge"><i class="bi bi-star-fill"></i> @Localizer["Your child"]</span>
+                                    }
+                                </div>
                                 <div class="person-id">@entry.GroupName</div>
                             </div>
                         </div>

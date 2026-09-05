@@ -4,11 +4,27 @@
 
 @{
     var blacklistThreshold = (ViewBag.Exam as BigExam)?.BlacklistThreshold;
+    var myStudentIds = ViewBag.MyStudentIds as HashSet<int> ?? new HashSet<int>();
 
-    string RowClass(decimal score) =>
-        blacklistThreshold.HasValue && score < blacklistThreshold.Value
-            ? "big-exam-blacklisted"
-            : string.Empty;
+    string RowClass(BigExamRankingEntry entry)
+    {
+        var classes = new List<string>();
+
+        if (blacklistThreshold.HasValue && entry.Score < blacklistThreshold.Value)
+        {
+            classes.Add("big-exam-blacklisted");
+        }
+
+        if (myStudentIds.Contains(entry.StudentId))
+        {
+            classes.Add("big-exam-row-mine");
+        }
+
+        return string.Join(" ", classes);
+    }
+
+    bool IsBlacklisted(decimal score) =>
+        blacklistThreshold.HasValue && score < blacklistThreshold.Value;
 
     var byGroup = Model
         .GroupBy(e => new { e.GroupId, e.GroupName })
@@ -84,9 +100,15 @@ else
                     {
                         var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
 
-                        <tr class="@RowClass(entry.Score)">
-                            <td class="big-exam-rank-col" title="@(!string.IsNullOrEmpty(RowClass(entry.Score)) ? Localizer["Below the blacklist threshold"].Value : null)"><span class="big-exam-rank-badge @(entry.OverallRank == 1 ? "is-first" : "") @(!string.IsNullOrEmpty(RowClass(entry.Score)) ? "is-blacklisted" : "")">#@entry.OverallRank</span> <span class="text-muted small">@Localizer["of {0}", entry.OverallSize]</span></td>
-                            <td><strong>@entry.StudentName</strong></td>
+                        <tr class="@RowClass(entry)">
+                            <td class="big-exam-rank-col" title="@(IsBlacklisted(entry.Score) ? Localizer["Below the blacklist threshold"].Value : null)"><span class="big-exam-rank-badge @(entry.OverallRank == 1 ? "is-first" : "") @(IsBlacklisted(entry.Score) ? "is-blacklisted" : "")">#@entry.OverallRank</span> <span class="text-muted small">@Localizer["of {0}", entry.OverallSize]</span></td>
+                            <td>
+                                <strong>@entry.StudentName</strong>
+                                @if (myStudentIds.Contains(entry.StudentId))
+                                {
+                                    <span class="my-child-badge"><i class="bi bi-star-fill"></i> @Localizer["Your child"]</span>
+                                }
+                            </td>
                             <td><span class="subject-badge">@entry.GroupName</span></td>
                             @for (var i = 0; i < subjectColumns.Count; i++)
                             {
@@ -151,9 +173,15 @@ else
                                 {
                                     var bySubject = entry.SubjectBreakdown.ToDictionary(s => s.SubjectId);
 
-                                    <tr class="@RowClass(entry.Score)">
-                                        <td class="big-exam-rank-col" title="@(!string.IsNullOrEmpty(RowClass(entry.Score)) ? Localizer["Below the blacklist threshold"].Value : null)"><span class="big-exam-rank-badge @(entry.GroupRank == 1 ? "is-first" : "") @(!string.IsNullOrEmpty(RowClass(entry.Score)) ? "is-blacklisted" : "")">#@entry.GroupRank</span> <span class="text-muted small">@Localizer["of {0}", entry.GroupSize]</span></td>
-                                        <td><strong>@entry.StudentName</strong></td>
+                                    <tr class="@RowClass(entry)">
+                                        <td class="big-exam-rank-col" title="@(IsBlacklisted(entry.Score) ? Localizer["Below the blacklist threshold"].Value : null)"><span class="big-exam-rank-badge @(entry.GroupRank == 1 ? "is-first" : "") @(IsBlacklisted(entry.Score) ? "is-blacklisted" : "")">#@entry.GroupRank</span> <span class="text-muted small">@Localizer["of {0}", entry.GroupSize]</span></td>
+                                        <td>
+                                            <strong>@entry.StudentName</strong>
+                                            @if (myStudentIds.Contains(entry.StudentId))
+                                            {
+                                                <span class="my-child-badge"><i class="bi bi-star-fill"></i> @Localizer["Your child"]</span>
+                                            }
+                                        </td>
                                         @for (var i = 0; i < subjectColumns.Count; i++)
                                         {
                                             bySubject.TryGetValue(subjectColumns[i].SubjectId, out var s);

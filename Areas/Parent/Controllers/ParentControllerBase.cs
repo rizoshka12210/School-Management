@@ -65,4 +65,26 @@ public abstract class ParentControllerBase : Controller
             .Select(s => (int?)s.Id)
             .FirstOrDefaultAsync();
     }
+
+    /// <summary>
+    /// Every one of the signed-in parent's children, for highlighting
+    /// "this is your child" in a shared list/ranking that shows every
+    /// student (Big Exam rankings, the leaderboard) rather than just one.
+    /// </summary>
+    protected async Task<HashSet<int>> GetOwnedStudentIdsAsync()
+    {
+        var parentId = await GetParentIdAsync();
+
+        if (parentId == null)
+        {
+            return new HashSet<int>();
+        }
+
+        return (await Context.Parents
+                .Where(p => p.Id == parentId)
+                .SelectMany(p => p.Students)
+                .Select(s => s.Id)
+                .ToListAsync())
+            .ToHashSet();
+    }
 }

@@ -41,6 +41,7 @@ public class LeaderboardController : ParentControllerBase
         ViewBag.TopGrades = await _leaderboard.GetTopByGradeAsync(selectedYear, selectedMonth);
         ViewBag.TopAttendance = await _leaderboard.GetTopByAttendanceAsync(selectedYear, selectedMonth);
         ViewBag.MostImproved = await _leaderboard.GetMostImprovedAsync(selectedYear, selectedMonth);
+        ViewBag.MyStudentIds = await GetOwnedStudentIdsAsync();
 
         return View();
     }
