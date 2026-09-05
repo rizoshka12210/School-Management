@@ -49,9 +49,11 @@ public class AiAssistantService
             : user.IsInRole(Roles.Parent) ? "Parent"
             : string.Empty;
 
-        var apiKey = _configuration["Gemini:ApiKey"];
+        var geminiKeys = GetGeminiApiKeys();
+        var groqKey = _configuration["Groq:ApiKey"];
+        var hasGroq = !string.IsNullOrWhiteSpace(groqKey) && groqKey != "CHANGE_ME";
 
-        if (string.IsNullOrWhiteSpace(apiKey) || apiKey == "CHANGE_ME")
+        if (geminiKeys.Count == 0 && !hasGroq)
         {
             return ("Ассистент пока не настроен: не указан ключ Gemini API.", null);
         }
@@ -84,6 +86,86 @@ public class AiAssistantService
             parts = new object[] { new { text = message } }
         });
 
+        // Every configured Gemini key gets its own free-tier quota, so
+        // trying them in order lets the assistant keep answering once one
+        // key's daily/per-minute limit is hit instead of failing outright.
+        foreach (var apiKey in geminiKeys)
+        {
+            var text = await TryGeminiAsync(apiKey, model!, contents, systemPrompt);
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                return ExtractNavigation(role, text);
+            }
+        }
+
+        // Last resort once every Gemini key is exhausted or unconfigured -
+        // a different provider entirely, so it isn't affected by Gemini's
+        // own outage or quota reset schedule.
+        if (hasGroq)
+        {
+            var groqModel = _configuration["Groq:Model"];
+
+            if (string.IsNullOrWhiteSpace(groqModel))
+            {
+                groqModel = "llama-3.3-70b-versatile";
+            }
+
+            var text = await TryGroqAsync(groqKey!, groqModel, history, message, systemPrompt);
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                return ExtractNavigation(role, text);
+            }
+        }
+
+        return ("Не удалось получить ответ от ассистента. Попробуйте ещё раз чуть позже.", null);
+    }
+
+    /// <summary>
+    /// Every Gemini key configured for fallback, in order: the classic
+    /// single "Gemini:ApiKey" first (kept for backward compatibility),
+    /// then any extras in the "Gemini:ApiKeys" array - each is a separate
+    /// Google account's free-tier quota. Unset/placeholder values and
+    /// duplicates are dropped.
+    /// </summary>
+    private List<string> GetGeminiApiKeys()
+    {
+        var keys = new List<string>();
+
+        var primary = _configuration["Gemini:ApiKey"];
+
+        if (!string.IsNullOrWhiteSpace(primary) && primary != "CHANGE_ME")
+        {
+            keys.Add(primary);
+        }
+
+        var extra = _configuration.GetSection("Gemini:ApiKeys").Get<string[]>() ?? Array.Empty<string>();
+
+        foreach (var key in extra)
+        {
+            if (!string.IsNullOrWhiteSpace(key) && key != "CHANGE_ME" && !keys.Contains(key))
+            {
+                keys.Add(key);
+            }
+        }
+
+        return keys;
+    }
+
+    /// <summary>
+    /// One attempt against one Gemini API key. Returns null on any
+    /// failure - rate limit (HTTP 429 / RESOURCE_EXHAUSTED), any other
+    /// error status, an unparsable response, or a network exception -
+    /// so the caller can simply move on to the next key/provider without
+    /// caring which kind of failure it was.
+    /// </summary>
+    private async Task<string?> TryGeminiAsync(
+        string apiKey,
+        string model,
+        List<object> contents,
+        string systemPrompt)
+    {
         var requestBody = new
         {
             contents,
@@ -98,41 +180,107 @@ public class AiAssistantService
             }
         };
 
-        var client = _httpClientFactory.CreateClient("Gemini");
-
         var url =
             $"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={apiKey}";
 
         try
         {
-            var response = await client.PostAsJsonAsync(url, requestBody);
+            var client = _httpClientFactory.CreateClient("Gemini");
 
-            var raw = await response.Content.ReadAsStringAsync();
+            var response = await client.PostAsJsonAsync(url, requestBody);
 
             if (!response.IsSuccessStatusCode)
             {
-                return ("Не удалось получить ответ от ассистента. Попробуйте ещё раз чуть позже.", null);
+                return null;
             }
+
+            var raw = await response.Content.ReadAsStringAsync();
 
             using var doc = JsonDocument.Parse(raw);
 
-            var text = doc.RootElement
+            return doc.RootElement
                 .GetProperty("candidates")[0]
                 .GetProperty("content")
                 .GetProperty("parts")[0]
                 .GetProperty("text")
                 .GetString();
-
-            if (string.IsNullOrWhiteSpace(text))
-            {
-                return ("Не удалось получить ответ от ассистента. Попробуйте переформулировать вопрос.", null);
-            }
-
-            return ExtractNavigation(role, text);
         }
         catch
         {
-            return ("Не удалось связаться с ассистентом. Проверьте подключение и попробуйте снова.", null);
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Last-resort fallback once every Gemini key has failed - Groq's free
+    /// tier, via its OpenAI-compatible chat completions endpoint. History
+    /// and the system prompt are translated into the same
+    /// role/content message list every OpenAI-style API expects.
+    /// </summary>
+    private async Task<string?> TryGroqAsync(
+        string apiKey,
+        string model,
+        List<ChatHistoryItem> history,
+        string message,
+        string systemPrompt)
+    {
+        var messages = new List<object>
+        {
+            new { role = "system", content = systemPrompt }
+        };
+
+        foreach (var item in history.TakeLast(12))
+        {
+            messages.Add(new
+            {
+                role = item.Role == "assistant" ? "assistant" : "user",
+                content = item.Text
+            });
+        }
+
+        messages.Add(new { role = "user", content = message });
+
+        var requestBody = new
+        {
+            model,
+            messages,
+            temperature = 0.4,
+            max_tokens = 700
+        };
+
+        try
+        {
+            var client = _httpClientFactory.CreateClient("Groq");
+
+            using var request = new HttpRequestMessage(
+                HttpMethod.Post,
+                "https://api.groq.com/openai/v1/chat/completions");
+
+            request.Headers.Authorization =
+                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
+
+            request.Content = JsonContent.Create(requestBody);
+
+            var response = await client.SendAsync(request);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var raw = await response.Content.ReadAsStringAsync();
+
+            using var doc = JsonDocument.Parse(raw);
+
+            return doc.RootElement
+                .GetProperty("choices")[0]
+                .GetProperty("message")
+                .GetProperty("content")
+                .GetString();
+        }
+        catch
+        {
+            return null;
         }
     }
 

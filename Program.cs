@@ -93,6 +93,7 @@ builder.Services.AddScoped<AiAssistantService>();
 builder.Services.AddScoped<BigExamService>();
 
 builder.Services.AddHttpClient("Gemini");
+builder.Services.AddHttpClient("Groq");
 
 var app = builder.Build();
 
