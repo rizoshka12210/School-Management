@@ -16,6 +16,9 @@ public class ExamSheetViewModel
 
     public DateTime Date { get; set; } = DateTime.UtcNow;
 
+    /// <summary>Students at or above this average are not highlighted. Null means no blacklist is configured.</summary>
+    public decimal? BlacklistThreshold { get; set; }
+
     public List<ExamSheetRowViewModel> Rows { get; set; } = new();
 
     public List<ExamGradeHistoryEntryViewModel> History { get; set; } = new();

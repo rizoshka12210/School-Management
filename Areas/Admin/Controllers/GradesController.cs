@@ -112,6 +112,10 @@ public class GradesController : Controller
             .ThenByDescending(e => e.Id)
             .ToList();
 
+        ViewBag.ExamBlacklistThresholds = await _context.ExamBlacklistThresholds
+            .AsNoTracking()
+            .ToDictionaryAsync(t => (t.GroupId, t.SubjectId), t => t.Threshold);
+
         return View(
             query
                 .OrderByDescending(g => g.Date)

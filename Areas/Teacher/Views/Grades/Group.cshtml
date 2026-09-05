@@ -13,6 +13,11 @@
         >= 75 => "grade-good",
         _ => "grade-low"
     };
+
+    string RowClass(decimal? average) =>
+        Model.BlacklistThreshold.HasValue && average.HasValue && average.Value < Model.BlacklistThreshold.Value
+            ? "exam-blacklisted"
+            : string.Empty;
 }
 
 <div class="page-header">
@@ -37,6 +42,36 @@
         }
     </div>
 }
+
+<div class="card border-0 shadow-sm mb-3">
+    <div class="card-body">
+        <form asp-action="SetBlacklistThreshold" method="post" class="d-flex align-items-center flex-wrap gap-2">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="groupId" value="@Model.GroupId" />
+            <input type="hidden" name="subjectId" value="@Model.SubjectId" />
+
+            <label for="blacklistThreshold" class="form-label mb-0">
+                <i class="bi bi-flag-fill text-danger"></i>
+                @Localizer["Blacklist Threshold"]
+            </label>
+
+            <input id="blacklistThreshold"
+                   name="threshold"
+                   type="number"
+                   step="0.01"
+                   class="form-control form-control-sm"
+                   style="max-width: 140px;"
+                   value="@Model.BlacklistThreshold"
+                   placeholder="@Localizer["e.g. 60"]" />
+
+            <button type="submit" class="btn btn-sm btn-primary">@Localizer["Save"]</button>
+
+            <span class="text-muted small">
+                @Localizer["Students scoring below this value are marked in the list."]
+            </span>
+        </form>
+    </div>
+</div>
 
 <form asp-action="Group" method="post">
     @Html.AntiForgeryToken()
@@ -74,7 +109,7 @@
                             {
                                 var row = Model.Rows[i];
 
-                                <tr>
+                                <tr class="@RowClass(row.Average) exam-row" data-row="@i">
                                     <td>
                                         <input type="hidden" name="Rows[@i].StudentId" value="@row.StudentId" />
                                         <div class="teacher-attendance-student">
@@ -174,7 +209,7 @@
                     <tbody>
                         @foreach (var entry in Model.History)
                         {
-                            <tr class="@(entry.IsCurrent ? "" : "text-muted")">
+                            <tr class="@(entry.IsCurrent ? RowClass(entry.Average) : "text-muted")">
                                 <td>@entry.UpdatedAt.ToString("dd MMM yyyy HH:mm")</td>
                                 <td>@entry.StudentName</td>
                                 <td>@(entry.Exam1?.ToString("0.##", CultureInfo.InvariantCulture) ?? "—")</td>
@@ -206,6 +241,8 @@
 
     <script>
         (() => {
+            const blacklistThreshold = @(Model.BlacklistThreshold.HasValue ? Model.BlacklistThreshold.Value.ToString(System.Globalization.CultureInfo.InvariantCulture) : "null");
+
             const parse = value => {
                 if (!value) return null;
                 const normalized = value.trim().replace(",", ".");
@@ -226,6 +263,12 @@
                 else if (exam2 !== null) average = exam2;
 
                 target.textContent = average === null ? "—" : average.toString();
+
+                const rowEl = document.querySelector(`tr.exam-row[data-row="${row}"]`);
+                if (rowEl) {
+                    const blacklisted = blacklistThreshold !== null && average !== null && average < blacklistThreshold;
+                    rowEl.classList.toggle("exam-blacklisted", blacklisted);
+                }
             };
 
             document.querySelectorAll(".exam-input").forEach(input => {

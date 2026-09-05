@@ -55,6 +55,16 @@ public class GradesController : ParentControllerBase
         ViewBag.ExamGradeHistory = examGradeHistory;
         ViewBag.CurrentExamGradeIds = examGrades.Select(e => e.Id).ToHashSet();
 
+        var relevantGroupIds = examGradeHistory.Select(e => e.GroupId).Distinct().ToList();
+
+        var thresholds = await Context.ExamBlacklistThresholds
+            .AsNoTracking()
+            .Where(t => relevantGroupIds.Contains(t.GroupId))
+            .ToListAsync();
+
+        ViewBag.ExamBlacklistThresholds = thresholds
+            .ToDictionary(t => (t.GroupId, t.SubjectId), t => t.Threshold);
+
         var subjectNames = grades.Select(g => g.Subject.Name)
             .Union(examGrades.Select(e => e.Subject.Name))
             .Distinct()

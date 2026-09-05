@@ -12,6 +12,7 @@
     var subjectsCount = Model.Select(g => g.SubjectId).Distinct().Count();
     var examGradeHistory = ViewBag.ExamGradeHistory as List<ExamGrade> ?? new List<ExamGrade>();
     var currentExamGradeIds = ViewBag.CurrentExamGradeIds as HashSet<int> ?? new HashSet<int>();
+    var blacklistThresholds = ViewBag.ExamBlacklistThresholds as Dictionary<(int GroupId, int SubjectId), decimal> ?? new Dictionary<(int, int), decimal>();
 
     string GradeClass(decimal? value) => value switch
     {
@@ -20,6 +21,12 @@
         >= 75 => "grade-good",
         _ => "grade-low"
     };
+
+    string ExamRowClass(ExamGrade exam) =>
+        blacklistThresholds.TryGetValue((exam.GroupId, exam.SubjectId), out var threshold) &&
+        exam.Average.HasValue && exam.Average.Value < threshold
+            ? "exam-blacklisted"
+            : string.Empty;
 }
 
 <div class="page-header">
@@ -196,7 +203,7 @@
                         @foreach (var exam in examGradeHistory)
                         {
                             bool isCurrent = currentExamGradeIds.Contains(exam.Id);
-                            <tr class="@(isCurrent ? "" : "text-muted")">
+                            <tr class="@(isCurrent ? ExamRowClass(exam) : "text-muted")">
                                 <td><div class="record-date">@exam.UpdatedAt.ToString("dd MMM yyyy HH:mm")</div></td>
                                 <td><span class="subject-badge">@exam.Subject.Name</span></td>
                                 <td>

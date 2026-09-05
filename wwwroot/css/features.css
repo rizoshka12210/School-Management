@@ -458,6 +458,14 @@ html[data-theme="dark"] .grade-good {
     color: #a5b4fc !important;
 }
 
+/* A blacklisted student's average always reads as an alert, regardless
+   of the grade-low/good/high color it would otherwise get. */
+tr.exam-blacklisted .grade-badge,
+html[data-theme="dark"] tr.exam-blacklisted .grade-badge {
+    background: #dc2626 !important;
+    color: #fff !important;
+}
+
 html[data-theme="dark"] .teacher-status-pending,
 html[data-theme="dark"] .readonly-badge,
 html[data-theme="dark"] .teacher-count-label,

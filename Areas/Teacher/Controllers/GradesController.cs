@@ -170,6 +170,40 @@ public class GradesController : TeacherControllerBase
             new { groupId = model.GroupId, subjectId = model.SubjectId });
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> SetBlacklistThreshold(int groupId, int subjectId, decimal? threshold)
+    {
+        var teacherId = await GetTeacherIdAsync();
+
+        if (teacherId == null)
+        {
+            return Forbid();
+        }
+
+        var teachesCombo = await Context.Lessons
+            .AnyAsync(l =>
+                l.TeacherId == teacherId &&
+                l.GroupId == groupId &&
+                l.SubjectId == subjectId);
+
+        if (!teachesCombo)
+        {
+            return Forbid();
+        }
+
+        var updated = await _examSheetService.SetBlacklistThresholdAsync(groupId, subjectId, threshold);
+
+        if (!updated)
+        {
+            return NotFound();
+        }
+
+        TempData["Success"] = _localizer["Blacklist threshold updated."].Value;
+
+        return RedirectToAction(nameof(Group), new { groupId, subjectId });
+    }
+
     /// <summary>
     /// Kept so existing "grade this lesson" shortcuts (lesson list, lesson
     /// details, dashboard) still work - they just land on that lesson's

@@ -28,6 +28,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<TeacherNotice> TeacherNotices => Set<TeacherNotice>();
     public DbSet<BigExam> BigExams => Set<BigExam>();
     public DbSet<BigExamGrade> BigExamGrades => Set<BigExamGrade>();
+    public DbSet<ExamBlacklistThreshold> ExamBlacklistThresholds => Set<ExamBlacklistThreshold>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -240,5 +241,21 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(e => e.TeacherId)
             .OnDelete(DeleteBehavior.SetNull);
+
+        builder.Entity<ExamBlacklistThreshold>()
+            .HasIndex(t => new { t.GroupId, t.SubjectId })
+            .IsUnique();
+
+        builder.Entity<ExamBlacklistThreshold>()
+            .HasOne(t => t.Group)
+            .WithMany()
+            .HasForeignKey(t => t.GroupId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<ExamBlacklistThreshold>()
+            .HasOne(t => t.Subject)
+            .WithMany()
+            .HasForeignKey(t => t.SubjectId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

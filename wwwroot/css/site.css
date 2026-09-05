@@ -2008,6 +2008,23 @@ h1 {
     color: #c2410c;
 }
 
+/* Row background for a student scoring below the configured blacklist
+   threshold on a regular exam sheet or its history (same treatment as
+   the Big Exam rankings' .big-exam-blacklisted). */
+tr.exam-blacklisted td {
+    background: #1f2430 !important;
+    color: #cbd5e1;
+}
+
+html[data-theme="dark"] tr.exam-blacklisted td {
+    background: #05070c !important;
+    color: #94a3b8;
+}
+
+tr.exam-blacklisted .exam-average {
+    color: #ef4444;
+}
+
 .salary-period {
     display: flex;
     align-items: center;

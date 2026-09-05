@@ -61,12 +61,19 @@ public class ExamSheetService
             s => s.Id,
             s => $"{s.FirstName} {s.LastName}");
 
+        var threshold = await _context.ExamBlacklistThresholds
+            .AsNoTracking()
+            .Where(t => t.GroupId == groupId && t.SubjectId == subjectId)
+            .Select(t => (decimal?)t.Threshold)
+            .FirstOrDefaultAsync();
+
         var model = new ExamSheetViewModel
         {
             GroupId = group.Id,
             GroupName = group.Name,
             SubjectId = subject.Id,
-            SubjectName = subject.Name
+            SubjectName = subject.Name,
+            BlacklistThreshold = threshold
         };
 
         foreach (var student in students)
@@ -173,6 +180,49 @@ public class ExamSheetService
                 Comment = comment,
                 UpdatedAt = now
             });
+        }
+
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<bool> SetBlacklistThresholdAsync(int groupId, int subjectId, decimal? threshold)
+    {
+        var groupExists = await _context.Groups.AnyAsync(g => g.Id == groupId);
+        var subjectExists = await _context.Subjects.AnyAsync(s => s.Id == subjectId);
+
+        if (!groupExists || !subjectExists)
+        {
+            return false;
+        }
+
+        var existing = await _context.ExamBlacklistThresholds
+            .FirstOrDefaultAsync(t => t.GroupId == groupId && t.SubjectId == subjectId);
+
+        if (!threshold.HasValue)
+        {
+            if (existing != null)
+            {
+                _context.ExamBlacklistThresholds.Remove(existing);
+                await _context.SaveChangesAsync();
+            }
+
+            return true;
+        }
+
+        if (existing == null)
+        {
+            _context.ExamBlacklistThresholds.Add(new ExamBlacklistThreshold
+            {
+                GroupId = groupId,
+                SubjectId = subjectId,
+                Threshold = threshold.Value
+            });
+        }
+        else
+        {
+            existing.Threshold = threshold.Value;
         }
 
         await _context.SaveChangesAsync();
