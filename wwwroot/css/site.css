@@ -2175,6 +2175,16 @@ tr.exam-blacklisted .person-id {
     color: #94a3b8 !important;
 }
 
+/* Same problem, different wrapper: the exam-entry sheet's student name
+   uses .teacher-attendance-student strong instead of .person-name, with
+   its own dark-on-light default color. Same source-order trick as
+   above - the dark-theme override for this selector is declared later
+   in this same file, so it still wins there; this only fixes light
+   theme. */
+tr.exam-blacklisted .teacher-attendance-student strong {
+    color: #f1f5f9 !important;
+}
+
 .salary-period {
     display: flex;
     align-items: center;
