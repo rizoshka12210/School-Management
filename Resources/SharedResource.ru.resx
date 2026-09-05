@@ -2692,4 +2692,7 @@
   <data name="Below the blacklist threshold" xml:space="preserve">
     <value>Ниже порога чёрного списка</value>
   </data>
+  <data name="Call" xml:space="preserve">
+    <value>Позвонить</value>
+  </data>
 </root>

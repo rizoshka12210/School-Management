@@ -77,6 +77,38 @@
         <section class="entity-panel">
             <div class="entity-panel-head">
                 <div>
+                    <h2 class="entity-panel-title"><i class="bi bi-people-fill"></i>@Localizer["Parent Information"]</h2>
+                </div>
+            </div>
+            <div class="entity-panel-body">
+                @if (!Model.Parents.Any())
+                {
+                    <p class="text-muted mb-0">@Localizer["Not assigned"]</p>
+                }
+                else
+                {
+                    <div class="parent-contact-list">
+                        @foreach (var parent in Model.Parents)
+                        {
+                            <div class="parent-contact-item">
+                                <div class="parent-contact-name">@parent.ApplicationUser.FullName</div>
+                                <div class="parent-contact-details">
+                                    <partial name="_PhoneActions" model="parent.ApplicationUser.PhoneNumber" />
+                                    @if (!string.IsNullOrWhiteSpace(parent.ApplicationUser.Email))
+                                    {
+                                        <span class="parent-contact-email"><i class="bi bi-envelope-fill"></i> @parent.ApplicationUser.Email</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </section>
+
+        <section class="entity-panel">
+            <div class="entity-panel-head">
+                <div>
                     <h2 class="entity-panel-title"><i class="bi bi-graph-up-arrow"></i>@Localizer["Progress"]</h2>
                 </div>
             </div>

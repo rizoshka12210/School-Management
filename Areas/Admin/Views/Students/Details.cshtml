@@ -124,17 +124,32 @@
                     <div>
                         <span>@Localizer["Parent"]</span>
                         <strong>
-                            @if (student.Parents.Any())
-                            {
-                                @string.Join(", ", student.Parents.Select(p => p.ApplicationUser.FullName))
-                            }
-                            else
+                            @if (!student.Parents.Any())
                             {
                                 <text>@Localizer["Not assigned"]</text>
                             }
                         </strong>
                     </div>
                 </div>
+
+                @if (student.Parents.Any())
+                {
+                    <div class="parent-contact-list">
+                        @foreach (var parent in student.Parents)
+                        {
+                            <div class="parent-contact-item">
+                                <div class="parent-contact-name">@parent.ApplicationUser.FullName</div>
+                                <div class="parent-contact-details">
+                                    <partial name="_PhoneActions" model="parent.ApplicationUser.PhoneNumber" />
+                                    @if (!string.IsNullOrWhiteSpace(parent.ApplicationUser.Email))
+                                    {
+                                        <span class="parent-contact-email"><i class="bi bi-envelope-fill"></i> @parent.ApplicationUser.Email</span>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>

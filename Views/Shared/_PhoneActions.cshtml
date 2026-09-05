@@ -1,0 +1,38 @@
+@using System.Text.RegularExpressions
+@model string
+
+@{
+    var phone = Model;
+    var digitsOnly = string.IsNullOrWhiteSpace(phone) ? string.Empty : Regex.Replace(phone, "[^0-9]", "");
+}
+
+@if (!string.IsNullOrWhiteSpace(phone))
+{
+    <div class="dropdown phone-action">
+        <button type="button"
+                class="phone-action-trigger"
+                data-bs-toggle="dropdown"
+                aria-expanded="false">
+            <i class="bi bi-telephone-fill"></i>
+            @phone
+        </button>
+        <ul class="dropdown-menu phone-action-menu">
+            <li>
+                <a class="dropdown-item" href="tel:@phone">
+                    <i class="bi bi-telephone-fill"></i>
+                    @Localizer["Call"]
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="https://wa.me/@digitsOnly" target="_blank" rel="noopener">
+                    <i class="bi bi-whatsapp"></i>
+                    WhatsApp
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <span class="text-muted">@Localizer["Not provided"]</span>
+}

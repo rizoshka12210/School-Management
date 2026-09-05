@@ -1020,6 +1020,69 @@ h1 {
     font-size: 11px;
 }
 
+/* Parent contact list (Student Details, Admin + Teacher) */
+
+.parent-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.parent-contact-item {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid #e6eaf0;
+    border-radius: 10px;
+    background: #f8fafc;
+}
+
+.parent-contact-name {
+    font-weight: 650;
+    color: #111827;
+}
+
+.parent-contact-details {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.parent-contact-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: #64748b;
+    font-size: 13px;
+}
+
+.phone-action-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid #c7d2fe;
+    background: #eef2ff;
+    color: #4338ca;
+    font-weight: 650;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.phone-action-trigger:hover {
+    background: #e0e7ff;
+}
+
+.phone-action-menu {
+    min-width: 170px;
+}
+
 
 /* GROUP */
 

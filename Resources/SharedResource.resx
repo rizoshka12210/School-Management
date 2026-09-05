@@ -2692,4 +2692,7 @@
   <data name="Below the blacklist threshold" xml:space="preserve">
     <value>Below the blacklist threshold</value>
   </data>
+  <data name="Call" xml:space="preserve">
+    <value>Call</value>
+  </data>
 </root>

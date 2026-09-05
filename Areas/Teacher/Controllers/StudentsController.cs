@@ -54,6 +54,8 @@ public class StudentsController : TeacherControllerBase
 
         var student = await Context.Students
             .Include(s => s.Group)
+            .Include(s => s.Parents)
+                .ThenInclude(p => p.ApplicationUser)
             .FirstOrDefaultAsync(s => s.Id == id);
 
         if (student == null)
