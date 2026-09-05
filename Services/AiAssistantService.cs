@@ -108,7 +108,7 @@ public class AiAssistantService
 
             if (string.IsNullOrWhiteSpace(groqModel))
             {
-                groqModel = "llama-3.3-70b-versatile";
+                groqModel = "openai/gpt-oss-120b";
             }
 
             var text = await TryGroqAsync(groqKey!, groqModel, history, message, systemPrompt);
