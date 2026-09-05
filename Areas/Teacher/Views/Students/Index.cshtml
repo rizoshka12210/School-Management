@@ -1,4 +1,5 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Student>
+@using SchoolManagementSystem.Web.Models.Enums
 
 @{
     ViewData["Title"] = Localizer["My Students"];
@@ -10,6 +11,14 @@
         .Select(s => s.GroupId)
         .Distinct()
         .Count();
+
+    string RelationLabel(ParentRelation relation) => relation switch
+    {
+        ParentRelation.Mother => Localizer["Mother"].Value,
+        ParentRelation.Father => Localizer["Father"].Value,
+        ParentRelation.Guardian => Localizer["Guardian"].Value,
+        _ => string.Empty
+    };
 }
 
 <div class="page-header">
@@ -79,14 +88,24 @@ else
                                 <td>@student.DateOfBirth.ToString("dd MMM yyyy")</td>
                                 <td>
                                     @{
-                                        var phones = student.Parents
-                                            .Select(p => p.ApplicationUser.PhoneNumber)
-                                            .Where(p => !string.IsNullOrWhiteSpace(p))
+                                        var parentsWithPhones = student.Parents
+                                            .Where(p => !string.IsNullOrWhiteSpace(p.ApplicationUser.PhoneNumber))
                                             .ToList();
                                     }
-                                    @if (phones.Any())
+                                    @if (parentsWithPhones.Any())
                                     {
-                                        @string.Join(", ", phones)
+                                        <div class="parent-contact-list-compact">
+                                            @foreach (var parent in parentsWithPhones)
+                                            {
+                                                <div class="parent-contact-item-compact">
+                                                    @if (parent.Relation != ParentRelation.Unspecified)
+                                                    {
+                                                        <span class="parent-relation-badge">@RelationLabel(parent.Relation)</span>
+                                                    }
+                                                    <partial name="_PhoneActions" model="parent.ApplicationUser.PhoneNumber" />
+                                                </div>
+                                            }
+                                        </div>
                                     }
                                     else
                                     {

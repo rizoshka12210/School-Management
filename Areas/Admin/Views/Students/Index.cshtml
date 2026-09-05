@@ -1,7 +1,16 @@
 @model IEnumerable<SchoolManagementSystem.Web.Models.Entities.Student>
+@using SchoolManagementSystem.Web.Models.Enums
 
 @{
     ViewData["Title"] = Localizer["Students"];
+
+    string RelationLabel(ParentRelation relation) => relation switch
+    {
+        ParentRelation.Mother => Localizer["Mother"].Value,
+        ParentRelation.Father => Localizer["Father"].Value,
+        ParentRelation.Guardian => Localizer["Guardian"].Value,
+        _ => string.Empty
+    };
 }
 
 <div class="page-header">
@@ -230,8 +239,16 @@
                                     {
                                         @foreach (var parent in student.Parents.Take(2))
                                         {
-                                            <div class="small">
-                                                @parent.ApplicationUser.FullName
+                                            <div class="parent-contact-item-compact">
+                                                @if (parent.Relation != ParentRelation.Unspecified)
+                                                {
+                                                    <span class="parent-relation-badge">@RelationLabel(parent.Relation)</span>
+                                                }
+                                                <span class="small">@parent.ApplicationUser.FullName</span>
+                                                @if (!string.IsNullOrWhiteSpace(parent.ApplicationUser.PhoneNumber))
+                                                {
+                                                    <partial name="_PhoneActions" model="parent.ApplicationUser.PhoneNumber" />
+                                                }
                                             </div>
                                         }
 

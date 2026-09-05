@@ -1096,6 +1096,25 @@ h1 {
     min-width: 170px;
 }
 
+/* Compact variant for a table cell (Teacher's My Students, Admin's
+   Students list) - one line per parent, no card chrome. */
+.parent-contact-list-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.parent-contact-item-compact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.parent-contact-item-compact .parent-relation-badge {
+    margin-left: 0;
+}
+
 
 /* GROUP */
 
