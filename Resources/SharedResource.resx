@@ -2743,4 +2743,25 @@
   <data name="Manage School Schedule" xml:space="preserve">
     <value>Manage School Schedule</value>
   </data>
+  <data name="Change Password" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="Update the password for your own account" xml:space="preserve">
+    <value>Update the password for your own account</value>
+  </data>
+  <data name="You will stay signed in on this device after changing it." xml:space="preserve">
+    <value>You will stay signed in on this device after changing it.</value>
+  </data>
+  <data name="Current Password" xml:space="preserve">
+    <value>Current Password</value>
+  </data>
+  <data name="New Password" xml:space="preserve">
+    <value>New Password</value>
+  </data>
+  <data name="Confirm New Password" xml:space="preserve">
+    <value>Confirm New Password</value>
+  </data>
+  <data name="Password changed successfully." xml:space="preserve">
+    <value>Password changed successfully.</value>
+  </data>
 </root>

@@ -111,6 +111,55 @@ public class AuthController : Controller
     }
 
 
+    [HttpGet]
+    [Authorize]
+    public IActionResult ChangePassword()
+    {
+        return View(new ChangePasswordViewModel());
+    }
+
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(model);
+        }
+
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return Forbid();
+        }
+
+        var result = await _userManager.ChangePasswordAsync(
+            user,
+            model.CurrentPassword,
+            model.NewPassword);
+
+        if (!result.Succeeded)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
+        }
+
+        // Re-issue the auth cookie with the refreshed security stamp so
+        // the current session doesn't get invalidated by its own change.
+        await _signInManager.RefreshSignInAsync(user);
+
+        TempData["Success"] = _localizer["Password changed successfully."].Value;
+
+        return RedirectToAction(nameof(ChangePassword));
+    }
+
+
     private IActionResult RedirectByRole()
     {
         if (User.IsInRole(Roles.Admin) || User.IsInRole(Roles.Director))

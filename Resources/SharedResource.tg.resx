@@ -2743,4 +2743,25 @@
   <data name="Manage School Schedule" xml:space="preserve">
     <value>Идораи ҷадвали мактаб</value>
   </data>
+  <data name="Change Password" xml:space="preserve">
+    <value>Иваз кардани парол</value>
+  </data>
+  <data name="Update the password for your own account" xml:space="preserve">
+    <value>Пароли ҳисоби худро навсозӣ кунед</value>
+  </data>
+  <data name="You will stay signed in on this device after changing it." xml:space="preserve">
+    <value>Пас аз иваз кардани парол шумо дар ин дастгоҳ ворид боқӣ мемонед.</value>
+  </data>
+  <data name="Current Password" xml:space="preserve">
+    <value>Пароли ҷорӣ</value>
+  </data>
+  <data name="New Password" xml:space="preserve">
+    <value>Пароли нав</value>
+  </data>
+  <data name="Confirm New Password" xml:space="preserve">
+    <value>Пароли навро тасдиқ кунед</value>
+  </data>
+  <data name="Password changed successfully." xml:space="preserve">
+    <value>Парол бомуваффақият иваз шуд.</value>
+  </data>
 </root>
