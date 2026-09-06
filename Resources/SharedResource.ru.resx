@@ -533,7 +533,7 @@
     <value>Ученик</value>
   </data>
   <data name="Date of Birth" xml:space="preserve">
-    <value>Дата рождения</value>
+    <value>Дата регистрации</value>
   </data>
   <data name="Student #{0}" xml:space="preserve">
     <value>Ученик №{0}</value>

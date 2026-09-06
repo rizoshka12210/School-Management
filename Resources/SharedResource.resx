@@ -533,7 +533,7 @@
     <value>Student</value>
   </data>
   <data name="Date of Birth" xml:space="preserve">
-    <value>Date of Birth</value>
+    <value>Registration Date</value>
   </data>
   <data name="Student #{0}" xml:space="preserve">
     <value>Student #{0}</value>
