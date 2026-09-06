@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using SchoolManagementSystem.Web.Authorization;
 using SchoolManagementSystem.Web.Models.Entities;
 using SchoolManagementSystem.Web.Models.Enums;
@@ -9,7 +10,9 @@ namespace SchoolManagementSystem.Web.Data.Seed;
 
 public static class DbSeeder
 {
-    public static async Task SeedAsync(IServiceProvider serviceProvider)
+    public static async Task SeedAsync(
+        IServiceProvider serviceProvider,
+        IHostEnvironment environment)
     {
         var roleManager =
             serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -37,6 +40,15 @@ public static class DbSeeder
                     new IdentityRole(role)
                 );
             }
+        }
+
+        // Production gets no hardcoded demo accounts or demo data - only
+        // the roles above (required for the app to function) plus, if
+        // configured, a single bootstrap Admin from environment variables.
+        if (environment.IsProduction())
+        {
+            await SeedProductionAdminAsync(userManager);
+            return;
         }
 
 
@@ -455,6 +467,51 @@ public static class DbSeeder
             alice, bob, carol, david, eva, frank, grace, henry);
 
         await dbContext.SaveChangesAsync();
+    }
+
+    /// <summary>
+    /// Production has no hardcoded demo accounts. If ADMIN_EMAIL and
+    /// ADMIN_PASSWORD are both set in the environment and no user with
+    /// that email exists yet, creates exactly one Admin account from
+    /// them so there is a way into a brand-new production database.
+    /// Leaves the database untouched otherwise (missing env vars, or an
+    /// account with that email already exists) - further Admin/Teacher/
+    /// Director accounts are expected to be created through the app
+    /// itself once logged in.
+    /// </summary>
+    private static async Task SeedProductionAdminAsync(
+        UserManager<ApplicationUser> userManager)
+    {
+        var email = Environment.GetEnvironmentVariable("ADMIN_EMAIL");
+        var password = Environment.GetEnvironmentVariable("ADMIN_PASSWORD");
+
+        if (string.IsNullOrWhiteSpace(email) ||
+            string.IsNullOrWhiteSpace(password))
+        {
+            return;
+        }
+
+        var existing = await userManager.FindByEmailAsync(email);
+
+        if (existing != null)
+        {
+            return;
+        }
+
+        var adminUser = new ApplicationUser
+        {
+            UserName = email,
+            Email = email,
+            FullName = "System Admin",
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(adminUser, password);
+
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, Roles.Admin);
+        }
     }
 
     private static async Task<ApplicationUser?> GetOrCreateDemoUserAsync(

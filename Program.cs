@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
@@ -100,8 +101,20 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    await DbSeeder.SeedAsync(scope.ServiceProvider);
+    await DbSeeder.SeedAsync(scope.ServiceProvider, app.Environment);
 }
+
+// Kestrel sits behind Nginx (TLS terminated there, plain HTTP forwarded
+// over loopback), so it needs to trust the proxy's X-Forwarded-Proto /
+// X-Forwarded-For headers - otherwise every request looks like plain
+// HTTP to Kestrel and UseHttpsRedirection()/UseHsts() below would
+// redirect-loop. The default KnownNetworks/KnownProxies (loopback only)
+// already match how Nginx reaches Kestrel, so no further trust
+// configuration is needed.
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 if (!app.Environment.IsDevelopment())
 {
