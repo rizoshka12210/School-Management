@@ -2713,4 +2713,7 @@
   <data name="Contact information for this child's parents" xml:space="preserve">
     <value>Маълумоти тамос бо волидайни ин фарзанд</value>
   </data>
+  <data name="View Rankings" xml:space="preserve">
+    <value>Дидани рейтинг</value>
+  </data>
 </root>

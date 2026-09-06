@@ -502,7 +502,8 @@ html[data-theme="dark"] .phone-action-trigger:hover {
 }
 
 html[data-theme="dark"] tr.big-exam-row-mine td,
-html[data-theme="dark"] tr.leaderboard-row-mine td {
+html[data-theme="dark"] tr.leaderboard-row-mine td,
+html[data-theme="dark"] tr.exam-row-mine td {
     background: #1e1b4b;
 }
 

@@ -75,3 +75,34 @@ public class ExamSheetSaveViewModel
 
     public List<ExamSheetRowViewModel> Rows { get; set; } = new();
 }
+
+/// <summary>
+/// One student's place in a subject's regular-exam rankings - same
+/// competition-ranking approach as Big Exam rankings (ties share a
+/// rank, the next rank skips the tied count), based on each student's
+/// current (latest) exam average for that subject.
+/// </summary>
+public class ExamRankingEntry
+{
+    public int SubjectId { get; set; }
+
+    public string SubjectName { get; set; } = string.Empty;
+
+    public int StudentId { get; set; }
+
+    public string StudentName { get; set; } = string.Empty;
+
+    public int GroupId { get; set; }
+
+    public string GroupName { get; set; } = string.Empty;
+
+    public decimal Score { get; set; }
+
+    public int GroupRank { get; set; }
+
+    public int GroupSize { get; set; }
+
+    public int OverallRank { get; set; }
+
+    public int OverallSize { get; set; }
+}

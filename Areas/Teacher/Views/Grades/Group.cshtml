@@ -20,6 +20,10 @@
         <h1 class="page-title mt-2">@Model.GroupName</h1>
         <p class="page-subtitle">@Model.SubjectName · @Model.Date.ToString("dd MMM yyyy")</p>
     </div>
+    <a asp-action="Rankings" asp-route-subjectId="@Model.SubjectId" class="btn btn-outline-primary">
+        <i class="bi bi-bar-chart-fill"></i>
+        @Localizer["View Rankings"]
+    </a>
 </div>
 
 @if (subjects.Count > 1)

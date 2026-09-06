@@ -1,0 +1,31 @@
+@model List<SchoolManagementSystem.Web.ViewModels.Shared.ExamRankingEntry>
+@using SchoolManagementSystem.Web.ViewModels.Teacher
+
+@{
+    var subjects = ViewBag.Subjects as List<GradesSubjectViewModel> ?? new List<GradesSubjectViewModel>();
+    int? subjectId = ViewBag.SubjectId;
+    ViewData["Title"] = subjects.FirstOrDefault(s => s.SubjectId == subjectId)?.SubjectName;
+}
+
+<div class="page-header">
+    <div>
+        <a asp-action="Index" class="back-link">← @Localizer["Grades"]</a>
+        <h1 class="page-title mt-2">@Localizer["Rankings"]</h1>
+        <p class="page-subtitle">@Localizer["Student's place by group and across the whole center"]</p>
+    </div>
+</div>
+
+<div class="teacher-grade-subject-tabs mb-4">
+    @foreach (var subject in subjects)
+    {
+        <a asp-action="Rankings" asp-route-subjectId="@subject.SubjectId" class="teacher-grade-subject-tab @(subjectId == subject.SubjectId ? "active" : "")">
+            @subject.SubjectName
+        </a>
+    }
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body">
+        <partial name="_ExamRankingsSections" model="Model" />
+    </div>
+</div>

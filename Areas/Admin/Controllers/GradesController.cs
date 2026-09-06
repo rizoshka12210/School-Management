@@ -18,17 +18,20 @@ public class GradesController : Controller
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly ActivityLogService _activityLog;
+    private readonly ExamSheetService _examSheetService;
 
     public GradesController(
         GradeService gradeService,
         AppDbContext context,
         IStringLocalizer<SharedResource> localizer,
-        ActivityLogService activityLog)
+        ActivityLogService activityLog,
+        ExamSheetService examSheetService)
     {
         _gradeService = gradeService;
         _context = context;
         _localizer = localizer;
         _activityLog = activityLog;
+        _examSheetService = examSheetService;
     }
 
     public async Task<IActionResult> Index(
@@ -120,6 +123,39 @@ public class GradesController : Controller
             query
                 .OrderByDescending(g => g.Date)
                 .ToList());
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Rankings(int? subjectId)
+    {
+        var subjects = await _context.Subjects
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+
+        if (!subjects.Any())
+        {
+            return NotFound();
+        }
+
+        var resolvedSubjectId = subjectId.HasValue && subjects.Any(s => s.Id == subjectId.Value)
+            ? subjectId.Value
+            : subjects.First().Id;
+
+        ViewBag.Subjects = subjects;
+        ViewBag.SubjectId = resolvedSubjectId;
+
+        var rankings = await _examSheetService.GetRankingsAsync(resolvedSubjectId);
+
+        var groupIds = rankings.Select(r => r.GroupId).Distinct().ToList();
+
+        var thresholds = await _context.ExamBlacklistThresholds
+            .Where(t => t.SubjectId == resolvedSubjectId && groupIds.Contains(t.GroupId))
+            .ToListAsync();
+
+        ViewBag.ExamBlacklistThresholds = thresholds
+            .ToDictionary(t => (t.GroupId, t.SubjectId), t => t.Threshold);
+
+        return View(rankings);
     }
 
     [HttpGet]

@@ -204,6 +204,52 @@ public class GradesController : TeacherControllerBase
         return RedirectToAction(nameof(Group), new { groupId, subjectId });
     }
 
+    [HttpGet]
+    public async Task<IActionResult> Rankings(int? subjectId)
+    {
+        var teacherId = await GetTeacherIdAsync();
+
+        if (teacherId == null)
+        {
+            return Forbid();
+        }
+
+        var subjects = await Context.Lessons
+            .Where(l => l.TeacherId == teacherId)
+            .Select(l => new { l.SubjectId, l.Subject.Name })
+            .Distinct()
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+
+        if (!subjects.Any())
+        {
+            return Forbid();
+        }
+
+        var resolvedSubjectId = subjectId.HasValue && subjects.Any(s => s.SubjectId == subjectId.Value)
+            ? subjectId.Value
+            : subjects.First().SubjectId;
+
+        ViewBag.Subjects = subjects
+            .Select(s => new GradesSubjectViewModel { SubjectId = s.SubjectId, SubjectName = s.Name })
+            .ToList();
+
+        ViewBag.SubjectId = resolvedSubjectId;
+
+        var rankings = await _examSheetService.GetRankingsAsync(resolvedSubjectId);
+
+        var groupIds = rankings.Select(r => r.GroupId).Distinct().ToList();
+
+        var thresholds = await Context.ExamBlacklistThresholds
+            .Where(t => t.SubjectId == resolvedSubjectId && groupIds.Contains(t.GroupId))
+            .ToListAsync();
+
+        ViewBag.ExamBlacklistThresholds = thresholds
+            .ToDictionary(t => (t.GroupId, t.SubjectId), t => t.Threshold);
+
+        return View(rankings);
+    }
+
     /// <summary>
     /// Kept so existing "grade this lesson" shortcuts (lesson list, lesson
     /// details, dashboard) still work - they just land on that lesson's

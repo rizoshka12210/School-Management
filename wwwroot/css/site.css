@@ -2116,7 +2116,8 @@ h1 {
    blacklisted row's (also !important) dark background still wins if
    a student happens to be both. */
 tr.big-exam-row-mine td,
-tr.leaderboard-row-mine td {
+tr.leaderboard-row-mine td,
+tr.exam-row-mine td {
     background: #eef2ff;
 }
 

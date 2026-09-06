@@ -2713,4 +2713,7 @@
   <data name="Contact information for this child's parents" xml:space="preserve">
     <value>Contact information for this child's parents</value>
   </data>
+  <data name="View Rankings" xml:space="preserve">
+    <value>View Rankings</value>
+  </data>
 </root>

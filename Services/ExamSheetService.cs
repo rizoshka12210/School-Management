@@ -229,4 +229,75 @@ public class ExamSheetService
 
         return true;
     }
+
+    /// <summary>
+    /// Every student's place in one subject's regular-exam rankings,
+    /// both within their own group and across the whole school - same
+    /// "compute, don't store" approach as Big Exam rankings, based on
+    /// each student's current (latest) exam average for that subject.
+    /// Students with no group or no exam result yet are left out, since
+    /// there is nothing to rank them against.
+    /// </summary>
+    public async Task<List<ExamRankingEntry>> GetRankingsAsync(int subjectId)
+    {
+        var subject = await _context.Subjects
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == subjectId);
+
+        if (subject == null)
+        {
+            return new List<ExamRankingEntry>();
+        }
+
+        var history = await _context.ExamGrades
+            .Where(e => e.SubjectId == subjectId)
+            .Include(e => e.Student)
+                .ThenInclude(s => s.Group)
+            .ToListAsync();
+
+        var scored = GradeAveragingHelper
+            .LatestPerStudentSubject(history)
+            .Where(e => e.Average.HasValue && e.Student.GroupId.HasValue)
+            .Select(e => (
+                e.StudentId,
+                GroupId: e.Student.GroupId!.Value,
+                GroupName: e.Student.Group!.Name,
+                StudentName: $"{e.Student.FirstName} {e.Student.LastName}",
+                Score: e.Average!.Value))
+            .ToList();
+
+        var overallSize = scored.Count;
+        var entries = new List<ExamRankingEntry>();
+
+        foreach (var group in scored.GroupBy(s => s.GroupId))
+        {
+            var groupSize = group.Count();
+
+            foreach (var s in group)
+            {
+                var overallRank = 1 + scored.Count(o => o.Score > s.Score);
+                var groupRank = 1 + group.Count(o => o.Score > s.Score);
+
+                entries.Add(new ExamRankingEntry
+                {
+                    SubjectId = subject.Id,
+                    SubjectName = subject.Name,
+                    StudentId = s.StudentId,
+                    StudentName = s.StudentName,
+                    GroupId = s.GroupId,
+                    GroupName = s.GroupName,
+                    Score = s.Score,
+                    GroupRank = groupRank,
+                    GroupSize = groupSize,
+                    OverallRank = overallRank,
+                    OverallSize = overallSize
+                });
+            }
+        }
+
+        return entries
+            .OrderBy(e => e.OverallRank)
+            .ThenBy(e => e.StudentName)
+            .ToList();
+    }
 }
