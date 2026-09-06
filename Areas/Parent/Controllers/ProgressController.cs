@@ -12,19 +12,22 @@ public class ProgressController : ParentControllerBase
 {
     private readonly GradeService _gradeService;
     private readonly AttendanceService _attendanceService;
+    private readonly ExamSheetService _examSheetService;
 
     public ProgressController(
         AppDbContext context,
         OwnershipHelper ownership,
         GradeService gradeService,
-        AttendanceService attendanceService)
+        AttendanceService attendanceService,
+        ExamSheetService examSheetService)
         : base(context, ownership)
     {
         _gradeService = gradeService;
         _attendanceService = attendanceService;
+        _examSheetService = examSheetService;
     }
 
-    public async Task<IActionResult> Index(int? studentId)
+    public async Task<IActionResult> Index(int? studentId, int? subjectId)
     {
         var resolvedId =
             await ResolveStudentIdAsync(studentId);
@@ -145,6 +148,34 @@ public class ProgressController : ParentControllerBase
 
             Subjects = subjects
         };
+
+        var rankingSubjects = await Context.Subjects
+            .OrderBy(s => s.Name)
+            .ToListAsync();
+
+        if (rankingSubjects.Any())
+        {
+            var resolvedSubjectId = subjectId.HasValue && rankingSubjects.Any(s => s.Id == subjectId.Value)
+                ? subjectId.Value
+                : rankingSubjects.First().Id;
+
+            ViewBag.RankingSubjects = rankingSubjects;
+            ViewBag.RankingSubjectId = resolvedSubjectId;
+            ViewBag.MyStudentIds = new HashSet<int> { student.Id };
+
+            var rankings = await _examSheetService.GetRankingsAsync(resolvedSubjectId);
+
+            var groupIds = rankings.Select(r => r.GroupId).Distinct().ToList();
+
+            var thresholds = await Context.ExamBlacklistThresholds
+                .Where(t => t.SubjectId == resolvedSubjectId && groupIds.Contains(t.GroupId))
+                .ToListAsync();
+
+            ViewBag.ExamBlacklistThresholds = thresholds
+                .ToDictionary(t => (t.GroupId, t.SubjectId), t => t.Threshold);
+
+            ViewBag.Rankings = rankings;
+        }
 
         return View(model);
     }

@@ -1,7 +1,11 @@
 @model SchoolManagementSystem.Web.ViewModels.Parent.ProgressViewModel
+@using SchoolManagementSystem.Web.Models.Entities
 
 @{
     ViewData["Title"] = Localizer["Progress"];
+
+    var rankingSubjects = ViewBag.RankingSubjects as List<Subject> ?? new List<Subject>();
+    int? rankingSubjectId = ViewBag.RankingSubjectId;
 }
 
 <div class="page-header">
@@ -102,3 +106,31 @@
         }
     </div>
 </div>
+
+@if (rankingSubjects.Any())
+{
+    <div class="card border-0 shadow-sm mt-4">
+        <div class="card-body">
+            <div class="section-header">
+                <div>
+                    <h5 class="section-title">@Localizer["Rankings"]</h5>
+                    <p class="section-subtitle">@Localizer["Student's place by group and across the whole center"]</p>
+                </div>
+            </div>
+
+            <div class="teacher-grade-subject-tabs mb-4">
+                @foreach (var subject in rankingSubjects)
+                {
+                    <a asp-action="Index"
+                       asp-route-studentId="@Model.StudentId"
+                       asp-route-subjectId="@subject.Id"
+                       class="teacher-grade-subject-tab @(rankingSubjectId == subject.Id ? "active" : "")">
+                        @subject.Name
+                    </a>
+                }
+            </div>
+
+            <partial name="_ExamRankingsSections" model="(ViewBag.Rankings as List<SchoolManagementSystem.Web.ViewModels.Shared.ExamRankingEntry>) ?? new List<SchoolManagementSystem.Web.ViewModels.Shared.ExamRankingEntry>()" />
+        </div>
+    </div>
+}

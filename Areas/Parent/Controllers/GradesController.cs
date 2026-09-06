@@ -8,15 +8,11 @@ namespace SchoolManagementSystem.Web.Areas.Parent.Controllers;
 
 public class GradesController : ParentControllerBase
 {
-    private readonly ExamSheetService _examSheetService;
-
     public GradesController(
         AppDbContext context,
-        OwnershipHelper ownership,
-        ExamSheetService examSheetService)
+        OwnershipHelper ownership)
         : base(context, ownership)
     {
-        _examSheetService = examSheetService;
     }
 
     public async Task<IActionResult> Index(int? studentId)
@@ -86,39 +82,5 @@ public class GradesController : ParentControllerBase
             examGrades.Select(e => e.Average)) ?? 0;
 
         return View(grades);
-    }
-
-    [HttpGet]
-    public async Task<IActionResult> Rankings(int? subjectId)
-    {
-        var subjects = await Context.Subjects
-            .OrderBy(s => s.Name)
-            .ToListAsync();
-
-        if (!subjects.Any())
-        {
-            return NotFound();
-        }
-
-        var resolvedSubjectId = subjectId.HasValue && subjects.Any(s => s.Id == subjectId.Value)
-            ? subjectId.Value
-            : subjects.First().Id;
-
-        ViewBag.Subjects = subjects;
-        ViewBag.SubjectId = resolvedSubjectId;
-        ViewBag.MyStudentIds = await GetOwnedStudentIdsAsync();
-
-        var rankings = await _examSheetService.GetRankingsAsync(resolvedSubjectId);
-
-        var groupIds = rankings.Select(r => r.GroupId).Distinct().ToList();
-
-        var thresholds = await Context.ExamBlacklistThresholds
-            .Where(t => t.SubjectId == resolvedSubjectId && groupIds.Contains(t.GroupId))
-            .ToListAsync();
-
-        ViewBag.ExamBlacklistThresholds = thresholds
-            .ToDictionary(t => (t.GroupId, t.SubjectId), t => t.Threshold);
-
-        return View(rankings);
     }
 }

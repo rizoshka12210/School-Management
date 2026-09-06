@@ -29,13 +29,7 @@
         <p class="page-subtitle">@Localizer["{0}'s academic results", ViewBag.StudentName]</p>
     </div>
 
-    <div class="d-flex gap-2 flex-wrap">
-        <a asp-action="Rankings" class="btn btn-outline-primary">
-            <i class="bi bi-bar-chart-fill"></i>
-            @Localizer["View Rankings"]
-        </a>
-        <a asp-area="Parent" asp-controller="Progress" asp-action="Index" class="btn btn-outline-primary">@Localizer["View Progress"]</a>
-    </div>
+    <a asp-area="Parent" asp-controller="Progress" asp-action="Index" class="btn btn-outline-primary">@Localizer["View Progress"]</a>
 </div>
 
 <div class="parent-grade-stats">
