@@ -2773,4 +2773,22 @@
   <data name="Profile updated successfully." xml:space="preserve">
     <value>Профиль успешно обновлён.</value>
   </data>
+  <data name="Site Settings" xml:space="preserve">
+    <value>Настройки сайта</value>
+  </data>
+  <data name="Change the site name and logo shown to everyone" xml:space="preserve">
+    <value>Измените название и логотип сайта, которые видят все</value>
+  </data>
+  <data name="Site Name" xml:space="preserve">
+    <value>Название сайта</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Логотип</value>
+  </data>
+  <data name="PNG, JPG, SVG or WEBP, up to 3 MB. Leave empty to keep the current logo." xml:space="preserve">
+    <value>PNG, JPG, SVG или WEBP, до 3 МБ. Оставьте пустым, чтобы сохранить текущий логотип.</value>
+  </data>
+  <data name="Site settings updated successfully." xml:space="preserve">
+    <value>Настройки сайта успешно обновлены.</value>
+  </data>
 </root>

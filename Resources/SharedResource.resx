@@ -2773,4 +2773,22 @@
   <data name="Profile updated successfully." xml:space="preserve">
     <value>Profile updated successfully.</value>
   </data>
+  <data name="Site Settings" xml:space="preserve">
+    <value>Site Settings</value>
+  </data>
+  <data name="Change the site name and logo shown to everyone" xml:space="preserve">
+    <value>Change the site name and logo shown to everyone</value>
+  </data>
+  <data name="Site Name" xml:space="preserve">
+    <value>Site Name</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Logo</value>
+  </data>
+  <data name="PNG, JPG, SVG or WEBP, up to 3 MB. Leave empty to keep the current logo." xml:space="preserve">
+    <value>PNG, JPG, SVG or WEBP, up to 3 MB. Leave empty to keep the current logo.</value>
+  </data>
+  <data name="Site settings updated successfully." xml:space="preserve">
+    <value>Site settings updated successfully.</value>
+  </data>
 </root>

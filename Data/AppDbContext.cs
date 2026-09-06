@@ -29,6 +29,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<BigExam> BigExams => Set<BigExam>();
     public DbSet<BigExamGrade> BigExamGrades => Set<BigExamGrade>();
     public DbSet<ExamBlacklistThreshold> ExamBlacklistThresholds => Set<ExamBlacklistThreshold>();
+    public DbSet<SiteSettings> SiteSettings => Set<SiteSettings>();
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

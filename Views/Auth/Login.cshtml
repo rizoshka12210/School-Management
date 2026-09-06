@@ -1,4 +1,5 @@
 @model SchoolManagementSystem.Web.ViewModels.Auth.LoginViewModel
+@inject SchoolManagementSystem.Web.Services.SiteSettingsService SiteSettingsService
 
 @{
     Layout = null;
@@ -6,6 +7,7 @@
 
     var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
     var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    var siteSettings = await SiteSettingsService.GetAsync();
 }
 
 <!DOCTYPE html>
@@ -13,7 +15,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@Localizer["Login"] - @Localizer["School Management"]</title>
+    <title>@Localizer["Login"] - @siteSettings.SiteName</title>
     <link rel="manifest" href="~/manifest.webmanifest" />
     <meta name="theme-color" content="#111827" />
     <link rel="apple-touch-icon" href="~/icons/apple-touch-icon.png" />
@@ -125,6 +127,12 @@
             font-size: 27px;
             font-weight: 800;
             box-shadow: 0 15px 35px rgba(79, 70, 229, .35);
+        }
+
+        .login-logo-img {
+            object-fit: cover;
+            box-shadow: none;
+            background: white;
         }
 
         .login-brand-label {
@@ -558,10 +566,17 @@
 <div class="login-page">
     <section class="login-brand">
         <div class="login-brand-content">
-            <div class="login-logo">S</div>
+            @if (!string.IsNullOrEmpty(siteSettings.LogoPath))
+            {
+                <img src="@siteSettings.LogoPath" alt="@siteSettings.SiteName" class="login-logo login-logo-img" />
+            }
+            else
+            {
+                <div class="login-logo">@siteSettings.SiteName.Substring(0, 1).ToUpper()</div>
+            }
 
             <div class="login-brand-label">
-                @Localizer["School Management"]
+                @siteSettings.SiteName
             </div>
 
             <h1>
@@ -583,7 +598,14 @@
 
     <section class="login-form-side">
         <div class="login-form-container">
-            <div class="login-mobile-logo">S</div>
+            @if (!string.IsNullOrEmpty(siteSettings.LogoPath))
+            {
+                <img src="@siteSettings.LogoPath" alt="@siteSettings.SiteName" class="login-mobile-logo login-logo-img" />
+            }
+            else
+            {
+                <div class="login-mobile-logo">@siteSettings.SiteName.Substring(0, 1).ToUpper()</div>
+            }
 
             <h2 class="login-title">
                 @Localizer["Welcome back"]

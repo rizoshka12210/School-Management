@@ -1,4 +1,5 @@
 @inject SchoolManagementSystem.Web.Services.NotificationService NotificationService
+@inject SchoolManagementSystem.Web.Services.SiteSettingsService SiteSettingsService
 @{
     var area = ViewContext.RouteData.Values["area"]?.ToString();
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
@@ -15,6 +16,7 @@
         : 0;
     var currentCulture = System.Globalization.CultureInfo.CurrentUICulture.Name;
     var returnUrl = Context.Request.Path + Context.Request.QueryString;
+    var siteSettings = await SiteSettingsService.GetAsync();
 
     string Active(string targetArea, string targetController)
         => area == targetArea && controller == targetController ? "active" : "";
@@ -24,7 +26,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - School Management</title>
+    <title>@ViewData["Title"] - @siteSettings.SiteName</title>
     <link rel="manifest" href="~/manifest.webmanifest" />
     <meta name="theme-color" content="#111827" />
     <link rel="apple-touch-icon" href="~/icons/apple-touch-icon.png" />
@@ -54,8 +56,15 @@
 {
     <aside id="appSidebar" class="sidebar">
         <div class="sidebar-brand">
-            <div class="brand-logo"><i class="bi bi-mortarboard-fill"></i></div>
-            <div><div class="brand-title">@Localizer["School"]</div><div class="brand-subtitle">@Localizer["Management"]</div></div>
+            @if (!string.IsNullOrEmpty(siteSettings.LogoPath))
+            {
+                <img src="@siteSettings.LogoPath" alt="@siteSettings.SiteName" class="brand-logo-img" />
+            }
+            else
+            {
+                <div class="brand-logo"><i class="bi bi-mortarboard-fill"></i></div>
+            }
+            <div><div class="brand-title">@siteSettings.SiteName</div></div>
         </div>
         <nav class="sidebar-nav">
         @if (User.IsInRole("Admin") || User.IsInRole("Director"))
@@ -79,6 +88,10 @@
             <a class="sidebar-link @Active("Admin", "Leaderboard")" asp-area="Admin" asp-controller="Leaderboard" asp-action="Index"><i class="bi bi-trophy-fill sidebar-link-icon"></i><span>@Localizer["Leaderboard"]</span></a>
             <a class="sidebar-link @Active("Admin", "Calendar")" asp-area="Admin" asp-controller="Calendar" asp-action="Index"><i class="bi bi-calendar-event-fill sidebar-link-icon"></i><span>@Localizer["School Calendar"]</span></a>
             <a class="sidebar-link @Active("Admin", "ActivityLog")" asp-area="Admin" asp-controller="ActivityLog" asp-action="Index"><i class="bi bi-clock-history sidebar-link-icon"></i><span>@Localizer["Activity Log"]</span></a>
+            @if (User.IsInRole("Admin"))
+            {
+                <a class="sidebar-link @Active("Admin", "SiteSettings")" asp-area="Admin" asp-controller="SiteSettings" asp-action="Index"><i class="bi bi-gear-fill sidebar-link-icon"></i><span>@Localizer["Site Settings"]</span></a>
+            }
         }
         @if (User.IsInRole("Teacher"))
         {

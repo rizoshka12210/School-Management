@@ -1,0 +1,59 @@
+@model SchoolManagementSystem.Web.ViewModels.Admin.SiteSettingsViewModel
+
+@{
+    ViewData["Title"] = Localizer["Site Settings"];
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Localizer["Site Settings"]</h1>
+        <p class="page-subtitle">@Localizer["Change the site name and logo shown to everyone"]</p>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="form-card" style="max-width: 480px;">
+    <div class="form-card-header">
+        <h5>@Localizer["Site Settings"]</h5>
+    </div>
+
+    <div class="form-card-body">
+        <form asp-controller="SiteSettings" asp-action="Index" method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="mb-4">
+                <label asp-for="SiteName" class="form-label">@Localizer["Site Name"]</label>
+                <input asp-for="SiteName" class="form-control" />
+                <span asp-validation-for="SiteName" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">@Localizer["Logo"]</label>
+
+                @if (!string.IsNullOrEmpty(Model.LogoPath))
+                {
+                    <div class="mb-2">
+                        <img src="@Model.LogoPath" alt="@Model.SiteName" style="height: 48px; border-radius: 8px;" />
+                    </div>
+                }
+
+                <input asp-for="Logo" type="file" class="form-control" accept=".png,.jpg,.jpeg,.svg,.webp" />
+                <span asp-validation-for="Logo" class="text-danger small"></span>
+                <div class="form-text">@Localizer["PNG, JPG, SVG or WEBP, up to 3 MB. Leave empty to keep the current logo."]</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

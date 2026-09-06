@@ -2773,4 +2773,22 @@
   <data name="Profile updated successfully." xml:space="preserve">
     <value>Профил бомуваффақият навсозӣ шуд.</value>
   </data>
+  <data name="Site Settings" xml:space="preserve">
+    <value>Танзимоти сомона</value>
+  </data>
+  <data name="Change the site name and logo shown to everyone" xml:space="preserve">
+    <value>Номи сомона ва логотипро, ки ба ҳама намоён аст, тағйир диҳед</value>
+  </data>
+  <data name="Site Name" xml:space="preserve">
+    <value>Номи сомона</value>
+  </data>
+  <data name="Logo" xml:space="preserve">
+    <value>Логотип</value>
+  </data>
+  <data name="PNG, JPG, SVG or WEBP, up to 3 MB. Leave empty to keep the current logo." xml:space="preserve">
+    <value>PNG, JPG, SVG ё WEBP, то 3 МБ. Барои нигоҳ доштани логотипи ҷорӣ холӣ гузоред.</value>
+  </data>
+  <data name="Site settings updated successfully." xml:space="preserve">
+    <value>Танзимоти сомона бомуваффақият навсозӣ шуд.</value>
+  </data>
 </root>

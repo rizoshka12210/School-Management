@@ -92,6 +92,21 @@ if (!string.IsNullOrWhiteSpace(dataProtectionKeysPath))
         .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath));
 }
 
+builder.Services.AddMemoryCache();
+
+// Where the site logo is written to/served from. Set via Uploads:Path
+// (Uploads__Path in the production EnvironmentFile) to a folder outside
+// the versioned release directory so an uploaded logo survives the next
+// deploy; left unset, it defaults to wwwroot/uploads for Development's
+// single, long-lived checkout.
+var uploadsPath = builder.Configuration["Uploads:Path"];
+var uploadsPhysicalPath = string.IsNullOrWhiteSpace(uploadsPath)
+    ? Path.Combine(builder.Environment.WebRootPath, "uploads")
+    : uploadsPath;
+
+builder.Services.AddSingleton(new UploadsPathProvider(uploadsPhysicalPath));
+builder.Services.AddScoped<SiteSettingsService>();
+
 builder.Services.AddScoped<OwnershipHelper>();
 
 builder.Services.AddScoped<AttendanceService>();
@@ -146,6 +161,15 @@ staticFileTypeProvider.Mappings[".webmanifest"] = "application/manifest+json";
 app.UseStaticFiles(new StaticFileOptions
 {
     ContentTypeProvider = staticFileTypeProvider
+});
+
+// Serves uploaded files (currently just the site logo) from wherever
+// UploadsPathProvider resolved to - a folder outside wwwroot in
+// production, so it survives redeploys.
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(uploadsPhysicalPath),
+    RequestPath = "/uploads"
 });
 
 app.UseRequestLocalization();
