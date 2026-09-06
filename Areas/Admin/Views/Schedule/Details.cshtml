@@ -31,7 +31,7 @@
         </div>
 
         <div class="entity-details-actions">
-            @if (User.IsInRole("Admin"))
+            @if (ViewBag.CanEdit == true)
             {
                 <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
                     <i class="bi bi-pencil-square"></i>

@@ -2716,4 +2716,28 @@
   <data name="View Rankings" xml:space="preserve">
     <value>View Rankings</value>
   </data>
+  <data name="Head Teacher Access" xml:space="preserve">
+    <value>Head Teacher Access</value>
+  </data>
+  <data name="Only Admin and one teacher you choose can create, edit or delete schedule entries" xml:space="preserve">
+    <value>Only Admin and one teacher you choose can create, edit or delete schedule entries</value>
+  </data>
+  <data name="Designated Head Teacher" xml:space="preserve">
+    <value>Designated Head Teacher</value>
+  </data>
+  <data name="Only Admin can manage the schedule" xml:space="preserve">
+    <value>Only Admin can manage the schedule</value>
+  </data>
+  <data name="Head teacher access updated." xml:space="preserve">
+    <value>Head teacher access updated.</value>
+  </data>
+  <data name="You are the head teacher" xml:space="preserve">
+    <value>You are the head teacher</value>
+  </data>
+  <data name="You can create, edit or delete schedule entries for the whole school" xml:space="preserve">
+    <value>You can create, edit or delete schedule entries for the whole school</value>
+  </data>
+  <data name="Manage School Schedule" xml:space="preserve">
+    <value>Manage School Schedule</value>
+  </data>
 </root>

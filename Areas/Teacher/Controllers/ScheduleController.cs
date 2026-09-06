@@ -31,6 +31,8 @@ public class ScheduleController : TeacherControllerBase
             .ThenBy(s => s.StartTime)
             .ToListAsync();
 
+        ViewBag.IsHeadTeacher = await Ownership.IsCurrentUserHeadTeacherAsync(User);
+
         return View(schedule);
     }
 }

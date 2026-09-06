@@ -113,6 +113,24 @@ public class OwnershipHelper
                 t.IsBigExamGrader);
     }
 
+    /// <summary>
+    /// True only for the single teacher (if any) the admin has
+    /// designated via Admin > Schedule > Head Teacher Access.
+    /// </summary>
+    public async Task<bool> IsCurrentUserHeadTeacherAsync(
+        ClaimsPrincipal user)
+    {
+        var userId = _userManager.GetUserId(user);
+
+        if (userId == null)
+            return false;
+
+        return await _context.Teachers
+            .AnyAsync(t =>
+                t.ApplicationUserId == userId &&
+                t.IsHeadTeacher);
+    }
+
     public async Task<int?> GetCurrentParentIdAsync(
         ClaimsPrincipal user)
     {

@@ -12,22 +12,47 @@ using ScheduleEntity = SchoolManagementSystem.Web.Models.Entities.Schedule;
 namespace SchoolManagementSystem.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
-[Authorize(Roles = Roles.AdminAndDirector)]
+[Authorize(Roles = "Admin,Director,Teacher")]
 public class ScheduleController : Controller
 {
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly OwnershipHelper _ownership;
 
     public ScheduleController(
         AppDbContext context,
-        IStringLocalizer<SharedResource> localizer)
+        IStringLocalizer<SharedResource> localizer,
+        OwnershipHelper ownership)
     {
         _context = context;
         _localizer = localizer;
+        _ownership = ownership;
+    }
+
+    /// <summary>Admin, Director and the designated head teacher can all view the school-wide schedule.</summary>
+    private async Task<bool> CanViewAsync()
+    {
+        return User.IsInRole(Roles.Admin) ||
+            User.IsInRole(Roles.Director) ||
+            await _ownership.IsCurrentUserHeadTeacherAsync(User);
+    }
+
+    /// <summary>Only Admin and the designated head teacher can create, edit or delete schedule entries.</summary>
+    private async Task<bool> CanEditAsync()
+    {
+        return User.IsInRole(Roles.Admin) ||
+            await _ownership.IsCurrentUserHeadTeacherAsync(User);
     }
 
     public async Task<IActionResult> Index(string? day, int? groupId)
     {
+        if (!await CanViewAsync())
+        {
+            return Forbid();
+        }
+
+        ViewBag.CanEdit = await CanEditAsync();
+
         var query = _context.Schedules
             .Include(s => s.Group)
             .Include(s => s.Subject)
@@ -60,6 +85,13 @@ public class ScheduleController : Controller
 
     public async Task<IActionResult> Details(int id)
     {
+        if (!await CanViewAsync())
+        {
+            return Forbid();
+        }
+
+        ViewBag.CanEdit = await CanEditAsync();
+
         var schedule = await _context.Schedules
             .Include(s => s.Group)
             .Include(s => s.Subject)
@@ -71,9 +103,13 @@ public class ScheduleController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create()
     {
+        if (!await CanEditAsync())
+        {
+            return Forbid();
+        }
+
         await LoadFormDataAsync();
         return View(new ScheduleFormViewModel
         {
@@ -85,9 +121,13 @@ public class ScheduleController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Create(ScheduleFormViewModel model)
     {
+        if (!await CanEditAsync())
+        {
+            return Forbid();
+        }
+
         await ValidateAsync(model);
 
         if (!ModelState.IsValid)
@@ -114,9 +154,13 @@ public class ScheduleController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(int id)
     {
+        if (!await CanEditAsync())
+        {
+            return Forbid();
+        }
+
         var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
         if (schedule == null) return NotFound();
 
@@ -137,9 +181,13 @@ public class ScheduleController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Edit(ScheduleFormViewModel model)
     {
+        if (!await CanEditAsync())
+        {
+            return Forbid();
+        }
+
         var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == model.Id);
         if (schedule == null) return NotFound();
 
@@ -165,9 +213,13 @@ public class ScheduleController : Controller
     }
 
     [HttpGet]
-    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> Delete(int id)
     {
+        if (!await CanEditAsync())
+        {
+            return Forbid();
+        }
+
         var schedule = await _context.Schedules
             .Include(s => s.Group)
             .Include(s => s.Subject)
@@ -181,9 +233,13 @@ public class ScheduleController : Controller
     [HttpPost]
     [ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    [Authorize(Roles = Roles.Admin)]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
+        if (!await CanEditAsync())
+        {
+            return Forbid();
+        }
+
         var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
         if (schedule == null) return NotFound();
 
@@ -266,6 +322,40 @@ public class ScheduleController : Controller
                     groupConflict.StartTime.ToString("HH:mm"),
                     groupConflict.EndTime.ToString("HH:mm")].Value);
         }
+    }
+
+    [HttpGet]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> HeadTeacherAccess()
+    {
+        ViewBag.Teachers = await _context.Teachers
+            .Include(t => t.ApplicationUser)
+            .OrderBy(t => t.ApplicationUser.FullName)
+            .ToListAsync();
+
+        var headTeacher = await _context.Teachers
+            .FirstOrDefaultAsync(t => t.IsHeadTeacher);
+
+        return View(headTeacher?.Id);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    [Authorize(Roles = Roles.Admin)]
+    public async Task<IActionResult> HeadTeacherAccess(int? teacherId)
+    {
+        var teachers = await _context.Teachers.ToListAsync();
+
+        foreach (var teacher in teachers)
+        {
+            teacher.IsHeadTeacher = teacherId.HasValue && teacher.Id == teacherId.Value;
+        }
+
+        await _context.SaveChangesAsync();
+
+        TempData["Success"] = _localizer["Head teacher access updated."].Value;
+
+        return RedirectToAction(nameof(HeadTeacherAccess));
     }
 
     private async Task LoadFormDataAsync()

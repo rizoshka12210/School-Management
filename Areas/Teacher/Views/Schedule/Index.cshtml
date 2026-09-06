@@ -56,6 +56,22 @@
 
 </div>
 
+@if (ViewBag.IsHeadTeacher == true)
+{
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <div>
+                <strong><i class="bi bi-person-check-fill text-primary"></i> @Localizer["You are the head teacher"]</strong>
+                <p class="text-muted small mb-0">@Localizer["You can create, edit or delete schedule entries for the whole school"]</p>
+            </div>
+            <a asp-area="Admin" asp-controller="Schedule" asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-calendar3-week-fill"></i>
+                @Localizer["Manage School Schedule"]
+            </a>
+        </div>
+    </div>
+}
+
 <div class="teacher-schedule-stats">
 
     <div class="teacher-schedule-stat">

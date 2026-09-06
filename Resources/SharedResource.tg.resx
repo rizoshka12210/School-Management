@@ -2716,4 +2716,28 @@
   <data name="View Rankings" xml:space="preserve">
     <value>Дидани рейтинг</value>
   </data>
+  <data name="Head Teacher Access" xml:space="preserve">
+    <value>Дастрасии муаллими асосӣ</value>
+  </data>
+  <data name="Only Admin and one teacher you choose can create, edit or delete schedule entries" xml:space="preserve">
+    <value>Танҳо админ ва як муаллими интихобкардаи шумо метавонанд сабтҳои ҷадвалро эҷод, тағйир ё нест кунанд</value>
+  </data>
+  <data name="Designated Head Teacher" xml:space="preserve">
+    <value>Муаллими асосии таъингардида</value>
+  </data>
+  <data name="Only Admin can manage the schedule" xml:space="preserve">
+    <value>Танҳо админ метавонад ҷадвалро идора кунад</value>
+  </data>
+  <data name="Head teacher access updated." xml:space="preserve">
+    <value>Дастрасии муаллими асосӣ навсозӣ шуд.</value>
+  </data>
+  <data name="You are the head teacher" xml:space="preserve">
+    <value>Шумо муаллими асосӣ ҳастед</value>
+  </data>
+  <data name="You can create, edit or delete schedule entries for the whole school" xml:space="preserve">
+    <value>Шумо метавонед ҷадвали тамоми мактабро эҷод, тағйир ё нест кунед</value>
+  </data>
+  <data name="Manage School Schedule" xml:space="preserve">
+    <value>Идораи ҷадвали мактаб</value>
+  </data>
 </root>
