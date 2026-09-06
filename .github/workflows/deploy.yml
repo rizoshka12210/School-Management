@@ -1,0 +1,37 @@
+name: Deploy to production
+
+# Runs only after CI has finished successfully on main. The runner does not
+# build the app itself - it just tells the server (over a minimal-privilege
+# SSH key that can run nothing but the deploy script) to pull, build, backup,
+# migrate safely, and switch over. See /usr/local/bin/deploy-schoolmanagement
+# on the server for the actual deploy logic.
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy latest main to production
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    timeout-minutes: 15
+    steps:
+      - name: Deploy via restricted SSH key
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+        run: |
+          set -euo pipefail
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          # The server-side authorized_keys entry force-runs deploy-schoolmanagement
+          # regardless of what command is sent here - this key cannot do anything else.
+          ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=yes "$DEPLOY_USER@$DEPLOY_HOST" "deploy-schoolmanagement"
