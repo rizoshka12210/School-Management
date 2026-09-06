@@ -29,19 +29,26 @@ public class ScheduleController : Controller
         _ownership = ownership;
     }
 
-    /// <summary>Admin, Director and the designated head teacher can all view the school-wide schedule.</summary>
+    /// <summary>Admin, Director and any subject's designated head teacher can all view the school-wide schedule.</summary>
     private async Task<bool> CanViewAsync()
     {
         return User.IsInRole(Roles.Admin) ||
             User.IsInRole(Roles.Director) ||
-            await _ownership.IsCurrentUserHeadTeacherAsync(User);
+            await _ownership.IsCurrentUserHeadTeacherForAnySubjectAsync(User);
     }
 
-    /// <summary>Only Admin and the designated head teacher can create, edit or delete schedule entries.</summary>
+    /// <summary>Admin can edit anything; a head teacher can only create, edit or delete entries for their own subject(s).</summary>
     private async Task<bool> CanEditAsync()
     {
         return User.IsInRole(Roles.Admin) ||
-            await _ownership.IsCurrentUserHeadTeacherAsync(User);
+            await _ownership.IsCurrentUserHeadTeacherForAnySubjectAsync(User);
+    }
+
+    /// <summary>Admin can edit anything; a head teacher can only edit entries for the specific subject they were designated for.</summary>
+    private async Task<bool> CanEditSubjectAsync(int subjectId)
+    {
+        return User.IsInRole(Roles.Admin) ||
+            await _ownership.IsCurrentUserHeadTeacherForSubjectAsync(User, subjectId);
     }
 
     public async Task<IActionResult> Index(string? day, int? groupId)
@@ -90,8 +97,6 @@ public class ScheduleController : Controller
             return Forbid();
         }
 
-        ViewBag.CanEdit = await CanEditAsync();
-
         var schedule = await _context.Schedules
             .Include(s => s.Group)
             .Include(s => s.Subject)
@@ -99,7 +104,14 @@ public class ScheduleController : Controller
                 .ThenInclude(t => t.ApplicationUser)
             .FirstOrDefaultAsync(s => s.Id == id);
 
-        return schedule == null ? NotFound() : View(schedule);
+        if (schedule == null)
+        {
+            return NotFound();
+        }
+
+        ViewBag.CanEdit = await CanEditSubjectAsync(schedule.SubjectId);
+
+        return View(schedule);
     }
 
     [HttpGet]
@@ -123,7 +135,7 @@ public class ScheduleController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ScheduleFormViewModel model)
     {
-        if (!await CanEditAsync())
+        if (!await CanEditSubjectAsync(model.SubjectId))
         {
             return Forbid();
         }
@@ -156,13 +168,13 @@ public class ScheduleController : Controller
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
-        if (!await CanEditAsync())
+        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
+        if (schedule == null) return NotFound();
+
+        if (!await CanEditSubjectAsync(schedule.SubjectId))
         {
             return Forbid();
         }
-
-        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
-        if (schedule == null) return NotFound();
 
         var model = new ScheduleFormViewModel
         {
@@ -183,13 +195,14 @@ public class ScheduleController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(ScheduleFormViewModel model)
     {
-        if (!await CanEditAsync())
+        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == model.Id);
+        if (schedule == null) return NotFound();
+
+        if (!await CanEditSubjectAsync(schedule.SubjectId) ||
+            !await CanEditSubjectAsync(model.SubjectId))
         {
             return Forbid();
         }
-
-        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == model.Id);
-        if (schedule == null) return NotFound();
 
         await ValidateAsync(model);
 
@@ -215,11 +228,6 @@ public class ScheduleController : Controller
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
-        if (!await CanEditAsync())
-        {
-            return Forbid();
-        }
-
         var schedule = await _context.Schedules
             .Include(s => s.Group)
             .Include(s => s.Subject)
@@ -227,7 +235,14 @@ public class ScheduleController : Controller
                 .ThenInclude(t => t.ApplicationUser)
             .FirstOrDefaultAsync(s => s.Id == id);
 
-        return schedule == null ? NotFound() : View(schedule);
+        if (schedule == null) return NotFound();
+
+        if (!await CanEditSubjectAsync(schedule.SubjectId))
+        {
+            return Forbid();
+        }
+
+        return View(schedule);
     }
 
     [HttpPost]
@@ -235,13 +250,13 @@ public class ScheduleController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        if (!await CanEditAsync())
+        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
+        if (schedule == null) return NotFound();
+
+        if (!await CanEditSubjectAsync(schedule.SubjectId))
         {
             return Forbid();
         }
-
-        var schedule = await _context.Schedules.FirstOrDefaultAsync(s => s.Id == id);
-        if (schedule == null) return NotFound();
 
         _context.Schedules.Remove(schedule);
         await _context.SaveChangesAsync();
@@ -333,22 +348,26 @@ public class ScheduleController : Controller
             .OrderBy(t => t.ApplicationUser.FullName)
             .ToListAsync();
 
-        var headTeacher = await _context.Teachers
-            .FirstOrDefaultAsync(t => t.IsHeadTeacher);
+        var subjects = await _context.Subjects
+            .OrderBy(s => s.Name)
+            .ToListAsync();
 
-        return View(headTeacher?.Id);
+        return View(subjects);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     [Authorize(Roles = Roles.Admin)]
-    public async Task<IActionResult> HeadTeacherAccess(int? teacherId)
+    public async Task<IActionResult> HeadTeacherAccess(Dictionary<int, int?> assignments)
     {
-        var teachers = await _context.Teachers.ToListAsync();
+        var subjects = await _context.Subjects.ToListAsync();
 
-        foreach (var teacher in teachers)
+        foreach (var subject in subjects)
         {
-            teacher.IsHeadTeacher = teacherId.HasValue && teacher.Id == teacherId.Value;
+            subject.HeadTeacherId = assignments != null &&
+                assignments.TryGetValue(subject.Id, out var teacherId)
+                    ? teacherId
+                    : null;
         }
 
         await _context.SaveChangesAsync();
@@ -365,6 +384,16 @@ public class ScheduleController : Controller
             .Include(t => t.ApplicationUser)
             .OrderBy(t => t.ApplicationUser.FullName)
             .ToListAsync();
-        ViewBag.Subjects = await _context.Subjects.OrderBy(s => s.Name).ToListAsync();
+
+        IQueryable<SchoolManagementSystem.Web.Models.Entities.Subject> subjects =
+            _context.Subjects.OrderBy(s => s.Name);
+
+        if (!User.IsInRole(Roles.Admin))
+        {
+            var headSubjectIds = await _ownership.GetCurrentUserHeadTeacherSubjectIdsAsync(User);
+            subjects = subjects.Where(s => headSubjectIds.Contains(s.Id));
+        }
+
+        ViewBag.Subjects = await subjects.ToListAsync();
     }
 }

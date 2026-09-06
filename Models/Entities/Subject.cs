@@ -8,6 +8,16 @@ public class Subject
 
     public ICollection<Teacher> Teachers { get; set; } = new List<Teacher>();
 
+    /// <summary>
+    /// The single teacher (if any) the admin has designated to manage the
+    /// schedule for this subject alongside Admin. Toggled exclusively via
+    /// Admin > Schedule > Head Teacher Access - at most one teacher per
+    /// subject at a time.
+    /// </summary>
+    public int? HeadTeacherId { get; set; }
+
+    public Teacher? HeadTeacher { get; set; }
+
     public ICollection<Lesson> Lessons { get; set; } = new List<Lesson>();
 
     public ICollection<Schedule> Schedules { get; set; } = new List<Schedule>();

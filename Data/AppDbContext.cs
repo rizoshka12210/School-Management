@@ -129,6 +129,12 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .HasForeignKey(s => s.SubjectId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.Entity<Subject>()
+            .HasOne(s => s.HeadTeacher)
+            .WithMany()
+            .HasForeignKey(s => s.HeadTeacherId)
+            .OnDelete(DeleteBehavior.SetNull);
+
         builder.Entity<Attendance>()
             .HasOne(a => a.Student)
             .WithMany(s => s.Attendances)

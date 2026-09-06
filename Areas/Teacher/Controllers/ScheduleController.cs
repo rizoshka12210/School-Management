@@ -31,7 +31,14 @@ public class ScheduleController : TeacherControllerBase
             .ThenBy(s => s.StartTime)
             .ToListAsync();
 
-        ViewBag.IsHeadTeacher = await Ownership.IsCurrentUserHeadTeacherAsync(User);
+        var headTeacherSubjectIds = await Ownership.GetCurrentUserHeadTeacherSubjectIdsAsync(User);
+
+        ViewBag.HeadTeacherSubjects = headTeacherSubjectIds.Any()
+            ? await Context.Subjects
+                .Where(s => headTeacherSubjectIds.Contains(s.Id))
+                .OrderBy(s => s.Name)
+                .ToListAsync()
+            : new List<SchoolManagementSystem.Web.Models.Entities.Subject>();
 
         return View(schedule);
     }

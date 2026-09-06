@@ -2719,23 +2719,26 @@
   <data name="Head Teacher Access" xml:space="preserve">
     <value>Доступ главного учителя</value>
   </data>
-  <data name="Only Admin and one teacher you choose can create, edit or delete schedule entries" xml:space="preserve">
-    <value>Только админ и один выбранный вами учитель могут создавать, изменять или удалять записи расписания</value>
+  <data name="Only Admin and each subject's designated teacher can create, edit or delete that subject's schedule entries" xml:space="preserve">
+    <value>Только админ и назначенный по каждому предмету учитель могут создавать, изменять или удалять записи расписания по этому предмету</value>
   </data>
   <data name="Designated Head Teacher" xml:space="preserve">
     <value>Назначенный главный учитель</value>
   </data>
-  <data name="Only Admin can manage the schedule" xml:space="preserve">
-    <value>Только админ может управлять расписанием</value>
+  <data name="Head Teacher per Subject" xml:space="preserve">
+    <value>Главный учитель по предмету</value>
+  </data>
+  <data name="Choose at most one teacher per subject. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
+    <value>Выберите не более одного учителя на предмет. Выбор другого учителя отзывает доступ у предыдущего.</value>
   </data>
   <data name="Head teacher access updated." xml:space="preserve">
     <value>Доступ главного учителя обновлён.</value>
   </data>
-  <data name="You are the head teacher" xml:space="preserve">
-    <value>Вы — главный учитель</value>
+  <data name="You are the head teacher for {0}" xml:space="preserve">
+    <value>Вы — главный учитель по предметам: {0}</value>
   </data>
-  <data name="You can create, edit or delete schedule entries for the whole school" xml:space="preserve">
-    <value>Вы можете создавать, изменять и удалять расписание для всей школы</value>
+  <data name="You can create, edit or delete schedule entries for this subject" xml:space="preserve">
+    <value>Вы можете создавать, изменять и удалять записи расписания по этому предмету</value>
   </data>
   <data name="Manage School Schedule" xml:space="preserve">
     <value>Управлять расписанием школы</value>

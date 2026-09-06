@@ -2719,23 +2719,26 @@
   <data name="Head Teacher Access" xml:space="preserve">
     <value>Дастрасии муаллими асосӣ</value>
   </data>
-  <data name="Only Admin and one teacher you choose can create, edit or delete schedule entries" xml:space="preserve">
-    <value>Танҳо админ ва як муаллими интихобкардаи шумо метавонанд сабтҳои ҷадвалро эҷод, тағйир ё нест кунанд</value>
+  <data name="Only Admin and each subject's designated teacher can create, edit or delete that subject's schedule entries" xml:space="preserve">
+    <value>Танҳо админ ва муаллими таъингардида барои ҳар фан метавонанд сабтҳои ҷадвали ин фанро эҷод, тағйир ё нест кунанд</value>
   </data>
   <data name="Designated Head Teacher" xml:space="preserve">
     <value>Муаллими асосии таъингардида</value>
   </data>
-  <data name="Only Admin can manage the schedule" xml:space="preserve">
-    <value>Танҳо админ метавонад ҷадвалро идора кунад</value>
+  <data name="Head Teacher per Subject" xml:space="preserve">
+    <value>Муаллими асосӣ барои ҳар фан</value>
+  </data>
+  <data name="Choose at most one teacher per subject. Selecting a different teacher revokes access from the previous one." xml:space="preserve">
+    <value>На бештар аз як муаллимро барои ҳар фан интихоб кунед. Интихоби муаллими дигар дастрасии муаллими қаблиро бекор мекунад.</value>
   </data>
   <data name="Head teacher access updated." xml:space="preserve">
     <value>Дастрасии муаллими асосӣ навсозӣ шуд.</value>
   </data>
-  <data name="You are the head teacher" xml:space="preserve">
-    <value>Шумо муаллими асосӣ ҳастед</value>
+  <data name="You are the head teacher for {0}" xml:space="preserve">
+    <value>Шумо муаллими асосӣ барои фанҳои зерин ҳастед: {0}</value>
   </data>
-  <data name="You can create, edit or delete schedule entries for the whole school" xml:space="preserve">
-    <value>Шумо метавонед ҷадвали тамоми мактабро эҷод, тағйир ё нест кунед</value>
+  <data name="You can create, edit or delete schedule entries for this subject" xml:space="preserve">
+    <value>Шумо метавонед сабтҳои ҷадвали ин фанро эҷод, тағйир ё нест кунед</value>
   </data>
   <data name="Manage School Schedule" xml:space="preserve">
     <value>Идораи ҷадвали мактаб</value>

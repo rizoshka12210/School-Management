@@ -1,4 +1,4 @@
-@model int?
+@model List<SchoolManagementSystem.Web.Models.Entities.Subject>
 @using SchoolManagementSystem.Web.Models.Entities
 
 @{
@@ -10,7 +10,7 @@
     <div>
         <a asp-action="Index" class="back-link">← @Localizer["Schedule"]</a>
         <h1 class="page-title mt-2">@Localizer["Head Teacher Access"]</h1>
-        <p class="page-subtitle">@Localizer["Only Admin and one teacher you choose can create, edit or delete schedule entries"]</p>
+        <p class="page-subtitle">@Localizer["Only Admin and each subject's designated teacher can create, edit or delete that subject's schedule entries"]</p>
     </div>
 </div>
 
@@ -19,36 +19,38 @@
 
     <div class="form-card">
         <div class="form-card-header">
-            <h5>@Localizer["Designated Head Teacher"]</h5>
-            <p>@Localizer["Choose at most one teacher. Selecting a different teacher revokes access from the previous one."]</p>
+            <h5>@Localizer["Head Teacher per Subject"]</h5>
+            <p>@Localizer["Choose at most one teacher per subject. Selecting a different teacher revokes access from the previous one."]</p>
         </div>
 
         <div class="form-card-body">
-            <div class="relation-selector">
-                <label class="relation-option">
-                    <input type="radio" name="teacherId" value="" checked="@(Model == null)" />
-                    <div class="relation-icon teacher-relation-icon"><i class="bi bi-slash-circle"></i></div>
-                    <div class="relation-info">
-                        <strong>@Localizer["None"]</strong>
-                        <span>@Localizer["Only Admin can manage the schedule"]</span>
-                    </div>
-                </label>
-
-                @foreach (var teacher in teachers)
-                {
-                    var selected = Model.HasValue && Model.Value == teacher.Id;
-
-                    <label class="relation-option">
-                        <input type="radio" name="teacherId" value="@teacher.Id" checked="@selected" />
-                        <div class="relation-icon teacher-relation-icon">
-                            @(string.IsNullOrWhiteSpace(teacher.ApplicationUser.FullName) ? "T" : teacher.ApplicationUser.FullName.Substring(0, 1).ToUpper())
-                        </div>
-                        <div class="relation-info">
-                            <strong>@teacher.ApplicationUser.FullName</strong>
-                            <span>@teacher.ApplicationUser.Email</span>
-                        </div>
-                    </label>
-                }
+            <div class="table-responsive">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th>@Localizer["Subject"]</th>
+                            <th>@Localizer["Designated Head Teacher"]</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var subject in Model)
+                        {
+                            <tr>
+                                <td><strong>@subject.Name</strong></td>
+                                <td>
+                                    <select name="assignments[@subject.Id]" class="form-select">
+                                        <option value="">@Localizer["None"]</option>
+                                        @foreach (var teacher in teachers)
+                                        {
+                                            var selected = subject.HeadTeacherId == teacher.Id;
+                                            <option value="@teacher.Id" selected="@selected">@teacher.ApplicationUser.FullName</option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -28,11 +28,4 @@ public class Teacher
     /// Admin. Toggled exclusively via Admin > Big Exam > Grader Access.
     /// </summary>
     public bool IsBigExamGrader { get; set; }
-
-    /// <summary>
-    /// True for at most one teacher at a time - the single teacher the
-    /// admin has designated to manage the school-wide schedule alongside
-    /// Admin. Toggled exclusively via Admin > Schedule > Head Teacher Access.
-    /// </summary>
-    public bool IsHeadTeacher { get; set; }
 }

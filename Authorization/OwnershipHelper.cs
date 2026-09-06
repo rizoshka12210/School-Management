@@ -115,9 +115,30 @@ public class OwnershipHelper
 
     /// <summary>
     /// True only for the single teacher (if any) the admin has
-    /// designated via Admin > Schedule > Head Teacher Access.
+    /// designated via Admin > Schedule > Head Teacher Access as the head
+    /// teacher for this specific subject.
     /// </summary>
-    public async Task<bool> IsCurrentUserHeadTeacherAsync(
+    public async Task<bool> IsCurrentUserHeadTeacherForSubjectAsync(
+        ClaimsPrincipal user,
+        int subjectId)
+    {
+        var userId = _userManager.GetUserId(user);
+
+        if (userId == null)
+            return false;
+
+        return await _context.Subjects
+            .AnyAsync(s =>
+                s.Id == subjectId &&
+                s.HeadTeacher != null &&
+                s.HeadTeacher.ApplicationUserId == userId);
+    }
+
+    /// <summary>
+    /// True if the current user is the designated head teacher for at
+    /// least one subject.
+    /// </summary>
+    public async Task<bool> IsCurrentUserHeadTeacherForAnySubjectAsync(
         ClaimsPrincipal user)
     {
         var userId = _userManager.GetUserId(user);
@@ -125,10 +146,30 @@ public class OwnershipHelper
         if (userId == null)
             return false;
 
-        return await _context.Teachers
-            .AnyAsync(t =>
-                t.ApplicationUserId == userId &&
-                t.IsHeadTeacher);
+        return await _context.Subjects
+            .AnyAsync(s =>
+                s.HeadTeacher != null &&
+                s.HeadTeacher.ApplicationUserId == userId);
+    }
+
+    /// <summary>
+    /// The ids of every subject for which the current user is the
+    /// designated head teacher.
+    /// </summary>
+    public async Task<List<int>> GetCurrentUserHeadTeacherSubjectIdsAsync(
+        ClaimsPrincipal user)
+    {
+        var userId = _userManager.GetUserId(user);
+
+        if (userId == null)
+            return new List<int>();
+
+        return await _context.Subjects
+            .Where(s =>
+                s.HeadTeacher != null &&
+                s.HeadTeacher.ApplicationUserId == userId)
+            .Select(s => s.Id)
+            .ToListAsync();
     }
 
     public async Task<int?> GetCurrentParentIdAsync(
