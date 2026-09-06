@@ -2764,4 +2764,13 @@
   <data name="Password changed successfully." xml:space="preserve">
     <value>Парол бомуваффақият иваз шуд.</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профил</value>
+  </data>
+  <data name="Update your own name and phone number" xml:space="preserve">
+    <value>Ном ва рақами телефони худро навсозӣ кунед</value>
+  </data>
+  <data name="Profile updated successfully." xml:space="preserve">
+    <value>Профил бомуваффақият навсозӣ шуд.</value>
+  </data>
 </root>

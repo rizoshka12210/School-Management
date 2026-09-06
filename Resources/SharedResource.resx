@@ -2764,4 +2764,13 @@
   <data name="Password changed successfully." xml:space="preserve">
     <value>Password changed successfully.</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Update your own name and phone number" xml:space="preserve">
+    <value>Update your own name and phone number</value>
+  </data>
+  <data name="Profile updated successfully." xml:space="preserve">
+    <value>Profile updated successfully.</value>
+  </data>
 </root>

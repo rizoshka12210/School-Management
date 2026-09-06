@@ -113,6 +113,71 @@ public class AuthController : Controller
 
     [HttpGet]
     [Authorize]
+    public async Task<IActionResult> Profile()
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return Forbid();
+        }
+
+        return View(new ProfileViewModel
+        {
+            Email = user.Email ?? string.Empty,
+            FullName = user.FullName,
+            PhoneNumber = user.PhoneNumber
+        });
+    }
+
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Profile(ProfileViewModel model)
+    {
+        var user = await _userManager.GetUserAsync(User);
+
+        if (user == null)
+        {
+            return Forbid();
+        }
+
+        var phoneNumber = string.IsNullOrWhiteSpace(model.PhoneNumber)
+            ? null
+            : model.PhoneNumber.Trim();
+
+        if (phoneNumber != null)
+        {
+            var existingByPhone = await _userManager.Users
+                .FirstOrDefaultAsync(u =>
+                    u.PhoneNumber == phoneNumber && u.Id != user.Id);
+
+            if (existingByPhone != null)
+            {
+                ModelState.AddModelError(
+                    nameof(model.PhoneNumber),
+                    "A user with this phone number already exists.");
+            }
+        }
+
+        if (!ModelState.IsValid)
+        {
+            model.Email = user.Email ?? string.Empty;
+            return View(model);
+        }
+
+        user.FullName = model.FullName.Trim();
+        user.PhoneNumber = phoneNumber;
+
+        await _userManager.UpdateAsync(user);
+
+        TempData["Success"] = _localizer["Profile updated successfully."].Value;
+
+        return RedirectToAction(nameof(Profile));
+    }
+
+    [HttpGet]
+    [Authorize]
     public IActionResult ChangePassword()
     {
         return View(new ChangePasswordViewModel());

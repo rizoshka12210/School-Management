@@ -1,0 +1,55 @@
+@model SchoolManagementSystem.Web.ViewModels.Auth.ProfileViewModel
+
+@{
+    ViewData["Title"] = Localizer["Profile"];
+}
+
+<div class="page-header">
+    <div>
+        <h1 class="page-title">@Localizer["Profile"]</h1>
+        <p class="page-subtitle">@Localizer["Update your own name and phone number"]</p>
+    </div>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<div class="form-card" style="max-width: 480px;">
+    <div class="form-card-header">
+        <h5>@Localizer["Profile"]</h5>
+    </div>
+
+    <div class="form-card-body">
+        <form asp-controller="Auth" asp-action="Profile" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <div class="mb-4">
+                <label class="form-label">@Localizer["Email"]</label>
+                <input value="@Model.Email" class="form-control" disabled />
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="FullName" class="form-label">@Localizer["Full Name"]</label>
+                <input asp-for="FullName" class="form-control" autocomplete="name" />
+                <span asp-validation-for="FullName" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="PhoneNumber" class="form-label">@Localizer["Phone Number"]</label>
+                <input asp-for="PhoneNumber" class="form-control" autocomplete="tel" />
+                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">@Localizer["Save"]</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

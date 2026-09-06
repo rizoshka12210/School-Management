@@ -2764,4 +2764,13 @@
   <data name="Password changed successfully." xml:space="preserve">
     <value>Пароль успешно изменён.</value>
   </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="Update your own name and phone number" xml:space="preserve">
+    <value>Обновите своё имя и номер телефона</value>
+  </data>
+  <data name="Profile updated successfully." xml:space="preserve">
+    <value>Профиль успешно обновлён.</value>
+  </data>
 </root>
