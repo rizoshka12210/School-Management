@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -76,6 +77,20 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 builder.Services.AddAntiforgery(options =>
     options.HeaderName = "X-CSRF-TOKEN");
+
+// Only configured in production (via DataProtection__KeysPath in the
+// systemd EnvironmentFile) - the service account has no home directory,
+// so without an explicit path the key ring falls back to an in-memory
+// ephemeral provider and every restart invalidates every login cookie
+// and antiforgery token. Left unset, this is a no-op and behaves exactly
+// as before (default key storage) in Development/elsewhere.
+var dataProtectionKeysPath = builder.Configuration["DataProtection:KeysPath"];
+
+if (!string.IsNullOrWhiteSpace(dataProtectionKeysPath))
+{
+    builder.Services.AddDataProtection()
+        .PersistKeysToFileSystem(new DirectoryInfo(dataProtectionKeysPath));
+}
 
 builder.Services.AddScoped<OwnershipHelper>();
 
